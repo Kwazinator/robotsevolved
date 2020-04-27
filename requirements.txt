@@ -1,0 +1,15 @@
+flask
+requests
+urllib3
+numpy
+jwt
+flask-table
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+oauth2client
+python-dateutil
+blinker
+flask-dance
+flask-jwt-extended
