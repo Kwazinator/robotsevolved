@@ -169,7 +169,7 @@ class Game extends React.Component {
                 this.setState({
                     uri: res.data.uri,
                 });
-                window.location.href = '/play/' + res.data.uri;
+                window.location.href = window.location.host + '/play/' + res.data.uri;
             });
     }
     isCreateMode = () => {
