@@ -1,13 +1,15 @@
-class Graph:
+class Game:
 
-    def __init__(self, self_id=None, name=None, type=None, description=None, authorid=None,authorname=None, catagory=None):
-        self.id = self_id
+    def __init__(self, id=None, name=None, type=None, description=None, authorid=None, authorname=None, difficulty=None, puzzledata=None,uri=None):
+        self.id = id
         self.name = name
         self.type = type
         self.description = description
         self.authorid = authorid
         self.authorname = authorname
-        self.catagory = catagory
+        self.difficulty = difficulty
+        self.puzzledata = puzzledata
+        self.uri = uri
 
     def serialize(self):
         return {
@@ -17,6 +19,8 @@ class Graph:
             'description': self.description,
             'authorid': self.authorid,
             'authorname': self.authorname,
-            'catagory': self.catagory
+            'difficulty': self.difficulty,
+            'puzzledata': self.puzzledata,
+            'uri': self.uri
         }
 

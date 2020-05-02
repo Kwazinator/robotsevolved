@@ -28,15 +28,15 @@ const styleinside = ({dimension,position,color}) => {
 };
 
 const styleinside2 = ({dimension,position,color}) => {
-    const dim = (dimension-4)/2 + 'px';
+    const dim = (dimension-4)-8 + 'px';
     return {
         width: dim,
         height: dim,
         backgroundColor: color,
         position: 'absolute',
         borderRadius: '50%',
-        top: (dimension-4)/4 + 'px',
-        left: (dimension-4)/4 + 'px',
+        top: 4 + 'px',
+        left: 4 + 'px',
         transition: 'all 0.1s ease'
     };
 };
@@ -68,9 +68,13 @@ class Robot extends React.Component {
         this.props.handlePlayerMovement(newDirection);
     }
 
+    handleClick = () => {
+        this.props.onClick(this.props.index);
+    }
+
     render () {
         return (
-            <div style={styleoutside(this.props)}>
+            <div onClick={this.handleClick} style={styleoutside(this.props)}>
                 <div style={styleinside(this.props)}>
                     <div style={styleinside2(this.props)}/>
                 </div>

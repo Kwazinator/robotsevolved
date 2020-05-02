@@ -9,7 +9,9 @@ const style = (width,height) => {
         border: '1px solid black',
         position: 'relative',
         margin: '25px auto',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        float: 'left',
+        marginRight: '30px',
     };
 
 
