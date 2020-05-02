@@ -13,3 +13,4 @@ python-dateutil
 blinker
 flask-dance
 flask-jwt-extended
+random-word
