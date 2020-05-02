@@ -13,7 +13,7 @@ class GameDAO:
             db = get_db()
             cursor = db.cursor()
             r = RandomWords()
-            uri = str(r.get_random_word()) + str(r.get_random_word())
+            uri = str(r.get_random_word())
             print(uri)
             cursor.execute('INSERT INTO game (name,type, description, authorid, authorname, difficulty, puzzledata,uri) VALUES (?,?,?,?,?,?,?,?)',(name, type, description, authorid, authorname, difficulty, puzzledata,uri))
             db.commit()
