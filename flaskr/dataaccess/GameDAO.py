@@ -1,7 +1,8 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.Game import Game
-from random_word import RandomWords
+#from random_word import RandomWords
 from flaskr.dataaccess.entities.Solutions import Solutions
+import uuid
 
 class GameDAO:
 
@@ -12,8 +13,9 @@ class GameDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            r = RandomWords()
-            uri = str(r.get_random_word())
+            #r = RandomWords()
+            #uri = str(r.get_random_word())
+            uri = uuid.uuid4().hex
             print(uri)
             cursor.execute('INSERT INTO game (name,type, description, authorid, authorname, difficulty, puzzledata,uri) VALUES (?,?,?,?,?,?,?,?)',(name, type, description, authorid, authorname, difficulty, puzzledata,uri))
             db.commit()
