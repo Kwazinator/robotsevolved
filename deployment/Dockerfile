@@ -4,7 +4,7 @@ ENV HOME=/opt/repo
 
 # install python, uwsgi, and supervisord
 RUN apt-get update && apt-get install -y supervisor uwsgi python python-pip procps vim && \
-    /usr/bin/pip install uwsgi==2.0.17 flask requests urllib3 jwt flask-table google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client oauth2client python-dateutil blinker flask-dance flask-jwt-extended random-word
+    /usr/bin/pip install uwsgi==2.0.17 flask requests urllib3 jwt flask-table google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client oauth2client python-dateutil blinker flask-dance flask-jwt-extended Random-Word
 
 # Source code file
 COPY ../ ${HOME}/src
