@@ -60,6 +60,18 @@ class Robot extends React.Component {
             case 40:
                 newDirection = { top: 40, left: 0, dir: DOWN};
                 break;
+            case 65:
+                newDirection = { top: 0, left: -40, dir: LEFT};
+                break;
+            case 83:
+                newDirection = { top: 40, left: 0, dir: DOWN};
+                break;
+            case 68:
+                newDirection = { top: 0, left: 40, dir: RIGHT};
+                break;
+            case 87:
+                newDirection = { top: -40, left: 0, dir: UP};
+                break;
             default:
                 return;
 
