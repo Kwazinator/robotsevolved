@@ -1,12 +1,11 @@
 import React from 'react';
-import {UP,DOWN,LEFT,RIGHT,SQUARE_OUTSIDE_COLOR,SQUARE_INNER_COLOR,SQUARE_CORE_COLOR} from '../constants/constants';
+import {UP,DOWN,LEFT,RIGHT} from '../constants/constants';
 
 const styleoutside = ({dimension,position,color}) => {
     const dim = dimension + 'px';
     return {
         width: dim,
         height: dim,
-        backgroundColor: SQUARE_OUTSIDE_COLOR,
         position: 'absolute',
         top: position.top + 'px',
         left: position.left + 'px',
@@ -19,7 +18,6 @@ const styleinside = ({dimension,position,color}) => {
     return {
         width: dim,
         height: dim,
-        backgroundColor: SQUARE_INNER_COLOR,
         position: 'absolute',
         top: 2 + 'px',
         left: 2 + 'px',

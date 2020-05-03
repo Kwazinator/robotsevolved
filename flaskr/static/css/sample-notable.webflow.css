@@ -137,7 +137,7 @@ figcaption {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  max-width: 1200px;
+  /*max-width: 1200px;*/
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -195,7 +195,7 @@ figcaption {
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  /*max-width: 1200px;*/
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
@@ -232,7 +232,7 @@ figcaption {
 }
 
 .container.cc-post-image {
-  max-width: 1400px;
+  /*max-width: 1400px;*/
 }
 
 .paragraph {
@@ -615,7 +615,7 @@ figcaption {
 
 .container-footer {
   width: 100%;
-  max-width: 1200px;
+  /*max-width: 1200px;*/
 }
 
 .contact-info-subtitle {
@@ -868,7 +868,7 @@ figcaption {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1200px;
+  /*max-width: 1200px;*/
 }
 
 .line-color {

@@ -149,6 +149,7 @@ class Game extends React.Component {
 
 
     robotSelect = (i) => {
+        //add something here to make the selected robit be highlighted.
         this.setState({
             robotSelected: i,
         });
