@@ -388,7 +388,7 @@ class Game extends React.Component {
                 }
             </Board>
             <div id={'controlPanel'} style={controlpanel()} >
-                    {<div>{window.location.host + '/play/' + this.state.uri}</div>}
+                    {<div>{'http://' + window.location.host + '/play/' + this.state.uri}</div>}
                     {
                         this.state.playerState.map(position =>
                             this.checkwin(position)

@@ -5,9 +5,9 @@ export const RIGHT = 'RIGHT';
 export const MAX_WIDTH = 16*40;
 export const MAX_HEIGHT = 16*40;
 
-export const SQUARE_CORE_COLOR = '#ffdf00';
-export const SQUARE_INNER_COLOR = '#ffcc00';
-export const SQUARE_OUTSIDE_COLOR = '#9c7c38';
+export const SQUARE_CORE_COLOR = '#e1e1e1';
+export const SQUARE_INNER_COLOR = '#c4a1a1';
+export const SQUARE_OUTSIDE_COLOR = '#807878';
 
 export const ROBOT_GREEN = '#009900';
 export const ROBOT_BLUE = '#1a1aff';
