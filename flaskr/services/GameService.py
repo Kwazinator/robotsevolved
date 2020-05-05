@@ -22,7 +22,7 @@ class GameService:
 
     def insert_highscore(self, name,userid,authorname,solutiondata,highscore,uri):
         row = GameDAO().get_game_uri(uri)
-        game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
+        game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
         gameid = game.id
         return GameDAO().insert_highscore(gameid,name,userid,authorname,solutiondata,highscore)
 
@@ -37,3 +37,6 @@ class GameService:
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
         return GameDAO().get_highscores(game.id)
+
+    def get_all_games(self,numGames,offset):
+        return GameDAO().get_all_games(numGames,offset)

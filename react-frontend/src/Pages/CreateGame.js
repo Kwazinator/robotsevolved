@@ -9,7 +9,7 @@ class CreateGame extends React.Component {
 
     render () {
         return (
-            <Game/>
+            <Game loadedGame='No'/>
         )
     }
 

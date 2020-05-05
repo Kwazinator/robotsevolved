@@ -33,8 +33,12 @@ class Game extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(window.token);
-        if (window.token.uri === '') {
+        if (this.props.loadedGame == 'Yes') {
+            this.state = JSON.parse(this.props.gamedata);
+            this.state.highscores = this.props.highscores;
+            this.state.uri = this.props.uri;
+        }
+        else if (window.token.uri === '') {
             var board = BoardGenerator(MAX_WIDTH,MAX_HEIGHT,.90);
             this.state = extend({
                 robotSelected: 0,
@@ -45,7 +49,6 @@ class Game extends React.Component {
             },board);
         }
         else {
-            console.log(window.uri);
             this.state = extend(JSON.parse(window.token.puzzledata),{createMode: 'No', uri: window.uri, highscores: window.highscores})
         }
     }
@@ -58,9 +61,7 @@ class Game extends React.Component {
     };
 
     submitPuzzle = event => {
-        console.log('here');
         event.preventDefault();
-        console.log('here2');
         var namesubmit = document.getElementById("namesubmit").value;
         var state = this.state;
         state.playerState = this.state.playerStart.slice();
@@ -68,8 +69,6 @@ class Game extends React.Component {
         state.createMode = 'No';
         axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit}))
             .then( res => {
-                console.log(res);
-                console.log(res.data);
                 this.setState({
                     uri: res.data.uri,
                 });

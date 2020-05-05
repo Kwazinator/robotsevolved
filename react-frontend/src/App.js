@@ -1,16 +1,25 @@
 import React from 'react';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
+import PlayGame from './Pages/PlayGame';
 
 class App extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(window.highscoreslist);
+        console.log(window.gameslist);
         this.state = {
             PageSelected: <CreateGame/>, //default page for website
         };
     }
 
+    handleGameClick = (gamedata,highscores,uri) => {
+        this.setState({
+            PageSelected: <PlayGame highscores={highscores} gamedata={gamedata} uri={uri}/>
+        });
+
+    }
 
     handleClickCreateGame = event => {
         event.preventDefault();
@@ -22,7 +31,7 @@ class App extends React.Component {
     handleClickFindGame = event => {
         event.preventDefault();
         this.setState({
-            PageSelected: <FindGame/>,
+            PageSelected: <FindGame handleGameClick={this.handleGameClick}/>,
         });
     }
 

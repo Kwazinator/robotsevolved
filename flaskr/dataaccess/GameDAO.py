@@ -29,7 +29,7 @@ class GameDAO:
     def get_game(self,gameid):
         cursor = get_db().cursor()
         row = cursor.execute('SELECT * from game WHERE id=?',(gameid,)).fetchone()
-        return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
+        return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
 
     def check_same_game(self,puzzledata):
         cursor = get_db().cursor()
@@ -59,3 +59,15 @@ class GameDAO:
         for row in cursor.execute('SELECT * from solutions where gameid = ? ORDER BY numMoves ASC',(id,)).fetchall():
             highscores.append(Solutions(row[0],row[1],row[2],row[3],row[4],row[5],row[6]).serialize())
         return highscores
+
+    def get_all_games(self, numGames,offset):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        query = cursor.execute('SELECT * from game LIMIT ? OFFSET ?',(numGames,offset)).fetchall()
+        if query is not None:
+            for row in query:
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8]).serialize())
+            return games
+        else:
+            return games

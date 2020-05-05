@@ -1,15 +1,34 @@
 import React from 'react';
 import Game from '../containers/Game';
+import GameListItemView from '../components/GameListItemView';
 
 class FindGame extends React.Component {
 
     constructor(props) {
         super(props);
+        var gameslist = window.gameslist;
+        var highscoreslist = window.highscoreslist;
+        console.log(highscoreslist[0]);
+        this.state = {
+            gameslist: gameslist,
+            highscoreslist: highscoreslist,
+        }
     }
+
+    handleGameClick = (gamedata,highscores,uri) => {
+        this.props.handleGameClick(gamedata,highscores,uri);
+    }
+
+
 
     render () {
         return (
-            <div>Games to be displayed here!
+            <div id={'GameMain'}>
+                {
+                    this.state.gameslist.map((game,index)=>
+                        <GameListItemView handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]}/>
+                    )
+                }
             </div>
         )
     }

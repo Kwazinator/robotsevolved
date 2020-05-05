@@ -26,7 +26,7 @@ def init_db():
 
 def custom_code_db():
     db = get_db()
-    return db.execute('SELECT * from graph g JOIN usertograph ug ON g.id=ug.graphid WHERE ug.userid=1 ORDER BY ug.ordernum ASC LIMIT 3 OFFSET 0')
+    return db.execute('SELECT * from game;')
 
 def insert_db():
     db = get_db()
