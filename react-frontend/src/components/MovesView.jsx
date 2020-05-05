@@ -16,7 +16,7 @@ class MovesView extends React.Component {
 
     render() {
         return (
-            <div>Moves:
+            <div><h3>Moves:</h3>
                 {
                     this.props.moveHistory.map(move =>
                         <img src={DIRECTION_MAP_IMAGES[this.props.playerState[move.robot].colorSignifier][move.dir]}/>
