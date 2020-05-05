@@ -27,14 +27,14 @@ const gamepanel = () => {
     return {
         width: '100%',
     };
-}
+};
 
 class Game extends React.Component {
 
     constructor(props) {
         super(props);
         console.log(window.token);
-        if (window.token.uri == '') {
+        if (window.token.uri === '') {
             var board = BoardGenerator(MAX_WIDTH,MAX_HEIGHT,.90);
             this.state = extend({
                 robotSelected: 0,
@@ -45,7 +45,7 @@ class Game extends React.Component {
             },board);
         }
         else {
-            console.log(window.uri)
+            console.log(window.uri);
             this.state = extend(JSON.parse(window.token.puzzledata),{createMode: 'No', uri: window.uri, highscores: window.highscores})
         }
     }
@@ -55,12 +55,12 @@ class Game extends React.Component {
         this.setState({
             robotSelected: i,
         });
-    }
+    };
 
     submitPuzzle = event => {
-        console.log('here')
+        console.log('here');
         event.preventDefault();
-        console.log('here2')
+        console.log('here2');
         var namesubmit = document.getElementById("namesubmit").value;
         var state = this.state;
         state.playerState = this.state.playerStart.slice();
@@ -75,7 +75,7 @@ class Game extends React.Component {
                 });
                 //window.location.href = window.location.host + '/play/' + res.data.uri;
             });
-    }
+    };
 
     submitAnswer = event => {
         event.preventDefault();
@@ -85,7 +85,7 @@ class Game extends React.Component {
                 console.log(res);
                 console.log(res.data);
             });
-    }
+    };
 
     resetPuzzle = event => {
         event.preventDefault();
@@ -93,7 +93,7 @@ class Game extends React.Component {
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
         });
-    }
+    };
 
 
 
@@ -106,12 +106,12 @@ class Game extends React.Component {
                 var minimumWall = 0;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left == robotX && wall.top < robotY && wall.top > minimumWall) {
+                    if (wall.left === robotX && wall.top < robotY && wall.top > minimumWall) {
                         minimumWall = wall.top + 4;
                     }
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.left == robotX && checkRobot.top < robotY && checkRobot.top > minimumWall - 4) {
+                    if (checkRobot.left === robotX && checkRobot.top < robotY && checkRobot.top > minimumWall - 4) {
                         minimumWall = checkRobot.top + 40;
                     }
 
@@ -122,13 +122,13 @@ class Game extends React.Component {
             case RIGHT:
                 var minimumWall = MAX_WIDTH - 40;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top == robotY && wall.left > robotX && wall.left < minimumWall) {
+                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall) {
                         minimumWall = wall.left - 36;
 
                     }
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.top == robotY && checkRobot.left > robotX && checkRobot.left < minimumWall + 36) {
+                    if (checkRobot.top === robotY && checkRobot.left > robotX && checkRobot.left < minimumWall + 36) {
                         minimumWall = checkRobot.left - 40;
                     }
 
@@ -138,7 +138,7 @@ class Game extends React.Component {
             case LEFT:
                 var minimumWall = 0;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top == robotY && wall.left < robotX && wall.left > minimumWall) {
+                    if (wall.top === robotY && wall.left < robotX && wall.left > minimumWall) {
                         minimumWall = wall.left + 4;
 
                     }
@@ -146,7 +146,7 @@ class Game extends React.Component {
 
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.top == robotY && checkRobot.left < robotX && checkRobot.left > minimumWall - 4) {
+                    if (checkRobot.top === robotY && checkRobot.left < robotX && checkRobot.left > minimumWall - 4) {
                         minimumWall = checkRobot.left + 40;
                     }
                 });
@@ -156,12 +156,12 @@ class Game extends React.Component {
                 var minimumWall = MAX_HEIGHT - 40;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left == robotX && wall.top > robotY && wall.top < minimumWall)
+                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall)
                         minimumWall = wall.top - 36;
 
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.left == robotX && checkRobot.top > robotY && checkRobot.top < minimumWall + 36) {
+                    if (checkRobot.left === robotX && checkRobot.top > robotY && checkRobot.top < minimumWall + 36) {
                         minimumWall = checkRobot.top - 40;
                     }
                 });
@@ -171,12 +171,12 @@ class Game extends React.Component {
                 return;
         }
         return newPosition;
-    }
+    };
 
     checkwin = (robotPosition) => {
-        if (robotPosition.top == this.state.goal.top && robotPosition.left == this.state.goal.left) {
+        if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
 
-            if (this.state.createMode == 'No') {
+            if (this.state.createMode === 'No') {
                 return  (<YouWinView numMoves={this.state.moveHistory.length} submitAnswer={this.submitAnswer}/>);
             }
             else {
@@ -186,23 +186,45 @@ class Game extends React.Component {
         else {
             return '';
         }
-    }
+    };
 
 
     handlePlayerMovement = (dirObj) => {
-        var newPosition = this.handleCollision(dirObj,this.state.robotSelected,this.state.playerState[this.state.robotSelected].color);
-        var playerState = this.state.playerState;
-        var moveHistory = this.state.moveHistory;
-        newPosition = extend(newPosition,{colorSignifier: playerState[this.state.robotSelected].colorSignifier});
-        if (!(newPosition.top == playerState[this.state.robotSelected].top && newPosition.left == playerState[this.state.robotSelected].left)) {
-            moveHistory.push({dir: dirObj.dir, robot: this.state.robotSelected, colorSignifier: playerState[this.state.robotSelected].colorSignifier});
+        if (dirObj.dir !== undefined) {
+            var newPosition = this.handleCollision(dirObj, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color);
+            var playerState = this.state.playerState;
+            var moveHistory = this.state.moveHistory;
+            newPosition = extend(newPosition, {colorSignifier: playerState[this.state.robotSelected].colorSignifier});
+            if (!(newPosition.top === playerState[this.state.robotSelected].top && newPosition.left === playerState[this.state.robotSelected].left)) {
+                moveHistory.push({
+                    dir: dirObj.dir,
+                    robot: this.state.robotSelected,
+                    colorSignifier: playerState[this.state.robotSelected].colorSignifier
+                });
+            }
+            playerState[this.state.robotSelected] = newPosition;
+            this.setState({
+                playerState: playerState,
+                moveHistory: moveHistory,
+            });
+            this.checkwin(newPosition);
         }
-        playerState[this.state.robotSelected] = newPosition;
-        this.setState({
-            playerState: playerState,
-            moveHistory: moveHistory,
-        });
-    }
+    };
+
+    handlePlayerMovementFromMouse = (posObj) => {
+        var newDirection;
+        var robot = this.state.playerState[this.state.robotSelected];
+        if (posObj.top === robot.top && posObj.left < robot.left)
+            newDirection = { top: 0, left: -40, dir: LEFT};
+        else if (posObj.top === robot.top && posObj.left > robot.left)
+            newDirection = { top: 0, left: 40, dir: RIGHT};
+        else if (posObj.top < robot.top && posObj.left === robot.left)
+            newDirection = { top: -40, left: 0, dir: UP};
+        else if (posObj.top > robot.top && posObj.left === robot.left)
+            newDirection = { top: 40, left: 0, dir: DOWN};
+        else newDirection = { top: 0, left: 0, dir: undefined};
+        this.handlePlayerMovement(newDirection)
+    };
 
 
     render() {
@@ -212,9 +234,9 @@ class Game extends React.Component {
             <Board width={MAX_WIDTH} height={MAX_HEIGHT}>
                 {
                     this.state.boardState.map(square =>
-                        <Square
-                            dimension={40}
-                            position={{top:square.top,left: square.left}}
+                        <Square dimension={40}
+                                position={{top:square.top,left: square.left}}
+                                handlePlayerMovementFromMouse={this.handlePlayerMovementFromMouse}
                         />
                     )
                 }

@@ -41,12 +41,23 @@ const styleinside2 = ({dimension,position}) => {
     };
 };
 
-export default (props) =>
-    <div style={styleoutside(props)}>
-        <div style={styleinside(props)}>
-            <div style={styleinside2(props)}/>
-        </div>
-    </div>
+class Square extends React.Component {
+
+    handleClick = () => {
+        this.props.handlePlayerMovementFromMouse(this.props.position);
+    };
+
+    render() {
+        return (
+            <div onClick={this.handleClick} style={styleoutside(this.props)}>
+                <div style={styleinside(this.props)}>
+                    <div style={styleinside2(this.props)}/>
+                </div>
+            </div>
+        )
+    }
+}
+export default Square;
 
 
 //<div style="background-Color: black;width: 40px;height: 40px; position: absolute;">
