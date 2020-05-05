@@ -24,7 +24,8 @@ CREATE TABLE game (
   authorname TEXT NOT NULL,
   difficulty TEXT,
   puzzledata TEXT NOT NULL,
-  uri TEXT NOT NULL
+  uri TEXT NOT NULL,
+  FOREIGN KEY (authorid) REFERENCES user(id)
 );
 
 CREATE TABLE solutions (
@@ -34,5 +35,6 @@ CREATE TABLE solutions (
   userid INTEGER NOT NULL,
   authorname TEXT NOT NULL,
   solutiondata TEXT,
-  numMoves INTEGER NOT NULL
+  numMoves INTEGER NOT NULL,
+  FOREIGN KEY (gameid) REFERENCES game(id)
 );
