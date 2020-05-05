@@ -3960,10 +3960,11 @@ body {
 	background: rgba(250, 250, 250, 0.15)
 }
 
-#postscontainer {
+#GameMain {
     width: 90%;
     padding: 40px;
     margin: 0 auto;
+    align: center;
 }
 
 #dasher_app .piece .no-square.active {

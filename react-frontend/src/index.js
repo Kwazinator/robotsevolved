@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Game from './containers/Game';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-ReactDOM.render(<Game />, document.getElementById('postscontainer'));
+ReactDOM.render(<App />, document.getElementById('MainApp'));
 
 
 // If you want your app to work offline and load faster, you can change

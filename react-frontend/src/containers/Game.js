@@ -229,7 +229,7 @@ class Game extends React.Component {
 
     render() {
         return (
-        <div style={gamepanel()}>
+        <div id={'GameMain'} style={gamepanel()}>
             <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
             <Board width={MAX_WIDTH} height={MAX_HEIGHT}>
                 {
