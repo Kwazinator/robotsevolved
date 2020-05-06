@@ -23,7 +23,7 @@ class FindGame extends React.Component {
             <div id={'GameMain'}>
                 {
                     this.state.gameslist.map((game,index)=>
-                        <GameListItemView handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist} highscore={this.state.highscoreslist[index][0]}/>
+                        <GameListItemView handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]} highscore={this.state.highscoreslist[index][0]}/>
                     )
                 }
             </div>
