@@ -2,8 +2,8 @@ import React from 'react';
 
 const styleouter = () => {
     return {
-        marginBottom: '10px',
-        clear: 'left'
+        marginleft: '15px',
+        float: 'left'
     };
 
 }

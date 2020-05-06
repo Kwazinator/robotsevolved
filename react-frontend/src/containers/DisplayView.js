@@ -5,6 +5,7 @@ const controlpanel = () => {
     return {
         marginRight: '10px',
         float: 'left',
+        width: '15%',
     };
 }
 
@@ -34,10 +35,11 @@ class DisplayView extends React.Component {
                         this.props.checkwin(position)
                     )
                 }
-                <form onSubmit={this.props.resetPuzzle} style={buttonpanel()}>
-                    <button type="submit">Reset</button>
-                </form>
-                <HighScores highscores={this.props.highscores}/>
+                <div>
+                    <form onSubmit={this.props.resetPuzzle} style={buttonpanel()}>
+                        <button type="submit">Reset</button>
+                    </form>
+                </div>
             </div>
         )
     }

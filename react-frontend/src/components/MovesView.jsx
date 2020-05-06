@@ -3,7 +3,8 @@ import {DIRECTION_MAP_IMAGES} from '../constants/constants';
 
 const style = () => {
     return {
-        float: 'left'
+            width: '15%',
+            float: 'left',
         };
     };
 
@@ -16,7 +17,7 @@ class MovesView extends React.Component {
 
     render() {
         return (
-            <div><h3>Moves:</h3>
+            <div style={style()}><h3>Moves:</h3>
                 {
                     this.props.moveHistory.map(move =>
                         <img src={DIRECTION_MAP_IMAGES[this.props.playerState[move.robot].colorSignifier][move.dir]}/>

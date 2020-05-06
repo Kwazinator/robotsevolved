@@ -9,9 +9,16 @@ class App extends React.Component {
         super(props);
         console.log(window.highscoreslist);
         console.log(window.gameslist);
-        this.state = {
-            PageSelected: <CreateGame/>, //default page for website
-        };
+        if (window.uri == '') {
+            this.state = {
+                PageSelected: <CreateGame/>, //default page for website
+            };
+        }
+        else {
+            this.state = {
+                PageSelected: <PlayGame gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
+            };
+        }
     }
 
     handleGameClick = (gamedata,highscores,uri) => {

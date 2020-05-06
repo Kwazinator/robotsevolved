@@ -36,5 +36,6 @@ CREATE TABLE solutions (
   authorname TEXT NOT NULL,
   solutiondata TEXT,
   numMoves INTEGER NOT NULL,
-  FOREIGN KEY (gameid) REFERENCES game(id)
+  FOREIGN KEY (gameid) REFERENCES game(id),
+  FOREIGN KEY (userid) REFERENCES user(id)
 );

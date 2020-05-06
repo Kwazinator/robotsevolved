@@ -38,7 +38,7 @@ class Game extends React.Component {
             this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;
         }
-        else if (window.token.uri === '') {
+        else {
             var board = BoardGenerator(MAX_WIDTH,MAX_HEIGHT,.90);
             this.state = extend({
                 robotSelected: 0,
@@ -47,9 +47,6 @@ class Game extends React.Component {
                 createMode: 'Yes',
                 highscores: [],
             },board);
-        }
-        else {
-            this.state = extend(JSON.parse(window.token.puzzledata),{createMode: 'No', uri: window.uri, highscores: window.highscores})
         }
     }
 
@@ -229,7 +226,13 @@ class Game extends React.Component {
     render() {
         return (
         <div id={'GameMain'} style={gamepanel()}>
-            <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
+            <DisplayView
+                playerState={this.state.playerState}
+                uri={this.state.uri}
+                resetPuzzle={this.resetPuzzle}
+                highscores={this.state.highscores}
+                checkwin={this.checkwin}
+            />
             <Board width={MAX_WIDTH} height={MAX_HEIGHT}>
                 {
                     this.state.boardState.map(square =>
@@ -274,13 +277,8 @@ class Game extends React.Component {
 
                 }
             </Board>
-            <DisplayView
-                playerState={this.state.playerState}
-                uri={this.state.uri}
-                resetPuzzle={this.resetPuzzle}
-                highscores={this.state.highscores}
-                checkwin={this.checkwin}
-            />
+            <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
+            <HighScores highscores={this.state.highscores}/>
         </div>
         );
     }
