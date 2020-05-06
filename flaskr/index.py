@@ -18,7 +18,7 @@ def get_games_data(numMoves,Offset):
 
 @bp.route('/')
 def index():
-    get_games_data_value = get_games_data(10,0)
+    get_games_data_value = get_games_data(30,0)
     return render_template('index.html',gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
