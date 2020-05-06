@@ -29,7 +29,7 @@ def about():
 def play(uri):
     data = json.dumps(GameService().get_game_uri(uri))
     highscores = json.dumps(GameService().get_highscores(uri))
-    get_games_data_value = get_games_data(10,0)
+    get_games_data_value = get_games_data(30,0)
     return render_template('index.html',gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
