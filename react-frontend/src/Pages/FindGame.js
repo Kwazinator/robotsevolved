@@ -8,7 +8,6 @@ class FindGame extends React.Component {
         super(props);
         var gameslist = window.gameslist;
         var highscoreslist = window.highscoreslist;
-        console.log(highscoreslist[0]);
         this.state = {
             gameslist: gameslist,
             highscoreslist: highscoreslist,
@@ -19,14 +18,12 @@ class FindGame extends React.Component {
         this.props.handleGameClick(gamedata,highscores,uri);
     }
 
-
-
     render () {
         return (
             <div id={'GameMain'}>
                 {
                     this.state.gameslist.map((game,index)=>
-                        <GameListItemView handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]}/>
+                        <GameListItemView handleGameClick={this.handleGameClick} game={game} highscore={this.state.highscoreslist[index][0]}/>
                     )
                 }
             </div>

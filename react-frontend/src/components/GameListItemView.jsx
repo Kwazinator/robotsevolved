@@ -3,10 +3,15 @@ import React from 'react';
 
 const mainStyle = () => {
     return {
-        width: '90%',
-        marginRight: '5px',
-        marginTop: '15px',
-        marginBottom: '15px',
+        marginRight: '25px',
+        marginTop: '25px',
+        marginBottom: '50px',
+        marginLeft: '50px',
+        paddingRight: '25px',
+        paddingLeft: '25px',
+        paddingTop: '25px',
+        paddingBottom: '25px',
+        float: 'left',
     }
 
 }
@@ -33,17 +38,20 @@ class GameListItemView extends React.Component {
 
 
  render() {
+        var highscore = this.props.highscore;
+        if (typeof highscore === 'undefined') {
+            highscore = {
+                comment: '',
+                numMoves: '',
+            }
+        }
         return (
         <div style={mainStyle()}>
             <div>
                 <h2 onClick={this.handleGameClick}>{this.props.game.name}</h2>
             </div>
-            <div style={highscoresStyle()}><h3>Highscores:</h3>
-                {
-                    this.props.highscores.map(highscore =>
-                        <div><div>{highscore.comment}</div><div>{highscore.numMoves}</div></div>
-                    )
-                }
+            <div style={highscoresStyle()}><h4>Highscore:</h4>
+                <div><div>{highscore.comment}</div><div>{highscore.numMoves}</div></div>
             </div>
         </div>
         )
