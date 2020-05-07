@@ -249,6 +249,7 @@ class Game extends React.Component {
                             dimension={40}
                             position={{top:player.top,left:player.left}}
                             color={player.color}
+                            selected={this.state.robotSelected}
                             index={index}
                             onClick={this.robotSelect}
                             handlePlayerMovement={this.handlePlayerMovement}

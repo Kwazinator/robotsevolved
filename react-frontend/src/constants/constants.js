@@ -9,13 +9,15 @@ export const SQUARE_CORE_COLOR = '#e1e1e1';
 export const SQUARE_INNER_COLOR = '#c4a1a1';
 export const SQUARE_OUTSIDE_COLOR = '#807878';
 
-export const ROBOT_GREEN = '#009900';
-export const ROBOT_BLUE = '#1a1aff';
-export const ROBOT_YELLOW = '#fff70a';
-export const ROBOT_RED = '#ff1a1a';
+export const ROBOT_GREEN = '#228b22';
+export const ROBOT_BLUE = '#4169e1';
+export const ROBOT_YELLOW = '#ff8c00';
+export const ROBOT_RED = '#b22222';
 export const ROBOT_PURPLE = '#9c1aff';
 export const ROBOT_ORANGE = '#e66000';
 export const ROBOT_PINK = '#ff85c2';
+
+export const SELECTED_ROBOT = '#ffd700';
 
 export const GOAL_IMAGE = '/static/images/swirl.png';
 export const GREEN_UP_PICTURE = '/static/images/Green_Up.png';

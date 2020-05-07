@@ -1,7 +1,7 @@
 import React from 'react';
-import {UP,DOWN,LEFT,RIGHT} from '../constants/constants';
+import {UP,DOWN,LEFT,RIGHT,SELECTED_ROBOT} from '../constants/constants';
 
-const styleoutside = ({dimension,position,color}) => {
+const styleoutside = ({dimension,position}) => {
     const dim = dimension + 'px';
     return {
         width: dim,
@@ -13,7 +13,7 @@ const styleoutside = ({dimension,position,color}) => {
     };
 };
 
-const styleinside = ({dimension,position,color}) => {
+const styleinside = ({dimension}) => {
     const dim = (dimension - 4) + 'px';
     return {
         width: dim,
@@ -25,12 +25,20 @@ const styleinside = ({dimension,position,color}) => {
     };
 };
 
-const styleinside2 = ({dimension,position,color}) => {
+const styleinside2 = ({dimension,color,index,selected}) => {
     const dim = (dimension-4)-8 + 'px';
+    var selectedColor = undefined;
+    var borderStyle = "none";
+    if (index === selected) {
+        selectedColor = SELECTED_ROBOT;
+        borderStyle = "solid";
+    }
     return {
         width: dim,
         height: dim,
         backgroundColor: color,
+        borderStyle: borderStyle,
+        borderColor: selectedColor,
         position: 'absolute',
         borderRadius: '50%',
         top: 4 + 'px',
@@ -76,11 +84,11 @@ class Robot extends React.Component {
 
         }
         this.props.handlePlayerMovement(newDirection);
-    }
+    };
 
     handleClick = () => {
         this.props.onClick(this.props.index);
-    }
+    };
 
     render () {
         return (
