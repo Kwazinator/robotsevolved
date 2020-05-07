@@ -18,7 +18,7 @@ import BoardGenerator from '../components/boardgenerator';
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    if([32, 37, 38, 39, 40,9].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
@@ -91,6 +91,13 @@ class Game extends React.Component {
         });
     };
 
+    tabSelector = () => {
+        var robotSelected =  this.state.robotSelected + 1;
+        robotSelected = robotSelected % 4;
+        this.setState({
+            robotSelected: robotSelected,
+        });
+    }
 
 
     handleCollision = (dirObj,robotSelected,color) => {
@@ -253,6 +260,7 @@ class Game extends React.Component {
                             index={index}
                             onClick={this.robotSelect}
                             handlePlayerMovement={this.handlePlayerMovement}
+                            tabSelector={this.tabSelector}
                         />
                     )
 

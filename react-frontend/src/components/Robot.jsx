@@ -66,10 +66,11 @@ class Robot extends React.Component {
             case 40:
                 newDirection = { top: 40, left: 0, dir: DOWN};
                 break;
-            /*case 65:
-                newDirection = { top: 0, left: -40, dir: LEFT};
+            case 9:
+                this.props.tabSelector();
+                return;
                 break;
-            case 83:
+            /*case 83:
                 newDirection = { top: 40, left: 0, dir: DOWN};
                 break;
             case 68:
