@@ -8,6 +8,7 @@ import Board from '../components/Board';
 import Robot from '../components/Robot';
 import Wall from '../components/Wall';
 import Goal from '../components/Goal';
+import ColoredLine from '../components/ColoredLine';
 import extend from '../constants/extend';
 import YouWinView from '../components/YouWinView';
 import AddPuzzleView from '../components/AddPuzzleView';
@@ -250,6 +251,42 @@ class Game extends React.Component {
                     )
                 }
                 <Goal dimension={40} position={this.state.goal}/>
+                <ColoredLine
+                    dir={UP}
+                    position={{
+                        top: this.state.playerState[this.state.robotSelected].top,
+                        left: this.state.playerState[this.state.robotSelected].left
+                    }}
+                    endPosition={this.handleCollision({dir: UP}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                    color={'red'}
+                />
+                <ColoredLine
+                    dir={DOWN}
+                    position={{
+                        top: this.state.playerState[this.state.robotSelected].top,
+                        left: this.state.playerState[this.state.robotSelected].left
+                    }}
+                    endPosition={this.handleCollision({dir: DOWN}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                    color={'red'}
+                />
+                <ColoredLine
+                    dir={LEFT}
+                    position={{
+                        top: this.state.playerState[this.state.robotSelected].top,
+                        left: this.state.playerState[this.state.robotSelected].left
+                    }}
+                    endPosition={this.handleCollision({dir: LEFT}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                    color={'red'}
+                />
+                <ColoredLine
+                    dir={RIGHT}
+                    position={{
+                        top: this.state.playerState[this.state.robotSelected].top,
+                        left: this.state.playerState[this.state.robotSelected].left
+                    }}
+                    endPosition={this.handleCollision({dir: RIGHT}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                    color={'red'}
+                />
                 {
                     this.state.playerState.map((player, index) =>
                         <Robot
