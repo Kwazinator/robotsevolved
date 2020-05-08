@@ -38,6 +38,7 @@ class Game extends React.Component {
             this.state = JSON.parse(this.props.gamedata);
             this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;
+            this.state.ColoredLineDirections = [LEFT,RIGHT,UP,DOWN];
         }
         else {
             var board = BoardGenerator(MAX_WIDTH,MAX_HEIGHT,.90);
@@ -47,6 +48,7 @@ class Game extends React.Component {
                 uri: '',
                 createMode: 'Yes',
                 highscores: [],
+                ColoredLineDirections: [LEFT,RIGHT,UP,DOWN],
             },board);
         }
     }
@@ -251,42 +253,19 @@ class Game extends React.Component {
                     )
                 }
                 <Goal dimension={40} position={this.state.goal}/>
-                <ColoredLine
-                    dir={UP}
-                    position={{
-                        top: this.state.playerState[this.state.robotSelected].top,
-                        left: this.state.playerState[this.state.robotSelected].left
-                    }}
-                    endPosition={this.handleCollision({dir: UP}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                    color={'red'}
-                />
-                <ColoredLine
-                    dir={DOWN}
-                    position={{
-                        top: this.state.playerState[this.state.robotSelected].top,
-                        left: this.state.playerState[this.state.robotSelected].left
-                    }}
-                    endPosition={this.handleCollision({dir: DOWN}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                    color={'red'}
-                />
-                <ColoredLine
-                    dir={LEFT}
-                    position={{
-                        top: this.state.playerState[this.state.robotSelected].top,
-                        left: this.state.playerState[this.state.robotSelected].left
-                    }}
-                    endPosition={this.handleCollision({dir: LEFT}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                    color={'red'}
-                />
-                <ColoredLine
-                    dir={RIGHT}
-                    position={{
-                        top: this.state.playerState[this.state.robotSelected].top,
-                        left: this.state.playerState[this.state.robotSelected].left
-                    }}
-                    endPosition={this.handleCollision({dir: RIGHT}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                    color={'red'}
-                />
+                {
+                    this.state.ColoredLineDirections.map(ColoredLineDirection =>
+                        <ColoredLine
+                            dir={ColoredLineDirection}
+                            position={{
+                                top: this.state.playerState[this.state.robotSelected].top,
+                                left: this.state.playerState[this.state.robotSelected].left
+                            }}
+                            endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                            color={'red'}
+                        />
+                    )
+                }
                 {
                     this.state.playerState.map((player, index) =>
                         <Robot
@@ -300,9 +279,8 @@ class Game extends React.Component {
                             tabSelector={this.tabSelector}
                         />
                     )
-
-
                 }
+
                 {
                     this.state.wallHorizontal.map(wallH =>
                         <Wall
