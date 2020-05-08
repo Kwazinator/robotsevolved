@@ -14,6 +14,7 @@ import YouWinView from '../components/YouWinView';
 import AddPuzzleView from '../components/AddPuzzleView';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
+import ToggleSettings from '../components/ToggleSettings';
 import {LEFT,RIGHT,UP,DOWN,MAX_WIDTH,MAX_HEIGHT,ROBOT_BLUE,ROBOT_GREEN,ROBOT_RED,ROBOT_YELLOW,GREEN_UP_PICTURE,DIRECTION_MAP_IMAGES} from '../constants/constants';
 import BoardGenerator from '../components/boardgenerator';
 
@@ -38,7 +39,7 @@ class Game extends React.Component {
             this.state = JSON.parse(this.props.gamedata);
             this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;
-            this.state.ColoredLineDirections = [LEFT,RIGHT,UP,DOWN];
+            this.state.ColoredLineDirections = [];
         }
         else {
             var board = BoardGenerator(MAX_WIDTH,MAX_HEIGHT,.90);
@@ -48,7 +49,7 @@ class Game extends React.Component {
                 uri: '',
                 createMode: 'Yes',
                 highscores: [],
-                ColoredLineDirections: [LEFT,RIGHT,UP,DOWN],
+                ColoredLineDirections: [],
             },board);
         }
     }
@@ -75,6 +76,19 @@ class Game extends React.Component {
                 //window.location.href = window.location.host + '/play/' + res.data.uri;
             });
     };
+
+    toggleLineIndicators = () => {
+        if (this.state.ColoredLineDirections.length == 0) {
+            this.setState({
+                ColoredLineDirections: [LEFT,RIGHT,UP,DOWN],
+            });
+        }
+        else {
+            this.setState({
+                ColoredLineDirections: [],
+            });
+        }
+    }
 
     submitAnswer = event => {
         event.preventDefault();
@@ -303,6 +317,7 @@ class Game extends React.Component {
             </Board>
             <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
             <HighScores highscores={this.state.highscores}/>
+            <ToggleSettings onClick={this.toggleLineIndicators}/>
         </div>
         );
     }
