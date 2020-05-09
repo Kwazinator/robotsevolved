@@ -4,13 +4,12 @@ DROP TABLE IF EXISTS user;
 
 
 CREATE TABLE user (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT NOT NULL,
-  password TEXT NOT NULL,
+  userID TEXT PRIMARY KEY,
   logintype TEXT NOT NULL, --google,facebook,spotify, etc
   accountId TEXT,
   profilePicture TEXT,
   email TEXT,
+  activeFlag TEXT,
   UNIQUE(logintype, accountId) ON CONFLICT REPLACE
 );
 

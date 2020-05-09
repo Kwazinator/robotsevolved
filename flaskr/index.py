@@ -46,3 +46,17 @@ def submithighscore():
     data = request.get_json()
     GameService().insert_highscore(data['name'],'test','test','test',data['highscore'],data['uri'])
     return 'OK'
+
+@bp.route('/userCreate', methods={'GET', 'POST'})
+def userCreate():
+    data = request.get_json()
+    print(data)
+    UserService().insert_user(data['userId'], data['logintype'], data['accountId'], data['profilePicture'], data['email'])
+    return 'OK'
+
+@bp.route('/userDelete', methods={'GET', 'POST'})
+def userDelete():
+    data = request.get_json()
+    print(data)
+    UserService().delete_user(data['userID'])
+    return 'OK'
