@@ -2,7 +2,6 @@ from flaskr.dataaccess.GameDAO import GameDAO
 from flaskr.dataaccess.entities.Game import Game
 import json
 import datetime
-from dateutil.relativedelta import relativedelta
 from flask import current_app
 import re
 
