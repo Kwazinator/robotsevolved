@@ -115,10 +115,13 @@ class Game extends React.Component {
             .then( res => {
                 this.setState({gameWon: false});
             });
+        this.resetPuzzle();
     };
 
     resetPuzzle = event => {
-        event.preventDefault();
+        if (typeof event !== 'undefined') {
+            event.preventDefault();
+        }
         this.setState({
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
@@ -353,4 +356,4 @@ class Game extends React.Component {
     }
 }
 
-export default Game;
+export default withRouter(Game);

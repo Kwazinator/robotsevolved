@@ -27,9 +27,8 @@ class GameService:
         rtnMessage = ""
 
         for Solution in scoreList:
-            if (Solution.highscore == highscore and Solution.name == name):
-                duplicatescore = True
-
+            if (Solution['numMoves'] == highscore and Solution['comment'] == name):
+                duplicateScore = True
         gameid = game.id
         if(not duplicateScore):
             GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
