@@ -60,3 +60,15 @@ def userDelete():
     print(data)
     UserService().delete_user(data['userID'])
     return 'OK'
+
+@bp.route('/search', methods=('GET','POST'))
+def search():
+    data = request.get_json()
+    print(json.dumps(data,indent=4))
+    #
+    #fill a list of Solution objects and return the List. Currently just returning current games, so it wont work.
+    #
+    #Could modify method get_games_data to also take a search term and run a new query, OR create a new method that uses
+    #a search term like get_games_search_term(numGames,offset,searchterm)
+    get_games_data_value = get_games_data(30,0)
+    return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
