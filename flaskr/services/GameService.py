@@ -19,11 +19,25 @@ class GameService:
     def check_same_game(self,puzzledata):
         return GameDAO().check_same_game(puzzledata)
 
-    def insert_highscore(self, name,userid,authorname,solutiondata,highscore,uri):
+    def insert_highscore(self,name,userid,authorname,solutiondata,highscore,uri):
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
+        scoreList = GameDAO().get_highscores(game.id)
+        duplicateScore = False
+        rtnMessage = ""
+
+        for Solution in scoreList:
+            if (Solution.highscore == highscore and Solution.name == name):
+                duplicatescore = True
+
         gameid = game.id
-        return GameDAO().insert_highscore(gameid,name,userid,authorname,solutiondata,highscore)
+        if(not duplicateScore):
+            GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
+            rtnMessage = "Submitted"
+            return rtnMessage
+        else:
+            rtnMessage = "Duplicate highscore cannot be submitted."
+            return rtnMessage
 
     def get_game_uri(self,uri):
         row = GameDAO().get_game_uri(uri)

@@ -44,8 +44,8 @@ def submitpuzzle():
 @bp.route('/submithighscore', methods=('GET','POST'))
 def submithighscore():
     data = request.get_json()
-    GameService().insert_highscore(data['name'],'test','test','test',data['highscore'],data['uri'])
-    return 'OK'
+    rtnMessage = GameService().insert_highscore(data['name'],'test','test','test',data['highscore'],data['uri'])
+    return rtnMessage
 
 @bp.route('/userCreate', methods={'GET', 'POST'})
 def userCreate():
