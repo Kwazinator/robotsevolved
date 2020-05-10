@@ -17,7 +17,7 @@ class YouWinView extends React.Component {
     render() {
         return (
             <div>
-                <div>
+                <div style={{color: 'white'}}>
                 You Win! with {this.props.numMoves} Moves!
                 </div>
                 <input style={buttonpanel()} id={"namesubmitHS"} type={"text"} placeholder={"Username"}>

@@ -135,6 +135,7 @@ export default (width,height,randomPercent) => {
 
     return {
         playerState: playerState,
+        gameWon: false,
         boardState: boardState,
         wallHorizontal: wallHorizontal,
         wallVerticle: wallVerticle,

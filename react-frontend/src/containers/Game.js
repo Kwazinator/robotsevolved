@@ -1,6 +1,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import {withRouter} from 'react-router'
 
 import MovesView from '../components/MovesView';
 import Square from '../components/Square';
@@ -8,14 +9,30 @@ import Board from '../components/Board';
 import Robot from '../components/Robot';
 import Wall from '../components/Wall';
 import Goal from '../components/Goal';
+import GameWonOverlay from "../components/GameWonOverlay";
 import ColoredLine from '../components/ColoredLine';
 import extend from '../constants/extend';
 import YouWinView from '../components/YouWinView';
 import AddPuzzleView from '../components/AddPuzzleView';
 import DisplayView from './DisplayView';
+import GameWonDisplayView from "./GameWonDisplayView";
 import HighScores from '../components/HighScores';
 import ToggleSettings from '../components/ToggleSettings';
-import {LEFT,RIGHT,UP,DOWN,MAX_WIDTH,MAX_HEIGHT,ROBOT_BLUE,ROBOT_GREEN,ROBOT_RED,ROBOT_YELLOW,GREEN_UP_PICTURE,DIRECTION_MAP_IMAGES} from '../constants/constants';
+import {
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
+    MAX_WIDTH,
+    MAX_HEIGHT,
+    ROBOT_BLUE,
+    ROBOT_GREEN,
+    ROBOT_RED,
+    ROBOT_YELLOW,
+    GREEN_UP_PICTURE,
+    DIRECTION_MAP_IMAGES,
+    LINE_INDICATOR_COLOR
+} from '../constants/constants';
 import BoardGenerator from '../components/boardgenerator';
 
 window.addEventListener("keydown", function(e) {
@@ -35,10 +52,11 @@ class Game extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.loadedGame == 'Yes') {
+        if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
             this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;
+            this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
         }
         else {
@@ -55,7 +73,6 @@ class Game extends React.Component {
     }
 
     robotSelect = (i) => {
-        //add something here to make the selected robit be highlighted.
         this.setState({
             robotSelected: i,
         });
@@ -72,13 +89,14 @@ class Game extends React.Component {
             .then( res => {
                 this.setState({
                     uri: res.data.uri,
+                    gameWon: false
                 });
-                //window.location.href = window.location.host + '/play/' + res.data.uri;
+                this.props.history.push('/play/' + res.data.uri)
             });
     };
 
     toggleLineIndicators = () => {
-        if (this.state.ColoredLineDirections.length == 0) {
+        if (this.state.ColoredLineDirections.length === 0) {
             this.setState({
                 ColoredLineDirections: [LEFT,RIGHT,UP,DOWN],
             });
@@ -88,15 +106,14 @@ class Game extends React.Component {
                 ColoredLineDirections: [],
             });
         }
-    }
+    };
 
     submitAnswer = event => {
         event.preventDefault();
         console.log(this.state.uri);
         axios.post('/submithighscore', {highscore: this.state.moveHistory.length, name: document.getElementById("namesubmitHS").value, uri: this.state.uri})
             .then( res => {
-                console.log(res);
-                console.log(res.data);
+                this.setState({gameWon: false});
             });
     };
 
@@ -105,16 +122,19 @@ class Game extends React.Component {
         this.setState({
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
+            gameWon: false
         });
     };
 
     tabSelector = () => {
-        var robotSelected =  this.state.robotSelected + 1;
-        robotSelected = robotSelected % 4;
-        this.setState({
-            robotSelected: robotSelected,
-        });
-    }
+        if (this.state.gameWon === false) {
+            var robotSelected = this.state.robotSelected + 1;
+            robotSelected = robotSelected % 4;
+            this.setState({
+                robotSelected: robotSelected,
+            });
+        }
+    };
 
 
     handleCollision = (dirObj,robotSelected,color) => {
@@ -195,7 +215,8 @@ class Game extends React.Component {
 
     checkwin = (robotPosition) => {
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
-
+            if (this.state.gameWon === false)
+                this.setState({gameWon: true});
             if (this.state.createMode === 'No') {
                 return  (<YouWinView numMoves={this.state.moveHistory.length} submitAnswer={this.submitAnswer}/>);
             }
@@ -210,7 +231,7 @@ class Game extends React.Component {
 
 
     handlePlayerMovement = (dirObj) => {
-        if (dirObj.dir !== undefined) {
+        if (dirObj.dir !== undefined && this.state.gameWon === false) {
             var newPosition = this.handleCollision(dirObj, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color);
             var playerState = this.state.playerState;
             var moveHistory = this.state.moveHistory;
@@ -251,11 +272,8 @@ class Game extends React.Component {
         return (
         <div id={'GameMain'} style={gamepanel()}>
             <DisplayView
-                playerState={this.state.playerState}
                 uri={this.state.uri}
                 resetPuzzle={this.resetPuzzle}
-                highscores={this.state.highscores}
-                checkwin={this.checkwin}
             />
             <Board width={MAX_WIDTH} height={MAX_HEIGHT}>
                 {
@@ -276,7 +294,7 @@ class Game extends React.Component {
                                 left: this.state.playerState[this.state.robotSelected].left
                             }}
                             endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                            color={'red'}
+                            color={LINE_INDICATOR_COLOR}
                         />
                     )
                 }
@@ -314,6 +332,18 @@ class Game extends React.Component {
                     )
 
                 }
+                <GameWonOverlay
+                    width={MAX_WIDTH}
+                    height={MAX_HEIGHT}
+                    visible={this.state.gameWon}
+                >
+                    <GameWonDisplayView
+                        playerState={this.state.playerState}
+                        resetPuzzle={this.resetPuzzle}
+                        highscores={this.state.highscores}
+                        checkwin={this.checkwin}
+                    />
+                </GameWonOverlay>
             </Board>
             <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
             <HighScores highscores={this.state.highscores}/>
@@ -323,4 +353,4 @@ class Game extends React.Component {
     }
 }
 
-export default Game;
+export default withRouter(Game);
