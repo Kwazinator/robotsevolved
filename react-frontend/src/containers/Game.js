@@ -72,6 +72,33 @@ class Game extends React.Component {
         }
     }
 
+    updateHighscores = () => {
+        axios.get('/updatehighscores?uri=' + this.state.uri)
+            .then( res => {
+                this.setState({
+                    highscores: JSON.parse(res.data.highscores),
+                });
+            });
+    }
+
+
+    componentDidMount = () => {
+        if (this.props.loadedGame === 'Yes') {
+            var IntervalId = setInterval(this.updateHighscores, 2000);
+            this.setState({
+                IntervalId: IntervalId,
+            });
+        }
+    }
+
+    componentWillUnmount = () => {
+        if (this.props.loadedGame === 'Yes') {
+            clearInterval(this.state.IntervalId);
+        }
+    }
+
+
+
     robotSelect = (i) => {
         this.setState({
             robotSelected: i,

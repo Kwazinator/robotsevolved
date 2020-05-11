@@ -41,6 +41,12 @@ def submitpuzzle():
     else:
         return jsonify(uri='thisdidnotworkforsomereason')
 
+@bp.route('/updatehighscores', methods=('GET','POST'))
+def updatehighscores():
+    uri = request.args['uri']
+    highscores = json.dumps(GameService().get_highscores(uri))
+    return jsonify(highscores=highscores)
+
 @bp.route('/submithighscore', methods=('GET','POST'))
 def submithighscore():
     data = request.get_json()
