@@ -1,4 +1,3 @@
-from flaskr.dataaccess.GameDAO import GameDAO
 from flaskr.dataaccess.entities.Game import Game
 from flaskr.dataaccess.UserDAO import UserDAO
 import json
@@ -12,10 +11,10 @@ class UserService:
         pass
 
     def insert_user(self,userID,logintype, accountID, profilePicture, email, activeFlag):
-        return UserDAO().insert_game(userID,logintype, accountID, profilePicture, email, activeFlag)
+        return UserDAO().insert_user(userID,logintype, accountID, profilePicture, email, activeFlag)
 
     def get_user(self,userID):
-        return UserDAO().get_user(userId)
+        return UserDAO().get_user(userID)
 
-    def delete_user(self,userID)
+    def delete_user(self,userID):
         return UserDAO().delete_user(userID)
