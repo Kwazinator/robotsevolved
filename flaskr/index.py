@@ -95,3 +95,12 @@ def search():
     #a search term like get_games_search_term(numGames,offset,searchterm)
     get_games_data_value = get_games_data(30,0)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
+
+
+@bp.route('/databasedownload', methods=('GET',))
+@jwt_required
+def databasedownload():
+    if (get_jwt_identity() == 1 or get_jwt_identity() == 2):
+        return send_file('../instance/flaskr.sqlite')
+    else:
+        return 404
