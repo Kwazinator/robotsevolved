@@ -24,3 +24,5 @@ MANIFEST.in
 Test.py
 
 SystemLogger/logs.txt
+
+credentials/

@@ -4,9 +4,10 @@ DROP TABLE IF EXISTS user;
 
 
 CREATE TABLE user (
-  userID TEXT PRIMARY KEY,
+  userID INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL,
   logintype TEXT NOT NULL, --google,facebook,spotify, etc
-  accountId TEXT,
+  accountID TEXT,
   profilePicture TEXT,
   email TEXT,
   activeFlag TEXT,

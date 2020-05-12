@@ -2,6 +2,9 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, make_response, current_app, session, send_file
 )
 from flaskr.services.GameService import GameService
+from flaskr.services.UserService import UserService
+from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
+
 import json
 
 bp = Blueprint('index', __name__)
@@ -15,22 +18,36 @@ def get_games_data(numMoves,Offset):
     return (gameslist,highscoreslist)
 
 
-
 @bp.route('/')
+@jwt_optional
 def index():
     get_games_data_value = get_games_data(30,0)
-    return render_template('index.html',gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+    userID = get_jwt_identity()
+    user = None
+    loggedin = 'No'
+    if (userID is not None):
+        user = UserService().get_user(get_jwt_identity()).serialize()
+        loggedin = 'Yes'
+    return render_template('index.html',loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
 def about():
     return 'yolo'
 
+
 @bp.route('/play/<uri>')
+@jwt_optional
 def play(uri):
     data = json.dumps(GameService().get_game_uri(uri))
     highscores = json.dumps(GameService().get_highscores(uri))
     get_games_data_value = get_games_data(30,0)
-    return render_template('index.html',gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    userID = get_jwt_identity()
+    user = None
+    loggedin = 'No'
+    if (userID is not None):
+        user = UserService().get_user(get_jwt_identity()).serialize()
+        loggedin = 'Yes'
+    return render_template('index.html',loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 def submitpuzzle():

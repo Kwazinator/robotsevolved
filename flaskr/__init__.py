@@ -14,8 +14,10 @@ def create_app(test_config=None):
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    with open("credentials/JWTSecretKeys.txt", 'r') as f:
+        data = f.read()
     app.config.from_mapping(
-        SECRET_KEY=b'\x80\xfc):r\xd6\x86\x1bp\x14\xc1\x9ezo\x05M',
+        SECRET_KEY=data,
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
@@ -26,18 +28,27 @@ def create_app(test_config=None):
     app.config['JWT_SESSION_COOKIE'] = False
     jwt_manager = JWTManager(app)
 
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
 
     '''facebook_bp = make_facebook_blueprint(
-        client_id = '665241387323978',
-        client_secret = '647c219a84c7bba9108e8af2ccdf590b',
-        #redirect_url = 'https://potm.rocks/auth'
+        client_id = '',
+        client_secret = '',
+        #redirect_url = ''
         scope='email'
     )
     app.register_blueprint(facebook_bp,url_prefix='/login')
 '''
+    with open("credentials/GoogleAPIkeys.txt", 'r') as f:
+        data = f.read()
+    info = data.splitlines()
     google_bp = make_google_blueprint(
-        client_id="248825270894-b2o0nvqtkj7kuqqeckd5btoul3angcad.apps.googleusercontent.com",
-        client_secret="zw08yjC59yVkqAYt6F-Bk6cW",
+        client_id=info[0],
+        client_secret=info[1],
         scope=["https://www.googleapis.com/auth/userinfo.email", "openid", "https://www.googleapis.com/auth/userinfo.profile"],
     )
     app.register_blueprint(google_bp, url_prefix='/login')
@@ -83,8 +94,8 @@ def create_app(test_config=None):
             session['url_saved'] = link
         if 'AJAX' in request.headers:
             current_app.logger.warning('AJAX called in expired')
-            return jsonify(redirect=url_for('auth.login')), 200
-        return redirect(url_for('auth.login'), 302)
+            return jsonify(url_for('index.index')), 200
+        return redirect(url_for('index.index'), 302)
 
     @jwt_manager.invalid_token_loader
     def my_invalid_token_callback(msg):
@@ -97,8 +108,8 @@ def create_app(test_config=None):
             session['url_saved'] = link
         if 'AJAX' in request.headers:
             current_app.logger.warning('AJAX called in invalid')
-            return jsonify(redirect=url_for('auth.login')), 200
-        return redirect(url_for('auth.login'), 302)
+            return jsonify(redirect=url_for('index.index')), 200
+        return redirect(url_for('index.index'), 302)
 
     @jwt_manager.unauthorized_loader
     def my_unauthorized_callback(msg):
@@ -111,7 +122,7 @@ def create_app(test_config=None):
             session['url_saved'] = link
         if 'AJAX' in request.headers:
             current_app.logger.warning('AJAX called in unauthorized')
-            return jsonify(redirect=url_for('auth.login')), 200
-        return redirect(url_for('auth.login'), 302)
+            return jsonify(redirect=url_for('index.index')), 200
+        return redirect(url_for('index.index'), 302)
 
     return app

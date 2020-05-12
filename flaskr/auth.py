@@ -20,5 +20,28 @@ def new_google_login(name,id_token,email,picture,id):
     print(email)
     print(picture)
     print(id)
-    return
+    user = UserService().get_user_by_logintype(id,'google')
+    if (user is not None):
+        #assign jwt for same user
+        jwt = UserService().create_jwt(user.userID)
+        response = redirect(url_for('index.index'))
+        set_access_cookies(response, jwt['access_token'])
+        set_refresh_cookies(response, jwt['refresh_token'])
+        return response
+    else:
+        #create new user
+        userID = UserService().insert_user(name, 'google', id, picture, email, 'Y')
+        jwt = UserService().create_jwt(userID)
+        response = redirect(url_for('index.index'))
+        set_access_cookies(response, jwt['access_token'])
+        set_refresh_cookies(response, jwt['refresh_token'])
+        return response
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    response = redirect(url_for('index.index'))
+    unset_refresh_cookies(response)
+    unset_jwt_cookies(response)
+    return response
 

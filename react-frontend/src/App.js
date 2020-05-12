@@ -2,6 +2,9 @@ import React from 'react';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
 import PlayGame from './Pages/PlayGame';
+import LoginModal from './containers/Modals/LoginModal';
+import LoggedInUser from './components/LoggedInUser';
+import SignInButton from './components/SignInButton';
 
 class App extends React.Component {
 
@@ -19,6 +22,25 @@ class App extends React.Component {
                 PageSelected: <PlayGame gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
             };
         }
+        this.state.showLoginModal = false;
+    }
+
+    SignInButtonPressed = (type) => {
+        if (type == 'Sign in') {
+            this.setState({
+                showLoginModal: true
+            });
+        }
+        else {
+            window.location.href = "/auth/logout";
+        }
+    }
+
+    closeLoginModal = event => {
+        event.preventDefault();
+        this.setState({
+            showLoginModal: false
+        });
     }
 
     handleGameClick = (gamedata,highscores,uri) => {
@@ -106,10 +128,12 @@ class App extends React.Component {
                                 <span title="Preferences" data-icon="%"></span>
                             </a>
                         </div>
-                        <a href="/login?referrer=/" class="signin button button-empty">Sign in</a>
+                        <LoggedInUser/>
+                        <SignInButton onClick={this.SignInButtonPressed}/>
                     </div>
                 </header>
-                      {this.state.PageSelected}
+                {this.state.PageSelected}
+                <LoginModal closeLoginModal={this.closeLoginModal} show={this.state.showLoginModal}/>
             </div>
         )
     }
