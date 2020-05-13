@@ -6,7 +6,7 @@ from flaskr.db import get_db
 app = flaskr.create_app()
 with app.app_context():
     cursor = get_db().cursor()
-    row = cursor.execute("SELECT * from game where uri='982bae494d9d48efaae454fed5c80185'").fetchone()
+    row = cursor.execute("SELECT * from game where id=20").fetchone()
 
 game = row[7]
 gamejson = json.loads(game)
