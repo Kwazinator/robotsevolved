@@ -135,14 +135,14 @@ def solver(gamejson):
         left = wall['left']
         top = top / 40
         left = left / 40
-        if top >= 16:
+        if (top >= 16):
             top = top - 1
             position = top * 16 + left
-            if left < 16:
+            if (left < 16):
                 result[int(position)] += 'S'
         else:
             position = top * 16 + left
-            if left < 16:
+            if (left < 16):
                 result[int(position)] += 'N'
                 if top != 0:
                     result[int(position) - 16] += 'S'
@@ -153,13 +153,13 @@ def solver(gamejson):
         left = wall['left']
         top = top / 40
         left = (left + 4) / 40
-        if left >= 16:
+        if (left >= 16):
             left = left - 1
             position = top * 16 + left
-            if top < 16:
+            if (top < 16):
                 result[int(position)] += 'E'
         else:
-            if top < 16:
+            if (top < 16):
                 position = top * 16 + left
                 result[int(position)] += 'W'
                 if left != 0:
@@ -187,7 +187,7 @@ def solver(gamejson):
         grid1 = grid
         grid1[int(goaltop * 16 + goalleft)] = placeholder + token
         for x, space in enumerate(grid1):
-            if space == '':
+            if (space == ''):
                 grid1[x] = 'X'
         print('answers')
         print(grid1)
@@ -221,8 +221,8 @@ def solver(gamejson):
 
 
 if __name__ == "__main__":
-    numbersolutions = 0
-    while numbersolutions < 21:
+    numbersolutions = 1
+    while (numbersolutions < 21):
         numbersolutions = solver(boardgenerator())
 
 
