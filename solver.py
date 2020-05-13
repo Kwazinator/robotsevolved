@@ -112,7 +112,7 @@ for x, token in enumerate(tokenlist):
 
 newpaths = list()
 for x, path in enumerate(paths):
-    print(path[0])
+    print(path[0][0])
     if path[0] == 'G':
         paths[x][0] = 'B'
     elif path[0] == 'B':
