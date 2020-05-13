@@ -91,10 +91,6 @@ def boardgenerator(width=640,height=640,randomPercent=.9):
                 if (checkDeadendTop(wallVerticle, {'top': j, 'left': i}, wallHorizontal, width, height)):
                     wallHorizontal.append({'top': checkj - 4,'left': checki})
 
-    print(json.dumps(playerState, indent=4))
-    print(json.dumps(wallHorizontal, indent=4))
-    print(json.dumps(wallVerticle, indent=4))
-    print(json.dumps(goal, indent=4))
     return {
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,
@@ -189,11 +185,11 @@ def solver(gamejson):
         for x, space in enumerate(grid1):
             if (space == ''):
                 grid1[x] = 'X'
-        print('answers')
-        print(grid1)
-        print(robots)
-        print(colors)
-        print(token)
+        #print('answers')
+        #print(grid1)
+        #print(robots)
+        #print(colors)
+        #print(token)
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
     import json
@@ -217,7 +213,6 @@ def solver(gamejson):
     for x, num in enumerate(newpaths):
         solutionnumbers.append(len(num))
 
-    print(solutionnumbers)
     min = 90
     for number in solutionnumbers:
         if min >= number:
@@ -228,6 +223,7 @@ if __name__ == "__main__":
     numbersolutions = 1
     while (numbersolutions < 21):
         numbersolutions = solver(boardgenerator())
+        print(numbersolutions)
 
 
 
