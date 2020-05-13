@@ -114,12 +114,12 @@ newpaths = list()
 for x, path in enumerate(paths):
     print(path[0][0])
     if path[0][0] == 'G':
-        paths[x][0][0] = 'B'
+        newpaths.append('B' + path[0][1])
     elif path[0][0] == 'B':
-        paths[x][0][0] = 'R'
+        newpaths.append('R' + path[0][1])
     elif path[0][0] == 'R':
-        paths[x][0][0] = 'G'
+        newpaths.append('G' + path[0][1])
 
-print(paths)
+print(newpaths)
 
 
