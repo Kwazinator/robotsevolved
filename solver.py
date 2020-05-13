@@ -122,8 +122,10 @@ for x, path in enumerate(jsoning):
             newpaths.append('R' + pathy[1])
         elif pathy[0] == 'R':
             newpaths.append('G' + pathy[1])
+        else:
+            newpaths.append('Y' + pathy[1])
     newpaths.append('NEXT')
-    
+
 print(newpaths)
 
 
