@@ -12,7 +12,12 @@ game = row[7]
 gamejson = json.loads(game)
 
 playerstate = gamejson['playerState']
+wallsH = gamejson['wallHorizontal']
+wallsV = gamejson['wallVerticle']
+goal = gamejson['goal']
+
 print(playerstate)
+
 
 newplayerstate = list()
 for player in playerstate:
@@ -31,9 +36,6 @@ for player in playerstate:
         'position': int(position),
         'color': color
     })
-
-wallsH = gamejson['wallHorizontal']
-wallsV = gamejson['wallVerticle']
 
 
 result = ['' for x in range(256)]
@@ -85,7 +87,6 @@ for player in newplayerstate:
     robots.append(player['position'])
     colors.append(player['color'])
 
-goal = gamejson['goal']
 goaltop = goal['top']
 goalleft = goal['left']
 
@@ -126,6 +127,9 @@ for x, path in enumerate(jsoning):
             newpaths.append('Y' + pathy[1])
     newpaths.append('NEXT')
 
-print(newpaths)
+db = get_db()
+cursor = db.cursor()
+cursor.execute('INSERT into ')
+
 
 
