@@ -111,14 +111,14 @@ for x, token in enumerate(tokenlist):
 
 
 newpaths = list()
-for x, path in enumerate(paths):
-    print(path[0][0])
-    if path[0][0] == 'G':
-        newpaths.append('B' + path[0][1])
+for x, path in enumerate(paths[0]):
+    print(path[0])
+    if path[0] == 'G':
+        newpaths.append('B' + path[1])
     elif path[0][0] == 'B':
-        newpaths.append('R' + path[0][1])
+        newpaths.append('R' + path[1])
     elif path[0][0] == 'R':
-        newpaths.append('G' + path[0][1])
+        newpaths.append('G' + path[1])
 
 print(newpaths)
 
