@@ -6,7 +6,7 @@ from flaskr.db import get_db
 app = flaskr.create_app()
 with app.app_context():
     cursor = get_db().cursor()
-    row = cursor.execute('SELECT * from game where id=11').fetchone()
+    row = cursor.execute('SELECT * from game where id=12').fetchone()
 
 game = row[7]
 gamejson = json.loads(game)
@@ -109,8 +109,11 @@ for x, token in enumerate(tokenlist):
     print(token)
     paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
+
+newpaths = list()
 for x, path in enumerate(paths):
-    if paths[0] == 'G':
+    print(path[0])
+    if path[0] == 'G':
         paths[x][0] = 'B'
     elif path[0] == 'B':
         paths[x][0] = 'R'
