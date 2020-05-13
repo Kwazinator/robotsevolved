@@ -110,16 +110,18 @@ for x, token in enumerate(tokenlist):
     paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
 
-newpaths = list()
-for x, path in enumerate(paths[0]):
-    print(path[0])
-    if path[0] == 'G':
-        newpaths.append('B' + path[1])
-    elif path[0][0] == 'B':
-        newpaths.append('R' + path[1])
-    elif path[0][0] == 'R':
-        newpaths.append('G' + path[1])
+import json
 
-print(newpaths)
+jsoning = json.dumps(paths, indent=4)
+print(jsoning)
+newpaths = list()
+for x, path in enumerate(paths):
+    print(path[0][0])
+    if path[0][0] == 'G':
+        newpaths.append('B' + path[0][1])
+    elif path[0][0] == 'B':
+        newpaths.append('R' + path[0][1])
+    elif path[0][0] == 'R':
+        newpaths.append('G' + path[0][1])
 
 
