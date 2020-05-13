@@ -1,12 +1,12 @@
 import flaskr
-import model
-import ricochet
+#import model
+#import ricochet
 import json
 from flaskr.db import get_db
 app = flaskr.create_app()
 with app.app_context():
     cursor = get_db().cursor()
-    row = cursor.execute('SELECT * from game where id=13').fetchone()
+    row = cursor.execute('SELECT * from game where id=11').fetchone()
 
 game = row[7]
 gamejson = json.loads(game)
@@ -55,6 +55,8 @@ for wall in wallsH:
         position = top * 16 + left
         if left < 16:
             result[int(position)] += 'N'
+            if top != 0:
+                result[int(position) - 16] += 'S'
 
 for wall in wallsV:
     top = wall['top']
@@ -71,6 +73,9 @@ for wall in wallsV:
         if top < 16:
             position = top * 16 + left
             result[int(position)] += 'W'
+            if left != 0:
+                result[int(position) - 1] += 'E'
+
 
 grid = result
 tokenlist = ['BH','GH','RH','YH']
@@ -102,7 +107,7 @@ for x, token in enumerate(tokenlist):
     print(robots)
     print(colors)
     print(token)
-    paths.append(ricochet.search(model.Game(grid=gridlist[x], robots=robots, col=colors, token=token)))
+    #paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
 print(paths)
 
