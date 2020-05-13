@@ -213,17 +213,30 @@ def solver(gamejson):
     for x, num in enumerate(newpaths):
         solutionnumbers.append(len(num))
 
-    min = 90
+    minim = 90
     for number in solutionnumbers:
-        if min >= number:
-            min = number
-    return min
+        if minim >= number:
+            minim = number
+    return {
+        'playerState': playerstate,
+        'wallHorizontal': wallsH,
+        'wallVerticle': wallsV,
+        'goal': goal,
+        'moves': minim
+    }
+
 
 if __name__ == "__main__":
-    numbersolutions = 1
-    while (numbersolutions < 21):
-        numbersolutions = solver(boardgenerator())
-        print(numbersolutions)
+    moves = 1
+    solution = 0
+    while (moves < 21):
+        solution = solver(boardgenerator())
+        moves = solution['moves']
+        print(solution['moves'])
+
+    print(solution)
+
+
 
 
 
