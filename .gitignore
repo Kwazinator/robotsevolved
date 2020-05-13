@@ -26,3 +26,4 @@ Test.py
 SystemLogger/logs.txt
 
 credentials/
+instance/flaskr.sqlite
