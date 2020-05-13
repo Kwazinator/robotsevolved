@@ -112,16 +112,18 @@ for x, token in enumerate(tokenlist):
 
 import json
 
-jsoning = json.dumps(paths, indent=4)
-print(jsoning)
+jsoning = json.loads(json.dumps(paths, indent=4))
 newpaths = list()
-for x, path in enumerate(paths):
-    print(path[0][0])
-    if path[0][0] == 'G':
-        newpaths.append('B' + path[0][1])
-    elif path[0][0] == 'B':
-        newpaths.append('R' + path[0][1])
-    elif path[0][0] == 'R':
-        newpaths.append('G' + path[0][1])
+for x, path in enumerate(jsoning):
+    for y, pathy in enumerate(path):
+        if pathy[0] == 'G':
+            newpaths.append('B' + pathy[1])
+        elif pathy[0] == 'B':
+            newpaths.append('R' + pathy[1])
+        elif pathy[0] == 'R':
+            newpaths.append('G' + pathy[1])
+    newpaths.append('NEXT')
+    
+print(newpaths)
 
 
