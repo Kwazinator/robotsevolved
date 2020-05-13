@@ -1,6 +1,6 @@
 import flaskr
-#import model
-#import ricochet
+import model
+import ricochet
 import json
 from flaskr.db import get_db
 app = flaskr.create_app()
@@ -107,9 +107,16 @@ for x, token in enumerate(tokenlist):
     print(robots)
     print(colors)
     print(token)
-    #paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
+    paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
+
+for path in paths:
+    if path[0] == 'G':
+        path[0] = 'B'
+    elif path[0] == 'B':
+        path[0] = 'R'
+    elif path[0] == 'R':
+        path[0] = 'G'
 
 print(paths)
-
 
 
