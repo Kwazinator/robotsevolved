@@ -109,13 +109,13 @@ for x, token in enumerate(tokenlist):
     print(token)
     paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
-for path in paths:
-    if path[0] == 'G':
-        path[0] = 'B'
+for x, path in enumerate(paths):
+    if paths[0] == 'G':
+        paths[x][0] = 'B'
     elif path[0] == 'B':
-        path[0] = 'R'
+        paths[x][0] = 'R'
     elif path[0] == 'R':
-        path[0] = 'G'
+        paths[x][0] = 'G'
 
 print(paths)
 
