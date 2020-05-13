@@ -218,7 +218,11 @@ def solver(gamejson):
         solutionnumbers.append(len(num))
 
     print(solutionnumbers)
-
+    min = 90
+    for number in solutionnumbers:
+        if min >= number:
+            min = number
+    return min
 
 if __name__ == "__main__":
     numbersolutions = 1
