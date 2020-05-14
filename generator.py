@@ -6,6 +6,7 @@ import ricochet
 from flaskr.db import get_db
 import flaskr
 from flaskr.services.GameService import GameService
+import threading
 
 
 def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,height):
@@ -107,6 +108,10 @@ def boardgenerator(width=640,height=640,randomPercent=.9):
         'boardState': boardState
     }
 
+def runSearch(grid1,robots,colors,token,result):
+    result.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
+
+
 def solver(gamejson):
     playerstate = gamejson['playerState']
     wallsH = gamejson['wallHorizontal']
@@ -188,14 +193,27 @@ def solver(gamejson):
     placeholder = grid[int(goaltop * 16 + goalleft)]
     paths = list()
 
+    threadArray = [threading.Thread for x in range(4)]
     for x, token in enumerate(tokenlist):
         grid1 = grid
         grid1[int(goaltop * 16 + goalleft)] = placeholder + token
         for x, space in enumerate(grid1):
             if (space == ''):
                 grid1[x] = 'X'
-        paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
+        result = list()
+        threadArray[x] = threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result))
+        #paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
+
+    for thread in threadArray:
+        thread.start()
+    for thread in threadArray:
+        thread.join()
+    print(result)
+
+    '''
+    
+    '''
     import json
 
     jsoning = json.loads(json.dumps(paths, indent=4))
@@ -239,7 +257,7 @@ if __name__ == "__main__":
         while (True):
             solution = solver(boardgenerator())
             moves = solution['moves']
-            if (moves >= 19):
+            if (moves >= 28):
                 print(solution)
                 data = {
                     'robotSelected': 0,
