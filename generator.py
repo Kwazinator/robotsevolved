@@ -193,7 +193,7 @@ def solver(gamejson):
     placeholder = grid[int(goaltop * 16 + goalleft)]
     paths = list()
 
-    threadArray = list()
+    #threadArray = list()
     for x, token in enumerate(tokenlist):
         grid1 = grid
         grid1[int(goaltop * 16 + goalleft)] = placeholder + token
@@ -202,18 +202,15 @@ def solver(gamejson):
                 grid1[x] = 'X'
 
         result = list()
-        threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
-        #paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
+        #threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
+        paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
-    for thread in threadArray:
+    '''for thread in threadArray:
         thread.start()
     for thread in threadArray:
         thread.join()
     print(result)
-
-    '''
-    
-    '''
+'''
     import json
 
     jsoning = json.loads(json.dumps(paths, indent=4))
