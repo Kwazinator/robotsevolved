@@ -252,7 +252,7 @@ if __name__ == "__main__":
                     "gameWon": True,
                     'boardState': solution['boardState'],
                     'wallHorizontal': solution['wallHorizontal'],
-                    'wallVerticle': solution['wall'],
+                    'wallVerticle': solution['wallVerticle'],
                     'playerStart': solution['playerState']
                 }
                 newdata = json.dumps(data)
