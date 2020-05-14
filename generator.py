@@ -172,7 +172,7 @@ def solver(gamejson):
                     result[int(position) - 1] += 'E'
 
     grid = result
-    tokenlist = ['B', 'G', 'R', 'Y']
+    tokenlist = ['BH', 'GH', 'RH', 'YH']
     colors = list()
     robots = list()
     for player in newplayerstate:
@@ -190,12 +190,10 @@ def solver(gamejson):
 
     for x, token in enumerate(tokenlist):
         grid1 = grid
-        grid1[int(goaltop * 16 + goalleft)] = placeholder + 'BGRY'
-        #grid1[int(goaltop * 16 + goalleft)] = placeholder + token
+        grid1[int(goaltop * 16 + goalleft)] = placeholder + token
         for x, space in enumerate(grid1):
             if (space == ''):
                 grid1[x] = 'X'
-        print(token)
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
     import json
@@ -220,10 +218,8 @@ def solver(gamejson):
         solutionnumbers.append(len(num))
 
     minim = solutionnumbers[0]
-    print(solutionnumbers)
     for number in solutionnumbers:
         if minim >= number:
-            equals = False
             minim = number
     return {
         'playerState': playerstate,
