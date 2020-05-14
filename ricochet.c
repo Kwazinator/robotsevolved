@@ -145,7 +145,10 @@ void set_grow(Set *set) {
 }
 
 inline bool game_over(Game *game) {
-    if (game->robots[0] == game->token) {
+    if (game->robots[0] == game->token ||
+        game->robots[1] == game->token || 
+        game->robots[2] == game->token || 
+        game->robots[3] == game->token ) {
         return true;
     }
     else {
