@@ -253,7 +253,8 @@ if __name__ == "__main__":
                     'boardState': solution['boardState'],
                     'wallHorizontal': solution['wallHorizontal'],
                     'wallVerticle': solution['wallVerticle'],
-                    'playerStart': solution['playerState']
+                    'playerStart': solution['playerState'],
+                    'goal': solution['goal']
                 }
                 newdata = json.dumps(data)
                 name = 'TurkuTeirPuzzle'
