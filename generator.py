@@ -217,9 +217,11 @@ def solver(gamejson):
     for x, num in enumerate(newpaths):
         solutionnumbers.append(len(num))
 
-    minim = 90
+    minim = solutionnumbers[0]
+    print(solutionnumbers)
     for number in solutionnumbers:
         if minim >= number:
+            equals = False
             minim = number
     return {
         'playerState': playerstate,
