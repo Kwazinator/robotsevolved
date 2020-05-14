@@ -3,6 +3,10 @@ import math
 import json
 import model
 import ricochet
+from flaskr.db import get_db
+import flaskr
+from flaskr.services.GameService import GameService
+
 
 def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,height):
     indexX = WallVertToPlace['left']
@@ -68,6 +72,10 @@ def boardgenerator(width=640,height=640,randomPercent=.9):
 
     for j, item in enumerate(range(int(height/40))):
         for i, item in enumerate(range(int(width/40))):
+            boardState.append({'top': j*40,'left': i*40})
+
+    for j, item in enumerate(range(int(height/40))):
+        for i, item in enumerate(range(int(width/40))):
             checkj = j*40
             checki = i*40
             if (checki < 1):
@@ -95,8 +103,10 @@ def boardgenerator(width=640,height=640,randomPercent=.9):
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,
         'wallVerticle': wallVerticle,
-        'goal': goal
+        'goal': goal,
+        'boardState': boardState
     }
+
 def solver(gamejson):
     playerstate = gamejson['playerState']
     wallsH = gamejson['wallHorizontal']
@@ -229,12 +239,31 @@ def solver(gamejson):
 if __name__ == "__main__":
     moves = 1
     solution = 0
-    while (moves < 21):
+    while (True):
         solution = solver(boardgenerator())
         moves = solution['moves']
-        print(solution['moves'])
+        if (moves >= 19):
+            print(solution)
+            data = {
+                'robotSelected': 0,
+                'moveHistory': [],
+                'uri': '',
+                'createMode': 'No',
+                'highscores': [],
+                "ColoredLineDirections": [],
+                "playerState": solution['playerState'],
+                "gameWon": True,
+                'boardState': solution['boardState'],
+                'wallHorizontal': solution['wallHorizontal'],
+                'wallVerticle': solution['wall'],
+                'playerStart': solution['playerState']
+            }
+            newdata = json.dumps(data)
+            name = 'TurkuTeirPuzzle'
+            GameService().insert_game(name, 'type', 'description', 1, 'test', 1, newdata)
 
-    print(solution)
+
+
 
 
 

@@ -26,7 +26,7 @@ def init_db():
 
 def custom_code_db():
     db = get_db()
-    return db.execute('SELECT * from user')
+    return db.execute('SELECT * from game')
 
 def insert_db():
     db = get_db()
