@@ -172,7 +172,7 @@ def solver(gamejson):
                     result[int(position) - 1] += 'E'
 
     grid = result
-    tokenlist = ['BH', 'GH', 'RH', 'YH']
+    tokenlist = ['B', 'G', 'R', 'Y']
     colors = list()
     robots = list()
     for player in newplayerstate:
