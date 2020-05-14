@@ -127,9 +127,7 @@ for x, path in enumerate(jsoning):
             newpaths.append('Y' + pathy[1])
     newpaths.append('NEXT')
 
-db = get_db()
-cursor = db.cursor()
-cursor.execute('INSERT into ')
+print(newpaths)
 
 
 

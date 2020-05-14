@@ -226,7 +226,8 @@ def solver(gamejson):
         'wallHorizontal': wallsH,
         'wallVerticle': wallsV,
         'goal': goal,
-        'moves': minim
+        'moves': minim,
+        'boardState': gamejson['boardState']
     }
 
 
