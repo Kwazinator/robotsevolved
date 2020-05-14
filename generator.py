@@ -195,6 +195,7 @@ def solver(gamejson):
         for x, space in enumerate(grid1):
             if (space == ''):
                 grid1[x] = 'X'
+        print(token)
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
     import json
