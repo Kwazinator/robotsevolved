@@ -21,7 +21,7 @@ def get_games_data(numMoves,Offset):
 @bp.route('/')
 @jwt_optional
 def index():
-    get_games_data_value = get_games_data(30,0)
+    get_games_data_value = get_games_data(30,20)
     userID = get_jwt_identity()
     user = None
     loggedin = 'No'
