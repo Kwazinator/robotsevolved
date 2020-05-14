@@ -61,10 +61,10 @@ def boardgenerator(width=640,height=640,randomPercent=.9):
 
     for i, item in enumerate(range(5)):
         randomPositions.append(randomBoardPosition(randomPositions,width,height))
-    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue'})
-    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green'})
-    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red'})
-    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow'})
+    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
+    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
+    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
+    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00'})
     playerState.append(randompos1)
     playerState.append(randompos2)
     playerState.append(randompos3)
