@@ -185,7 +185,6 @@ def solver(gamejson):
     goaltop = goaltop / 40
     goalleft = goalleft / 40
 
-    gridlist = list()
     placeholder = grid[int(goaltop * 16 + goalleft)]
     paths = list()
 
@@ -195,11 +194,6 @@ def solver(gamejson):
         for x, space in enumerate(grid1):
             if (space == ''):
                 grid1[x] = 'X'
-        #print('answers')
-        #print(grid1)
-        #print(robots)
-        #print(colors)
-        #print(token)
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
     import json
@@ -237,30 +231,32 @@ def solver(gamejson):
 
 
 if __name__ == "__main__":
-    moves = 1
-    solution = 0
-    while (True):
-        solution = solver(boardgenerator())
-        moves = solution['moves']
-        if (moves >= 19):
-            print(solution)
-            data = {
-                'robotSelected': 0,
-                'moveHistory': [],
-                'uri': '',
-                'createMode': 'No',
-                'highscores': [],
-                "ColoredLineDirections": [],
-                "playerState": solution['playerState'],
-                "gameWon": True,
-                'boardState': solution['boardState'],
-                'wallHorizontal': solution['wallHorizontal'],
-                'wallVerticle': solution['wall'],
-                'playerStart': solution['playerState']
-            }
-            newdata = json.dumps(data)
-            name = 'TurkuTeirPuzzle'
-            GameService().insert_game(name, 'type', 'description', 1, 'test', 1, newdata)
+    app = flaskr.create_app()
+    with app.app_context():
+        moves = 1
+        solution = 0
+        while (True):
+            solution = solver(boardgenerator())
+            moves = solution['moves']
+            if (moves >= 19):
+                print(solution)
+                data = {
+                    'robotSelected': 0,
+                    'moveHistory': [],
+                    'uri': '',
+                    'createMode': 'No',
+                    'highscores': [],
+                    "ColoredLineDirections": [],
+                    "playerState": solution['playerState'],
+                    "gameWon": True,
+                    'boardState': solution['boardState'],
+                    'wallHorizontal': solution['wallHorizontal'],
+                    'wallVerticle': solution['wall'],
+                    'playerStart': solution['playerState']
+                }
+                newdata = json.dumps(data)
+                name = 'TurkuTeirPuzzle'
+                GameService().insert_game(name, 'type', 'description', 1, 'test', 1, newdata)
 
 
 
