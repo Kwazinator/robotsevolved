@@ -190,7 +190,7 @@ def solver(gamejson):
 
     for x, token in enumerate(tokenlist):
         grid1 = grid
-        grid1[int(goaltop * 16 + goalleft)] = 'BGRY'
+        grid1[int(goaltop * 16 + goalleft)] = placeholder + 'BGRY'
         #grid1[int(goaltop * 16 + goalleft)] = placeholder + token
         for x, space in enumerate(grid1):
             if (space == ''):
