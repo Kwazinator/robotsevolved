@@ -5,11 +5,20 @@ class CreateGame extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            settingsWidth: 16,
+            settingsHeight: 16,
+            settingsPercent: .9,
+        }
     }
 
     render () {
         return (
-            <Game loadedGame='No'/>
+            <Game loadedGame='No'
+                  settingsWidth={this.state.settingsWidth}
+                  settingsHeight={this.state.settingsHeight}
+                  settingsPercent={this.state.settingsPercent}
+            />
         )
     }
 

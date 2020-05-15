@@ -1,5 +1,6 @@
 import React from 'react';
 import ResetButton from "../components/ResetButton";
+import BoardResetPanel from '../components/BoardResetPanel';
 
 const controlpanel = () => {
     return {
@@ -16,6 +17,21 @@ class DisplayView extends React.Component {
         super(props);
     }
 
+    isCreateMode = (createMode) => {
+        if (createMode == 'Yes') {
+            return (
+                <BoardResetPanel
+                    createBoard={this.props.createBoard}
+                    width={this.props.width}
+                    height={this.props.height}
+                    percent={this.props.percent}
+                />);
+        }
+        else {
+            return null
+        }
+    }
+
     render() {
         return (
             <div style={controlpanel()}>
@@ -25,6 +41,7 @@ class DisplayView extends React.Component {
                 <ResetButton
                     resetPuzzle={this.props.resetPuzzle}
                 />
+                {this.isCreateMode(this.props.createMode)}
             </div>
         )
     }

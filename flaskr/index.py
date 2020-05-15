@@ -21,7 +21,7 @@ def get_games_data(numMoves,Offset):
 @bp.route('/')
 @jwt_optional
 def index():
-    get_games_data_value = get_games_data(30,20)
+    get_games_data_value = get_games_data(30,112)
     userID = get_jwt_identity()
     user = None
     loggedin = 'No'
@@ -40,7 +40,7 @@ def about():
 def play(uri):
     data = json.dumps(GameService().get_game_uri(uri))
     highscores = json.dumps(GameService().get_highscores(uri))
-    get_games_data_value = get_games_data(30,20)
+    get_games_data_value = get_games_data(30,112)
     userID = get_jwt_identity()
     user = None
     loggedin = 'No'
@@ -93,7 +93,7 @@ def search():
     #
     #Could modify method get_games_data to also take a search term and run a new query, OR create a new method that uses
     #a search term like get_games_search_term(numGames,offset,searchterm)
-    get_games_data_value = get_games_data(30,20)
+    get_games_data_value = get_games_data(30,112)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 

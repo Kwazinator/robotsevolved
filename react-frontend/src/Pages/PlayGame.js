@@ -9,7 +9,11 @@ class PlayGame extends React.Component {
 
     render () {
         return (
-            <Game loadedGame={'Yes'} gamedata={this.props.gamedata} highscores={this.props.highscores} uri={this.props.uri}/>
+            <Game loadedGame={'Yes'}
+                  gamedata={this.props.gamedata}
+                  highscores={this.props.highscores}
+                  uri={this.props.uri}
+             />
         )
     }
 

@@ -60,7 +60,7 @@ class Game extends React.Component {
             this.state.ColoredLineDirections = [];
         }
         else {
-            var board = BoardGenerator(MAX_WIDTH,MAX_HEIGHT,.90);
+            var board = BoardGenerator(this.props.settingsWidth * 40,this.props.settingsHeight * 40,.90);
             this.state = extend({
                 robotSelected: 0,
                 moveHistory: [],
@@ -68,6 +68,9 @@ class Game extends React.Component {
                 createMode: 'Yes',
                 highscores: [],
                 ColoredLineDirections: [],
+                width: this.props.settingsWidth,
+                height: this.props.settingsHeight,
+                percentWall: this.props.settingsPercent,
             },board);
         }
     }
@@ -166,6 +169,18 @@ class Game extends React.Component {
         }
     };
 
+    createBoard = (width,height,percent) => {
+        console.log(width);
+        console.log(height);
+        console.log(percent)
+        var board = BoardGenerator(width*40,height*40,percent);
+           this.setState(extend({
+                width: width,
+                height: height,
+                percent: percent,
+           },board));
+    }
+
 
     handleCollision = (dirObj,robotSelected,color) => {
         var newPosition;
@@ -190,7 +205,7 @@ class Game extends React.Component {
                 newPosition = {top: minimumWall, left: robotX, color: color};
                 break;
             case RIGHT:
-                var minimumWall = MAX_WIDTH - 40;
+                var minimumWall = (this.state.width * 40) - 40;
                 this.state.wallVerticle.map(wall => {
                     if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall) {
                         minimumWall = wall.left - 36;
@@ -223,7 +238,7 @@ class Game extends React.Component {
                 newPosition = {top: robotY, left:minimumWall, color: color};
                 break;
             case DOWN:
-                var minimumWall = MAX_HEIGHT - 40;
+                var minimumWall = (this.state.width * 40) - 40;
                 this.state.wallHorizontal.map(wall =>
                 {
                     if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall)
@@ -304,8 +319,13 @@ class Game extends React.Component {
             <DisplayView
                 uri={this.state.uri}
                 resetPuzzle={this.resetPuzzle}
+                createBoard={this.createBoard}
+                width={this.state.width}
+                height={this.state.height}
+                percent={this.state.percent}
+                createMode={this.state.createMode}
             />
-            <Board width={MAX_WIDTH} height={MAX_HEIGHT}>
+            <Board width={this.state.width * 40} height={this.state.height * 40}>
                 {
                     this.state.boardState.map(square =>
                         <Square dimension={40}
@@ -363,8 +383,8 @@ class Game extends React.Component {
 
                 }
                 <GameWonOverlay
-                    width={MAX_WIDTH}
-                    height={MAX_HEIGHT}
+                    width={this.state.width * 40}
+                    height={this.state.height * 40}
                     visible={this.state.gameWon}
                 >
                     <GameWonDisplayView

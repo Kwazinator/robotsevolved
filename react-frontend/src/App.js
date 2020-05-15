@@ -52,8 +52,9 @@ class App extends React.Component {
 
     handleClickCreateGame = event => {
         event.preventDefault();
+        var newGame = <CreateGame state={"new"}/>; //KNOWN bug where if you create a game you have to refresh the page to cause a re-render of <CreateGame/>
         this.setState({
-            PageSelected: <CreateGame/>, //if selected page is already CreateGame it wont refresh known problem
+            PageSelected: newGame, //if selected page is already CreateGame it wont refresh known problem
         });
     }
 
