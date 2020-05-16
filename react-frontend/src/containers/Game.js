@@ -238,7 +238,7 @@ class Game extends React.Component {
                 newPosition = {top: robotY, left:minimumWall, color: color};
                 break;
             case DOWN:
-                var minimumWall = (this.state.width * 40) - 40;
+                var minimumWall = (this.state.height * 40) - 40;
                 this.state.wallHorizontal.map(wall =>
                 {
                     if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall)
