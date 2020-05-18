@@ -56,7 +56,7 @@ def submitpuzzle():
         uri = GameService().insert_game(data['name'], 'type', 'description', 1, 'test', 1,json.dumps(data['puzzledata']))
         return jsonify(uri=uri)
     else:
-        return jsonify(uri='thisdidnotworkforsomereason')
+        return jsonify(uri='GameAlreadyExists')
 
 @bp.route('/updatehighscores', methods=('GET','POST'))
 def updatehighscores():
