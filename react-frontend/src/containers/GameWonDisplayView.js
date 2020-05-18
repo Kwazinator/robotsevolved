@@ -4,7 +4,6 @@ import HighScores from '../components/HighScores';
 
 const controlpanel = () => {
     return {
-        marginRight: '10px',
         float: 'center',
         width: '15%',
         opacity: 1,

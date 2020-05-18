@@ -2,9 +2,7 @@ import React from "react";
 
 const buttonpanel = () => {
     return {
-        marginRight: '5px',
-        marginTop: '15px',
-        marginBottom: '15px',
+        marginRight: '10px'
     };
 };
 

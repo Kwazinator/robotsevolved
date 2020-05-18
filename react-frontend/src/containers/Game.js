@@ -34,6 +34,7 @@ import {
     LINE_INDICATOR_COLOR
 } from '../constants/constants';
 import BoardGenerator from '../components/boardgenerator';
+import BoardResetModal from "./Modals/BoardResetModal";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -45,7 +46,23 @@ window.addEventListener("keydown", function(e) {
 const gamepanel = () => {
     return {
         width: '100%',
+        display: 'inline-block'
     };
+};
+
+const leftDisplayPanel = () => {
+    return {
+        width: '15%',
+        display: 'inline-block',
+        float: 'left'
+    }
+};
+
+const rightDisplayPanel = () => {
+    return {
+        display: 'grid',
+        marginTop: '15px'
+    }
 };
 
 class Game extends React.Component {
@@ -58,6 +75,7 @@ class Game extends React.Component {
             this.state.uri = this.props.uri;
             this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
+            this.state.showBoardResetPanelModal = false;
         }
         else {
             var board = BoardGenerator(this.props.settingsWidth * 40,this.props.settingsHeight * 40,.90);
@@ -67,6 +85,7 @@ class Game extends React.Component {
                 uri: '',
                 createMode: 'Yes',
                 highscores: [],
+                showBoardResetPanelModal: false,
                 ColoredLineDirections: [],
                 width: this.props.settingsWidth,
                 height: this.props.settingsHeight,
@@ -92,13 +111,13 @@ class Game extends React.Component {
                 IntervalId: IntervalId,
             });
         }
-    }
+    };
 
     componentWillUnmount = () => {
         if (this.props.loadedGame === 'Yes') {
             clearInterval(this.state.IntervalId);
         }
-    }
+    };
 
 
 
@@ -169,10 +188,25 @@ class Game extends React.Component {
         }
     };
 
+    createBoardPressed = (type) => {
+        if (type === 'Create Board') {
+            this.setState({
+                showBoardResetPanelModal: true
+            });
+        }
+    };
+
+    closeCreateBoardModal = event => {
+        event.preventDefault();
+        this.setState({
+            showBoardResetPanelModal: false
+        });
+    };
+
     createBoard = (width,height,percent) => {
         console.log(width);
         console.log(height);
-        console.log(percent)
+        console.log(percent);
         var board = BoardGenerator(width*40,height*40,percent);
            this.setState(extend({
                 width: width,
@@ -316,15 +350,20 @@ class Game extends React.Component {
     render() {
         return (
         <div id={'GameMain'} style={gamepanel()}>
-            <DisplayView
-                uri={this.state.uri}
-                resetPuzzle={this.resetPuzzle}
-                createBoard={this.createBoard}
-                width={this.state.width}
-                height={this.state.height}
-                percent={this.state.percent}
-                createMode={this.state.createMode}
-            />
+
+            <div style={leftDisplayPanel()}>
+                <DisplayView
+                    uri={this.state.uri}
+                    resetPuzzle={this.resetPuzzle}
+                    createBoard={this.createBoard}
+                    width={this.state.width}
+                    height={this.state.height}
+                    percent={this.state.percent}
+                    createMode={this.state.createMode}
+                    createBoardPressed={this.createBoardPressed}
+                />
+                <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
+            </div>
             <Board width={this.state.width * 40} height={this.state.height * 40}>
                 {
                     this.state.boardState.map(square =>
@@ -395,9 +434,18 @@ class Game extends React.Component {
                     />
                 </GameWonOverlay>
             </Board>
-            <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
-            <HighScores highscores={this.state.highscores}/>
-            <ToggleSettings onClick={this.toggleLineIndicators}/>
+            <div style={rightDisplayPanel()}>
+                <ToggleSettings onClick={this.toggleLineIndicators}/>
+                <HighScores highscores={this.state.highscores}/>
+            </div>
+            <BoardResetModal
+                createBoard={this.createBoard}
+                width={this.state.width}
+                height={this.state.height}
+                percent={this.state.percent}
+                closeModal={this.closeCreateBoardModal}
+                show={this.state.showBoardResetPanelModal}
+            />
         </div>
         );
     }
