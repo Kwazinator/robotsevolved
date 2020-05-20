@@ -2,6 +2,8 @@ import React from 'react';
 import Game from '../containers/Game';
 import GameListItemView from '../components/GameListItemView';
 import SearchBarFindGame from '../components/SearchBarFindGame';
+import FindGameElements from '../containers/FindGameElements'
+import Grid from '@material-ui/core/Grid';
 
 import axios from 'axios';
 
@@ -37,17 +39,20 @@ class FindGame extends React.Component {
     render () {
         return (
             <div id={'GameMain'}>
-                <SearchBarFindGame submitSearch={this.handleSearchSubmit}/>
-                {
-                    this.state.gameslist.map((game,index)=>
-                        <GameListItemView handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]} highscore={this.state.highscoreslist[index][0]}/>
-                    )
-                }
+                <Grid item xs={12}>
+                    <Grid container justify="center" spacing={2}>
+                        {
+                            this.state.gameslist.map((game,index)=>
+                                <FindGameElements handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]} highscore={this.state.highscoreslist[index][0]}/>
+                            )
+                        }
+                    </Grid>
+                </Grid>
             </div>
         )
     }
 
 
 }
-
+//<SearchBarFindGame submitSearch={this.handleSearchSubmit}/>
 export default FindGame;
