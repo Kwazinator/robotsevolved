@@ -119,6 +119,10 @@ def create_app(test_config=None):
         if 'AJAX' in request.headers:
             current_app.logger.warning('AJAX called in invalid')
             return jsonify(redirect=url_for('index.index')), 200
+        session.clear()
+        response = redirect(url_for('index.index'))
+        unset_refresh_cookies(response)
+        unset_jwt_cookies(response)
         return redirect(url_for('index.index'), 302)
 
     @jwt_manager.unauthorized_loader
@@ -133,6 +137,10 @@ def create_app(test_config=None):
         if 'AJAX' in request.headers:
             current_app.logger.warning('AJAX called in unauthorized')
             return jsonify(redirect=url_for('index.index')), 200
+        session.clear()
+        response = redirect(url_for('index.index'))
+        unset_refresh_cookies(response)
+        unset_jwt_cookies(response)
         return redirect(url_for('index.index'), 302)
 
     return app
