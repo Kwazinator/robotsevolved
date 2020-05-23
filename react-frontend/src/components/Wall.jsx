@@ -1,22 +1,29 @@
 import React from 'react';
 
 const style = ({orientation,dimension,position}) => {
+    const wallThickness = (dimension/4) + 'px';
+
+
     if (orientation=='horizontal') {
         var width = dimension + 'px';
-        var height = '8px';
+        var height = wallThickness;
+        var top = ((position.top * dimension) - 4) + 'px';
+        var left = position.left * dimension + 'px';
     }
     else {
-        var width = '8px';
+        var width = wallThickness;
         var height = dimension + 'px'
+        var top = position.top * dimension + 'px';
+        var left = ((position.left * dimension) - 4) + 'px';
     }
     return {
         width: width,
         height: height,
         backgroundColor: 'black',
         position: 'absolute',
-        top: position.top + 'px',
-        left: position.left + 'px',
-        transition: 'all 0.1s ease'
+        top: top,
+        left: left,
+        transition: 'all 0.1s ease',
     };
 };
 

@@ -16,12 +16,12 @@ const checkDeadendHorizontal = (wallHorizontalList,WallVertToPlace,LastWall,widt
     var indexY = WallVertToPlace.top;
     var isWallAbove = false;
     wallHorizontalList.map(wall => {
-        if (wall.top == indexY-4 && wall.left == indexX-40) {
+        if (wall.top == indexY && wall.left == indexX-1) {
             isWallAbove = true;
         }
     });
     //var isWallAbove = (wallHorizontalList.find(wall => wall = {top: indexY-4, left: indexX -40}) !== undefined);
-    var isWallBeside = (LastWall.top == indexY && LastWall.left == (indexX-44));
+    var isWallBeside = (LastWall.top == indexY && LastWall.left == (indexX-1));
     /*if ((isWallAbove && isWallBeside)) {
         console.log(wallHorizontalList);
         console.log(WallVertToPlace);
@@ -40,25 +40,20 @@ const checkDeadendTop = (wallVerticleList, WallHorizToPlace,wallHorizList,width,
     var indexY = WallHorizToPlace.top;
     var isWallAbove = false;
     wallHorizList.map(wall => {
-        if (wall.top == indexY-44 && wall.left == indexX) {
+        if (wall.top == indexY-1 && wall.left == indexX) {
             isWallAbove = true;
         }
     });
     var isWallBesideLeft = false;
     var isWallBesideRight = false;
     wallVerticleList.map(wall => {
-        if (wall.top == indexY-40 && (wall.left == indexX-4)) {
+        if (wall.top == indexY-1 && (wall.left == indexX)) {
             isWallBesideLeft = true;
         }
-        if (wall.top == indexY-40 && (wall.left == indexX+36)) {
+        if (wall.top == indexY-1 && (wall.left == indexX+1)) {
             isWallBesideRight = true;
         }
     });
-    /*if ((isWallAbove && (isWallBesideLeft || isWallBesideRight) || (isWallBesideLeft && isWallBesideRight)) ) {
-        console.log('wall above');
-        console.log({top: indexY-44, left: indexX})
-        console.log(WallHorizToPlace)
-    }*/
     return !((isWallAbove && (isWallBesideLeft || isWallBesideRight)) || (isWallBesideLeft && isWallBesideRight))
 }
 
@@ -68,15 +63,15 @@ const randomBoardPosition = (dontPlacePositions,width,height) => {
     var Y,X;
     do {
         tryAgain = 0;
-        Y = Math.floor(Math.random() * Math.floor(height/40));
-        X = Math.floor(Math.random() * Math.floor(width/40));
+        Y = Math.floor(Math.random() * Math.floor(height));
+        X = Math.floor(Math.random() * Math.floor(width));
         dontPlacePositions.map(position => {
-            if (Y*40 == position.top && X*40 == position.left) {
+            if (Y == position.top && X == position.left) {
                 tryAgain = 1;
             }
         });
     } while (tryAgain == 1);
-    return {top: Y*40,left: X*40};
+    return {top: Y,left: X};
 };
 
 export default (width,height,randomPercent) => {
@@ -84,7 +79,7 @@ export default (width,height,randomPercent) => {
     var wallVerticle = [{top: 0, left: -4}];
     var wallHorizontal = [];
     var playerState = [];
-    var goal = {top:Math.floor(Math.random() * Math.floor(height/40))*40, left:Math.floor(Math.random() * Math.floor(width/40))*40};
+    var goal = {top:Math.floor(Math.random() * Math.floor(height)), left:Math.floor(Math.random() * Math.floor(width))};
     var randomPositions = [goal];
     for (var i=0;i<5;i++) {
         randomPositions.push(randomBoardPosition(randomPositions,width,height));
@@ -97,42 +92,41 @@ export default (width,height,randomPercent) => {
     playerState.push(randompos2);
     playerState.push(randompos3);
     playerState.push(randompos4);
-    for (var i=0;i<width;i+=40) {
-        for (var j=0;j<height;j+=40) {
+    for (var i=0;i<width;i+=1) {
+        for (var j=0;j<height;j+=1) {
             boardState.push({top: j,left: i});
         }
     }
-    for (var j=0;j<height;j+=40) {
-        for (var i=0;i<width;i+=40) {
+    for (var j=0;j<height;j+=1) {
+        for (var i=0;i<width;i+=1) {
             if (i < 1) {
-                wallVerticle.push({top: j, left: i-4});
+                wallVerticle.push({top: j, left: i});
             }
-            else if (i==(width-40)) {
-                wallVerticle.push({top: j, left: i+36});
+            else if (i==(width-1)) {
+                wallVerticle.push({top: j, left: i+1});
             }
             if (j < 1) {
-                wallHorizontal.push({top: j-4,left: i});
+                wallHorizontal.push({top: j,left: i});
             }
-            else if (j == (height-40)) {
-                wallHorizontal.push({top: j+36, left: i});
+            else if (j == (height-1)) {
+                wallHorizontal.push({top: j+1, left: i});
             }
         }
     }
-    for (var j=0;j<height;j+=40) {
-        for (var i=0;i<width;i+=40) {
-            if (i > 1 && i != (width-40) && Math.random() > randomPercent) {
+    for (var j=0;j<height;j+=1) {
+        for (var i=0;i<width;i+=1) {
+            if (i > 1 && i != (width-1) && Math.random() > randomPercent) {
                 if (checkDeadendHorizontal(wallHorizontal, {top: j, left: i}, wallVerticle[wallVerticle.length -1], width,height)) {
-                    wallVerticle.push({top: j,left: i-4});
+                    wallVerticle.push({top: j,left: i});
                 }
             }
-            if (j > 1 && j != (height-40) && Math.random() > randomPercent) {
+            if (j > 1 && j != (height-1) && Math.random() > randomPercent) {
                 if (checkDeadendTop(wallVerticle,{top: j,left:i}, wallHorizontal,width,height)) {
-                    wallHorizontal.push({top: j-4,left: i});
+                    wallHorizontal.push({top: j,left: i});
                 }
             }
         }
     }
-
     return {
         playerState: playerState,
         gameWon: false,

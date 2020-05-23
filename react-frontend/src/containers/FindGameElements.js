@@ -1,30 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    margin: 'auto',
-    Width: 500,
-  },
-  image: {
-    width: 128,
-    height: 128,
-  },
-  img: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-  },
-}));
+import useStyles from '../Material-UI/themes';
 
 const handleClick = (callback,puzzledata,highscores,uri) => {
     callback(puzzledata,highscores,uri);
@@ -34,21 +13,20 @@ const handleClick = (callback,puzzledata,highscores,uri) => {
 
 
 export default function ComplexGrid(props) {
-  const classes = useStyles();
-  console.log(props);
-  if (typeof props.highscore !== 'undefined') {
-    var highscore = props.highscore.numMoves;
-    var highscoreauthor = props.highscore.comment;
-  }
-  else {
-    var highscore = 'None'
-    var highscoreauthor = ''
-  }
-  const handleClick = () => {
-    props.handleGameClick(props.game.puzzledata,props.highscores,props.game.uri);
-  }
+    const classes = useStyles();
+    if (typeof props.highscore !== 'undefined') {
+        var highscore = props.highscore.numMoves;
+        var highscoreauthor = props.highscore.comment;
+    }
+    else {
+        var highscore = 'None'
+        var highscoreauthor = ''
+    }
+    const handleClick = () => {
+        props.handleGameClick(props.game.puzzledata,props.highscores,props.game.uri);
+    }
 
-  return (
+    return (
     <Grid onClick={handleClick} style={{ cursor: 'pointer' }} item>
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
@@ -88,5 +66,5 @@ export default function ComplexGrid(props) {
         </Grid>
       </Paper>
     </Grid>
-  );
+    );
 }

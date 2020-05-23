@@ -7,8 +7,8 @@ const styleoutside = ({dimension,position}) => {
         width: dim,
         height: dim,
         position: 'absolute',
-        top: position.top + 'px',
-        left: position.left + 'px',
+        top: position.top * dimension + 'px',
+        left: position.left * dimension + 'px',
         transition: 'all 0.1s ease'
     };
 };
@@ -26,7 +26,7 @@ const styleinside = ({dimension}) => {
 };
 
 const styleinside2 = ({dimension,color,index,selected}) => {
-    const dim = (dimension-4)-8 + 'px';
+    const dim = (dimension-4)-(dimension/4) + 'px';
     var selectedColor = undefined;
     var borderStyle = "none";
     if (index === selected) {

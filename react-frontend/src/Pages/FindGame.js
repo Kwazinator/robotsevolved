@@ -4,7 +4,6 @@ import GameListItemView from '../components/GameListItemView';
 import SearchBarFindGame from '../components/SearchBarFindGame';
 import FindGameElements from '../containers/FindGameElements'
 import Grid from '@material-ui/core/Grid';
-
 import axios from 'axios';
 
 class FindGame extends React.Component {

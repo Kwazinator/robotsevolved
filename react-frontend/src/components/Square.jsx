@@ -9,8 +9,8 @@ const styleoutside = ({dimension,position}) => {
         height: dim,
         backgroundColor: SQUARE_OUTSIDE_COLOR,
         position: 'absolute',
-        top: position.top + 'px',
-        left: position.left + 'px',
+        top: position.top * dimension + 'px',
+        left: position.left * dimension + 'px',
         transition: 'all 0.1s ease'
     };
 };

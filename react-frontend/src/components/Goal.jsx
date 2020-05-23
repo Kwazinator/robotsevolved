@@ -8,8 +8,8 @@ const style = ({dimension,position}) => {
         width: dim,
         height: dim,
         position: 'absolute',
-        top: position.top + 'px',
-        left: position.left + 'px',
+        top: position.top * dimension + 'px',
+        left: position.left * dimension + 'px',
         transition: 'all 0.1s ease'
     };
 };

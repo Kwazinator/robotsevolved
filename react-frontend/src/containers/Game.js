@@ -76,9 +76,12 @@ class Game extends React.Component {
             this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
+            this.state.squareSize = 40;
+            this.state.copiedToClipboard = false;
         }
         else {
-            var board = BoardGenerator(this.props.settingsWidth * 40,this.props.settingsHeight * 40,.90);
+            var squareSize = 40;
+            var board = BoardGenerator(this.props.settingsWidth,this.props.settingsHeight,.90);
             this.state = extend({
                 robotSelected: 0,
                 moveHistory: [],
@@ -90,6 +93,8 @@ class Game extends React.Component {
                 width: this.props.settingsWidth,
                 height: this.props.settingsHeight,
                 percentWall: this.props.settingsPercent,
+                squareSize: squareSize,
+                copiedToClipboard: false
             },board);
         }
     }
@@ -103,6 +108,18 @@ class Game extends React.Component {
             });
     }
 
+    DimensionChanged = (dimension) => {
+        this.setState({
+            squareSize: dimension * 4
+        });
+    }
+
+    copiedClipboard = () => {
+        this.setState({
+            copiedToClipboard: true,
+        });
+
+    }
 
     componentDidMount = () => {
         if (this.props.loadedGame === 'Yes') {
@@ -207,7 +224,7 @@ class Game extends React.Component {
         console.log(width);
         console.log(height);
         console.log(percent);
-        var board = BoardGenerator(width*40,height*40,percent);
+        var board = BoardGenerator(width*this.state.squareSize,height*this.state.squareSize,percent);
            this.setState(extend({
                 width: width,
                 height: height,
@@ -220,18 +237,20 @@ class Game extends React.Component {
         var newPosition;
         var robotX = this.state.playerState[robotSelected].left;
         var robotY = this.state.playerState[robotSelected].top;
+        console.log(robotX);
+        console.log(robotY);
         switch(dirObj.dir) {
             case UP:
                 var minimumWall = 0;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left === robotX && wall.top < robotY && wall.top > minimumWall) {
-                        minimumWall = wall.top + 4;
+                    if (wall.left === robotX && wall.top <= robotY && wall.top > minimumWall) {
+                        minimumWall = wall.top;
                     }
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.left === robotX && checkRobot.top < robotY && checkRobot.top > minimumWall - 4) {
-                        minimumWall = checkRobot.top + 40;
+                    if (checkRobot.left === robotX && checkRobot.top < robotY && checkRobot.top + 1 > minimumWall) {
+                        minimumWall = checkRobot.top + 1;
                     }
 
                 });
@@ -239,16 +258,16 @@ class Game extends React.Component {
                 newPosition = {top: minimumWall, left: robotX, color: color};
                 break;
             case RIGHT:
-                var minimumWall = (this.state.width * 40) - 40;
+                var minimumWall = this.state.width - 1;
                 this.state.wallVerticle.map(wall => {
                     if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall) {
-                        minimumWall = wall.left - 36;
+                        minimumWall = wall.left - 1;
 
                     }
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.top === robotY && checkRobot.left > robotX && checkRobot.left < minimumWall + 36) {
-                        minimumWall = checkRobot.left - 40;
+                    if (checkRobot.top === robotY && checkRobot.left > robotX && checkRobot.left < minimumWall + 1) {
+                        minimumWall = checkRobot.left - 1;
                     }
 
                 });
@@ -257,31 +276,28 @@ class Game extends React.Component {
             case LEFT:
                 var minimumWall = 0;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top === robotY && wall.left < robotX && wall.left > minimumWall) {
-                        minimumWall = wall.left + 4;
-
+                    if (wall.top === robotY && wall.left <= robotX && wall.left > minimumWall) {
+                        minimumWall = wall.left;
                     }
-
-
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.top === robotY && checkRobot.left < robotX && checkRobot.left > minimumWall - 4) {
-                        minimumWall = checkRobot.left + 40;
+                    if (checkRobot.top === robotY && checkRobot.left < robotX && checkRobot.left + 1 > minimumWall) {
+                        minimumWall = checkRobot.left + 1;
                     }
                 });
                 newPosition = {top: robotY, left:minimumWall, color: color};
                 break;
             case DOWN:
-                var minimumWall = (this.state.height * 40) - 40;
+                var minimumWall = this.state.height - 1;
                 this.state.wallHorizontal.map(wall =>
                 {
                     if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall)
-                        minimumWall = wall.top - 36;
+                        minimumWall = wall.top - 1;
 
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.left === robotX && checkRobot.top > robotY && checkRobot.top < minimumWall + 36) {
-                        minimumWall = checkRobot.top - 40;
+                    if (checkRobot.left === robotX && checkRobot.top > robotY && checkRobot.top < minimumWall + 1) {
+                        minimumWall = checkRobot.top - 1;
                     }
                 });
                 newPosition = {top: minimumWall, left: robotX, color: color};
@@ -335,13 +351,13 @@ class Game extends React.Component {
         var newDirection;
         var robot = this.state.playerState[this.state.robotSelected];
         if (posObj.top === robot.top && posObj.left < robot.left)
-            newDirection = { top: 0, left: -40, dir: LEFT};
+            newDirection = { top: 0, left: -(this.state.squareSize), dir: LEFT};
         else if (posObj.top === robot.top && posObj.left > robot.left)
-            newDirection = { top: 0, left: 40, dir: RIGHT};
+            newDirection = { top: 0, left: this.state.squareSize, dir: RIGHT};
         else if (posObj.top < robot.top && posObj.left === robot.left)
-            newDirection = { top: -40, left: 0, dir: UP};
+            newDirection = { top: -(this.state.squareSize), left: 0, dir: UP};
         else if (posObj.top > robot.top && posObj.left === robot.left)
-            newDirection = { top: 40, left: 0, dir: DOWN};
+            newDirection = { top: this.state.squareSize, left: 0, dir: DOWN};
         else newDirection = { top: 0, left: 0, dir: undefined};
         this.handlePlayerMovement(newDirection)
     };
@@ -355,25 +371,29 @@ class Game extends React.Component {
                 <DisplayView
                     uri={this.state.uri}
                     resetPuzzle={this.resetPuzzle}
+                    resetPuzzle={this.resetPuzzle}
                     createBoard={this.createBoard}
                     width={this.state.width}
                     height={this.state.height}
                     percent={this.state.percent}
                     createMode={this.state.createMode}
                     createBoardPressed={this.createBoardPressed}
+                    DimensionChanged={this.DimensionChanged}
+                    copiedClipboard = {this.copiedClipboard}
+                    copiedToClipboard = {this.copiedToClipboard}
                 />
                 <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
             </div>
-            <Board width={this.state.width * 40} height={this.state.height * 40}>
+            <Board width={this.state.width * this.state.squareSize} height={this.state.height * this.state.squareSize}>
                 {
                     this.state.boardState.map(square =>
-                        <Square dimension={40}
+                        <Square dimension={this.state.squareSize}
                                 position={{top:square.top,left: square.left}}
                                 handlePlayerMovementFromMouse={this.handlePlayerMovementFromMouse}
                         />
                     )
                 }
-                <Goal dimension={40} position={this.state.goal}/>
+                <Goal dimension={this.state.squareSize} position={this.state.goal}/>
                 {
                     this.state.ColoredLineDirections.map(ColoredLineDirection =>
                         <ColoredLine
@@ -390,7 +410,7 @@ class Game extends React.Component {
                 {
                     this.state.playerState.map((player, index) =>
                         <Robot
-                            dimension={40}
+                            dimension={this.state.squareSize}
                             position={{top:player.top,left:player.left}}
                             color={player.color}
                             selected={this.state.robotSelected}
@@ -406,7 +426,7 @@ class Game extends React.Component {
                     this.state.wallHorizontal.map(wallH =>
                         <Wall
                             orientation={'horizontal'}
-                            dimension={40}
+                            dimension={this.state.squareSize}
                             position={{top:wallH.top,left:wallH.left}}
                         />
                     )
@@ -415,15 +435,15 @@ class Game extends React.Component {
                     this.state.wallVerticle.map(wallV =>
                         <Wall
                             orientation={'verticle'}
-                            dimension={40}
+                            dimension={this.state.squareSize}
                             position={{top:wallV.top,left:wallV.left}}
                         />
                     )
 
                 }
                 <GameWonOverlay
-                    width={this.state.width * 40}
-                    height={this.state.height * 40}
+                    width={this.state.width * this.state.squareSize}
+                    height={this.state.height * this.state.squareSize}
                     visible={this.state.gameWon}
                 >
                     <GameWonDisplayView
