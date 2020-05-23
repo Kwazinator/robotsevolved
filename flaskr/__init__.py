@@ -6,6 +6,8 @@ from flask_dance.consumer import oauth_authorized
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.spotify import make_spotify_blueprint, spotify
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
+from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, unset_refresh_cookies, get_jwt_identity, jwt_required
+
 
 
 
@@ -94,8 +96,16 @@ def create_app(test_config=None):
             session['url_saved'] = link
         if 'AJAX' in request.headers:
             current_app.logger.warning('AJAX called in expired')
-            return jsonify(url_for('index.index')), 200
-        return redirect(url_for('index.index'), 302)
+            session.clear()
+            response = redirect(url_for('index.index'))
+            unset_refresh_cookies(response)
+            unset_jwt_cookies(response)
+            return response
+        session.clear()
+        response = redirect(url_for('index.index'))
+        unset_refresh_cookies(response)
+        unset_jwt_cookies(response)
+        return response
 
     @jwt_manager.invalid_token_loader
     def my_invalid_token_callback(msg):

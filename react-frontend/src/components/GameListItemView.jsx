@@ -13,7 +13,6 @@ const mainStyle = () => {
         paddingBottom: '25px',
         float: 'left',
     }
-
 }
 
 const highscoresStyle = () => {
