@@ -6,7 +6,7 @@ from flaskr.db import get_db
 app = flaskr.create_app()
 with app.app_context():
     cursor = get_db().cursor()
-    row = cursor.execute("SELECT * from game where id=20").fetchone()
+    row = cursor.execute("SELECT * from game where id=2").fetchone()
 
 game = row[7]
 gamejson = json.loads(game)
@@ -21,8 +21,8 @@ print(playerstate)
 
 newplayerstate = list()
 for player in playerstate:
-    top = player['top'] /40
-    left = player['left'] /40
+    top = player['top']
+    left = player['left']
     if player['colorSignifier'] == 'blue':
         color = 'B'
     elif player['colorSignifier'] == 'red':
@@ -44,10 +44,7 @@ wallsV = wallsV[1:]
 
 for wall in wallsH:
     top = wall['top']
-    top = top + 4
     left = wall['left']
-    top = top / 40
-    left = left / 40
     if top >= 16:
         top = top - 1
         position = top * 16 + left
@@ -64,8 +61,6 @@ for wall in wallsV:
     top = wall['top']
     top = top
     left = wall['left']
-    top = top / 40
-    left = (left+4) / 40
     if left >= 16:
         left = left - 1
         position = top * 16 + left
@@ -89,9 +84,6 @@ for player in newplayerstate:
 
 goaltop = goal['top']
 goalleft = goal['left']
-
-goaltop = goaltop / 40
-goalleft = goalleft / 40
 
 gridlist = list()
 placeholder = grid[int(goaltop * 16 + goalleft)]
