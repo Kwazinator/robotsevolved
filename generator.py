@@ -221,16 +221,6 @@ def solver(gamejson):
     for number in solutionnumbers:
         if minim >= number:
             minim = number
-
-    returnval = {
-        'playerState': playerstate,
-        'wallHorizontal': wallsH,
-        'wallVerticle': wallsV,
-        'goal': goal,
-        'moves': minim,
-        'boardState': gamejson['boardState']
-    }
-    print(json.dumps(returnval,indent=4))
     return {
         'playerState': playerstate,
         'wallHorizontal': wallsH,
@@ -249,7 +239,7 @@ if __name__ == "__main__":
         while (True):
             solution = solver(boardgenerator())
             moves = solution['moves']
-            if (moves >= 28):
+            if (moves >= 22):
                 print(solution)
                 data = {
                     'robotSelected': 0,
