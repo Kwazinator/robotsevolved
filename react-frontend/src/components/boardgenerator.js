@@ -76,7 +76,7 @@ const randomBoardPosition = (dontPlacePositions,width,height) => {
 
 export default (width,height,randomPercent) => {
     var boardState = [];
-    var wallVerticle = [{top: 0, left: -4}];
+    var wallVerticle = [{top: 0, left: 0}];
     var wallHorizontal = [];
     var playerState = [];
     var goal = {top:Math.floor(Math.random() * Math.floor(height)), left:Math.floor(Math.random() * Math.floor(width))};

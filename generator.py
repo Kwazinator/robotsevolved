@@ -43,21 +43,21 @@ def checkDeadendTop(wallVerticleList, WallHorizToPlace,wallHorizList,width,heigh
 def randomBoardPosition(dontPlacePositions,width,height):
     tryAgain = True
     while tryAgain:
-        tryAgain = False;
-        Y = math.floor(random.random() * math.floor(height / 40));
-        X = math.floor(random.random() * math.floor(width / 40));
+        tryAgain = False
+        Y = math.floor(random.random() * math.floor(height))
+        X = math.floor(random.random() * math.floor(width))
         for position in dontPlacePositions:
-            if (Y*40 == position['top'] and X*40 == position['left']):
+            if (Y == position['top'] and X == position['left']):
                 tryAgain = True
-    return {'top': Y*40, 'left': X*40}
+    return {'top': Y, 'left': X}
 
-def boardgenerator(width=640,height=640,randomPercent=.9):
+def boardgenerator(width=16,height=16,randomPercent=.9):
     boardState = list()
-    wallVerticle = [{'top': 0, 'left': -4}]
+    wallVerticle = [{'top': 0, 'left': 0}]
     wallHorizontal = list()
     playerState = list()
-    goal = {'top': math.floor(random.random() * math.floor(height / 40)) * 40,
-            'left': math.floor(random.random() * math.floor(width / 40)) * 40}
+    goal = {'top': math.floor(random.random() * math.floor(height / 40)),
+            'left': math.floor(random.random() * math.floor(width / 40))}
     randomPositions = [goal]
 
     for i, item in enumerate(range(5)):
@@ -71,35 +71,32 @@ def boardgenerator(width=640,height=640,randomPercent=.9):
     playerState.append(randompos3)
     playerState.append(randompos4)
 
-    for j, item in enumerate(range(int(height/40))):
-        for i, item in enumerate(range(int(width/40))):
-            boardState.append({'top': j*40,'left': i*40})
+    for j, item in enumerate(range(height)):
+        for i, item in enumerate(range(width)):
+            boardState.append({'top': j,'left': i})
 
-    for j, item in enumerate(range(int(height/40))):
-        for i, item in enumerate(range(int(width/40))):
-            checkj = j*40
-            checki = i*40
+    for j, item in enumerate(range(height)):
+        for i, item in enumerate(range(width)):
+            checkj = j
+            checki = i
             if (checki < 1):
-                wallVerticle.append({'top': checkj, 'left': checki-4})
-            elif (checki == (width-40)):
-                wallVerticle.append({'top': checkj, 'left': checki+36})
+                wallVerticle.append({'top': checkj, 'left': checki})
+            elif (checki == (width-1)):
+                wallVerticle.append({'top': checkj, 'left': checki+1})
             if (checkj < 1):
-                wallHorizontal.append({'top': checkj-4,'left': checki})
-            elif (checkj == (height-40)):
-                wallHorizontal.append({'top': checkj+36, 'left': checki})
-
-
-    for j, item in enumerate(range(int(height/40))):
-        for i, item in enumerate(range(int(width/40))):
-            checkj = j*40
-            checki = i*40
-            if (checki > 1 and checki != (width-40) and random.random() > randomPercent):
+                wallHorizontal.append({'top': checkj,'left': checki})
+            elif (checkj == (height-1)):
+                wallHorizontal.append({'top': checkj+1, 'left': checki})
+    for j, item in enumerate(range(height)):
+        for i, item in enumerate(range(width)):
+            checkj = j
+            checki = i
+            if (checki > 1 and checki != (width-1) and random.random() > randomPercent):
                 if (checkDeadendHorizontal(wallHorizontal, {'top': checkj, 'left': checki}, wallVerticle[len(wallVerticle)-1],width,height)):
-                    wallVerticle.append({'top': checkj, 'left': checki - 4})
-            if (checkj > 1 and checkj != (height - 40) and random.random() > randomPercent):
+                    wallVerticle.append({'top': checkj, 'left': checki})
+            if (checkj > 1 and checkj != (height - 1) and random.random() > randomPercent):
                 if (checkDeadendTop(wallVerticle, {'top': j, 'left': i}, wallHorizontal, width, height)):
-                    wallHorizontal.append({'top': checkj - 4,'left': checki})
-
+                    wallHorizontal.append({'top': checkj,'left': checki})
     return {
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,
@@ -120,8 +117,8 @@ def solver(gamejson):
 
     newplayerstate = list()
     for player in playerstate:
-        top = player['top'] / 40
-        left = player['left'] / 40
+        top = player['top']
+        left = player['left']
         if player['colorSignifier'] == 'blue':
             color = 'B'
         elif player['colorSignifier'] == 'red':
@@ -142,10 +139,7 @@ def solver(gamejson):
 
     for wall in wallsH:
         top = wall['top']
-        top = top + 4
         left = wall['left']
-        top = top / 40
-        left = left / 40
         if (top >= 16):
             top = top - 1
             position = top * 16 + left
@@ -160,10 +154,7 @@ def solver(gamejson):
 
     for wall in wallsV:
         top = wall['top']
-        top = top
         left = wall['left']
-        top = top / 40
-        left = (left + 4) / 40
         if (left >= 16):
             left = left - 1
             position = top * 16 + left
@@ -183,13 +174,8 @@ def solver(gamejson):
     for player in newplayerstate:
         robots.append(player['position'])
         colors.append(player['color'])
-
     goaltop = goal['top']
     goalleft = goal['left']
-
-    goaltop = goaltop / 40
-    goalleft = goalleft / 40
-
     placeholder = grid[int(goaltop * 16 + goalleft)]
     paths = list()
 
@@ -211,7 +197,6 @@ def solver(gamejson):
         thread.join()
     print(result)
 '''
-    import json
 
     jsoning = json.loads(json.dumps(paths, indent=4))
     solutionnumbers = list()
@@ -236,6 +221,16 @@ def solver(gamejson):
     for number in solutionnumbers:
         if minim >= number:
             minim = number
+
+    returnval = {
+        'playerState': playerstate,
+        'wallHorizontal': wallsH,
+        'wallVerticle': wallsV,
+        'goal': goal,
+        'moves': minim,
+        'boardState': gamejson['boardState']
+    }
+    print(json.dumps(returnval,indent=4))
     return {
         'playerState': playerstate,
         'wallHorizontal': wallsH,
