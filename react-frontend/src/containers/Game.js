@@ -78,6 +78,7 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.squareSize = 40;
             this.state.copiedToClipboard = false;
+            console.log(this.state)
         }
         else {
             var squareSize = 40;
