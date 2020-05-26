@@ -14,10 +14,10 @@ def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,hei
     indexY = WallVertToPlace['top']
     isWallAbove = False
     for wall in wallHorizontalList:
-        if (wall['top'] == indexY-4 and wall['left'] == indexX-40):
+        if (wall['top'] == indexY-4 and wall['left'] == indexX-1):
             isWallAbove = True
 
-    isWallBeside = (LastWall['top'] == indexY and LastWall['left'] == (indexX - 44))
+    isWallBeside = (LastWall['top'] == indexY and LastWall['left'] == (indexX - 1))
 
     return not (isWallAbove and isWallBeside)
 
@@ -27,17 +27,16 @@ def checkDeadendTop(wallVerticleList, WallHorizToPlace,wallHorizList,width,heigh
     indexY = WallHorizToPlace['top']
     isWallAbove = False
     for wall in wallHorizList:
-        if (wall['top'] == indexY-44 and wall['left'] == indexX):
+        if (wall['top'] == indexY-1 and wall['left'] == indexX):
             isWallAbove = True
 
     isWallBesideLeft = False
     isWallBesideRight = False
     for wall in wallVerticleList:
-        if (wall['top'] == indexY - 40 and (wall['left'] == indexX - 4)):
+        if (wall['top'] == indexY - 1 and (wall['left'] == indexX)):
             isWallBesideLeft = True
-        if (wall['top'] == indexY - 40 and (wall['left'] == indexX + 36)):
+        if (wall['top'] == indexY - 1 and (wall['left'] == indexX + 1)):
             isWallBesideRight = True
-
     return not ((isWallAbove and (isWallBesideLeft or isWallBesideRight)) or (isWallBesideLeft and isWallBesideRight))
 
 def randomBoardPosition(dontPlacePositions,width,height):
@@ -56,8 +55,8 @@ def boardgenerator(width=16,height=16,randomPercent=.9):
     wallVerticle = [{'top': 0, 'left': 0}]
     wallHorizontal = list()
     playerState = list()
-    goal = {'top': math.floor(random.random() * math.floor(height / 40)),
-            'left': math.floor(random.random() * math.floor(width / 40))}
+    goal = {'top': math.floor(random.random() * math.floor(height)),
+            'left': math.floor(random.random() * math.floor(width))}
     randomPositions = [goal]
 
     for i, item in enumerate(range(5)):
