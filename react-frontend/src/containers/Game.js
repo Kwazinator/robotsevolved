@@ -225,7 +225,7 @@ class Game extends React.Component {
         console.log(width);
         console.log(height);
         console.log(percent);
-        var board = BoardGenerator(width*this.state.squareSize,height*this.state.squareSize,percent);
+        var board = BoardGenerator(width,height,percent);
            this.setState(extend({
                 width: width,
                 height: height,
@@ -400,8 +400,8 @@ class Game extends React.Component {
                         <ColoredLine
                             dir={ColoredLineDirection}
                             position={{
-                                top: this.state.playerState[this.state.robotSelected].top,
-                                left: this.state.playerState[this.state.robotSelected].left
+                                top: this.state.playerState[this.state.robotSelected].top * this.state.squareSize,
+                                left: this.state.playerState[this.state.robotSelected].left * this.state.squareSize
                             }}
                             endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
                             color={LINE_INDICATOR_COLOR}
