@@ -6,7 +6,7 @@ import ricochet
 from flaskr.db import get_db
 import flaskr
 from flaskr.services.GameService import GameService
-import threading
+from flaskr.services.GeneratorService import GeneratorService
 
 
 def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,height):
@@ -229,37 +229,65 @@ def solver(gamejson):
         'boardState': gamejson['boardState']
     }
 
+def formatsolutiondata(solution):
+    data = {
+        'robotSelected': 0,
+        'moveHistory': [],
+        'uri': '',
+        'createMode': 'No',
+        'highscores': [],
+        "ColoredLineDirections": [],
+        "playerState": solution['playerState'],
+        "gameWon": True,
+        'boardState': solution['boardState'],
+        'wallHorizontal': solution['wallHorizontal'],
+        'wallVerticle': solution['wallVerticle'],
+        'playerStart': solution['playerState'],
+        'goal': solution['goal'],
+        'height': 16,
+        'width': 16
+    }
+    newdata = json.dumps(data)
+    return newdata
+
 
 if __name__ == "__main__":
     app = flaskr.create_app()
     with app.app_context():
-        moves = 1
-        solution = 0
         while (True):
-            solution = solver(boardgenerator())
-            moves = solution['moves']
-            if (moves >= 22):
-                print(solution)
-                data = {
-                    'robotSelected': 0,
-                    'moveHistory': [],
-                    'uri': '',
-                    'createMode': 'No',
-                    'highscores': [],
-                    "ColoredLineDirections": [],
-                    "playerState": solution['playerState'],
-                    "gameWon": True,
-                    'boardState': solution['boardState'],
-                    'wallHorizontal': solution['wallHorizontal'],
-                    'wallVerticle': solution['wallVerticle'],
-                    'playerStart': solution['playerState'],
-                    'goal': solution['goal'],
-                    'height': 16,
-                    'width': 16
-                }
-                newdata = json.dumps(data)
-                name = 'TurkuTeirPuzzle'
-                GameService().insert_game(name, 'type', 'description', 1, 'test', 1, newdata)
+            moves = 1
+            solution = 0
+            datalist = list()
+            easyflag = False
+            mediumflag = False
+            hardflag = False
+            exteremlyhardflag = False
+            godflag = False
+            while (not (easyflag and mediumflag and hardflag and exteremlyhardflag and godflag)):
+                solution = solver(boardgenerator())
+                moves = solution['moves']
+                if (moves >= 25):
+                    datalist.append(formatsolutiondata(solution))
+                    godflag = True
+                    print('found turkutier puzzle of ' + moves + ' moves')
+                elif (20 < moves < 25):
+                    datalist.append(formatsolutiondata(solution))
+                    exteremlyhardflag = True
+                    print('found exteremlyhard puzzle of ' + moves + ' moves')
+                elif (15 < moves <= 20):
+                    datalist.append(formatsolutiondata(solution))
+                    hardflag = True
+                    print('found hard puzzle of ' + moves + ' moves')
+                elif (10 < moves <= 15):
+                    datalist.append(formatsolutiondata(solution))
+                    mediumflag = True
+                    print('found medium puzzle of ' + moves + ' moves')
+                elif (6 <= moves <= 10):
+                    datalist.append(formatsolutiondata(solution))
+                    easyflag = True
+                    print('found easy puzzle of ' + moves + ' moves')
+            for item in datalist:
+                GeneratorService().insert_puzzle('algo','difficulty',item, 'abcdefg', moves)
 
 
 

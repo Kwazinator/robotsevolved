@@ -3,8 +3,8 @@ from flask import (
 )
 from flaskr.services.GameService import GameService
 from flaskr.services.UserService import UserService
+from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
-
 import json
 
 bp = Blueprint('index', __name__)
@@ -104,3 +104,13 @@ def databasedownload():
         return send_file('../instance/flaskr.sqlite')
     else:
         return 404
+
+@bp.route('/puzzlerush',methods=('GET',))
+@jwt_optional
+def puzzlerush():
+    data = request.get_json()
+    difficulty = data['difficulty']
+    if difficulty is 'easy':
+        puzzles = GeneratorService().getpuzzles(6,10,5)
+    elif difficulty is 'medium':
+        puzzles = GeneratorService().getpuzzles(6,10,5)

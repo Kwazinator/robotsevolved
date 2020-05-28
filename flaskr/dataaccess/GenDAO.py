@@ -15,13 +15,13 @@ class GenDAO:
             puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5]).serialize())
         return puzzleList
 
-    def insertPuzzles(self,g_id, g_name, g_difficulty, g_puzzledata, g_uri, g_moves):
+    def insertPuzzles(self, g_name, g_difficulty, g_puzzledata, g_uri, g_moves):
         try:
             db = get_db()
             cursor = db.cursor()
             uri = uuid.uuid4().hex
             print(uri)
-            cursor.execute('INSERT INTO generated_games (g_id, g_name, g_difficulty, g_puzzledata, g_uri, g_moves) VALUES (?,?,?,?,?,?)',(g_id, g_name, g_difficulty, g_puzzledata, g_uri, g_moves))
+            cursor.execute('INSERT INTO generated_games (g_name, g_difficulty, g_puzzledata, g_uri, g_moves) VALUES (?,?,?,?,?)',(g_name, g_difficulty, g_puzzledata, g_uri, g_moves))
             db.commit()
             return uri
         except Exception as e:
