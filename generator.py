@@ -269,23 +269,23 @@ if __name__ == "__main__":
                 if (moves >= 25):
                     datalist.append(formatsolutiondata(solution))
                     godflag = True
-                    print('found turkutier puzzle of ' + moves + ' moves')
+                    print('found turkutier puzzle of ' + str(moves) + ' moves')
                 elif (20 < moves < 25):
                     datalist.append(formatsolutiondata(solution))
                     exteremlyhardflag = True
-                    print('found exteremlyhard puzzle of ' + moves + ' moves')
+                    print('found exteremlyhard puzzle of ' + str(moves) + ' moves')
                 elif (15 < moves <= 20):
                     datalist.append(formatsolutiondata(solution))
                     hardflag = True
-                    print('found hard puzzle of ' + moves + ' moves')
+                    print('found hard puzzle of ' + str(moves) + ' moves')
                 elif (10 < moves <= 15):
                     datalist.append(formatsolutiondata(solution))
                     mediumflag = True
-                    print('found medium puzzle of ' + moves + ' moves')
+                    print('found medium puzzle of ' + str(moves) + ' moves')
                 elif (6 <= moves <= 10):
                     datalist.append(formatsolutiondata(solution))
                     easyflag = True
-                    print('found easy puzzle of ' + moves + ' moves')
+                    print('found easy puzzle of ' + str(moves) + ' moves')
             for item in datalist:
                 GeneratorService().insert_puzzle('algo','difficulty',item, 'abcdefg', moves)
 
