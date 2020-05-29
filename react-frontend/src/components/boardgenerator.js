@@ -16,12 +16,12 @@ const checkDeadendHorizontal = (wallHorizontalList,WallVertToPlace,LastWall,widt
     var indexY = WallVertToPlace.top;
     var isWallAbove = false;
     wallHorizontalList.map(wall => {
-        if (wall.top == indexY && wall.left == indexX-1) {
+        if (wall.top == indexY && wall.left == indexX-1 && wall.opacity == 1) {
             isWallAbove = true;
         }
     });
     //var isWallAbove = (wallHorizontalList.find(wall => wall = {top: indexY-4, left: indexX -40}) !== undefined);
-    var isWallBeside = (LastWall.top == indexY && LastWall.left == (indexX-1));
+    var isWallBeside = (LastWall.top == indexY && LastWall.left == (indexX-1) && LastWall.opacity == 1);
     /*if ((isWallAbove && isWallBeside)) {
         console.log(wallHorizontalList);
         console.log(WallVertToPlace);
@@ -40,17 +40,17 @@ const checkDeadendTop = (wallVerticleList, WallHorizToPlace,wallHorizList,width,
     var indexY = WallHorizToPlace.top;
     var isWallAbove = false;
     wallHorizList.map(wall => {
-        if (wall.top == indexY-1 && wall.left == indexX) {
+        if (wall.top == indexY-1 && wall.left == indexX && wall.opacity == 1) {
             isWallAbove = true;
         }
     });
     var isWallBesideLeft = false;
     var isWallBesideRight = false;
     wallVerticleList.map(wall => {
-        if (wall.top == indexY-1 && (wall.left == indexX)) {
+        if (wall.top == indexY-1 && (wall.left == indexX) && wall.opacity == 1) {
             isWallBesideLeft = true;
         }
-        if (wall.top == indexY-1 && (wall.left == indexX+1)) {
+        if (wall.top == indexY-1 && (wall.left == indexX+1) && wall.opacity == 1) {
             isWallBesideRight = true;
         }
     });
@@ -100,30 +100,32 @@ export default (width,height,randomPercent) => {
     for (var j=0;j<height;j+=1) {
         for (var i=0;i<width;i+=1) {
             if (i < 1) {
-                wallVerticle.push({top: j, left: i});
+                wallVerticle.push({top: j, left: i, opacity: 1});
             }
             else if (i==(width-1)) {
-                wallVerticle.push({top: j, left: i+1});
+                wallVerticle.push({top: j, left: i+1, opacity: 1});
             }
             if (j < 1) {
-                wallHorizontal.push({top: j,left: i});
+                wallHorizontal.push({top: j,left: i, opacity: 1});
             }
             else if (j == (height-1)) {
-                wallHorizontal.push({top: j+1, left: i});
+                wallHorizontal.push({top: j+1, left: i, opacity: 1});
             }
         }
     }
     for (var j=0;j<height;j+=1) {
         for (var i=0;i<width;i+=1) {
-            if (i > 1 && i != (width-1) && Math.random() > randomPercent) {
-                if (checkDeadendHorizontal(wallHorizontal, {top: j, left: i}, wallVerticle[wallVerticle.length -1], width,height)) {
-                    wallVerticle.push({top: j,left: i});
-                }
+            if (i > 1 && i != (width-1) && Math.random() > randomPercent && checkDeadendHorizontal(wallHorizontal, {top: j, left: i}, wallVerticle[wallVerticle.length -1], width,height)) {
+                wallVerticle.push({top: j,left: i,opacity: 1});
             }
-            if (j > 1 && j != (height-1) && Math.random() > randomPercent) {
-                if (checkDeadendTop(wallVerticle,{top: j,left:i}, wallHorizontal,width,height)) {
-                    wallHorizontal.push({top: j,left: i});
-                }
+            else {
+                wallVerticle.push({top: j,left: i, opacity: 0})
+            }
+            if (j > 1 && j != (height-1) && Math.random() > randomPercent && checkDeadendTop(wallVerticle,{top: j,left:i}, wallHorizontal,width,height)) {
+                wallHorizontal.push({top: j,left: i, opacity: 1});
+            }
+            else {
+                wallHorizontal.push({top: j,left: i, opacity: 0});
             }
         }
     }

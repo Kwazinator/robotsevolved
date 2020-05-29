@@ -10,7 +10,6 @@ const style = ({dimension,position}) => {
         position: 'absolute',
         top: position.top * dimension + 'px',
         left: position.left * dimension + 'px',
-        transition: 'all 0.1s ease'
     };
 };
 

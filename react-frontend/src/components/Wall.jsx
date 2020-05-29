@@ -1,9 +1,7 @@
 import React from 'react';
 
-const style = ({orientation,dimension,position}) => {
+const style = ({orientation,dimension,position,opacity,onClick}) => {
     const wallThickness = (dimension/4) + 'px';
-
-
     if (orientation=='horizontal') {
         var width = dimension + 'px';
         var height = wallThickness;
@@ -23,12 +21,32 @@ const style = ({orientation,dimension,position}) => {
         position: 'absolute',
         top: top,
         left: left,
-        transition: 'all 0.1s ease',
+        opacity: opacity,
     };
 };
 
-export default (props) =>
-    <div style={style(props)}/>
+class Wall extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+
+    handleClick = () => {
+        if (this.props.opacity == 1) {
+            this.props.onClick(0,this.props.orientation,this.props.position.top,this.props.position.left);
+        }
+        else {
+            this.props.onClick(1,this.props.orientation,this.props.position.top,this.props.position.left);
+        }
+    }
+    render () {
+        return (
+            <div style={style(this.props)} onClick={this.handleClick}/>
+        )
+    }
+}
+
+export default Wall;
 
 
 //<div style="background-Color: black;width: 40px;height: 40px; position: absolute;">

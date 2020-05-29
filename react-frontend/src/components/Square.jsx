@@ -11,7 +11,6 @@ const styleoutside = ({dimension,position}) => {
         position: 'absolute',
         top: position.top * dimension + 'px',
         left: position.left * dimension + 'px',
-        transition: 'all 0.1s ease'
     };
 };
 
@@ -24,7 +23,6 @@ const styleinside = ({dimension,position}) => {
         position: 'absolute',
         top: 2 + 'px',
         left: 2 + 'px',
-        transition: 'all 0.1s ease'
     };
 };
 
@@ -37,7 +35,6 @@ const styleinside2 = ({dimension,position}) => {
         position: 'absolute',
         top: (dimension-4)/4 + 'px',
         left: (dimension-4)/4 + 'px',
-        transition: 'all 0.1s ease'
     };
 };
 

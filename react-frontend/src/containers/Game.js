@@ -245,7 +245,7 @@ class Game extends React.Component {
                 var minimumWall = 0;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left === robotX && wall.top <= robotY && wall.top > minimumWall) {
+                    if (wall.left === robotX && wall.top <= robotY && wall.top > minimumWall && wall.opacity == 1) {
                         minimumWall = wall.top;
                     }
                 });
@@ -261,7 +261,7 @@ class Game extends React.Component {
             case RIGHT:
                 var minimumWall = this.state.width - 1;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall) {
+                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall && wall.opacity == 1) {
                         minimumWall = wall.left - 1;
 
                     }
@@ -277,7 +277,7 @@ class Game extends React.Component {
             case LEFT:
                 var minimumWall = 0;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top === robotY && wall.left <= robotX && wall.left > minimumWall) {
+                    if (wall.top === robotY && wall.left <= robotX && wall.left > minimumWall && wall.opacity == 1) {
                         minimumWall = wall.left;
                     }
                 });
@@ -292,7 +292,7 @@ class Game extends React.Component {
                 var minimumWall = this.state.height - 1;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall)
+                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall && wall.opacity == 1)
                         minimumWall = wall.top - 1;
 
                 });
@@ -364,6 +364,39 @@ class Game extends React.Component {
     };
 
 
+    createModeWallClick = (opacity,orientation,top,left) => {
+        if (this.state.createMode == 'Yes') {
+            this.resetPuzzle()
+            if (orientation == 'horizontal') {
+                var newWallHorizontal = this.state.wallHorizontal;
+                var indexToChange;
+                newWallHorizontal.map((wallH, index) => {
+                    if (wallH.top == top && wallH.left == left) {
+                        indexToChange = index;
+                    }
+                });
+                newWallHorizontal[indexToChange] = {top: top,left: left,opacity: opacity};
+                console.log('clicking horizontal wall');
+                this.setState({
+                    wallHorizontal: newWallHorizontal
+                });
+            }
+            else if (orientation == 'verticle') {
+                var newWallVerticle = this.state.wallVerticle;
+                var indexToChange;
+                newWallVerticle.map((wallV, index) => {
+                    if (wallV.top == top && wallV.left == left) {
+                        indexToChange = index;
+                    }
+                });
+                newWallVerticle[indexToChange] = {top: top, left: left, opacity: opacity};
+                this.setState({
+                    wallVerticle: newWallVerticle
+                });
+            }
+        }
+    };
+
     render() {
         return (
         <div id={'GameMain'} style={gamepanel()}>
@@ -429,6 +462,8 @@ class Game extends React.Component {
                             orientation={'horizontal'}
                             dimension={this.state.squareSize}
                             position={{top:wallH.top,left:wallH.left}}
+                            opacity={wallH.opacity}
+                            onClick={this.createModeWallClick}
                         />
                     )
                 }
@@ -438,6 +473,8 @@ class Game extends React.Component {
                             orientation={'verticle'}
                             dimension={this.state.squareSize}
                             position={{top:wallV.top,left:wallV.left}}
+                            opacity={wallV.opacity}
+                            onClick={this.createModeWallClick}
                         />
                     )
 
