@@ -266,23 +266,23 @@ if __name__ == "__main__":
             while (not (easyflag and mediumflag and hardflag and exteremlyhardflag and godflag)):
                 solution = solver(boardgenerator())
                 moves = solution['moves']
-                if (moves >= 25 and not godflag):
+                if (moves >= 23 and not godflag):
                     datalist.append(formatsolutiondata(solution))
                     godflag = True
                     print('found turkutier puzzle of ' + str(moves) + ' moves')
-                elif (20 < moves < 25 and not exteremlyhardflag):
+                elif (18 < moves < 23 and not exteremlyhardflag):
                     datalist.append(formatsolutiondata(solution))
                     exteremlyhardflag = True
                     print('found exteremlyhard puzzle of ' + str(moves) + ' moves')
-                elif (15 < moves <= 20 and not hardflag):
+                elif (13 < moves <= 18 and not hardflag):
                     datalist.append(formatsolutiondata(solution))
                     hardflag = True
                     print('found hard puzzle of ' + str(moves) + ' moves')
-                elif (10 < moves <= 15 and not mediumflag):
+                elif (8 < moves <= 13 and not mediumflag):
                     datalist.append(formatsolutiondata(solution))
                     mediumflag = True
                     print('found medium puzzle of ' + str(moves) + ' moves')
-                elif (6 <= moves <= 10 and not easyflag):
+                elif (5 <= moves <= 8 and not easyflag):
                     datalist.append(formatsolutiondata(solution))
                     easyflag = True
                     print('found easy puzzle of ' + str(moves) + ' moves')
