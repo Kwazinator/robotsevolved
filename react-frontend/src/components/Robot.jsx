@@ -26,7 +26,7 @@ const styleinside = ({dimension}) => {
 };
 
 const styleinside2 = ({dimension,color,index,selected}) => {
-    const dim = (dimension-4)-(dimension/4) + 'px';
+    const dim = ((dimension-4)*3)/4 + 'px';
     var selectedColor = undefined;
     var borderStyle = "none";
     if (index === selected) {
@@ -41,8 +41,8 @@ const styleinside2 = ({dimension,color,index,selected}) => {
         borderColor: selectedColor,
         position: 'absolute',
         borderRadius: '50%',
-        top: 4 + 'px',
-        left: 4 + 'px',
+        top: (dimension-4)/8 + 'px',
+        left: (dimension-4)/8 + 'px',
         transition: 'all 0.1s ease'
     };
 };
