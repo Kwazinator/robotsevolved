@@ -261,7 +261,7 @@ class Game extends React.Component {
             case RIGHT:
                 var minimumWall = this.state.width - 1;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall && wall.opacity == 1) {
+                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall + 1 && wall.opacity == 1) {
                         minimumWall = wall.left - 1;
 
                     }
@@ -292,7 +292,7 @@ class Game extends React.Component {
                 var minimumWall = this.state.height - 1;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall && wall.opacity == 1)
+                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall + 1 && wall.opacity == 1)
                         minimumWall = wall.top - 1;
 
                 });
