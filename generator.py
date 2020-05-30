@@ -257,7 +257,6 @@ if __name__ == "__main__":
         while (True):
             moves = 1
             solution = 0
-            datalist = list()
             easyflag = False
             mediumflag = False
             hardflag = False
@@ -267,28 +266,25 @@ if __name__ == "__main__":
                 solution = solver(boardgenerator())
                 moves = solution['moves']
                 if (moves >= 23 and not godflag):
-                    datalist.append(formatsolutiondata(solution))
+                    GeneratorService().insert_puzzle('algo', 'GodTeir', formatsolutiondata(solution), 'abcdefg', moves)
                     godflag = True
                     print('found turkutier puzzle of ' + str(moves) + ' moves')
                 elif (18 < moves < 23 and not exteremlyhardflag):
-                    datalist.append(formatsolutiondata(solution))
+                    GeneratorService().insert_puzzle('algo', 'Exteremly Hard', formatsolutiondata(solution), 'abcdefg', moves)
                     exteremlyhardflag = True
                     print('found exteremlyhard puzzle of ' + str(moves) + ' moves')
                 elif (13 < moves <= 18 and not hardflag):
-                    datalist.append(formatsolutiondata(solution))
+                    GeneratorService().insert_puzzle('algo', 'hard', formatsolutiondata(solution), 'abcdefg', moves)
                     hardflag = True
                     print('found hard puzzle of ' + str(moves) + ' moves')
                 elif (8 < moves <= 13 and not mediumflag):
-                    datalist.append(formatsolutiondata(solution))
+                    GeneratorService().insert_puzzle('algo', 'medium', formatsolutiondata(solution), 'abcdefg', moves)
                     mediumflag = True
                     print('found medium puzzle of ' + str(moves) + ' moves')
                 elif (5 <= moves <= 8 and not easyflag):
-                    datalist.append(formatsolutiondata(solution))
                     easyflag = True
                     print('found easy puzzle of ' + str(moves) + ' moves')
-            for item in datalist:
-                GeneratorService().insert_puzzle('algo','difficulty',item, 'abcdefg', moves)
-
+                    GeneratorService().insert_puzzle('algo', 'easy', formatsolutiondata(solution), 'abcdefg', moves)
 
 
 
