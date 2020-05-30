@@ -4,6 +4,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  grid: {
+    marginTop: '150px',
+  },
+  griditems: {
+    margin: 'auto',
+  },
   paper: {
     padding: theme.spacing(2),
     margin: 'auto',

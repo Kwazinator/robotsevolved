@@ -2,6 +2,7 @@ import React from 'react';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
 import PlayGame from './Pages/PlayGame';
+import Home from './Pages/Home';
 import LoginModal from './containers/Modals/LoginModal';
 import LoggedInUser from './components/LoggedInUser';
 import SignInButton from './components/SignInButton';
@@ -14,7 +15,7 @@ class App extends React.Component {
         console.log(window.gameslist);
         if (window.uri == '') {
             this.state = {
-                PageSelected: <CreateGame/>, //default page for website
+                PageSelected: <Home handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame}/>, //default page for website
             };
         }
         else {
@@ -47,7 +48,6 @@ class App extends React.Component {
         this.setState({
             PageSelected: <PlayGame highscores={highscores} gamedata={gamedata} uri={uri}/>
         });
-
     }
 
     handleClickCreateGame = event => {
@@ -60,6 +60,7 @@ class App extends React.Component {
 
     handleClickFindGame = event => {
         event.preventDefault();
+        console.log('here');
         this.setState({
             PageSelected: <FindGame handleGameClick={this.handleGameClick}/>,
         });
