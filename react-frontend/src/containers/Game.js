@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router'
 
+import Grid from '@material-ui/core/Grid';
 import MovesView from '../components/MovesView';
 import Square from '../components/Square';
 import Board from '../components/Board';
@@ -48,21 +49,6 @@ const gamepanel = () => {
         width: '100%',
         display: 'inline-block'
     };
-};
-
-const leftDisplayPanel = () => {
-    return {
-        width: '15%',
-        display: 'inline-block',
-        float: 'left'
-    }
-};
-
-const rightDisplayPanel = () => {
-    return {
-        display: 'grid',
-        marginTop: '15px'
-    }
 };
 
 class Game extends React.Component {
@@ -400,11 +386,18 @@ class Game extends React.Component {
     render() {
         return (
         <div id={'GameMain'} style={gamepanel()}>
-
-            <div style={leftDisplayPanel()}>
+        <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            wrap="nowrap"
+            >
+            <Grid item xs={8}>
                 <DisplayView
                     uri={this.state.uri}
-                    resetPuzzle={this.resetPuzzle}
+                                            resetPuzzle={this.resetPuzzle}
                     resetPuzzle={this.resetPuzzle}
                     createBoard={this.createBoard}
                     width={this.state.width}
@@ -416,86 +409,92 @@ class Game extends React.Component {
                     copiedClipboard = {this.copiedClipboard}
                     copiedToClipboard = {this.copiedToClipboard}
                 />
-                <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
-            </div>
-            <Board width={this.state.width * this.state.squareSize} height={this.state.height * this.state.squareSize}>
-                {
-                    this.state.boardState.map(square =>
-                        <Square dimension={this.state.squareSize}
-                                position={{top:square.top,left: square.left}}
-                                handlePlayerMovementFromMouse={this.handlePlayerMovementFromMouse}
-                        />
-                    )
-                }
-                <Goal dimension={this.state.squareSize} position={this.state.goal}/>
-                {
-                    this.state.ColoredLineDirections.map(ColoredLineDirection =>
-                        <ColoredLine
-                            dir={ColoredLineDirection}
-                            position={{
-                                top: this.state.playerState[this.state.robotSelected].top * this.state.squareSize,
-                                left: this.state.playerState[this.state.robotSelected].left * this.state.squareSize
-                            }}
-                            endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                            color={LINE_INDICATOR_COLOR}
-                        />
-                    )
-                }
-                {
-                    this.state.playerState.map((player, index) =>
-                        <Robot
-                            dimension={this.state.squareSize}
-                            position={{top:player.top,left:player.left}}
-                            color={player.color}
-                            selected={this.state.robotSelected}
-                            index={index}
-                            onClick={this.robotSelect}
-                            handlePlayerMovement={this.handlePlayerMovement}
-                            tabSelector={this.tabSelector}
-                        />
-                    )
-                }
+            </Grid>
+            <Grid container xs={12}>
+                <Grid item xs={2}>
+                    <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
+                </Grid>
+                <Grid item xs={10} justify={'center'} alignItems={'center'}>
+                <Board width={this.state.width * this.state.squareSize} height={this.state.height * this.state.squareSize}>
+                    {
+                        this.state.boardState.map(square =>
+                            <Square dimension={this.state.squareSize}
+                                    position={{top:square.top,left: square.left}}
+                                    handlePlayerMovementFromMouse={this.handlePlayerMovementFromMouse}
+                            />
+                        )
+                    }
+                    <Goal dimension={this.state.squareSize} position={this.state.goal}/>
+                    {
+                        this.state.ColoredLineDirections.map(ColoredLineDirection =>
+                            <ColoredLine
+                                dir={ColoredLineDirection}
+                                position={{
+                                    top: this.state.playerState[this.state.robotSelected].top * this.state.squareSize,
+                                    left: this.state.playerState[this.state.robotSelected].left * this.state.squareSize
+                                }}
+                                endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                                color={LINE_INDICATOR_COLOR}
+                            />
+                        )
+                    }
+                    {
+                        this.state.playerState.map((player, index) =>
+                            <Robot
+                                dimension={this.state.squareSize}
+                                position={{top:player.top,left:player.left}}
+                                color={player.color}
+                                selected={this.state.robotSelected}
+                                index={index}
+                                onClick={this.robotSelect}
+                                handlePlayerMovement={this.handlePlayerMovement}
+                                tabSelector={this.tabSelector}
+                                resetPuzzle={this.resetPuzzle}
+                            />
+                        )
+                    }
 
-                {
-                    this.state.wallHorizontal.map(wallH =>
-                        <Wall
-                            orientation={'horizontal'}
-                            dimension={this.state.squareSize}
-                            position={{top:wallH.top,left:wallH.left}}
-                            opacity={wallH.opacity}
-                            onClick={this.createModeWallClick}
-                        />
-                    )
-                }
-                {
-                    this.state.wallVerticle.map(wallV =>
-                        <Wall
-                            orientation={'verticle'}
-                            dimension={this.state.squareSize}
-                            position={{top:wallV.top,left:wallV.left}}
-                            opacity={wallV.opacity}
-                            onClick={this.createModeWallClick}
-                        />
-                    )
+                    {
+                        this.state.wallHorizontal.map(wallH =>
+                            <Wall
+                                orientation={'horizontal'}
+                                dimension={this.state.squareSize}
+                                position={{top:wallH.top,left:wallH.left}}
+                                opacity={wallH.opacity}
+                                onClick={this.createModeWallClick}
+                            />
+                        )
+                    }
+                    {
+                        this.state.wallVerticle.map(wallV =>
+                            <Wall
+                                orientation={'verticle'}
+                                dimension={this.state.squareSize}
+                                position={{top:wallV.top,left:wallV.left}}
+                                opacity={wallV.opacity}
+                                onClick={this.createModeWallClick}
+                            />
+                        )
 
-                }
-                <GameWonOverlay
-                    width={this.state.width * this.state.squareSize}
-                    height={this.state.height * this.state.squareSize}
-                    visible={this.state.gameWon}
-                >
-                    <GameWonDisplayView
-                        playerState={this.state.playerState}
-                        resetPuzzle={this.resetPuzzle}
-                        highscores={this.state.highscores}
-                        checkwin={this.checkwin}
-                    />
-                </GameWonOverlay>
-            </Board>
-            <div style={rightDisplayPanel()}>
-                <ToggleSettings onClick={this.toggleLineIndicators}/>
+                    }
+                    <GameWonOverlay
+                        width={this.state.width * this.state.squareSize}
+                        height={this.state.height * this.state.squareSize}
+                        visible={this.state.gameWon}
+                    >
+                        <GameWonDisplayView
+                            playerState={this.state.playerState}
+                            resetPuzzle={this.resetPuzzle}
+                            highscores={this.state.highscores}
+                            checkwin={this.checkwin}
+                        />
+                    </GameWonOverlay>
+                </Board>
+                </Grid>
+             </Grid>
+            <Grid item xs={4}>
                 <HighScores highscores={this.state.highscores}/>
-            </div>
+            </Grid>
             <BoardResetModal
                 createBoard={this.createBoard}
                 width={this.state.width}
@@ -504,9 +503,11 @@ class Game extends React.Component {
                 closeModal={this.closeCreateBoardModal}
                 show={this.state.showBoardResetPanelModal}
             />
+            </Grid>
         </div>
         );
     }
 }
+                //<ToggleSettings onClick={this.toggleLineIndicators}/>
 
 export default withRouter(Game);

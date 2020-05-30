@@ -8,13 +8,9 @@ const style = (width,height) => {
         height: heightset,
         border: '1px solid black',
         position: 'relative',
-        margin: '25px auto',
-        overflow: 'hidden',
-        float: 'left',
-        marginRight: '30px',
+        margin: '0 auto',
+        overflow: 'hidden'
     };
-
-
 };
 
 export default ({ width,height, children }) => (

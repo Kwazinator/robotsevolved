@@ -70,6 +70,10 @@ class Robot extends React.Component {
                 this.props.tabSelector();
                 return;
                 break;
+            case 32:
+                this.props.resetPuzzle();
+                return;
+                break;
             /*case 83:
                 newDirection = { top: 40, left: 0, dir: DOWN};
                 break;

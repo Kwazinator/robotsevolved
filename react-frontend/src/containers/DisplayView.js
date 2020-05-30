@@ -2,27 +2,10 @@ import React from 'react';
 import useStyles from '../Material-UI/themes';
 import ResetButton from "../components/ResetButton";
 import BoardResetModal from './Modals/BoardResetModal';
-import CreateBoardButton from "../components/CreateBoardButton";
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
-
-const controlpanel = () => {
-    return {
-        marginRight: '10px',
-        marginTop: '25px',
-        marginBottom: '10px',
-        opacity: 1
-    };
-};
-
-const buttonPanel = () => {
-    return {
-        display: 'inline-flex',
-        width: '200px',
-        marginTop: '15px',
-        marginBottom: '15px',
-    }
-};
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const valuetext = (value) => {
     return value + 'px';
@@ -31,10 +14,13 @@ const valuetext = (value) => {
 
 export default function DisplayView(props) {
     const classes = useStyles();
+    const createBoardPressed = () => {
+        props.createBoardPressed('Create Board');
+    }
     const isCreateMode = (createMode) => {
         if (createMode === 'Yes') {
             return (
-                <CreateBoardButton onClick={props.createBoardPressed}/>
+                <Button onClick={createBoardPressed} variant="contained" color="secondary">Create New Board</Button>
                 );
         }
         else {
@@ -65,23 +51,33 @@ export default function DisplayView(props) {
         props.DimensionChanged(dimension);
     }
     return (
-            <div style={controlpanel()}>
-                <div style={{display: 'inline-flex', width: '200px'}}>
-                    <button style={{marginRight: "10px"}} onClick={copyToClipboard}>Copy Puzzle Link</button>
+            <Grid container spacing={2}>
+                <Grid item xs={4}>
+                    <Button onClick={copyToClipboard} variant="contained" color="secondary">Copy Puzzle Link</Button>
                     {
                         props.copiedToClipboard ?
                             <div style={{"color": "green"}}>
                                 Copied!
                             </div> : null
                     }
-                </div>
-                <div style={buttonPanel()}>
-                    <ResetButton
-                        resetPuzzle={props.resetPuzzle}
-                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <Button
+                        onClick={props.resetPuzzle}
+                        variant="contained" color="secondary"
+                    >
+                    Reset
+                    </Button>
+                </Grid>
+                <Grid item xs={4}>
                     {isCreateMode(props.createMode)}
-                </div>
-                <div style={buttonPanel()}>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    /*
+                    <Grid item xs={2}>
                         <Typography id="discrete-slider-small-steps" gutterBottom>
                           Size Of Board
                         </Typography>
@@ -95,7 +91,6 @@ export default function DisplayView(props) {
                           max={16}
                           valueLabelDisplay="auto"
                         />
-                </div>
-            </div>
-        )
-    }
+                </Grid>
+
+    */

@@ -14,7 +14,7 @@ export default class CreateBoardButton extends React.Component {
 
     render () {
         return (
-            <button onClick={this.handleClick}> Create New Board</button>
+            <Button onClick={this.handleClick} variant="contained" color="secondary">Create New Board</Button>
         )
     }
 }
