@@ -262,7 +262,7 @@ if __name__ == "__main__":
             hardflag = False
             exteremlyhardflag = False
             godflag = False
-            while (not (easyflag and mediumflag and hardflag and exteremlyhardflag and godflag)):
+            while (not (easyflag and mediumflag and hardflag and exteremlyhardflag)):
                 solution = solver(boardgenerator())
                 moves = solution['moves']
                 if (moves >= 23 and not godflag):
