@@ -1,4 +1,6 @@
 import React from 'react';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const buttonpanel = () => {
     return {
@@ -17,16 +19,18 @@ class ToggleSettings extends React.Component {
 
     handleClick = event => {
         this.props.onClick();
-    }
+    };
 
 
     render() {
         return (
-            <div style={buttonpanel()}>Toggle Line Indicators:
-                <label class="switch">
-                    <input id={"toggleLineIndicators"} onClick={this.handleClick} type="checkbox" class="real-checkbox"></input>
-                    <span class="slider round"></span>
-                </label>
+            <div style={buttonpanel()}>
+                <FormControlLabel
+                    value="end"
+                    control={<Switch color="primary" onChange={this.handleClick}/>}
+                    label="Toggle Line Indicators"
+                    labelPlacement="end"
+                />
             </div>
         )
     }

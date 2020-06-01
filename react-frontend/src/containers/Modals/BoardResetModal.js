@@ -1,4 +1,10 @@
 import React from 'react';
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import Input from "@material-ui/core/Input";
 
 const buttonpanel = () => {
     return {
@@ -61,32 +67,38 @@ class BoardResetModal extends React.Component {
             (100 - percent)/100);
     };
 
+    handleClose = () => {
+        this.props.show = false;
+    };
+
     render () {
-        if (!this.props.show) {
-            return null;
-        }
         return (
-            <div className="modal">
-                <h2>Create Board Settings</h2>
-                <div className="content" style={buttonpanel()}>
+            <Dialog onClose={this.handleClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={this.props.show}
+                    maxWidth={"xs"}
+                    fullWidth={true}
+            >
+                <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>Create Board Settings</DialogTitle>
+                <DialogContent dividers>
                     <div>
                         <label style={labelStyle()} >{'Board Width:\t\t'}</label>
-                        <input title="default is 16" id={"boardWidthInput"} type={"number"} min={"4"} max={"36"} placeholder={"4-36"}/>
+                        <Input id={"boardWidthInput"} inputProps={{max: "36", min: "4", title:"default is 16"}} type={"number"} placeholder={"4-36"}/>
                     </div>
                     <div>
                         <label style={labelStyle()}>{'Board Height:\t\t'}</label>
-                        <input title="default is 16" id={"boardHeightInput"} type={"number"} min={"4"} max={"36"} placeholder={"4-36"}/>
+                        <Input id={"boardHeightInput"} inputProps={{max: "36", min: "4", title:"default is 16"}} type={"number"} placeholder={"4-36"}/>
                     </div>
                     <div>
                         <label style={labelStyle()}>{'Wall Spawn Rate:\t'}</label>
-                        <input title="default is 20%" id={"boardRandomPercent"} type={"number"} min={"0"} max={"100"} placeholder={"0-100%"}/>
+                        <Input id={"boardRandomPercent"} inputProps={{max: "100", min: "0", title:"default is 20%"}} type={"number"} placeholder={"0-100%"}/>
                     </div>
-                </div>
-                <div className="actions">
-                    <button type="submit" onClick={this.createBoardHandler}>Create New Board</button>
-                    <button style={{float: "right"}} className="toggle-button" onClick={this.props.closeModal}>Close</button>
-                </div>
-            </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="secondary" onClick={this.createBoardHandler}>Create New Board</Button>
+                    <Button onClick={this.props.closeModal}>Close</Button>
+                </DialogActions>
+            </Dialog>
         )
 
     };
