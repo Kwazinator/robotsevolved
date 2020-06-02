@@ -26,17 +26,17 @@ export default function PuzzleRush(props) {
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button onClick={props.handleClickEasyPuzzleRush} variant="contained" color="primary">
+                        <Button onClick={props.handleClickMediumPuzzleRush} variant="contained" color="primary">
                             Medium
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button onClick={props.handleClickEasyPuzzleRush} variant="contained" color="primary">
+                        <Button onClick={props.handleClickHardPuzzleRush} variant="contained" color="primary">
                             Hard
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button onClick={props.handleClickEasyPuzzleRush} variant="contained" color="primary">
+                        <Button onClick={props.handleClickExHardPuzzleRush} variant="contained" color="primary">
                             Exteremely Hard
                         </Button>
                     </Grid>

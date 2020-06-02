@@ -44,7 +44,13 @@ class App extends React.Component {
     handleClickPuzzleRush = event => {
         event.preventDefault();
         this.setState({
-            PageSelected: <PuzzleRush handleClickEasyPuzzleRush={this.handleClickEasyPuzzleRush}/>
+            PageSelected: <PuzzleRush
+                            handleClickEasyPuzzleRush={this.handleClickEasyPuzzleRush}
+                            handleClickMediumPuzzleRush={this.handleClickMediumPuzzleRush}
+                            handleClickHardPuzzleRush={this.handleClickHardPuzzleRush}
+                            handleClickExHardPuzzleRush={this.handleClickExHardPuzzleRush}
+                            handleClickGodlyPuzzleRush={this.handleClickGodlyPuzzleRush}
+                            />
         });
     }
 
@@ -62,6 +68,61 @@ class App extends React.Component {
                     //this.props.history.push('/play/' + res.data.uri)
                 });
     }
+
+     handleClickMediumPuzzleRush = event => {
+        axios.post('/puzzlerush', {difficulty: 'medium', action: 'start'})
+                .then( res => {
+                        var games = JSON.parse(res.data.games);
+                        var p_id = res.data.p_id;
+                        console.log(games)
+                        this.setState({
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                        });
+                    //this.props.history.push('/play/' + res.data.uri)
+                });
+    }
+
+     handleClickHardPuzzleRush = event => {
+        axios.post('/puzzlerush', {difficulty: 'hard', action: 'start'})
+                .then( res => {
+                        var games = JSON.parse(res.data.games);
+                        var p_id = res.data.p_id;
+                        console.log(games)
+                        this.setState({
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                        });
+                    //this.props.history.push('/play/' + res.data.uri)
+                });
+    }
+
+     handleClickExHardPuzzleRush = event => {
+        axios.post('/puzzlerush', {difficulty: 'exteremely hard', action: 'start'})
+                .then( res => {
+                        var games = JSON.parse(res.data.games);
+                        var p_id = res.data.p_id;
+                        console.log(games)
+                        this.setState({
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                        });
+                    //this.props.history.push('/play/' + res.data.uri)
+                });
+    }
+
+     handleClickGodlyPuzzleRush = event => {
+        axios.post('/puzzlerush', {difficulty: 'godly', action: 'start'})
+                .then( res => {
+                        var games = JSON.parse(res.data.games);
+                        var p_id = res.data.p_id;
+                        console.log(games)
+                        this.setState({
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                        });
+                    //this.props.history.push('/play/' + res.data.uri)
+                });
+    }
+
+
+
 
 
 

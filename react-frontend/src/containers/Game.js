@@ -69,8 +69,6 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         if (this.props.puzzleRush === 'Yes') {
-            var yes = this.props.games[0].g_solutiondata
-            console.log(yes)
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
             this.state.games = this.props.games
             this.state.p_id = this.props.p_id

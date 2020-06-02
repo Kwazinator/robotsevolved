@@ -11,15 +11,11 @@ bp = Blueprint('puzzleRush', __name__)
 @bp.route('/puzzlerush',methods=('GET','POST'))
 @jwt_optional
 def puzzlerush():
-    print('here')
     data = request.get_json()
-    print(data)
     difficulty = data['difficulty']
     action = data['action']
     user_id = get_jwt_identity()
-    print(user_id)
     if action == 'start':
-        print('here23232323')
         data = PuzzleRushService().start_puzzle(user_id,difficulty)
         games = data[0]
         p_id = data[1]
