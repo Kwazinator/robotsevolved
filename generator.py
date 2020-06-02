@@ -217,15 +217,19 @@ def solver(gamejson):
         solutionnumbers.append(len(num))
 
     minim = solutionnumbers[0]
-    for number in solutionnumbers:
+    solutionindex = 0
+    for x, number in enumerate(solutionnumbers):
         if minim >= number:
             minim = number
+            solutionindex = x
+
     return {
         'playerState': playerstate,
         'wallHorizontal': wallsH,
         'wallVerticle': wallsV,
         'goal': goal,
         'moves': minim,
+        'solutiondata': newpaths[solutionindex],
         'boardState': gamejson['boardState']
     }
 
@@ -265,26 +269,27 @@ if __name__ == "__main__":
             while (not (easyflag and mediumflag and hardflag and exteremlyhardflag)):
                 solution = solver(boardgenerator())
                 moves = solution['moves']
+                solutiondata = solution['solutiondata']
                 if (moves >= 23 and not godflag):
-                    GeneratorService().insert_puzzle('algo', 'GodTeir', formatsolutiondata(solution), 'abcdefg', moves)
+                    GeneratorService().insert_puzzle('algo', 'GodTeir', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     godflag = True
                     print('found turkutier puzzle of ' + str(moves) + ' moves')
                 elif (18 < moves < 23 and not exteremlyhardflag):
-                    GeneratorService().insert_puzzle('algo', 'Exteremly Hard', formatsolutiondata(solution), 'abcdefg', moves)
+                    GeneratorService().insert_puzzle('algo', 'Exteremly Hard', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     exteremlyhardflag = True
                     print('found exteremlyhard puzzle of ' + str(moves) + ' moves')
                 elif (13 < moves <= 18 and not hardflag):
-                    GeneratorService().insert_puzzle('algo', 'hard', formatsolutiondata(solution), 'abcdefg', moves)
+                    GeneratorService().insert_puzzle('algo', 'hard', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     hardflag = True
                     print('found hard puzzle of ' + str(moves) + ' moves')
                 elif (8 < moves <= 13 and not mediumflag):
-                    GeneratorService().insert_puzzle('algo', 'medium', formatsolutiondata(solution), 'abcdefg', moves)
+                    GeneratorService().insert_puzzle('algo', 'medium', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     mediumflag = True
                     print('found medium puzzle of ' + str(moves) + ' moves')
                 elif (5 <= moves <= 8 and not easyflag):
                     easyflag = True
                     print('found easy puzzle of ' + str(moves) + ' moves')
-                    GeneratorService().insert_puzzle('algo', 'easy', formatsolutiondata(solution), 'abcdefg', moves)
+                    GeneratorService().insert_puzzle('algo', 'easy', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
 
 
 

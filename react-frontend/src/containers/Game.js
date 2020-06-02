@@ -37,7 +37,7 @@ import BoardResetModal from "./Modals/BoardResetModal";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
-    if([37, 38, 39, 40,9].indexOf(e.keyCode) > -1) {
+    if([37, 38, 39, 40, 9].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
