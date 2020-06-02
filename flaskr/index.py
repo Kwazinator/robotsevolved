@@ -104,13 +104,3 @@ def databasedownload():
         return send_file('../instance/flaskr.sqlite')
     else:
         return 404
-
-@bp.route('/puzzlerush',methods=('GET',))
-@jwt_optional
-def puzzlerush():
-    data = request.get_json()
-    difficulty = data['difficulty']
-    if difficulty is 'easy':
-        puzzles = GeneratorService().getpuzzles(6,10,5)
-    elif difficulty is 'medium':
-        puzzles = GeneratorService().getpuzzles(6,10,5)

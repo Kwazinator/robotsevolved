@@ -68,7 +68,20 @@ class Game extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.loadedGame === 'Yes') {
+        if (this.props.puzzleRush === 'Yes') {
+            var yes = this.props.games[0].g_solutiondata
+            console.log(yes)
+            this.state = JSON.parse(this.props.games[0].g_puzzledata)
+            this.state.games = this.props.games
+            this.state.p_id = this.props.p_id
+            this.state.gameWon = false;
+            this.state.ColoredLineDirections = [];
+            this.state.showBoardResetPanelModal = false;
+            this.state.squareSize = 40;
+            this.state.copiedToClipboard = false;
+            console.log(this.state)
+        }
+        else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
             this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;

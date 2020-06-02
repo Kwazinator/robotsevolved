@@ -1,4 +1,5 @@
 import React from 'react';
+import PuzzleRush from './Pages/PuzzleRush';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
 import PlayGame from './Pages/PlayGame';
@@ -6,6 +7,9 @@ import Home from './Pages/Home';
 import LoginModal from './containers/Modals/LoginModal';
 import LoggedInUser from './components/LoggedInUser';
 import SignInButton from './components/SignInButton';
+import axios from 'axios';
+import Game from './containers/Game';
+
 
 class App extends React.Component {
 
@@ -15,7 +19,7 @@ class App extends React.Component {
         console.log(window.gameslist);
         if (window.uri == '') {
             this.state = {
-                PageSelected: <Home handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame}/>, //default page for website
+                PageSelected: <Home handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
             };
         }
         else {
@@ -36,6 +40,30 @@ class App extends React.Component {
             window.location.href = "/auth/logout";
         }
     }
+
+    handleClickPuzzleRush = event => {
+        event.preventDefault();
+        this.setState({
+            PageSelected: <PuzzleRush handleClickEasyPuzzleRush={this.handleClickEasyPuzzleRush}/>
+        });
+    }
+
+
+
+    handleClickEasyPuzzleRush = event => {
+        axios.post('/puzzlerush', {difficulty: 'easy', action: 'start'})
+                .then( res => {
+                        var games = JSON.parse(res.data.games);
+                        var p_id = res.data.p_id;
+                        console.log(games)
+                        this.setState({
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                        });
+                    //this.props.history.push('/play/' + res.data.uri)
+                });
+    }
+
+
 
     closeLoginModal = event => {
         event.preventDefault();

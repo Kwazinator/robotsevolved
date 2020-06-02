@@ -79,23 +79,23 @@ def boardgenerator(width=16,height=16,randomPercent=.9):
             checkj = j
             checki = i
             if (checki < 1):
-                wallVerticle.append({'top': checkj, 'left': checki})
+                wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
             elif (checki == (width-1)):
-                wallVerticle.append({'top': checkj, 'left': checki+1})
+                wallVerticle.append({'top': checkj, 'left': checki+1, 'opacity': 1})
             if (checkj < 1):
-                wallHorizontal.append({'top': checkj,'left': checki})
+                wallHorizontal.append({'top': checkj,'left': checki, 'opacity': 1})
             elif (checkj == (height-1)):
-                wallHorizontal.append({'top': checkj+1, 'left': checki})
+                wallHorizontal.append({'top': checkj+1, 'left': checki, 'opacity': 1})
     for j, item in enumerate(range(height)):
         for i, item in enumerate(range(width)):
             checkj = j
             checki = i
             if (checki > 1 and checki != (width-1) and random.random() > randomPercent):
                 if (checkDeadendHorizontal(wallHorizontal, {'top': checkj, 'left': checki}, wallVerticle[len(wallVerticle)-1],width,height)):
-                    wallVerticle.append({'top': checkj, 'left': checki})
+                    wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
             if (checkj > 1 and checkj != (height - 1) and random.random() > randomPercent):
                 if (checkDeadendTop(wallVerticle, {'top': j, 'left': i}, wallHorizontal, width, height)):
-                    wallHorizontal.append({'top': checkj,'left': checki})
+                    wallHorizontal.append({'top': checkj,'left': checki, 'opacity': 1})
     return {
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,

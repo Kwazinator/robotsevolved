@@ -13,6 +13,8 @@ class PuzzleRushDAO:
             db = get_db()
             cursor = db.cursor()
             cursor.execute('INSERT INTO puzzle_rush (user_id,difficulty) VALUES (?,?)',(user_id,difficulty))
+            db.commit()
+            return cursor.lastrowid
         except Exception as e:
             print(e)
             print('error in PuzzleRushDAO start_puzzle')
@@ -26,3 +28,16 @@ class PuzzleRushDAO:
             return PuzzleRush(row[0],row[1],row[2],row[3],row[4])
         else:
             return None
+
+    def match_game_to_puzzle(self,p_id,g_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('INSERT INTO puzzle_rush_to_generated_games (g_id,pr_id) VALUES (?,?)',(g_id,p_id))
+            db.commit()
+            return 'completed'
+        except Exception as e:
+            print(e)
+            return 'failed'
+        finally:
+            pass

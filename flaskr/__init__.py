@@ -85,6 +85,9 @@ def create_app(test_config=None):
     from . import index
     app.register_blueprint(index.bp)
 
+    from . import puzzleRush
+    app.register_blueprint(puzzleRush.bp)
+
     @jwt_manager.expired_token_loader
     def my_expired_token_callback():
         current_app.logger.warning('expired_loader activated with JWT token\n')
