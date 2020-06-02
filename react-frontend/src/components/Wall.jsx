@@ -2,17 +2,18 @@ import React from 'react';
 
 const style = ({orientation,dimension,position,opacity,onClick}) => {
     const wallThickness = (dimension/4) + 'px';
+    const wallOffset = (dimension/4)/2
     if (orientation=='horizontal') {
         var width = dimension + 'px';
         var height = wallThickness;
-        var top = ((position.top * dimension) - 4) + 'px';
+        var top = ((position.top * dimension) - wallOffset) + 'px';
         var left = position.left * dimension + 'px';
     }
     else {
         var width = wallThickness;
         var height = dimension + 'px'
         var top = position.top * dimension + 'px';
-        var left = ((position.left * dimension) - 4) + 'px';
+        var left = ((position.left * dimension) - wallOffset) + 'px';
     }
     return {
         width: width,
