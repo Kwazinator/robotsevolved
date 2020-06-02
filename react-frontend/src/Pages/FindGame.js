@@ -33,7 +33,7 @@ class FindGame extends React.Component {
                     gameslist: JSON.parse(res.data.gameslist)
                 });
             });
-    }
+    };
 
     render () {
         return (

@@ -37,7 +37,7 @@ import BoardResetModal from "./Modals/BoardResetModal";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
-    if([32, 37, 38, 39, 40,9].indexOf(e.keyCode) > -1) {
+    if([37, 38, 39, 40,9].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
@@ -485,7 +485,7 @@ class Game extends React.Component {
                     </Board>
                 </Grid>
                 <Grid item xs={12} sm={3} md={2}>
-                    <div>
+                    <div style={{display: 'grid'}}>
                         <ToggleSettings onClick={this.toggleLineIndicators}/>
                         <HighScores highscores={this.state.highscores}/>
                     </div>

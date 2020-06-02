@@ -1,7 +1,7 @@
 import React from 'react';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import Input from "@material-ui/core/Input";
+import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -29,7 +29,7 @@ class AddPuzzleModal extends React.Component {
             >
                 <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>Submit Puzzle</DialogTitle>
                 <DialogContent dividers>
-                    <Input id={"namesubmit"} type={"text"} placeholder={"Name of Puzzle"}/>
+                    <TextField id={"namesubmit"} label={"Name of Puzzle"} />
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="secondary" onClick={this.props.submitPuzzle}>Submit Puzzle</Button>

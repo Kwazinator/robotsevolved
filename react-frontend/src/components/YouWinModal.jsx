@@ -1,7 +1,7 @@
 import React from 'react';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import Input from "@material-ui/core/Input";
+import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -29,10 +29,11 @@ class YouWinModal extends React.Component {
             >
                 <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>You Win!</DialogTitle>
                 <DialogContent dividers>
-                    <div style={{color: 'white'}}>
+                    <div>
                         You used {this.props.numMoves} Moves!
                     </div>
-                    <Input id={"namesubmitHS"} type={"text"} placeholder={"Username"}/>
+                    <br/>
+                    <TextField id={"namesubmitHS"} label={"Username"}/>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="secondary" onClick={this.props.submitAnswer}>Submit Highscore</Button>
