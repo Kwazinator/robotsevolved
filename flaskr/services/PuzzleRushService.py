@@ -13,18 +13,25 @@ class PuzzleRushService:
 
 
 
+
+
+
     def get_games_for_puzzle_rush(self, p_id, numPuzzles,difficulty):
-        if difficulty == 'easy':
-            #do stuff etc check for all
-            games = GenDAO().getPuzzles(8, 5, numPuzzles)
-        elif difficulty == 'medium':
-            games = GenDAO().getPuzzles(13, 9, numPuzzles)
-        elif difficulty == 'hard':
-            games = GenDAO().getPuzzles(18, 14, numPuzzles)
-        elif difficulty == 'exteremely hard':
-            games = GenDAO().getPuzzles(22, 19, numPuzzles)
-        elif difficulty == 'godly':
-            games = GenDAO().getPuzzles(50, 23, numPuzzles)
+
+        if (PuzzleRushDAO().check_game_valid(p_id)):
+            if difficulty == 'easy':
+                #do stuff etc check for all
+                games = GenDAO().getPuzzles(8, 5, numPuzzles)
+            elif difficulty == 'medium':
+                games = GenDAO().getPuzzles(13, 9, numPuzzles)
+            elif difficulty == 'hard':
+                games = GenDAO().getPuzzles(18, 14, numPuzzles)
+            elif difficulty == 'exteremely hard':
+                games = GenDAO().getPuzzles(22, 19, numPuzzles)
+            elif difficulty == 'godly':
+                games = GenDAO().getPuzzles(50, 23, numPuzzles)
+        else:
+            return 'Game has ended'
 
         gamelist = list()
         for game in games:

@@ -2,11 +2,26 @@ from flaskr.db import get_db
 from flaskr.dataaccess.entities.PuzzleRush import PuzzleRush
 #from random_word import RandomWords
 import uuid
+import datetime
+
 
 class PuzzleRushDAO:
 
     def __init__(self):
         pass
+
+
+    def check_game_valid(self,p_id):
+        db = get_db()
+        cursor = db.cursor()
+        now = datetime.datetime.now(datetime.timezone.utc)
+        endgame = str(now + datetime.timedelta(minutes=5))
+        row = cursor.execute("SELECT p_id,strftime(p_start_time),user_id,score,difficulty FROM puzzle_rush where p_id = ? and ? >= p_start_time",(p_id,endgame)).fetchone()
+        print(row)
+        if row is None:
+            return False
+        else:
+            return True
 
     def start_puzzle(self, user_id, difficulty):
         try:

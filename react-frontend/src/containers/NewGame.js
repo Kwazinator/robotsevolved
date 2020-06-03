@@ -68,108 +68,16 @@ class Game extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.puzzleRush === 'Yes') {
-            this.state = JSON.parse(this.props.games[0].g_puzzledata)
-            this.state.p_id = this.props.p_id
-            this.state.gameWon = false;
-            this.state.ColoredLineDirections = [];
-            this.state.showBoardResetPanelModal = false;
-            this.state.squareSize = 40;
-            this.state.copiedToClipboard = false;
-            this.state.numPuzzleon = 0;
-            this.state.createMode = 'No';
-            console.log(this.state)
-        }
-        else if (this.props.loadedGame === 'Yes') {
-            this.state = JSON.parse(this.props.gamedata);
-            this.state.highscores = this.props.highscores;
-            this.state.uri = this.props.uri;
-            this.state.gameWon = false;
-            this.state.ColoredLineDirections = [];
-            this.state.showBoardResetPanelModal = false;
-            this.state.squareSize = 40;
-            this.state.copiedToClipboard = false;
-        }
-        else {
-            var squareSize = 40;
-            var board = BoardGenerator(this.props.settingsWidth,this.props.settingsHeight,.90);
-            this.state = extend({
-                robotSelected: 0,
-                moveHistory: [],
-                uri: '',
-                createMode: 'Yes',
-                highscores: [],
-                showBoardResetPanelModal: false,
-                ColoredLineDirections: [],
-                width: this.props.settingsWidth,
-                height: this.props.settingsHeight,
-                percentWall: this.props.settingsPercent,
-                squareSize: squareSize,
-                copiedToClipboard: false
-            },board);
-        }
+        this.state = JSON.parse(this.props.gamedata);
+        this.state.gameWon = false;
+        this.state.ColoredLineDirections = this.props.ColoredLineDirections;
+        this.state.squareSize = this.props.squareSize;
     }
-
-    updateHighscores = () => {
-        axios.get('/updatehighscores?uri=' + this.state.uri)
-            .then( res => {
-                this.setState({
-                    highscores: JSON.parse(res.data.highscores),
-                });
-            });
-    };
-
-    DimensionChanged = (dimension) => {
-        this.setState({
-            squareSize: dimension * 4
-        });
-    };
-
-    copiedClipboard = () => {
-        this.setState({
-            copiedToClipboard: true,
-        });
-
-    };
-
-    componentDidMount = () => {
-        if (this.props.loadedGame === 'Yes') {
-            var IntervalId = setInterval(this.updateHighscores, 2000);
-            this.setState({
-                IntervalId: IntervalId,
-            });
-        }
-    };
-
-    componentWillUnmount = () => {
-        if (this.props.loadedGame === 'Yes') {
-            clearInterval(this.state.IntervalId);
-        }
-    };
-
-
 
     robotSelect = (i) => {
         this.setState({
             robotSelected: i,
         });
-    };
-
-    submitPuzzle = event => {
-        event.preventDefault();
-        var namesubmit = document.getElementById("namesubmit").value;
-        var state = this.state;
-        state.playerState = this.state.playerStart.slice();
-        state.moveHistory = [];
-        state.createMode = 'No';
-        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit}))
-            .then( res => {
-                this.setState({
-                    uri: res.data.uri,
-                    gameWon: false
-                });
-                this.props.history.push('/play/' + res.data.uri)
-            });
     };
 
     toggleLineIndicators = () => {
@@ -185,20 +93,8 @@ class Game extends React.Component {
         }
     };
 
-    submitAnswer = event => {
-        event.preventDefault();
-        console.log(this.state.uri);
-        axios.post('/submithighscore', {highscore: this.state.moveHistory.length, name: document.getElementById("namesubmitHS").value, uri: this.state.uri})
-            .then( res => {
-                this.setState({gameWon: false});
-            });
-        this.resetPuzzle();
-    };
-
-    resetPuzzle = event => {
-        if (typeof event !== 'undefined') {
-            event.preventDefault();
-        }
+    resetPuzzle = () => {
+        console.log('here')
         this.setState({
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
@@ -216,35 +112,13 @@ class Game extends React.Component {
         }
     };
 
-    createBoardPressed = (type) => {
-        if (type === 'Create Board') {
-            this.setState({
-                showBoardResetPanelModal: true
-            });
-        }
-    };
-
-    closeCreateBoardModal = event => {
-        this.setState({
-            showBoardResetPanelModal: false
-        });
-    };
-
-    createBoard = (width,height,percent) => {
-        var board = BoardGenerator(width,height,percent);
-        this.setState(extend({
-            width: width,
-            height: height,
-            percent: percent,
-        },board));
-        this.closeCreateBoardModal()
-    };
-
 
     handleCollision = (dirObj,robotSelected,color) => {
         var newPosition;
         var robotX = this.state.playerState[robotSelected].left;
         var robotY = this.state.playerState[robotSelected].top;
+        console.log(robotX);
+        console.log(robotY);
         switch(dirObj.dir) {
             case UP:
                 var minimumWall = 0;
@@ -316,36 +190,7 @@ class Game extends React.Component {
 
     checkwin = (robotPosition) => {
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
-            if (this.state.gameWon === false)
-                this.setState({gameWon: true});
-            if (this.state.createMode === 'No' && this.props.puzzleRush !== 'Yes') {
-                return  (<YouWinModal
-                    show={this.state.gameWon}
-                    numMoves={this.state.moveHistory.length}
-                    submitAnswer={this.submitAnswer}
-                    resetPuzzle={this.resetPuzzle}
-                />);
-            }
-            else if (this.props.puzzleRush === 'Yes'){
-                var puzzledata = JSON.parse(this.props.games[this.state.numPuzzleon + 1].g_puzzledata)
-                this.setState(
-                    extend(puzzledata,{numPuzzleon: this.state.numPuzzleon + 1, playerState: puzzledata.playerStart.slice(), gameWon: false})
-                );
-                console.log(this.state.numPuzzleon + 1)
-                console.log(this.state.playerState)
-                console.log(this.state.playerStart)
-                //this.resetPuzzle()
-            }
-            else {
-                return (<AddPuzzleModal
-                    show={this.state.gameWon}
-                    submitPuzzle={this.submitPuzzle}
-                    resetPuzzle={this.resetPuzzle}
-                />);
-            }
-        }
-        else {
-            return '';
+            return this.props.onWin(this.state)
         }
     };
 
@@ -367,6 +212,7 @@ class Game extends React.Component {
                 playerState: playerState,
                 moveHistory: moveHistory,
             });
+            this.props.moveChangeHandler(moveHistory,playerState);
             this.checkwin(newPosition);
         }
     };
@@ -420,25 +266,6 @@ class Game extends React.Component {
 
     render() {
         return (
-        <div style={gamepanel()}>
-            <Grid container alignItems={"stretch"}>
-                <Grid item xs={12} sm={3} md={2}>
-                    <DisplayView
-                        uri={this.state.uri}
-                        resetPuzzle={this.resetPuzzle}
-                        createBoard={this.createBoard}
-                        width={this.state.width}
-                        height={this.state.height}
-                        percent={this.state.percent}
-                        createMode={this.state.createMode}
-                        createBoardPressed={this.createBoardPressed}
-                        DimensionChanged={this.DimensionChanged}
-                        copiedClipboard = {this.copiedClipboard}
-                        copiedToClipboard = {this.copiedToClipboard}
-                    />
-                    <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
-                </Grid>
-                <Grid item xs={12} sm={6} md={8}>
                     <Board width={this.state.width * this.state.squareSize} height={this.state.height * this.state.squareSize}>
                         {
                             this.state.boardState.map(square =>
@@ -502,27 +329,6 @@ class Game extends React.Component {
 
                         }
                     </Board>
-                </Grid>
-                <Grid item xs={12} sm={3} md={2}>
-                    <div style={{display: 'grid'}}>
-                        <ToggleSettings onClick={this.toggleLineIndicators}/>
-                        <HighScores highscores={this.state.highscores}/>
-                    </div>
-                </Grid>
-                <BoardResetModal
-                    createBoard={this.createBoard}
-                    width={this.state.width}
-                    height={this.state.height}
-                    percent={this.state.percent}
-                    closeModal={this.closeCreateBoardModal}
-                    show={this.state.showBoardResetPanelModal}
-                />
-                {
-                    this.state.playerState.map(position =>
-                        this.checkwin(position))
-                }
-            </Grid>
-        </div>
         );
     }
 }
