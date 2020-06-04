@@ -5,6 +5,8 @@ export const RIGHT = 'RIGHT';
 export const MAX_WIDTH = 16*40;
 export const MAX_HEIGHT = 16*40;
 
+export const MOBILE_INNER_SCREEN_WIDTH = '960';
+
 export const SQUARE_CORE_COLOR = '#e1e1e1';
 export const SQUARE_INNER_COLOR = '#c4a1a1';
 export const SQUARE_OUTSIDE_COLOR = '#807878';

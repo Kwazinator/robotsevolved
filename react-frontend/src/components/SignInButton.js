@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Button from "@material-ui/core/Button";
+
 export default class SignInButton extends React.Component {
 
     constructor(props) {
@@ -25,7 +27,7 @@ export default class SignInButton extends React.Component {
             var textToShow = 'Sign in';
         }
         return (
-            <a onClick={this.handleClick} class="signin button button-empty">{textToShow}</a>
+            <Button color="primary" onClick={this.handleClick}>{textToShow}</Button>
         )
     }
 }
