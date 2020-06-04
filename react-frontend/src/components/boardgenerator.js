@@ -74,20 +74,29 @@ const randomBoardPosition = (dontPlacePositions,width,height) => {
     return {top: Y,left: X};
 };
 
-export default (width,height,randomPercent) => {
+export default (width,height,randomPercent,type) => {
     var boardState = [];
     var wallVerticle = [{top: 0, left: 0}];
     var wallHorizontal = [];
     var playerState = [];
-    var goal = {top:Math.floor(Math.random() * Math.floor(height)), left:Math.floor(Math.random() * Math.floor(width))};
-    var randomPositions = [goal];
-    for (var i=0;i<5;i++) {
-        randomPositions.push(randomBoardPosition(randomPositions,width,height));
+    if (type === 'blank') {
+        var goal = {top: 1, left: 0};
+        var randompos1 = {top: 0,left: 0, color: ROBOT_BLUE, colorSignifier: 'blue'};
+        var randompos2 = {top: 0,left: 1, color: ROBOT_GREEN, colorSignifier: 'green'};
+        var randompos3 = {top: 0,left: 2, color: ROBOT_RED, colorSignifier: 'red'};
+        var randompos4 = {top: 0,left: 3, color: ROBOT_YELLOW, colorSignifier:'yellow'};
     }
-    var randompos1 = extend(randomPositions[1],{color: ROBOT_BLUE, colorSignifier: 'blue'});
-    var randompos2 = extend(randomPositions[2],{color: ROBOT_GREEN, colorSignifier: 'green'});
-    var randompos3 = extend(randomPositions[3],{color: ROBOT_RED, colorSignifier: 'red'});
-    var randompos4 = extend(randomPositions[4],{color: ROBOT_YELLOW, colorSignifier:'yellow'});
+    else {
+        var goal = {top:Math.floor(Math.random() * Math.floor(height)), left:Math.floor(Math.random() * Math.floor(width))};
+        var randomPositions = [goal];
+        for (var i=0;i<5;i++) {
+            randomPositions.push(randomBoardPosition(randomPositions,width,height));
+        }
+        var randompos1 = extend(randomPositions[1],{color: ROBOT_BLUE, colorSignifier: 'blue'});
+        var randompos2 = extend(randomPositions[2],{color: ROBOT_GREEN, colorSignifier: 'green'});
+        var randompos3 = extend(randomPositions[3],{color: ROBOT_RED, colorSignifier: 'red'});
+        var randompos4 = extend(randomPositions[4],{color: ROBOT_YELLOW, colorSignifier:'yellow'});
+    }
     playerState.push(randompos1);
     playerState.push(randompos2);
     playerState.push(randompos3);

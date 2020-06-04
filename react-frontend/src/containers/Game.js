@@ -93,7 +93,7 @@ class Game extends React.Component {
         }
         else {
             var squareSize = 40;
-            var board = BoardGenerator(this.props.settingsWidth,this.props.settingsHeight,.90);
+            var board = BoardGenerator(this.props.settingsWidth,this.props.settingsHeight,1,'blank');
             this.state = extend({
                 robotSelected: 0,
                 moveHistory: [],
@@ -232,7 +232,7 @@ class Game extends React.Component {
     };
 
     createBoard = (width,height,percent) => {
-        var board = BoardGenerator(width,height,percent);
+        var board = BoardGenerator(width,height,percent, 'blank');
         this.setState(extend({
             width: width,
             height: height,
