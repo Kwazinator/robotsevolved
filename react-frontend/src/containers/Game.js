@@ -2,6 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router'
+import Draggable from 'react-draggable';
 
 import MovesView from '../components/MovesView';
 import Square from '../components/Square';
@@ -315,6 +316,8 @@ class Game extends React.Component {
     };
 
     checkwin = (robotPosition) => {
+        console.log(this.state.goal.top)
+        console.log(this.state.goal.left)
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
             if (this.state.gameWon === false)
                 this.setState({gameWon: true});
@@ -418,6 +421,27 @@ class Game extends React.Component {
         }
     };
 
+    onStopDragHandlerGoal = (position) => {
+        this.setState({
+            goal: {top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize)},
+            playerState: this.state.playerStart.slice(),
+            moveHistory: [],
+        })
+    }
+
+    onStopDragHandler = (position,index) => {
+        var playerState = this.state.playerState.slice()
+        var lastX = position.lastX / this.state.squareSize
+        var lastY = position.lastY / this.state.squareSize
+        playerState[index].top = Math.round(lastY)
+        playerState[index].left = Math.round(lastX)
+        this.setState({
+            playerStart: playerState.slice(),
+            playerState: playerState,
+            moveHistory: []
+        });
+    }
+
     render() {
         return (
         <div style={gamepanel()}>
@@ -448,7 +472,13 @@ class Game extends React.Component {
                                 />
                             )
                         }
-                        <Goal dimension={this.state.squareSize} position={this.state.goal}/>
+                        <Goal
+                            dimension={this.state.squareSize}
+                            position={this.state.goal}
+                            onStopDragHandler={this.onStopDragHandlerGoal}
+                            draggableGrid={[this.state.squareSize,this.state.squareSize]}
+                            isCreateMode={this.state.createMode}
+                        />
                         {
                             this.state.ColoredLineDirections.map(ColoredLineDirection =>
                                 <ColoredLine
@@ -474,6 +504,9 @@ class Game extends React.Component {
                                     onClick={this.robotSelect}
                                     handlePlayerMovement={this.handlePlayerMovement}
                                     tabSelector={this.tabSelector}
+                                    isCreateMode={this.state.createMode}
+                                    onStopDragHandler={this.onStopDragHandler}
+                                    draggableGrid={[this.state.squareSize,this.state.squareSize]}
                                 />
                             )
                         }

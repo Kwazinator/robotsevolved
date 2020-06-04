@@ -1,6 +1,8 @@
 import React from 'react';
 import {UP,DOWN,LEFT,RIGHT,SELECTED_ROBOT} from '../constants/constants';
 
+import Draggable from 'react-draggable';
+
 const styleoutside = ({dimension,position}) => {
     const dim = dimension + 'px';
     return {
@@ -12,6 +14,17 @@ const styleoutside = ({dimension,position}) => {
         transition: 'all 0.1s ease'
     };
 };
+
+const styleoutsidedraggable = ({dimension,position}) => {
+    const dim = dimension + 'px';
+    return {
+        width: dim,
+        height: dim,
+        position: 'absolute',
+        transition: 'all 0.1s ease'
+    };
+};
+
 
 const styleinside = ({dimension}) => {
     const dim = (dimension - 4) + 'px';
@@ -95,14 +108,41 @@ class Robot extends React.Component {
         this.props.onClick(this.props.index);
     };
 
-    render () {
-        return (
+    onStopDragHandler = (e, position) => {
+        this.props.onStopDragHandler(position,this.props.index);
+    }
+
+
+    handleCreateMode = () => {
+        if (this.props.isCreateMode === 'Yes') {
+            return (
+            <Draggable position={{x: this.props.position.left * this.props.dimension, y:this.props.position.top*this.props.dimension}} grid={this.props.draggableGrid} onStop={this.onStopDragHandler} bounds="parent">
+                <div onClick={this.handleClick} style={styleoutsidedraggable(this.props)}>
+                    <div style={styleinside(this.props)}>
+                        <div style={styleinside2(this.props)}/>
+                    </div>
+                </div>
+            </Draggable>
+            )
+        }
+        else {
+            return(
             <div onClick={this.handleClick} style={styleoutside(this.props)}>
                 <div style={styleinside(this.props)}>
                     <div style={styleinside2(this.props)}/>
                 </div>
             </div>
-        )
+            )
+        }
+
+
+    }
+
+
+    render () {
+        return (
+        this.handleCreateMode()
+        );
     }
 
     componentDidMount() {

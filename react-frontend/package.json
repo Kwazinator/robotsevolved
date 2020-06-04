@@ -4,7 +4,6 @@
   "private": true,
   "homepage": "/static/react",
   "dependencies": {
-    "clsx": "^1.1.1",
     "@babel/core": "7.8.4",
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
@@ -22,6 +21,7 @@
     "babel-preset-react-app": "^9.1.1",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "clsx": "^1.1.1",
     "css-loader": "3.4.2",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -56,6 +56,7 @@
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.0",
     "react-dom": "^16.13.0",
+    "react-draggable": "^4.4.2",
     "react-infinite-scroller": "^1.2.4",
     "react-router": "4.2.0",
     "react-router-dom": "^4.2.0",
