@@ -12,14 +12,17 @@ class FindGame extends React.Component {
         super(props);
         var gameslist = window.gameslist;
         var highscoreslist = window.highscoreslist;
+        console.log(gameslist)
+        console.log(highscoreslist)
         this.state = {
             gameslist: gameslist,
             highscoreslist: highscoreslist,
         }
     }
 
-    handleGameClick = (gamedata,highscores,uri) => {
-        this.props.handleGameClick(gamedata,highscores,uri);
+    handleGameClick = (name,gamedata,highscores,uri) => {
+        console.log(uri);
+        this.props.handleGameClick(name,gamedata,highscores,uri);
     }
 
     handleSearchSubmit = event => {

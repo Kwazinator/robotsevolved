@@ -475,6 +475,8 @@ class Game extends React.Component {
             <Grid container alignItems={"stretch"}>
                 <Grid item xs={12} sm={3} md={2}>
                     <DisplayView
+                        isPuzzleRush={this.props.puzzleRush}
+                        numPuzzleRush={this.state.numPuzzleon}
                         uri={this.state.uri}
                         resetPuzzle={this.resetPuzzle}
                         createBoard={this.createBoard}

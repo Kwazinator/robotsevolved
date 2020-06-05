@@ -6,6 +6,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import ToggleSettings from "../components/ToggleSettings";
+import Timer from "../components/Timer";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -86,6 +87,26 @@ class DisplayView extends React.Component {
         this.props.DimensionChanged(dimension);
     };
 
+    puzzleRush = () => {
+        if (this.props.isPuzzleRush === 'Yes'){
+            return (
+                     <div>
+                        <Typography id="discrete-slider-small-steps"
+                                     color="textSecondary"
+                                     display="inline"
+                                     gutterBottom>
+                             Puzzles: {this.props.numPuzzleRush}
+                         </Typography>
+                        <Timer>
+                        </Timer>
+                     </div>
+            )
+        }
+        else {
+            return null
+        }
+    }
+
      render() {
          return (
              <div style={controlpanel()}>
@@ -127,7 +148,8 @@ class DisplayView extends React.Component {
                          valueLabelDisplay="auto"
                      />
                  </div>
-                 <Divider />
+                 {this.puzzleRush()}
+                 <Divider/>
              </div>
          )
      }
