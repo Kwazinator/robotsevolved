@@ -35,6 +35,7 @@ import {
 } from '../constants/constants';
 import BoardGenerator from '../components/boardgenerator';
 import BoardResetModal from "./Modals/BoardResetModal";
+import Typography from "@material-ui/core/Typography";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -79,7 +80,7 @@ class Game extends React.Component {
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
             this.state.createMode = 'No';
-            console.log(this.state)
+            this.state.buildMode = false;
         }
         else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
@@ -89,6 +90,7 @@ class Game extends React.Component {
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
             this.state.squareSize = 40;
+            this.state.buildMode = false;
             this.state.copiedToClipboard = false;
         }
         else {
@@ -99,6 +101,7 @@ class Game extends React.Component {
                 moveHistory: [],
                 uri: '',
                 createMode: 'Yes',
+                buildMode: false,
                 highscores: [],
                 showBoardResetPanelModal: false,
                 ColoredLineDirections: [],
@@ -182,6 +185,19 @@ class Game extends React.Component {
         else {
             this.setState({
                 ColoredLineDirections: [],
+            });
+        }
+    };
+
+    toggleBuildMode = () => {
+        if (this.state.buildMode) {
+            this.setState({
+                buildMode: false,
+            });
+        }
+        else {
+            this.setState({
+                buildMode: true,
             });
         }
     };
@@ -316,8 +332,7 @@ class Game extends React.Component {
     };
 
     checkwin = (robotPosition) => {
-        console.log(this.state.goal.top)
-        console.log(this.state.goal.left)
+
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
             if (this.state.gameWon === false)
                 this.setState({gameWon: true});
@@ -334,9 +349,6 @@ class Game extends React.Component {
                 this.setState(
                     extend(puzzledata,{numPuzzleon: this.state.numPuzzleon + 1, playerState: puzzledata.playerStart.slice(), gameWon: false})
                 );
-                console.log(this.state.numPuzzleon + 1)
-                console.log(this.state.playerState)
-                console.log(this.state.playerStart)
                 //this.resetPuzzle()
             }
             else {
@@ -354,6 +366,7 @@ class Game extends React.Component {
 
     handlePlayerMovement = (dirObj) => {
         if (dirObj.dir !== undefined && this.state.gameWon === false) {
+            var oldPositon = {left: this.state.playerState[this.state.robotSelected].left, top: this.state.playerState[this.state.robotSelected].top};
             var newPosition = this.handleCollision(dirObj, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color);
             var playerState = this.state.playerState;
             var moveHistory = this.state.moveHistory;
@@ -362,7 +375,8 @@ class Game extends React.Component {
                 moveHistory.push({
                     dir: dirObj.dir,
                     robot: this.state.robotSelected,
-                    colorSignifier: playerState[this.state.robotSelected].colorSignifier
+                    colorSignifier: playerState[this.state.robotSelected].colorSignifier,
+                    prevPosition: oldPositon
                 });
             }
             playerState[this.state.robotSelected] = newPosition;
@@ -389,8 +403,22 @@ class Game extends React.Component {
         this.handlePlayerMovement(newDirection)
     };
 
+    handleUndoMove = () => {
+        var moveHistory = this.state.moveHistory;
+        var playerState = this.state.playerState;
+        if (this.state.gameWon === false && moveHistory.length !== 0) {
+            var moveObj = moveHistory.pop();
+            playerState[moveObj.robot].left = moveObj.prevPosition.left;
+            playerState[moveObj.robot].top = moveObj.prevPosition.top;
+            this.setState({
+                playerState: playerState,
+                moveHistory: moveHistory
+            });
+        }
+    };
+
     createModeWallClick = (opacity,orientation,top,left) => {
-        if (this.state.createMode === 'Yes') {
+        if (this.state.createMode === 'Yes' && this.state.buildMode) {
             this.resetPuzzle();
             var indexToChange;
             if (orientation === 'horizontal') {
@@ -427,20 +455,20 @@ class Game extends React.Component {
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
         })
-    }
+    };
 
     onStopDragHandler = (position,index) => {
-        var playerState = this.state.playerState.slice()
-        var lastX = position.lastX / this.state.squareSize
-        var lastY = position.lastY / this.state.squareSize
-        playerState[index].top = Math.round(lastY)
-        playerState[index].left = Math.round(lastX)
+        var playerState = this.state.playerState.slice();
+        var lastX = position.lastX / this.state.squareSize;
+        var lastY = position.lastY / this.state.squareSize;
+        playerState[index].top = Math.round(lastY);
+        playerState[index].left = Math.round(lastX);
         this.setState({
             playerStart: playerState.slice(),
             playerState: playerState,
             moveHistory: []
         });
-    }
+    };
 
     render() {
         return (
@@ -459,6 +487,9 @@ class Game extends React.Component {
                         DimensionChanged={this.DimensionChanged}
                         copiedClipboard = {this.copiedClipboard}
                         copiedToClipboard = {this.copiedToClipboard}
+                        toggleLineIndicators = {this.toggleLineIndicators}
+                        toggleBuildMode = {this.toggleBuildMode}
+                        undoMove = {this.handleUndoMove}
                     />
                     <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
                 </Grid>
@@ -478,6 +509,7 @@ class Game extends React.Component {
                             onStopDragHandler={this.onStopDragHandlerGoal}
                             draggableGrid={[this.state.squareSize,this.state.squareSize]}
                             isCreateMode={this.state.createMode}
+                            buildMode={this.state.buildMode}
                         />
                         {
                             this.state.ColoredLineDirections.map(ColoredLineDirection =>
@@ -505,6 +537,7 @@ class Game extends React.Component {
                                     handlePlayerMovement={this.handlePlayerMovement}
                                     tabSelector={this.tabSelector}
                                     isCreateMode={this.state.createMode}
+                                    buildMode={this.state.buildMode}
                                     onStopDragHandler={this.onStopDragHandler}
                                     draggableGrid={[this.state.squareSize,this.state.squareSize]}
                                 />
@@ -538,7 +571,15 @@ class Game extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={3} md={2}>
                     <div style={{display: 'grid'}}>
-                        <ToggleSettings onClick={this.toggleLineIndicators}/>
+                        <Typography
+                            color="secondary"
+                            display="block"
+                            variant={"h4"}
+
+                        >
+                            {this.props.name}
+                        </Typography>
+                        <br/>
                         <HighScores highscores={this.state.highscores}/>
                     </div>
                 </Grid>

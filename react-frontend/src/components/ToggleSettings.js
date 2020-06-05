@@ -4,9 +4,6 @@ import Switch from "@material-ui/core/Switch";
 
 const buttonpanel = () => {
     return {
-        marginRight: '5px',
-        marginTop: '15px',
-        marginBottom: '15px',
         float: 'left',
     };
 }
@@ -28,8 +25,7 @@ class ToggleSettings extends React.Component {
                 <FormControlLabel
                     value="end"
                     control={<Switch color="primary" onChange={this.handleClick}/>}
-                    label="Toggle Line Indicators"
-                    labelPlacement="end"
+                    label="Line Indicators"
                 />
             </div>
         )

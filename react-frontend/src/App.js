@@ -11,10 +11,8 @@ import SignInButton from './components/SignInButton';
 import axios from 'axios';
 import Game from './containers/Game';
 import withStyles from "@material-ui/core/styles/withStyles";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -37,6 +35,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import {MOBILE_INNER_SCREEN_WIDTH} from "./constants/constants";
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import teal from '@material-ui/core/colors/teal';
 
 const drawerWidth = 240;
 
@@ -145,7 +145,7 @@ class App extends React.Component {
         }
         else {
             this.state = {
-                PageSelected: <PlayGame gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
+                PageSelected: <PlayGame name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
             };
         }
         this.state.open = true;
@@ -195,7 +195,6 @@ class App extends React.Component {
                 .then( res => {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
-                        console.log(games)
                         this.setState({
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
                         });
@@ -208,7 +207,6 @@ class App extends React.Component {
                 .then( res => {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
-                        console.log(games)
                         this.setState({
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
                         });
@@ -221,7 +219,6 @@ class App extends React.Component {
                 .then( res => {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
-                        console.log(games)
                         this.setState({
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
                         });
@@ -234,7 +231,6 @@ class App extends React.Component {
                 .then( res => {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
-                        console.log(games)
                         this.setState({
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
                         });
@@ -247,7 +243,6 @@ class App extends React.Component {
                 .then( res => {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
-                        console.log(games)
                         this.setState({
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
                         });
@@ -262,9 +257,9 @@ class App extends React.Component {
         });
     };
 
-    handleGameClick = (gamedata,highscores,uri) => {
+    handleGameClick = (name, gamedata,highscores,uri) => {
         this.setState({
-            PageSelected: <PlayGame highscores={highscores} gamedata={gamedata} uri={uri}/>
+            PageSelected: <PlayGame name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>
         });
     };
     handleClickCreateGame = event => {
@@ -310,184 +305,194 @@ class App extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const theme = createMuiTheme({
+            palette: {
+                primary: teal,
+                secondary: {
+                    main: '#e65100',
+                },
+            }
+        });
         return (
-            <div className={classes.root}>
-                <AppBar
-                    position="fixed"
-                    className={clsx(classes.appBar, {
-                        [classes.appBarShift]: this.state.open,
-                    })}
-                >
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={this.handleDrawerOpen}
-                            edge="start"
-                            className={clsx(classes.menuButton, this.state.open && classes.hide)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" className={classes.title} noWrap>
-                            <a href="/" style={{color: 'white'}}>RobitsEvolved
-                                <span>.com</span>
-                            </a>
-                        </Typography>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
+            <MuiThemeProvider theme={theme}>
+                <div className={classes.root}>
+                    <AppBar
+                        position="fixed"
+                        className={clsx(classes.appBar, {
+                            [classes.appBarShift]: this.state.open,
+                        })}
+                    >
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={this.handleDrawerOpen}
+                                edge="start"
+                                className={clsx(classes.menuButton, this.state.open && classes.hide)}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography variant="h6" className={classes.title} noWrap>
+                                <a href="/" style={{color: 'white'}}>RobitsEvolved
+                                    <span>.com</span>
+                                </a>
+                            </Typography>
+                            <div className={classes.grow} />
+                            <div className={classes.sectionDesktop}>
+                                <LoggedInUser/>
+                                <IconButton aria-label="show 2 new notifications" color="inherit">
+                                    <Badge badgeContent={2} color="secondary">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </div>
+                            <div className={classes.sectionMobile}>
+                                <IconButton
+                                    aria-label="show more"
+                                    aria-controls={"primary-search-account-menu-mobile"}
+                                    aria-haspopup="true"
+                                    onClick={this.handleMobileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <MoreIcon />
+                                </IconButton>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                    <Menu
+                        anchorEl={this.state.mobileAnchorEl}
+                        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                        id={"primary-search-account-menu-mobile"}
+                        keepMounted
+                        transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                        open={this.state.mobileMenuOpen}
+                        onClose={this.handleMobileMenuClose}
+                    >
+                        <MenuItem>
                             <LoggedInUser/>
-                            <IconButton aria-label="show 2 new notifications" color="inherit">
-                                <Badge badgeContent={2} color="secondary">
-                                    <NotificationsIcon />
+                        </MenuItem>
+                        <MenuItem>
+                            <p>Notifications</p>
+                            <IconButton aria-label="show 11 new notifications" color="inherit">
+                                <Badge badgeContent={11} color="secondary">
+                                    <NotificationsIcon/>
                                 </Badge>
                             </IconButton>
-                        </div>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={"primary-search-account-menu-mobile"}
-                                aria-haspopup="true"
-                                onClick={this.handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-                <Menu
-                    anchorEl={this.state.mobileAnchorEl}
-                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                    id={"primary-search-account-menu-mobile"}
-                    keepMounted
-                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                    open={this.state.mobileMenuOpen}
-                    onClose={this.handleMobileMenuClose}
-                >
-                    <MenuItem>
-                        <LoggedInUser/>
-                    </MenuItem>
-                    <MenuItem>
-                        <p>Notifications</p>
-                        <IconButton aria-label="show 11 new notifications" color="inherit">
-                            <Badge badgeContent={11} color="secondary">
-                                <NotificationsIcon/>
-                            </Badge>
-                        </IconButton>
-                    </MenuItem>
-                </Menu>
-                <Drawer
-                    className={classes.drawer}
-                    variant="persistent"
-                    anchor="left"
-                    open={this.state.open}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                >
-                    <div className={classes.drawerHeader}>
-                        <div className={classes.drawerHeaderLeft}>
-                            <SignInButton onClick={this.SignInButtonPressed}/>
-                        </div>
-                        <div className={classes.drawerHeaderRight}>
-                            <IconButton onClick={this.handleDrawerClose}>
-                                {useTheme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                            </IconButton>
-                        </div>
-                    </div>
-                    <Divider />
-                    <Typography
-                        className={classes.dividerFullWidth}
-                        color="textSecondary"
-                        display="block"
-                        variant="caption"
+                        </MenuItem>
+                    </Menu>
+                    <Drawer
+                        className={classes.drawer}
+                        variant="persistent"
+                        anchor="left"
+                        open={this.state.open}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
                     >
-                        Play
-                    </Typography>
-                    <List>
-                        <ListItem button key={'Create a Game'} onClick={this.handleClickCreateGame}>
-                            <ListItemIcon><PlayArrowIcon /></ListItemIcon>
-                            <ListItemText primary={'Create a Game'} />
-                        </ListItem>
-                        <ListItem button key={'Find a Game'} onClick={this.handleClickFindGame}>
-                            <ListItemIcon><SearchIcon /></ListItemIcon>
-                            <ListItemText primary={'Find a Game'} />
-                        </ListItem>
-                        <ListItem button key={'Puzzle Rush'} onClick={this.handleClickPuzzleRush}>
-                            <ListItemIcon><ExtensionIcon /></ListItemIcon>
-                            <ListItemText primary={'Puzzle Rush'} />
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <Typography
-                        className={classes.dividerFullWidth}
-                        color="textSecondary"
-                        display="block"
-                        variant="caption"
-                    >
-                        Learn
-                    </Typography>
-                    <List>
-                        <ListItem button key={'Robits Basics'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Robits Basics'} />
-                        </ListItem>
-                        <ListItem button key={'Starter Puzzles'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Starter Puzzles'} />
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <Typography
-                        className={classes.dividerFullWidth}
-                        color="textSecondary"
-                        display="block"
-                        variant="caption"
-                    >
-                        Community
-                    </Typography>
-                    <List>
-                        <ListItem button key={'Players'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Players'} />
-                        </ListItem>
-                        <ListItem button key={'Teams'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Teams'} />
-                        </ListItem>
-                        <ListItem button key={'Forum'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Forum'} />
-                        </ListItem>
-                    </List>
-                    <Divider />
-                    <Typography
-                        className={classes.dividerFullWidth}
-                        color="textSecondary"
-                        display="block"
-                        variant="caption"
-                    >
-                        Tools
-                    </Typography>
-                    <List>
-                        <ListItem button key={'Robits Solver'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Robits Solver'} />
-                        </ListItem>
-                        <ListItem button key={'Settings'}>
-                            <ListItemIcon><WarningIcon /></ListItemIcon>
-                            <ListItemText primary={'Settings'} />
-                        </ListItem>
-                    </List>
-                </Drawer>
-                <main className={clsx(classes.content, {
-                    [classes.contentShift]: this.state.open,
-                })}>
-                    <div className={classes.drawerHeader} />
-                    {this.state.PageSelected}
-                </main>
-                <LoginModal closeLoginModal={this.closeLoginModal} show={this.state.showLoginModal}/>
-            </div>
+                        <div className={classes.drawerHeader}>
+                            <div className={classes.drawerHeaderLeft}>
+                                <SignInButton onClick={this.SignInButtonPressed}/>
+                            </div>
+                            <div className={classes.drawerHeaderRight}>
+                                <IconButton onClick={this.handleDrawerClose}>
+                                    {useTheme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                                </IconButton>
+                            </div>
+                        </div>
+                        <Divider />
+                        <Typography
+                            className={classes.dividerFullWidth}
+                            color="textSecondary"
+                            display="block"
+                            variant="caption"
+                        >
+                            Play
+                        </Typography>
+                        <List>
+                            <ListItem button key={'Create a Game'} onClick={this.handleClickCreateGame}>
+                                <ListItemIcon><PlayArrowIcon /></ListItemIcon>
+                                <ListItemText primary={'Create a Game'} />
+                            </ListItem>
+                            <ListItem button key={'Find a Game'} onClick={this.handleClickFindGame}>
+                                <ListItemIcon><SearchIcon /></ListItemIcon>
+                                <ListItemText primary={'Find a Game'} />
+                            </ListItem>
+                            <ListItem button key={'Puzzle Rush'} onClick={this.handleClickPuzzleRush}>
+                                <ListItemIcon><ExtensionIcon /></ListItemIcon>
+                                <ListItemText primary={'Puzzle Rush'} />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <Typography
+                            className={classes.dividerFullWidth}
+                            color="textSecondary"
+                            display="block"
+                            variant="caption"
+                        >
+                            Learn
+                        </Typography>
+                        <List>
+                            <ListItem button key={'Robits Basics'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Robits Basics'} />
+                            </ListItem>
+                            <ListItem button key={'Starter Puzzles'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Starter Puzzles'} />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <Typography
+                            className={classes.dividerFullWidth}
+                            color="textSecondary"
+                            display="block"
+                            variant="caption"
+                        >
+                            Community
+                        </Typography>
+                        <List>
+                            <ListItem button key={'Players'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Players'} />
+                            </ListItem>
+                            <ListItem button key={'Teams'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Teams'} />
+                            </ListItem>
+                            <ListItem button key={'Forum'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Forum'} />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <Typography
+                            className={classes.dividerFullWidth}
+                            color="textSecondary"
+                            display="block"
+                            variant="caption"
+                        >
+                            Tools
+                        </Typography>
+                        <List>
+                            <ListItem button key={'Robits Solver'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Robits Solver'} />
+                            </ListItem>
+                            <ListItem button key={'Settings'}>
+                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemText primary={'Settings'} />
+                            </ListItem>
+                        </List>
+                    </Drawer>
+                    <main className={clsx(classes.content, {
+                        [classes.contentShift]: this.state.open,
+                    })}>
+                        <div className={classes.drawerHeader} />
+                        {this.state.PageSelected}
+                    </main>
+                    <LoginModal closeLoginModal={this.closeLoginModal} show={this.state.showLoginModal}/>
+                </div>
+            </MuiThemeProvider>
         )
     }
 }

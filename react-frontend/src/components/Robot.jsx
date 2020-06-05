@@ -114,7 +114,7 @@ class Robot extends React.Component {
 
 
     handleCreateMode = () => {
-        if (this.props.isCreateMode === 'Yes') {
+        if (this.props.isCreateMode === 'Yes' && this.props.buildMode) {
             return (
             <Draggable position={{x: this.props.position.left * this.props.dimension, y:this.props.position.top*this.props.dimension}} grid={this.props.draggableGrid} onStop={this.onStopDragHandler} bounds="parent">
                 <div onClick={this.handleClick} style={styleoutsidedraggable(this.props)}>

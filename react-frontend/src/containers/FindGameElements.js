@@ -23,7 +23,7 @@ export default function ComplexGrid(props) {
         var highscoreauthor = ''
     }
     const handleClick = () => {
-        props.handleGameClick(props.game.puzzledata,props.highscores,props.game.uri);
+        props.handleGameClick(props.game.name, props.game.puzzledata,props.highscores,props.game.uri);
     }
 
     return (

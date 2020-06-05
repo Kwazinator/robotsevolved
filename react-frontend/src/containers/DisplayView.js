@@ -3,6 +3,11 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import ToggleSettings from "../components/ToggleSettings";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const controlpanel = () => {
     return {
@@ -17,8 +22,6 @@ const buttonPanel = () => {
     return {
         display: 'inline-flex',
         width: '200px',
-        marginTop: '15px',
-        marginBottom: '15px',
     }
 };
 
@@ -37,7 +40,14 @@ class DisplayView extends React.Component {
     isCreateMode = (createMode) => {
         if (createMode === 'Yes') {
             return (
-                    <Button onClick={this.handleCreateBoardClick}> Create New Board</Button>
+                <div>
+                    <Button color="secondary" variant={"outlined"} fullWidth={true} onClick={this.handleCreateBoardClick}> Create Board</Button>
+                    <FormControlLabel
+                        value="end"
+                        control={<Switch color="primary" onChange={this.props.toggleBuildMode}/>}
+                        label="Build Mode"
+                            />
+                </div>
                 );
         }
         else {
@@ -79,16 +89,30 @@ class DisplayView extends React.Component {
      render() {
          return (
              <div style={controlpanel()}>
-                 <div style={{display: 'inline-flex', width: '200px', paddingBottom: '10px'}}>
-                     <Button variant="contained" color="secondary" style={{marginRight: "10px"}}
+                 <div style={{paddingBottom: '10px'}}>
+                     <Button fullWidth={true} variant="contained" color="secondary" style={{marginRight: "10px"}}
                              onClick={this.copyToClipboard}>{this.state.copyButtonText}</Button>
                  </div>
-                 <ButtonGroup color="secondary" aria-label="contained primary button group">
+                 <Divider />
+                 <Typography
+                     color="textSecondary"
+                     display="block"
+                     variant="caption"
+                     style={{paddingBottom: '10px'}}
+                 >
+                     Board Actions
+                 </Typography>
+                 <ButtonGroup fullWidth={true} color="secondary" aria-label="contained primary button group">
                      <Button onClick={this.props.resetPuzzle}>Reset</Button>
-                     {this.isCreateMode(this.props.createMode)}
+                     <Button onClick={this.props.undoMove}>Undo</Button>
                  </ButtonGroup>
+                 {this.isCreateMode(this.props.createMode)}
+                 <ToggleSettings onClick={this.props.toggleLineIndicators}/>
                  <div style={buttonPanel()}>
-                     <Typography id="discrete-slider-small-steps" gutterBottom>
+                     <Typography id="discrete-slider-small-steps"
+                                 color="textSecondary"
+                                 display="inline"
+                                 gutterBottom>
                          Size Of Board
                      </Typography>
                      <Slider
@@ -103,6 +127,7 @@ class DisplayView extends React.Component {
                          valueLabelDisplay="auto"
                      />
                  </div>
+                 <Divider />
              </div>
          )
      }

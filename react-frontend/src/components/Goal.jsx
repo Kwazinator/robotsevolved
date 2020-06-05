@@ -28,7 +28,7 @@ const styledragable = ({dimension,position}) => {
 
 
 export default function Goal(props) {
-    if (props.isCreateMode === 'Yes') {
+    if (props.isCreateMode === 'Yes'  && props.buildMode) {
         const onStopDragHandler = (e, position) => {
             props.onStopDragHandler(position);
         }
