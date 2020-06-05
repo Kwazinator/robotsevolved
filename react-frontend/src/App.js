@@ -333,7 +333,7 @@ class App extends React.Component {
                                 <MenuIcon />
                             </IconButton>
                             <Typography variant="h6" className={classes.title} noWrap>
-                                <a href="/" style={{color: 'white'}}>RobitsEvolved
+                                <a href="/" style={{color: 'white'}}>RobotsEvolved
                                     <span>.com</span>
                                 </a>
                             </Typography>

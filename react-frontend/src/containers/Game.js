@@ -17,7 +17,6 @@ import YouWinModal from '../components/YouWinModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
-import ToggleSettings from '../components/ToggleSettings';
 import {
     LEFT,
     RIGHT,
@@ -490,6 +489,7 @@ class Game extends React.Component {
                         toggleLineIndicators = {this.toggleLineIndicators}
                         toggleBuildMode = {this.toggleBuildMode}
                         undoMove = {this.handleUndoMove}
+                        buildMode = {this.state.buildMode}
                     />
                     <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
                 </Grid>
