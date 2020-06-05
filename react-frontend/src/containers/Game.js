@@ -72,7 +72,7 @@ class Game extends React.Component {
         super(props);
         if (this.props.puzzleRush === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
-            this.state.p_id = this.props.p_id
+            this.state.p_id = this.props.p_id;
             this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
@@ -101,7 +101,7 @@ class Game extends React.Component {
                 moveHistory: [],
                 uri: '',
                 createMode: 'Yes',
-                buildMode: false,
+                buildMode: true,
                 highscores: [],
                 showBoardResetPanelModal: false,
                 ColoredLineDirections: [],
