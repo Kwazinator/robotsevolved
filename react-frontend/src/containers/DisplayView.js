@@ -97,7 +97,7 @@ class DisplayView extends React.Component {
                                      gutterBottom>
                              Puzzles: {this.props.numPuzzleRush}
                          </Typography>
-                        <Timer>
+                        <Timer puzzleRushTimeUp={this.props.puzzleRushTimeUp}>
                         </Timer>
                      </div>
             )

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 
 export default class Timer extends Component {
+
     state = {
-        minutes: 5,
-        seconds: 0,
-    }
+            minutes: 1,
+            seconds: 0,
+        }
 
     componentDidMount() {
         this.myInterval = setInterval(() => {
@@ -17,6 +18,7 @@ export default class Timer extends Component {
             }
             if (seconds === 0) {
                 if (minutes === 0) {
+                    this.props.puzzleRushTimeUp();
                     clearInterval(this.myInterval)
                 } else {
                     this.setState(({ minutes }) => ({
@@ -28,6 +30,16 @@ export default class Timer extends Component {
         }, 1000)
     }
 
+    timer = () => {
+        if (this.state.minutes === 0 && this.state.seconds === 0) {
+            return (<h2>Time is up!</h2>)
+        }
+        else {
+            return(
+                <h2>Time Remaining: {this.state.minutes}:{this.state.seconds < 10 ? `0${this.state.seconds}` : this.state.seconds}</h2>)
+        }
+    }
+
     componentWillUnmount() {
         clearInterval(this.myInterval)
     }
@@ -35,12 +47,7 @@ export default class Timer extends Component {
     render() {
         const { minutes, seconds } = this.state
         return (
-            <div>
-                { minutes === 0 && seconds === 0
-                    ? <h2>Busted!</h2>
-                    : <h2>Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h2>
-                }
-            </div>
+            this.timer()
         )
     }
 }

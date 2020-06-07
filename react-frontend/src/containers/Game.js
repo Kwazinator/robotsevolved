@@ -17,6 +17,7 @@ import YouWinModal from '../components/YouWinModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
+import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
 import {
     LEFT,
     RIGHT,
@@ -71,6 +72,7 @@ class Game extends React.Component {
         super(props);
         if (this.props.puzzleRush === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
+            this.state.games = this.props.games
             this.state.p_id = this.props.p_id;
             this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
@@ -246,6 +248,13 @@ class Game extends React.Component {
         });
     };
 
+    closePuzzleRushFinishedModal = event => {
+        this.setState({
+            showPuzzleRushFinishedModal: false
+        });
+
+    }
+
     createBoard = (width,height,percent) => {
         var board = BoardGenerator(width,height,percent, 'blank');
         this.setState(extend({
@@ -330,8 +339,22 @@ class Game extends React.Component {
         return newPosition;
     };
 
-    checkwin = (robotPosition) => {
 
+    puzzleRushTimeUp = () => {
+        this.setState({
+            showPuzzleRushFinishedModal: true,
+            numPuzzlesCompleted: this.state.numPuzzleon + 1,
+            percentile: '90%',
+            averageTime: '39s',
+            averageMoves: '23',
+            differenceOptimal: '4',
+            movesPerSecond: '4'
+        });
+
+    }
+
+
+    checkwin = (robotPosition) => {
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
             if (this.state.gameWon === false)
                 this.setState({gameWon: true});
@@ -344,11 +367,14 @@ class Game extends React.Component {
                 />);
             }
             else if (this.props.puzzleRush === 'Yes'){
-                var puzzledata = JSON.parse(this.props.games[this.state.numPuzzleon + 1].g_puzzledata)
+                var puzzledata = JSON.parse(this.state.games[this.state.numPuzzleon + 1].g_puzzledata)
+                if (this.state.numPuzzleon - 3 > this.state.games.length) {
+                    console.log('load more games');
+                }
                 this.setState(
                     extend(puzzledata,{numPuzzleon: this.state.numPuzzleon + 1, playerState: puzzledata.playerStart.slice(), gameWon: false})
                 );
-                //this.resetPuzzle()
+
             }
             else {
                 return (<AddPuzzleModal
@@ -475,6 +501,7 @@ class Game extends React.Component {
             <Grid container alignItems={"stretch"}>
                 <Grid item xs={12} sm={3} md={2}>
                     <DisplayView
+                        puzzleRushTimeUp={this.puzzleRushTimeUp}
                         isPuzzleRush={this.props.puzzleRush}
                         numPuzzleRush={this.state.numPuzzleon}
                         uri={this.state.uri}
@@ -597,6 +624,16 @@ class Game extends React.Component {
                     this.state.playerState.map(position =>
                         this.checkwin(position))
                 }
+                <PuzzleRushWinModal
+                    show={this.state.showPuzzleRushFinishedModal}
+                    closeModal={this.closePuzzleRushFinishedModal}
+                    numPuzzlesCompleted={this.state.numPuzzlesCompleted}
+                    percentile={this.state.puzzleRushPercentileCompleted}
+                    averageTime={this.state.averageTime}
+                    averageMoves={this.state.averageMoves}
+                    differenceOptimal={this.state.differenceOptimal}
+                    movesPerSecond={this.state.movesPerSecond}
+                />
             </Grid>
         </div>
         );
