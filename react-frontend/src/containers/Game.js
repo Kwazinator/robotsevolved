@@ -71,6 +71,7 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         if (this.props.puzzleRush === 'Yes') {
+            console.log(this.props.games);
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
             this.state.games = this.props.games
             this.state.p_id = this.props.p_id;
@@ -82,6 +83,8 @@ class Game extends React.Component {
             this.state.numPuzzleon = 0;
             this.state.createMode = 'No';
             this.state.buildMode = false;
+            this.state.totalMovesList = [];
+            this.state.solutiondifference = [];
         }
         else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
@@ -341,16 +344,26 @@ class Game extends React.Component {
 
 
     puzzleRushTimeUp = () => {
+        var totalMovesDiff = 0;
+        this.state.solutiondifference.map(numMoves => {
+            totalMovesDiff += numMoves;
+        });
+        var averageTime = parseInt(300 / (this.state.numPuzzleon))
+        var totalMoves = 0;
+        this.state.totalMovesList.map(numMoves => {
+            totalMoves += numMoves
+        });
+        var avgMoves = parseInt(totalMoves / (this.state.numPuzzleon))
+        var movesPerSecond = 300 / totalMoves;
         this.setState({
             showPuzzleRushFinishedModal: true,
-            numPuzzlesCompleted: this.state.numPuzzleon + 1,
-            percentile: '90%',
-            averageTime: '39s',
-            averageMoves: '23',
-            differenceOptimal: '4',
-            movesPerSecond: '4'
+            numPuzzlesCompleted: this.state.numPuzzleon,
+            percentile: 'TBD%',
+            averageTime: averageTime + 's',
+            averageMoves: avgMoves,
+            differenceOptimal: totalMoves,
+            movesPerSecond: movesPerSecond
         });
-
     }
 
 
@@ -367,12 +380,27 @@ class Game extends React.Component {
                 />);
             }
             else if (this.props.puzzleRush === 'Yes'){
+                var totalMoves = this.state.moveHistory.slice().length
+                var totalMovesList = this.state.totalMovesList
+                totalMovesList.push(totalMoves)
+                var solutionmoves = totalMoves - this.state.games[this.state.numPuzzleon].g_moves
+                var solutiondifference = this.state.solutiondifference
+                solutiondifference.push(solutionmoves)
                 var puzzledata = JSON.parse(this.state.games[this.state.numPuzzleon + 1].g_puzzledata)
-                if (this.state.numPuzzleon - 3 > this.state.games.length) {
-                    console.log('load more games');
+                if (this.state.numPuzzleon + 3 > this.state.games.length) {
+                    axios.get('/puzzlerushgetmore?p_id=' + this.props.p_id + '&difficulty=' + this.props.difficulty)
+                        .then( res => {
+                                var games = JSON.parse(res.data.games);
+                                console.log(games)
+                                var stategames = this.state.games
+                                var newarray = stategames.concat(games)
+                                this.setState({
+                                    games: newarray
+                                });
+                        });
                 }
                 this.setState(
-                    extend(puzzledata,{numPuzzleon: this.state.numPuzzleon + 1, playerState: puzzledata.playerStart.slice(), gameWon: false})
+                    extend(puzzledata,{numPuzzleon: this.state.numPuzzleon + 1, playerState: puzzledata.playerStart.slice(), gameWon: false, solutiondifference: solutiondifference, totalMovesList: totalMovesList})
                 );
 
             }

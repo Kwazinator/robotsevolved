@@ -196,7 +196,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'easy'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
                 });
@@ -208,7 +208,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'medium'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
                 });
@@ -220,7 +220,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'hard'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
                 });
@@ -232,7 +232,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
+                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'exteremely hard'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
                 });

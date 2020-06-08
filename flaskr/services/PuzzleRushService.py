@@ -13,11 +13,10 @@ class PuzzleRushService:
 
 
 
-
-
+    #def get_puzzle_rush_data(self, p_id):
+        #generatedgameslist = PuzzleRushDAO().get_puzzles_of_puzzle_rush(p_id)
 
     def get_games_for_puzzle_rush(self, p_id, numPuzzles,difficulty):
-
         if (PuzzleRushDAO().check_game_valid(p_id)):
             if difficulty == 'easy':
                 #do stuff etc check for all
@@ -36,8 +35,11 @@ class PuzzleRushService:
         gamelist = list()
         for game in games:
             if PuzzleRushDAO().match_game_to_puzzle(p_id, game['g_id']) == 'completed':
-                game.pop('g_solutiondata')
-                game.pop('g_moves')
+                #game.pop('g_solutiondata')
+                #game.pop('g_moves')
+                #
+                #REMOVE THIS WHEN WE WANT IT TO BE SERVER-SIDE FOR PUZZLE RUSHES
+                #
                 gamelist.append(game)
         return gamelist
 
