@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
 
 const buttonpanel = () => {
     return {
@@ -43,31 +44,31 @@ class PuzzleRushWinModal extends React.Component {
                     maxWidth={"xs"}
                     fullWidth={true}
             >
-                <DialogTitle id="customized-dialog-title-2" onClose={this.handleClose}>Puzzle Rush - difficulty: {this.props.difficulty}</DialogTitle>
+                <DialogTitle id="customized-dialog-title-2" onClose={this.handleClose}>Puzzle Rush - {this.props.difficulty}</DialogTitle>
                 <DialogContent dividers>
                     <div>
                         <label style={labelStyle()} >{'Number of Puzzles Completed:\t\t'}</label>
-                        <TextField label={this.props.numPuzzlesCompleted} />
+                        <Paper elevation={3}>{this.props.numPuzzlesCompleted}</Paper>
                     </div>
                     <div>
                         <label style={labelStyle()} >{'Percentile:\t\t'}</label>
-                        <TextField label={this.props.percentile} />
+                        <Paper elevation={3}>{this.props.percentile}</Paper>
                     </div>
                     <div>
                         <label style={labelStyle()} >{'Average time Per Puzzle:\t\t'}</label>
-                        <TextField label={this.props.averageTime} />
+                        <Paper elevation={3}>{this.props.averageTime}</Paper>
                     </div>
                     <div>
                         <label style={labelStyle()} >{'Average Moves per Puzzle:\t\t'}</label>
-                        <TextField label={this.props.averageMoves} />
+                        <Paper elevation={3}>{this.props.averageMoves}</Paper>
                     </div>
                     <div>
                         <label style={labelStyle()} >{'Difference from most optimal Solution:\t\t'}</label>
-                        <TextField label={this.props.differenceOptimal} />
+                        <Paper elevation={3}>{this.props.differenceOptimal}</Paper>
                     </div>
                     <div>
                         <label style={labelStyle()} >{'Moves Per Second:\t\t'}</label>
-                        <TextField label={this.props.movesPerSecond} />
+                        <Paper elevation={3}>{this.props.movesPerSecond}</Paper>
                     </div>
                 </DialogContent>
                 <DialogActions>

@@ -661,6 +661,7 @@ class Game extends React.Component {
                     averageMoves={this.state.averageMoves}
                     differenceOptimal={this.state.differenceOptimal}
                     movesPerSecond={this.state.movesPerSecond}
+                    difficulty={this.props.difficulty}
                 />
             </Grid>
         </div>
