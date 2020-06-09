@@ -48,7 +48,7 @@ class PuzzleRushService:
 
     def start_puzzle(self, user_id, difficulty):
         p_id = PuzzleRushDAO().start_puzzle(user_id,difficulty)
-        games = self.get_games_for_puzzle_rush(p_id,10,difficulty)
+        games = self.get_games_for_puzzle_rush(p_id,2,difficulty)
         return (games, p_id)
 
     def submit_solution_rush(self, p_id, g_id, solutiondata):

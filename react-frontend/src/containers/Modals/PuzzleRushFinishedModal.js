@@ -7,23 +7,12 @@ import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import ListItemText from '@material-ui/core/ListItemText';
 
-const buttonpanel = () => {
-    return {
-        marginRight: '5px',
-        marginTop: '15px',
-        marginBottom: '15px'
-    };
-};
-
-const labelStyle = () => {
-    return {
-        display: 'inline-block',
-        textAlign: 'right',
-        width: '140px',
-        paddingRight: '20px'
-    };
-};
 
 
 class PuzzleRushWinModal extends React.Component {
@@ -46,30 +35,54 @@ class PuzzleRushWinModal extends React.Component {
             >
                 <DialogTitle id="customized-dialog-title-2" onClose={this.handleClose}>Puzzle Rush - {this.props.difficulty}</DialogTitle>
                 <DialogContent dividers>
-                    <div>
-                        <label style={labelStyle()} >{'Number of Puzzles Completed:\t\t'}</label>
-                        <Paper elevation={3}>{this.props.numPuzzlesCompleted}</Paper>
-                    </div>
-                    <div>
-                        <label style={labelStyle()} >{'Percentile:\t\t'}</label>
-                        <Paper elevation={3}>{this.props.percentile}</Paper>
-                    </div>
-                    <div>
-                        <label style={labelStyle()} >{'Average time Per Puzzle:\t\t'}</label>
-                        <Paper elevation={3}>{this.props.averageTime}</Paper>
-                    </div>
-                    <div>
-                        <label style={labelStyle()} >{'Average Moves per Puzzle:\t\t'}</label>
-                        <Paper elevation={3}>{this.props.averageMoves}</Paper>
-                    </div>
-                    <div>
-                        <label style={labelStyle()} >{'Difference from most optimal Solution:\t\t'}</label>
-                        <Paper elevation={3}>{this.props.differenceOptimal}</Paper>
-                    </div>
-                    <div>
-                        <label style={labelStyle()} >{'Moves Per Second:\t\t'}</label>
-                        <Paper elevation={3}>{this.props.movesPerSecond}</Paper>
-                    </div>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                          <Typography variant="h6">
+                            Statistics
+                          </Typography>
+                          <div>
+                            <List dense={true}>
+
+                                <ListItem>
+                                  <ListItemText
+                                    primary="Number of Puzzles Completed"
+                                    secondary={this.props.numPuzzlesCompleted}
+                                  />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    primary="Percentile"
+                                    secondary={this.props.percentile}
+                                  />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    primary="Average time Per Puzzle"
+                                    secondary={this.props.averageTime}
+                                  />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    primary="Average Moves per Puzzle"
+                                    secondary={this.props.averageMoves}
+                                  />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    primary="Difference from most optimal Solution"
+                                    secondary={this.props.differenceOptimal}
+                                  />
+                                </ListItem>
+                                <ListItem>
+                                  <ListItemText
+                                    primary="Moves Per Second"
+                                    secondary={this.props.movesPerSecond}
+                                  />
+                                </ListItem>
+                            </List>
+                          </div>
+                        </Grid>
+                      </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="secondary" onClick={this.props.playPuzzleRushAgain}>Play Again!</Button>

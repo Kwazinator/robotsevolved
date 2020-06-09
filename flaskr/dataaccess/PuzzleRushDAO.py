@@ -14,13 +14,12 @@ class PuzzleRushDAO:
     def check_game_valid(self,p_id):
         db = get_db()
         cursor = db.cursor()
-        now = datetime.datetime.now(datetime.timezone.utc)
-        endgame = str(now + datetime.timedelta(minutes=5))
-        row = cursor.execute("SELECT p_id,strftime(p_start_time),user_id,score,difficulty FROM puzzle_rush where p_id = ? and ? >= p_start_time",(p_id,endgame)).fetchone()
-        print(row)
+        row = cursor.execute("SELECT p_id,date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes'),user_id,score,difficulty FROM puzzle_rush where p_id = ? and date(strftime('%Y-%m-%d %H:%M:%f','now')) <= date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes')",(p_id,)).fetchone()
         if row is None:
             return False
         else:
+            for item in row:
+                print(item)
             return True
 
     def start_puzzle(self, user_id, difficulty):

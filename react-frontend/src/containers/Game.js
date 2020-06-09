@@ -354,14 +354,14 @@ class Game extends React.Component {
             totalMoves += numMoves
         });
         var avgMoves = parseInt(totalMoves / (this.state.numPuzzleon))
-        var movesPerSecond = 300 / totalMoves;
+        var movesPerSecond = totalMoves / 300;
         this.setState({
             showPuzzleRushFinishedModal: true,
             numPuzzlesCompleted: this.state.numPuzzleon,
             percentile: 'TBD%',
             averageTime: averageTime + 's',
             averageMoves: avgMoves,
-            differenceOptimal: totalMoves,
+            differenceOptimal: totalMovesDiff,
             movesPerSecond: movesPerSecond
         });
     }
