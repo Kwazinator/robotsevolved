@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS solutions;
 DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS user;
@@ -6,19 +7,18 @@ DROP TABLE IF EXISTS puzzle_rush_to_generated_games;
 DROP TABLE IF EXISTS puzzle_rush;
 
 CREATE TABLE user (
-  userID INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
   username TEXT NOT NULL,
-  logintype TEXT NOT NULL, --google,facebook,spotify, etc
+  logintype TEXT NOT NULL, 
   accountID TEXT,
   profilePicture TEXT,
   email TEXT,
-  activeFlag TEXT,
-  UNIQUE(logintype, accountId) ON CONFLICT REPLACE
+  activeFlag TEXT
 );
 
 
 CREATE TABLE game (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
   name TEXT NOT NULL,
   type TEXT NOT NULL,
   description TEXT,
@@ -31,7 +31,7 @@ CREATE TABLE game (
 );
 
 CREATE TABLE solutions (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  id INTEGER PRIMARY KEY AUTO_INCREMENT,
   gameid INTEGER NOT NULL,
   comment TEXT,
   userid INTEGER NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE solutions (
 );
 
 CREATE TABLE generated_games (
-g_id INTEGER PRIMARY KEY AUTOINCREMENT,
+g_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 g_name TEXT NOT NULL,
 g_difficulty TEXT,
 g_puzzledata TEXT NOT NULL,
@@ -53,8 +53,8 @@ g_solutiondata TEXT NOT NULL
 );
 
 CREATE TABLE puzzle_rush (
-p_id INTEGER PRIMARY KEY AUTOINCREMENT,
-p_start_time DATE DEFAULT CURRENT_TIMESTAMP,
+p_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+p_start_time datetime DEFAULT CURRENT_TIMESTAMP,
 user_id INTEGER,
 score INTEGER DEFAULT 0,
 difficulty TEXT NOT NULL,
