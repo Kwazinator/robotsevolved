@@ -11,7 +11,9 @@ class GenDAO:
     def getPuzzles (self, upper_bound, lower_bound, numPuzzles):
         cursor = get_db().cursor()
         puzzleList = list()
-        for row in cursor.execute('SELECT * FROM generated_games where g_moves between ? and ? order by random() LIMIT ?', (lower_bound, upper_bound, numPuzzles)).fetchall():
+        cursor.execute('SELECT * FROM generated_games where g_moves between %s and %s order by random() LIMIT %s',
+                       (lower_bound, upper_bound, numPuzzles))
+        for row in cursor.fetchall():
             puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5],row[6]).serialize())
         return puzzleList
 
@@ -21,7 +23,7 @@ class GenDAO:
             cursor = db.cursor()
             uri = uuid.uuid4().hex
             print(uri)
-            cursor.execute('INSERT INTO generated_games (g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata) VALUES (?,?,?,?,?,?)',(g_name, g_difficulty, g_puzzledata, g_uri, g_moves, g_solutiondata))
+            cursor.execute('INSERT INTO generated_games (g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata) VALUES (%s,%s,%s,%s,%s,%s)',(g_name, g_difficulty, g_puzzledata, g_uri, g_moves, g_solutiondata))
             db.commit()
             return uri
         except Exception as e:

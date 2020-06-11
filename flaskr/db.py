@@ -3,15 +3,19 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 import flaskr
+from flask_mysqldb import MySQL
 
 def get_db():
-    if 'db' not in g:
+    '''if 'db' not in g:
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
 
+    return g.db'''
+    if 'db' not in g:
+        g.db = MySQL(current_app).connect
     return g.db
 
 def close_db(e=None):
@@ -26,12 +30,15 @@ def init_db():
 
 def custom_code_db():
     db = get_db()
-    return db.execute('SELECT * from game')
+    cursor = db.cursor()
+    cursor.execute("""SELECT * from user""")
+    return cursor.fetchall()
 
 def insert_db():
     db = get_db()
+    cursor = db.cursor()
     with current_app.open_resource('insert.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+        cursor.executescript(f.read().decode('utf8'))
         
 @click.command('insert-db')
 @with_appcontext

@@ -14,7 +14,10 @@ class PuzzleRushDAO:
     def check_game_valid(self,p_id):
         db = get_db()
         cursor = db.cursor()
-        row = cursor.execute("SELECT p_id,date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes'),user_id,score,difficulty FROM puzzle_rush where p_id = ? and date(strftime('%Y-%m-%d %H:%M:%f','now')) <= date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes')",(p_id,)).fetchone()
+        cursor.execute(
+            "SELECT p_id,date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes'),user_id,score,difficulty FROM puzzle_rush where p_id = %s and date(strftime('%Y-%m-%d %H:%M:%f','now')) <= date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes')",
+            (p_id,))
+        row = cursor.fetchone()
         if row is None:
             return False
         else:
@@ -26,9 +29,11 @@ class PuzzleRushDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('INSERT INTO puzzle_rush (user_id,difficulty) VALUES (?,?)',(user_id,difficulty))
+            cursor.execute('INSERT INTO puzzle_rush (user_id,difficulty) VALUES (%s,%s)',(user_id,difficulty))
             db.commit()
-            return cursor.lastrowid
+            lastrowid = cursor.lastrowid
+            print(lastrowid)
+            return lastrowid
         except Exception as e:
             print(e)
             print('error in PuzzleRushDAO start_puzzle')
@@ -37,7 +42,8 @@ class PuzzleRushDAO:
 
     def get_puzzle_rush(self, p_id):
         cursor = get_db().cursor()
-        row = cursor.execute('SELECT * FROM puzzle_rush WHERE p_id=?',(p_id,)).fetchone()
+        cursor.execute('SELECT * FROM puzzle_rush WHERE p_id=%s', (p_id,))
+        row = cursor.fetchone()
         if row is not None:
             return PuzzleRush(row[0],row[1],row[2],row[3],row[4])
         else:
@@ -47,7 +53,7 @@ class PuzzleRushDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('INSERT INTO puzzle_rush_to_generated_games (g_id,pr_id) VALUES (?,?)',(g_id,p_id))
+            cursor.execute('INSERT INTO puzzle_rush_to_generated_games (g_id,pr_id) VALUES (%s,%s)',(g_id,p_id))
             db.commit()
             return 'completed'
         except Exception as e:

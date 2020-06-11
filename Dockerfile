@@ -19,6 +19,7 @@ RUN pip install blinker
 RUN pip install flask-dance
 RUN pip install flask-jwt-extended
 RUN pip install spotipy
+RUN pip install flask-mysqldb
 ENV STATIC_URL /static
 ENV STATIC_PATH /var/www/app/static
 COPY sslnginx.conf /etc/nginx/conf.d/

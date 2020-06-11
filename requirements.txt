@@ -14,3 +14,4 @@ blinker
 flask-dance
 flask-jwt-extended
 random-word
+flask-mysqldb

@@ -17,7 +17,7 @@ class GameDAO:
             #uri = str(r.get_random_word())
             uri = uuid.uuid4().hex
             print(uri)
-            cursor.execute('INSERT INTO game (name,type, description, authorid, authorname, difficulty, puzzledata,uri) VALUES (?,?,?,?,?,?,?,?)',(name, type, description, authorid, authorname, difficulty, puzzledata,uri))
+            cursor.execute('INSERT INTO game (name,type, description, authorid, authorname, difficulty, puzzledata,uri) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',(name, type, description, authorid, authorname, difficulty, puzzledata,uri))
             db.commit()
             return uri
         except Exception as e:
@@ -28,12 +28,14 @@ class GameDAO:
 
     def get_game(self,gameid):
         cursor = get_db().cursor()
-        row = cursor.execute('SELECT * from game WHERE id=?',(gameid,)).fetchone()
+        cursor.execute('SELECT * from game WHERE id=%s',(gameid,))
+        row = cursor.fetchone()
         return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
 
     def check_same_game(self,puzzledata):
         cursor = get_db().cursor()
-        row = cursor.execute('SELECT * from game WHERE puzzledata=?',(puzzledata,)).fetchone()
+        cursor.execute('SELECT * from game WHERE puzzledata=%s',(puzzledata,))
+        row = cursor.fetchone()
         if row is None:
             return 1
         else:
@@ -42,21 +44,23 @@ class GameDAO:
     def insert_highscore(self,gameid,name,userid,authorname,solutiondata,highscore):
         db = get_db()
         cursor = db.cursor()
-        row = cursor.execute('INSERT INTO solutions (gameid,comment,userid,authorname,solutiondata,numMoves) VALUES (?,?,?,?,?,?)',(gameid,name,userid,authorname,solutiondata,highscore))
+        row = cursor.execute('INSERT INTO solutions (gameid,comment,userid,authorname,solutiondata,numMoves) VALUES (%s,%s,%s,%s,%s,%s)',(gameid,name,userid,authorname,solutiondata,highscore))
         db.commit()
         return
 
     def get_game_uri(self, uri):
         db = get_db()
         cursor = db.cursor()
-        row = cursor.execute('SELECT * from game where uri=?',(uri,)).fetchone()
+        cursor.execute('SELECT * from game where uri=%s',(uri,))
+        row = cursor.fetchone()
         return row
 
     def get_highscores(self,id):
         db = get_db()
         cursor = db.cursor()
         highscores = list()
-        for row in cursor.execute('SELECT * from solutions where gameid = ? ORDER BY numMoves ASC',(id,)).fetchall():
+        cursor.execute('SELECT * from solutions where gameid = %s ORDER BY numMoves ASC', (id,))
+        for row in cursor.fetchall():
             highscores.append(Solutions(row[0],row[1],row[2],row[3],row[4],row[5],row[6]).serialize())
         return highscores
 
@@ -64,7 +68,8 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         games = list()
-        query = cursor.execute('SELECT * from game LIMIT ? OFFSET ?',(numGames,offset)).fetchall()
+        cursor.execute('SELECT * from game LIMIT %s OFFSET %s',(numGames,offset))
+        query = cursor.fetchall()
         if query is not None:
             for row in query:
                 games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8]).serialize())

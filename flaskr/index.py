@@ -53,7 +53,7 @@ def play(uri):
 def submitpuzzle():
     data = request.get_json()
     if (GameService().check_same_game(json.dumps(data['puzzledata'])) == 1):
-        uri = GameService().insert_game(data['name'], 'type', 'description', 1, 'test', 1,json.dumps(data['puzzledata']))
+        uri = GameService().insert_game(data['name'], 'type', 'description', 2, 'test', 1,json.dumps(data['puzzledata']))
         return jsonify(uri=uri)
     else:
         return jsonify(uri='GameAlreadyExists')

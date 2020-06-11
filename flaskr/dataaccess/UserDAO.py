@@ -13,7 +13,7 @@ class UserDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            row = cursor.execute('INSERT INTO user (username, logintype, accountID, profilePicture, email, activeFlag) VALUES (?,?,?,?,?,?)',(username, logintype, accountID, profilePicture, email, activeFlag))
+            row = cursor.execute('INSERT INTO user (username, logintype, accountID, profilePicture, email, activeFlag) VALUES (%s,%s,%s,%s,%s,%s)',(username, logintype, accountID, profilePicture, email, activeFlag))
             db.commit()
             return cursor.lastrowid #return the userID that was created
         except Exception as e:
@@ -24,20 +24,23 @@ class UserDAO:
 
     def get_user(self,userID):
         cursor = get_db().cursor()
-        row = cursor.execute('SELECT * from user WHERE userID=?',(userID,)).fetchone()
+        cursor.execute('SELECT * from user WHERE userID=%s', (userID,))
+        row = cursor.fetchone()
         if row is not None:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
         else:
             return None
     def delete_user(self, userID):
         cursor = get_db().cursor()
-        row = cursor.execute("UPDATE user SET activeFlag = 'N' WHERE userID=?", (userID,)).fetchone()
+        cursor.execute("UPDATE user SET activeFlag = 'N' WHERE userID=%s", (userID,))
+        row = cursor.fetchone()
         return
 
 
     def get_user_by_logintype(self,accountID,logintype):
         cursor = get_db().cursor()
-        row = cursor.execute("SELECT * from user WHERE accountID=? and logintype=?", (accountID,logintype)).fetchone()
+        cursor.execute("SELECT * from user WHERE accountID=%s and logintype=%s", (accountID, logintype))
+        row = cursor.fetchone()
         if row is not None:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
         else:
