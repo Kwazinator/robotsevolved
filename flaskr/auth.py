@@ -30,7 +30,7 @@ def new_google_login(name,id_token,email,picture,id):
         return response
     else:
         #create new user
-        userID = UserService().insert_user(name, 'google', id, picture, email, 'Y')
+        userID = UserService().insert_user(str(name), 'google', str(id), str(picture), str(email), 'Y')
         jwt = UserService().create_jwt(userID)
         response = redirect(url_for('index.index'))
         set_access_cookies(response, jwt['access_token'])

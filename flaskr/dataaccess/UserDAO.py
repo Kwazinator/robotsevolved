@@ -24,7 +24,7 @@ class UserDAO:
 
     def get_user(self,userID):
         cursor = get_db().cursor()
-        cursor.execute('SELECT * from user WHERE userID=%s', (userID,))
+        cursor.execute('SELECT * from user WHERE id=%s', (userID,))
         row = cursor.fetchone()
         if row is not None:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
@@ -32,7 +32,7 @@ class UserDAO:
             return None
     def delete_user(self, userID):
         cursor = get_db().cursor()
-        cursor.execute("UPDATE user SET activeFlag = 'N' WHERE userID=%s", (userID,))
+        cursor.execute("UPDATE user SET activeFlag = 'N' WHERE id=%s", (userID,))
         row = cursor.fetchone()
         return
 
