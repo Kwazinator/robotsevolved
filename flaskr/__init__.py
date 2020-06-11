@@ -32,9 +32,9 @@ def create_app(test_config=None):
 
 
     app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] =
-    app.config['MYSQL_HOST'] =
-    app.config['MYSQL_DB'] = 'Robots'
+    app.config['MYSQL_PASSWORD'] = ''
+    app.config['MYSQL_HOST'] = ''
+    app.config['MYSQL_DB'] = 'Robots-Dev'
 
 
     if test_config is None:
