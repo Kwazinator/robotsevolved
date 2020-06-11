@@ -67,7 +67,7 @@ def updatehighscores():
 @bp.route('/submithighscore', methods=('GET','POST'))
 def submithighscore():
     data = request.get_json()
-    rtnMessage = GameService().insert_highscore(data['name'],'test','test','test',data['highscore'],data['uri'])
+    rtnMessage = GameService().insert_highscore(data['name'],1,'test','test',data['highscore'],data['uri'])
     return rtnMessage
 
 @bp.route('/userCreate', methods={'GET', 'POST'})
