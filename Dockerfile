@@ -1,6 +1,7 @@
 FROM tiangolo/uwsgi-nginx-flask:python3.6-alpine3.7
 RUN apk --update add bash nano
 RUN apk add --no-cache libressl-dev musl-dev libffi-dev
+RUN apk add --no-cache mariadb-dev
 RUN apk add gcc musl-dev python3-dev
 RUN pip install --upgrade pip
 RUN pip install random-word
