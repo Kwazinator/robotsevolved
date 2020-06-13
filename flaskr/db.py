@@ -4,6 +4,7 @@ from flask import current_app, g
 from flask.cli import with_appcontext
 import flaskr
 from flask_mysqldb import MySQL
+import mysql.connector
 
 def get_db():
     '''if 'db' not in g:
@@ -15,7 +16,7 @@ def get_db():
 
     return g.db'''
     if 'db' not in g:
-        g.db = MySQL(current_app).connect
+        g.db = mysql.connector.connect(host=current_app.config['MYSQL_HOST'],user=current_app.config['MYSQL_USER'],password=current_app.config['MYSQL_PASSWORD'],database=current_app.config['MYSQL_DB'],use_pure=True)
     return g.db
 
 def close_db(e=None):
