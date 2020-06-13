@@ -10,12 +10,14 @@ class PuzzleRushDAO:
     def __init__(self):
         pass
 
-
     def check_game_valid(self,p_id):
         db = get_db()
         cursor = db.cursor()
         cursor.execute(
-            "SELECT p_id,date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes'),user_id,score,difficulty FROM puzzle_rush where p_id = %s and date(strftime('%Y-%m-%d %H:%M:%f','now')) <= date(strftime('%Y-%m-%d %H:%M:%f',p_start_time),'+5 minutes')",
+            """
+            SELECT p_id
+            FROM puzzle_rush
+            WHERE p_id = %s and CURRENT_TIMESTAMP() <= TIMESTAMPADD(minute, +5, p_start_time)""",
             (p_id,))
         row = cursor.fetchone()
         if row is None:

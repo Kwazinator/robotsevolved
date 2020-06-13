@@ -11,7 +11,7 @@ class GenDAO:
     def getPuzzles (self, upper_bound, lower_bound, numPuzzles):
         cursor = get_db().cursor()
         puzzleList = list()
-        cursor.execute('SELECT * FROM generated_games where g_moves between %s and %s order by random() LIMIT %s',
+        cursor.execute('SELECT * FROM generated_games where g_moves between %s and %s order by RAND() LIMIT %s',
                        (lower_bound, upper_bound, numPuzzles))
         for row in cursor.fetchall():
             puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5],row[6]).serialize())
