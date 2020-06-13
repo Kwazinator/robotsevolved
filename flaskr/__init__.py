@@ -8,6 +8,7 @@ from flask_dance.contrib.spotify import make_spotify_blueprint, spotify
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, unset_refresh_cookies, get_jwt_identity, jwt_required
 from flask_mysqldb import MySQL
+import json
 
 
 
@@ -30,11 +31,15 @@ def create_app(test_config=None):
     app.config['JWT_SESSION_COOKIE'] = False
     jwt_manager = JWTManager(app)
 
+    with open("credentials/DatabaseConnectionString.txt", 'r') as f:
+        data = f.read()
+    data = json.loads(data)
 
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = ''
-    app.config['MYSQL_HOST'] = ''
-    app.config['MYSQL_DB'] = 'Robots-Dev'
+
+    app.config['MYSQL_USER'] = data['DB_USERNAME']
+    app.config['MYSQL_PASSWORD'] = data['DB_PASSWORD']
+    app.config['MYSQL_HOST'] = data['DB_HOST']
+    app.config['MYSQL_DB'] = data['DB_NAME']
 
 
     if test_config is None:
