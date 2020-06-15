@@ -63,3 +63,16 @@ class PuzzleRushDAO:
             return 'failed'
         finally:
             pass
+
+    def increment_score(self, p_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('UPDATE puzzle_rush SET score = score + 1 WHERE p_id=%s',(p_id,))
+            db.commit()
+            return 'completed'
+        except Exception as e:
+            print(e)
+            return 'failed'
+        finally:
+            pass

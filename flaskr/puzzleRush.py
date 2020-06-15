@@ -29,7 +29,7 @@ def puzzlerushgetmore():
     p_id = request.args['p_id']
     difficulty = request.args['difficulty']
     user_id = get_jwt_identity()
-    games = PuzzleRushService().get_games_for_puzzle_rush(p_id,2,difficulty)
+    games = PuzzleRushService().get_games_for_puzzle_rush(p_id,3,difficulty)
     return jsonify(games=json.dumps(games))
 
 '''@bp.route('/finishpuzzlerush',methods=('GET','POST'))
@@ -44,3 +44,17 @@ def puzzlerush():
         games = data[0]
         p_id = data[1]
         return jsonify(games=json.dumps(games),p_id=p_id)'''
+
+@bp.route('/puzzlerushsubmit', methods=('GET','POST'))
+@jwt_optional
+def puzzlerushsubmit():
+    data = request.get_json()
+    p_id = data['p_id']
+    gameid = data['g_id']
+    solution = data['moveHistory']
+    print(p_id)
+    print(gameid)
+    print(solution)
+    PuzzleRushService().submit_solution_rush(p_id,gameid,solution)
+    return jsonify(result='okay')
+

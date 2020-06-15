@@ -52,5 +52,7 @@ class PuzzleRushService:
         return (games, p_id)
 
     def submit_solution_rush(self, p_id, g_id, solutiondata):
-        #alot of shit here
+        if (PuzzleRushDAO().check_game_valid(p_id)):
+            #check solution data based on g_id
+            PuzzleRushDAO().increment_score(p_id)
         return

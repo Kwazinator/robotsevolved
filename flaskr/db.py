@@ -16,7 +16,12 @@ def get_db():
 
     return g.db'''
     if 'db' not in g:
-        g.db = mysql.connector.connect(host=current_app.config['MYSQL_HOST'],user=current_app.config['MYSQL_USER'],password=current_app.config['MYSQL_PASSWORD'],database=current_app.config['MYSQL_DB'],use_pure=True)
+        g.db = mysql.connector.connect(
+                                        host=current_app.config['MYSQL_HOST'],
+                                        user=current_app.config['MYSQL_USER'],
+                                        password=current_app.config['MYSQL_PASSWORD'],
+                                        database=current_app.config['MYSQL_DB'],
+                                        use_pure=True)
     return g.db
 
 def close_db(e=None):

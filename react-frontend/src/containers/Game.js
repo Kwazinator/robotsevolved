@@ -377,9 +377,14 @@ class Game extends React.Component {
                     numMoves={this.state.moveHistory.length}
                     submitAnswer={this.submitAnswer}
                     resetPuzzle={this.resetPuzzle}
+                    username={window.userInfo.username}
                 />);
             }
             else if (this.props.puzzleRush === 'Yes'){
+                axios.post('/puzzlerushsubmit', {p_id: this.state.p_id,g_id:this.state.games[this.state.numPuzzleon].g_id, moveHistory: this.state.moveHistory})
+                    .then( res => {
+                        console.log(res.data);
+                    });
                 var totalMoves = this.state.moveHistory.slice().length
                 var totalMovesList = this.state.totalMovesList
                 totalMovesList.push(totalMoves)

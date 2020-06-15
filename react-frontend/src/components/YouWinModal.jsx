@@ -33,7 +33,7 @@ class YouWinModal extends React.Component {
                         You used {this.props.numMoves} Moves!
                     </div>
                     <br/>
-                    <TextField id={"namesubmitHS"} label={"Username"}/>
+                    <TextField id={"namesubmitHS"} label={"Username"} defaultValue={this.props.username}/>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="secondary" onClick={this.props.submitAnswer}>Submit Highscore</Button>

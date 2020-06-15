@@ -37,6 +37,7 @@ import Menu from '@material-ui/core/Menu';
 import {MOBILE_INNER_SCREEN_WIDTH} from "./constants/constants";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
+import PuzzleRushDifficultyModal from "./containers/Modals/PuzzleRushDifficultyModal";
 
 const drawerWidth = 240;
 
@@ -152,6 +153,7 @@ class App extends React.Component {
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
+        this.state.showPuzzleRushModal = false;
     }
 
     handleDrawerClose = () => {
@@ -180,13 +182,7 @@ class App extends React.Component {
     handleClickPuzzleRush = event => {
         event.preventDefault();
         this.setState({
-            PageSelected: <PuzzleRush
-                            handleClickEasyPuzzleRush={this.handleClickEasyPuzzleRush}
-                            handleClickMediumPuzzleRush={this.handleClickMediumPuzzleRush}
-                            handleClickHardPuzzleRush={this.handleClickHardPuzzleRush}
-                            handleClickExHardPuzzleRush={this.handleClickExHardPuzzleRush}
-                            handleClickGodlyPuzzleRush={this.handleClickGodlyPuzzleRush}
-                            />
+            showPuzzleRushModal: true,
         });
     };
 
@@ -196,6 +192,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
+                            showPuzzleRushModal: false,
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'easy'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
@@ -208,6 +205,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
+                            showPuzzleRushModal: false,
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'medium'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
@@ -220,6 +218,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
+                            showPuzzleRushModal: false,
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'hard'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
@@ -232,6 +231,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
+                            showPuzzleRushModal: false,
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'exteremely hard'}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
@@ -244,6 +244,7 @@ class App extends React.Component {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
                         this.setState({
+                            showPuzzleRushModal: false,
                             PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
                         });
                     //this.props.history.push('/play/' + res.data.uri)
@@ -256,6 +257,13 @@ class App extends React.Component {
             showLoginModal: false
         });
     };
+
+    closePuzzleRushLoginModal = event => {
+        event.preventDefault();
+        this.setState({
+            showPuzzleRushModal: false
+        });
+    }
 
     handleGameClick = (name, gamedata,highscores,uri) => {
         this.setState({
@@ -491,6 +499,14 @@ class App extends React.Component {
                         {this.state.PageSelected}
                     </main>
                     <LoginModal closeLoginModal={this.closeLoginModal} show={this.state.showLoginModal}/>
+                    <PuzzleRushDifficultyModal
+                        closeModal={this.closePuzzleRushLoginModal}
+                        show={this.state.showPuzzleRushModal}
+                        handleClickEasyPuzzleRush={this.handleClickEasyPuzzleRush}
+                        handleClickMediumPuzzleRush={this.handleClickMediumPuzzleRush}
+                        handleClickHardPuzzleRush={this.handleClickHardPuzzleRush}
+                        handleClickExHardPuzzleRush={this.handleClickExHardPuzzleRush}
+                    />
                 </div>
             </MuiThemeProvider>
         )
