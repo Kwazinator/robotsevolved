@@ -66,12 +66,30 @@ const rightDisplayPanel = () => {
     }
 };
 
+const setDefaultSquareSize = (boardWidth) => {
+    const drawerWidth = parseInt(getComputedStyle(document.getElementById("MainDrawer")).width);
+    const windowWidth = window.innerWidth;
+    var settings = ((windowWidth < 600) ? windowWidth : (windowWidth - drawerWidth) / 1.75);
+    console.log(settings);
+    settings = settings / boardWidth;
+    settings = parseInt(settings);
+    settings = settings - (settings % 4);
+    if (settings < 16) {
+        settings = 16;
+    }
+    else if (settings > 52) {
+        settings = 52;
+    }
+    return settings;
+};
+
+
+
 class Game extends React.Component {
 
     constructor(props) {
         super(props);
         if (this.props.puzzleRush === 'Yes') {
-            console.log(this.props.games);
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
             this.state.games = this.props.games
             this.state.p_id = this.props.p_id;
@@ -85,6 +103,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
         }
         else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
@@ -96,6 +115,7 @@ class Game extends React.Component {
             this.state.squareSize = 40;
             this.state.buildMode = false;
             this.state.copiedToClipboard = false;
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
         }
         else {
             var squareSize = 40;
@@ -115,8 +135,20 @@ class Game extends React.Component {
                 squareSize: squareSize,
                 copiedToClipboard: false
             },board);
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
         }
-    }
+    };
+
+    setDefaultSquareSize = (boardWidth) => {
+        const drawerWidth = document.getElementById("MainDrawer")
+        const windowWidth = window.innerWidth;
+        var settings = windowWidth - drawerWidth;
+        settings = ((windowWidth < 600) ? settings : settings / 1.5);
+        settings = settings / boardWidth;
+        this.setState({
+            squareSize: settings,
+        });
+    };
 
     updateHighscores = () => {
         axios.get('/updatehighscores?uri=' + this.state.uri)
@@ -372,12 +404,16 @@ class Game extends React.Component {
             if (this.state.gameWon === false)
                 this.setState({gameWon: true});
             if (this.state.createMode === 'No' && this.props.puzzleRush !== 'Yes') {
+                var username = '';
+                if (window.userInfo !== null) {
+                    username = window.userInfo.username
+                }
                 return  (<YouWinModal
                     show={this.state.gameWon}
                     numMoves={this.state.moveHistory.length}
                     submitAnswer={this.submitAnswer}
                     resetPuzzle={this.resetPuzzle}
-                    username={window.userInfo.username}
+                    username={username}
                 />);
             }
             else if (this.props.puzzleRush === 'Yes'){
@@ -552,6 +588,7 @@ class Game extends React.Component {
                         toggleBuildMode = {this.toggleBuildMode}
                         undoMove = {this.handleUndoMove}
                         buildMode = {this.state.buildMode}
+                        squareSizeValue = {parseInt((this.state.squareSize/4))}
                     />
                     <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
                 </Grid>

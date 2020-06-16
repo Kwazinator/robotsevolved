@@ -144,7 +144,7 @@ class DisplayView extends React.Component {
                          marks
                          min={2}
                          max={16}
-                         defaultValue={10}
+                         defaultValue={this.props.squareSizeValue}
                          valueLabelDisplay="auto"
                      />
                  </div>

@@ -389,6 +389,7 @@ class App extends React.Component {
                         </MenuItem>
                     </Menu>
                     <Drawer
+                        id="MainDrawer"
                         className={classes.drawer}
                         variant="persistent"
                         anchor="left"

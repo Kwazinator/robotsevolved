@@ -14,7 +14,7 @@ const style = (width,height) => {
 };
 
 export default ({ width,height, children }) => (
-    <div style={style(width,height)}>
+    <div id="MainGameBoard" style={style(width,height)}>
         {children}
     </div>
 )
