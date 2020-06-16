@@ -292,10 +292,12 @@ class Game extends React.Component {
 
     createBoard = (width,height,percent) => {
         var board = BoardGenerator(width,height,percent, 'blank');
+        var squareSize = setDefaultSquareSize(width);
         this.setState(extend({
             width: width,
             height: height,
             percent: percent,
+            squareSize: squareSize,
         },board));
         this.closeCreateBoardModal()
     };
