@@ -7,7 +7,6 @@ from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.spotify import make_spotify_blueprint, spotify
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies, unset_refresh_cookies, get_jwt_identity, jwt_required
-from flask_mysqldb import MySQL
 import json
 
 

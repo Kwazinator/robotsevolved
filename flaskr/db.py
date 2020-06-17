@@ -3,7 +3,6 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 import flaskr
-from flask_mysqldb import MySQL
 import mysql.connector
 
 def get_db():
