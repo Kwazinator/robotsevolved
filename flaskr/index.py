@@ -50,10 +50,14 @@ def play(uri):
     return render_template('index.html',loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
+@jwt_optional
 def submitpuzzle():
     data = request.get_json()
+    userID = get_jwt_identity()
+    if userID is None:
+        userID = 1
     if (GameService().check_same_game(json.dumps(data['puzzledata'])) == 1):
-        uri = GameService().insert_game(data['name'], 'type', 'description', 2, 'test', 1,json.dumps(data['puzzledata']))
+        uri = GameService().insert_game(data['name'], 'type', 'description', userID, 'test', 1, json.dumps(data['puzzledata']))
         return jsonify(uri=uri)
     else:
         return jsonify(uri='GameAlreadyExists')
@@ -65,9 +69,13 @@ def updatehighscores():
     return jsonify(highscores=highscores)
 
 @bp.route('/submithighscore', methods=('GET','POST'))
+@jwt_optional
 def submithighscore():
     data = request.get_json()
-    rtnMessage = GameService().insert_highscore(data['name'],1,'test','test',data['highscore'],data['uri'])
+    userID = get_jwt_identity()
+    if userID is None:
+        userID = 1
+    rtnMessage = GameService().insert_highscore(data['name'],userID,'test','test',data['highscore'],data['uri'])
     return rtnMessage
 
 @bp.route('/userCreate', methods={'GET', 'POST'})

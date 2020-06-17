@@ -38,6 +38,8 @@ import {MOBILE_INNER_SCREEN_WIDTH} from "./constants/constants";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 import PuzzleRushDifficultyModal from "./containers/Modals/PuzzleRushDifficultyModal";
+import ProfilePage from "./Pages/ProfilePage";
+
 
 const drawerWidth = 240;
 
@@ -284,6 +286,25 @@ class App extends React.Component {
         });
     };
 
+
+    handleClickProfile = event => {
+        event.preventDefault();
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        if (window.loggedin === 'Yes') {
+            this.setState({
+                PageSelected: <ProfilePage />,
+                open: isOpen
+            });
+        }
+        else {
+            this.SignInButtonPressed('Sign in');
+        }
+    };
+
+
     handleClickFindGame = event => {
         event.preventDefault();
         var isOpen = true;
@@ -460,9 +481,9 @@ class App extends React.Component {
                             Community
                         </Typography>
                         <List>
-                            <ListItem button key={'Players'}>
+                            <ListItem button key={'Profile'} onClick={this.handleClickProfile}>
                                 <ListItemIcon><WarningIcon /></ListItemIcon>
-                                <ListItemText primary={'Players'} />
+                                <ListItemText primary={'Profile'} />
                             </ListItem>
                             <ListItem button key={'Teams'}>
                                 <ListItemIcon><WarningIcon /></ListItemIcon>

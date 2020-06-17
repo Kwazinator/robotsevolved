@@ -256,37 +256,45 @@ def formatsolutiondata(solution):
 
 
 if __name__ == "__main__":
-    app = flaskr.create_app()
-    with app.app_context():
-        while (True):
-            moves = 1
-            solution = 0
-            easyflag = False
-            mediumflag = False
-            hardflag = False
-            exteremlyhardflag = False
-            godflag = False
-            while (not (easyflag and mediumflag and hardflag and exteremlyhardflag)):
-                solution = solver(boardgenerator())
-                moves = solution['moves']
-                solutiondata = solution['solutiondata']
-                if (moves >= 23 and not godflag):
+    while (True):
+        moves = 1
+        solution = 0
+        easyflag = False
+        mediumflag = False
+        hardflag = False
+        exteremlyhardflag = False
+        godflag = False
+        while (not (easyflag and mediumflag and hardflag and exteremlyhardflag)):
+            solution = solver(boardgenerator())
+            moves = solution['moves']
+            solutiondata = solution['solutiondata']
+            if (moves >= 23 and not godflag):
+                app = flaskr.create_app()
+                with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'GodTeir', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     godflag = True
                     print('found turkutier puzzle of ' + str(moves) + ' moves')
-                elif (18 < moves < 23 and not exteremlyhardflag):
+            elif (18 < moves < 23 and not exteremlyhardflag):
+                app = flaskr.create_app()
+                with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'Exteremly Hard', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     exteremlyhardflag = True
                     print('found exteremlyhard puzzle of ' + str(moves) + ' moves')
-                elif (13 < moves <= 18 and not hardflag):
+            elif (13 < moves <= 18 and not hardflag):
+                app = flaskr.create_app()
+                with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'hard', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     hardflag = True
                     print('found hard puzzle of ' + str(moves) + ' moves')
-                elif (8 < moves <= 13 and not mediumflag):
+            elif (8 < moves <= 13 and not mediumflag):
+                app = flaskr.create_app()
+                with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'medium', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     mediumflag = True
                     print('found medium puzzle of ' + str(moves) + ' moves')
-                elif (5 <= moves <= 8 and not easyflag):
+            elif (5 <= moves <= 8 and not easyflag):
+                app = flaskr.create_app()
+                with app.app_context():
                     easyflag = True
                     print('found easy puzzle of ' + str(moves) + ' moves')
                     GeneratorService().insert_puzzle('algo', 'easy', formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
