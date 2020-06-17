@@ -24,11 +24,54 @@ def index():
     get_games_data_value = get_games_data(50,0)
     userID = get_jwt_identity()
     user = None
+    gamesview = None
+    solutionsview = None
+    puzzlerushview = None
     loggedin = 'No'
     if (userID is not None):
+        #gamesview = json.dumps(UserService().get_user_games_view(userID))
+        #solutionsview = json.dumps(UserService().get_user_solutions_view(userID))
+        #puzzlerushview = json.dumps(UserService().get_user_puzzlerush_view(userID))
+        #Start test data
+        gamesviewlist = list()
+        solutionsview = list()
+        gamesviewlist.append(GameService().get_game(2).serialize())
+        gamesview = json.dumps(gamesviewlist)
+        game1 = GameService().get_game(2).serialize()
+        game1["highscore"] = 4
+        game1["HSname"] = "Kyle Kwasniewski"
+        game1["ProfilePicture"] = "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftowardsdatascience.com%2F3-numpy-image-transformations-on-baby-yoda-c27c1409b411&psig=AOvVaw27J8nyH6FuCgEtiqJp9Y7N&ust=1592512074629000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjo5PTXieoCFQAAAAAdAAAAABAD"
+        solutionsview.append(game1)
+        game2 = GameService().get_game(3).serialize()
+        game2["highscore"] = 20
+        game2["HSname"] = "DSchultz"
+        game2["ProfilePicture"] = "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftowardsdatascience.com%2F3-numpy-image-transformations-on-baby-yoda-c27c1409b411&psig=AOvVaw27J8nyH6FuCgEtiqJp9Y7N&ust=1592512074629000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjo5PTXieoCFQAAAAAdAAAAABAD"
+        solutionsview.append(game2)
+        solutionsview = json.dumps(solutionsview)
+        print(solutionsview)
+        puzzlerushview = {
+            "bestscore": 21,
+            "averagescoreday": 8.92,
+            "averagescoreweek": 6.78,
+            "averagescoremonth": 5.92,
+            "bestscorepercentile": .7,
+            "percentilescoreday": .8,
+            "percentilescoreweek": .7,
+            "percentilescoremonth": .6,
+            "bestaveragediff": 40,
+            "averagediffvalday": 26,
+            "averagediffvalweek": 19,
+            "averagediffvalmonth": 17,
+            "percentilediffvalday": .8,
+            "percentilediffvalweek": .7,
+            "percentilediffvalmonth": .6,
+            "bestdiffvalpercentile": .9
+        }
+        puzzlerushview = json.dumps(puzzlerushview)
+        #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
 def about():

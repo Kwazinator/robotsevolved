@@ -1,5 +1,8 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.User import User
+from flaskr.dataaccess.entities.GamesProfileView import GamesProfileView
+from flaskr.dataaccess.entities.SolutionsProfileView import SolutionsProfileView
+from flaskr.dataaccess.entities.PuzzleRushStatsProfileView import PuzzleRushStatsProfileView
 #from random_word import RandomWords
 from flaskr.dataaccess.entities.Solutions import Solutions
 import uuid
@@ -43,5 +46,32 @@ class UserDAO:
         row = cursor.fetchone()
         if row is not None:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+        else:
+            return None
+
+    def get_user_games_view(self,userID):
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * from GamesProfileView WHERE userID=%s",(userID,)).fetchone()
+        row = cursor.fetchone()
+        if row is not None:
+            return GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize()
+        else:
+            return None
+
+    def get_user_solutions_view(self, userID):
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * from SolutionsProfileView WHERE userID=%s",(userID,)).fetchone()
+        row = cursor.fetchone()
+        if row is not None:
+            return SolutionsProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize()
+        else:
+            return None
+
+    def get_user_puzzlerush_view(self,userID):
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * from PuzzleRushStatsProfileView WHERE userID=%s",(userID,)).fetchone()
+        row = cursor.fetchone()
+        if row is not None:
+            return PuzzleRushStatsProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize()
         else:
             return None

@@ -8,6 +8,16 @@ class UserService:
     def __init__(self):
         pass
 
+    def get_user_games_view(self,userID):
+        return UserDAO().get_user_games_view(userID)
+
+    def get_user_solutions_view(self,userID):
+        return UserDAO().get_user_solutions_view(userID)
+
+    def get_user_puzzlerush_view(self,userID):
+        return UserDAO().get_user_puzzlerush_view(userID)
+
+
     def insert_user(self,username,logintype, accountID, profilePicture, email, activeFlag):
         return UserDAO().insert_user(username,logintype, accountID, profilePicture, email, activeFlag)
 

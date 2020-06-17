@@ -26,13 +26,18 @@
     -->
     <title>Robots Evolved</title>
     <link href="/static/css/normie.css" rel="stylesheet" type="text/css">
-    <script>window.token = JSON.parse({{gamedata|tojson|safe}});</script>
-    <script>window.highscores = JSON.parse({{highscores|tojson|safe}});</script>
-    <script>window.highscoreslist = JSON.parse({{highscoreslist|tojson|safe}});</script>
-    <script>window.gameslist = JSON.parse({{gameslist|tojson|safe}});</script>
-    <script>window.uri = '{{uri}}';</script>
-    <script>window.userInfo = JSON.parse({{user|tojson|safe}})</script>
-    <script>window.loggedin = '{{loggedin}}';</script>
+    <script>
+      window.token = JSON.parse({{gamedata|tojson|safe}});
+      window.highscores = JSON.parse({{highscores|tojson|safe}});
+      window.highscoreslist = JSON.parse({{highscoreslist|tojson|safe}});
+      window.gameslist = JSON.parse({{gameslist|tojson|safe}});
+      window.uri = '{{uri}}';
+      window.gamesview = JSON.parse({{gamesview|tojson|safe}});
+      window.solutionsview = JSON.parse({{solutionsview|tojson|safe}});
+      window.puzzlerushview = JSON.parse({{puzzlerushview|tojson|safe}});
+      window.userInfo = JSON.parse({{user|tojson|safe}});
+      window.loggedin = '{{loggedin}}';
+  </script>
   </head>
   <body>
   <div id="MainApp">

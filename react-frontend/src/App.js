@@ -156,6 +156,12 @@ class App extends React.Component {
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
         this.state.showPuzzleRushModal = false;
+
+        if (window.loggedin === 'Yes') {
+            this.state.gamesview = window.gamesview;
+            this.state.solutionsview = window.solutionsview;
+            this.state.puzzlerushview = window.puzzlerushview;
+        }
     }
 
     handleDrawerClose = () => {
@@ -295,7 +301,7 @@ class App extends React.Component {
         }
         if (window.loggedin === 'Yes') {
             this.setState({
-                PageSelected: <ProfilePage />,
+                PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={this.state.gamesview} solutionsview={this.state.solutionsview} puzzlerushview={this.state.puzzlerushview}/>,
                 open: isOpen
             });
         }
