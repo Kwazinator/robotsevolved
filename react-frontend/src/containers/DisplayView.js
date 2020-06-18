@@ -42,7 +42,7 @@ class DisplayView extends React.Component {
         if (createMode === 'Yes') {
             return (
                 <div>
-                    <Button color="secondary" variant={"outlined"} fullWidth={true} onClick={this.handleCreateBoardClick}> Create Board</Button>
+                    <Button color="secondary" variant={"outlined"} fullWidth={true} onClick={this.handleCreateBoardClick}>Modify Board</Button>
                     <FormControlLabel
                         value="end"
                         control={<Switch color="primary" checked={this.props.buildMode} onChange={this.props.toggleBuildMode}/>}
