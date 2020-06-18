@@ -4,46 +4,132 @@ import useStyles from '../Material-UI/themes';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
 
 export default function ComplexGrid(props) {
     const classes = useStyles();
 
     return (<div className={classes.grid}>
-              <Grid container spacing={1}>
-                <Grid item xs={4}>
+              <Grid container spacing={4}>
+                <Grid item xs={6} spacing={3} alignItems="center" justify="center" wrap="nowrap">
+                    <Typography variant="h3"> Welcome To RobotsEvolved
+                    </Typography>
+                    <Typography> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                    </Typography>
+                    <Button variant="contained" color="primary">
+                        Play a Random Game
+                    </Button>
                 </Grid>
-                <Grid
-                    container xs={4}
-                    spacing={4}
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                    wrap="nowrap"
-                >
-                    <Grid item xs={12}>
-                        <Button onClick={props.handleClickCreateGame}variant="contained" color="primary">
-                            Create a Game
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button onClick={props.handleClickFindGame} variant="contained" color="primary">
-                            Find a Game
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button variant="contained" color="primary">
-                            Play a Random Game
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button onClick={props.handleClickPuzzleRush} variant="contained" color="primary">
-                            Puzzle Rush
-                        </Button>
-                    </Grid>
+                <Grid item xs={6} spacing={3}>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/uoJ0OxQxiGA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid container xs={12} spacing={4}>
+                    <Grid item xs={3}>
+                        <Card className={classes.iconcards}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Create Board"
+                              height="140"
+                              image="/static/images/CreateBoardCardIcon.png"
+                              title="Create Board"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                Create Board
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                Create a Board to have others to solve, its easy! Try it out!
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              Learn More
+                            </Button>
+                          </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Card className={classes.iconcards}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Play a Random Game"
+                              height="140"
+                              image="/static/images/CreateBoardCardIcon.png"
+                              title="Play a Random Game"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                Play a Random Game
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                Play a Random Game that was generated and see if you can get the lowest possible solution
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              Learn More
+                            </Button>
+                          </CardActions>
+                        </Card>
+                    </Grid>
+                     <Grid item xs={3}>
+                        <Card className={classes.iconcards}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Find a Game"
+                              height="140"
+                              image="/static/images/CreateBoardCardIcon.png"
+                              title="Find a Game"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                Find a Game
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                Find a Game that has been created by another person!
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Card className={classes.iconcards}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Contemplative Reptile"
+                              height="140"
+                              image="/static/images/CreateBoardCardIcon.png"
+                              title="Contemplative Reptile"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                Puzzle Rush
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                Puzzle Rush is a variant where you are given 5 minutes to solve as many random puzzles as you can.
+                                You are scored based on the number of puzzles completed as well as the difference from the lowest possible solution, Click Learn More for scoring details
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              Learn More
+                            </Button>
+                          </CardActions>
+                        </Card>
+                    </Grid>
                 </Grid>
               </Grid>
            </div>

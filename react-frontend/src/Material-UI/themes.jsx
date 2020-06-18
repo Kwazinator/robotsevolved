@@ -37,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
   },
+  darkmode: {
+      backgroundColor: 'black',
+      color: 'white',
+      marginTop: '150px',
+  },
+  iconcards: {
+    maxWidth: 345,
+  }
 }));
 
 export default useStyles;
