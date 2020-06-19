@@ -3,68 +3,121 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import useStyles from '../Material-UI/themes';
+import { withStyles } from "@material-ui/core/styles";
+import {Card, CardContent, CardHeader, CardActions} from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Button from "@material-ui/core/Button";
 
-const handleClick = (callback,puzzledata,highscores,uri) => {
-    callback(puzzledata,highscores,uri);
-}
 
+const styles = theme => ({
+    root: {
+        width: "100%",
+        maxWidth: 360,
+        height: 180
+    },
 
+    item: {
+        padding: 0
+    },
 
+    upperPadding: {
+        paddingTop: 3
+    },
 
-export default function ComplexGrid(props) {
-    const classes = useStyles();
-    if (typeof props.highscore !== 'undefined') {
-        var highscore = props.highscore.numMoves;
-        var highscoreauthor = props.highscore.comment;
+    lowerPadding: {
+        paddingBottom: 3
+    },
+
+    rightSideText: {
+        textAlign: "right",
+        marginTop: 0,
+        marginBottom: 0
+    },
+
+    leftSideText: {
+        marginTop: 0,
+        marginBottom: 0
     }
-    else {
-        var highscore = 'None'
-        var highscoreauthor = ''
-    }
+});
+
+export default withStyles(styles)(ComplexGrid)
+
+function ComplexGrid(props) {
+    const { classes } = props;
     const handleClick = () => {
         props.handleGameClick(props.game.name, props.game.puzzledata,props.highscores,props.game.uri);
-    }
+    };
+
+    var numberOfHighScores = 0;
+
+    const highscorestyle = highscore => {
+        if (numberOfHighScores === 5) return "";
+        numberOfHighScores++;
+        return (
+            <ListItem disableGutters={true} classes={{ root: classes.item }}>
+                <ListItemText primary={trimName(highscore.comment)} classes={{ root: classes.leftSideText }} />
+                <ListItemText secondary={highscore.numMoves} classes={{ root: classes.rightSideText }} />
+            </ListItem>
+        )
+    };
+
+    const contentDivStyle = () => {
+        return {
+            display: 'flex',
+            justifyContent: 'space-between'
+        };
+
+    };
+
+    const trimName = name => {
+        if (name.length > 10)
+            name = name.substring(0, 10) + "...";
+        return name
+    };
+
 
     return (
-    <Grid onClick={handleClick} style={{ cursor: 'pointer' }} item>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src="https://scx1.b-cdn.net/csz/news/800/2019/3-robot.jpg" />
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={15} sm container>
-            <Grid item xs container direction="column" spacing={5}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  {props.game.name}
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Type {props.game.type} • {props.game.difficulty}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {props.game.authorname}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                  Remove
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid spacing={2} item>
-              <Typography variant="body2">
-                  {highscore}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                  {highscoreauthor}
-              </Typography>
-          </Grid>
+        <Grid item xs={12} sm={3}>
+            <Card variant="outlined" className={classes.root}>
+                <CardContent>
+                    <div style={contentDivStyle()}>
+                        <div style={{width: '125px'}}>
+                            <Typography variant="h5" classes={{ root: classes.lowerPadding }}>
+                                {trimName(props.game.name)}
+                            </Typography>
+                            <div>
+                                <Typography>
+                                    Author: {trimName(props.game.authorname)}
+                                </Typography>
+                                <Typography>
+                                    Created: NA
+                                </Typography>
+                                <Typography color="textSecondary" variant="caption">
+                                    Plays: NA
+                                </Typography>
+                            </div>
+                            <br/>
+                            <Button onClick={handleClick} classes={{ root: classes.upperPadding }} variant="contained" color="primary">Play</Button>
+                        </div>
+                        <Divider orientation="vertical" flexItem />
+                        <div style={{width: '125px'}}>
+                            <Typography color="textSecondary" variant="caption">
+                                Top Scores
+                            </Typography>
+                            <List>
+                                {
+                                    props.highscores.map(highscore =>
+                                        highscorestyle(highscore)
+                                    )
+                                }
+                            </List>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
         </Grid>
-      </Paper>
-    </Grid>
     );
 }

@@ -23,7 +23,7 @@ class FindGame extends React.Component {
     handleGameClick = (name,gamedata,highscores,uri) => {
         console.log(uri);
         this.props.handleGameClick(name,gamedata,highscores,uri);
-    }
+    };
 
     handleSearchSubmit = event => {
         event.preventDefault();
@@ -41,14 +41,12 @@ class FindGame extends React.Component {
     render () {
         return (
             <div id={'GameMain'}>
-                <Grid item xs={12}>
-                    <Grid container justify="center" spacing={2}>
-                        {
-                            this.state.gameslist.map((game,index)=>
-                                <FindGameElements handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]} highscore={this.state.highscoreslist[index][0]}/>
-                            )
-                        }
-                    </Grid>
+                <Grid container alignItems={"stretch"} spacing={2}>
+                    {
+                        this.state.gameslist.map((game,index)=>
+                            <FindGameElements handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]} highscore={this.state.highscoreslist[index][0]}/>
+                        )
+                    }
                 </Grid>
             </div>
         )
