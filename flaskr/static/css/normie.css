@@ -4266,3 +4266,7 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.createboardcard:hover {
+    content: url('/static/images/CreateBoardCardIconPlaced.png')
+}

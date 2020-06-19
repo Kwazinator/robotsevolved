@@ -35,7 +35,7 @@ export default function ProfilePage(props) {
             <div id={'GameMain'} className={classes.root}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item xs={4}>
-                        <Typography variant="h3">Your Created Games:</Typography>
+                        <Typography variant="h3">Games Created</Typography>
                         {
                             props.gamesview.map((game,index) =>
                                     <ExpansionPanel expanded={expandedGame === 'panelgame' + index} onChange={handleChangeGame('panelgame' + index)}>
@@ -58,7 +58,7 @@ export default function ProfilePage(props) {
                         }
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="h3">Your Participated Games:</Typography>
+                        <Typography variant="h3">Games Solved</Typography>
                         {
                             props.solutionsview.map((solution,index) =>
                                 <ExpansionPanel expanded={expandedHighscores === 'panelhigh' + index} onChange={handleChangeHighscores('panelhigh' + index)}>
