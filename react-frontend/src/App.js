@@ -362,7 +362,7 @@ class App extends React.Component {
                         className={clsx(classes.appBar, {
                             [classes.appBarShift]: this.state.open,
                         })}
-                    >
+                    <
                         <Toolbar>
                             <IconButton
                                 color="inherit"

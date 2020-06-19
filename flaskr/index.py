@@ -48,7 +48,6 @@ def index():
         game2["ProfilePicture"] = "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftowardsdatascience.com%2F3-numpy-image-transformations-on-baby-yoda-c27c1409b411&psig=AOvVaw27J8nyH6FuCgEtiqJp9Y7N&ust=1592512074629000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjo5PTXieoCFQAAAAAdAAAAABAD"
         solutionsview.append(game2)
         solutionsview = json.dumps(solutionsview)
-        print(solutionsview)
         puzzlerushview = {
             "bestscore": 21,
             "averagescoreday": 8.92,
@@ -167,21 +166,19 @@ def submithighscore():
 @bp.route('/userCreate', methods={'GET', 'POST'})
 def userCreate():
     data = request.get_json()
-    print(data)
     UserService().insert_user(data['userId'], data['logintype'], data['accountId'], data['profilePicture'], data['email'])
     return 'OK'
 
 @bp.route('/userDelete', methods={'GET', 'POST'})
 def userDelete():
     data = request.get_json()
-    print(data)
     UserService().delete_user(data['userID'])
     return 'OK'
 
 @bp.route('/search', methods=('GET','POST'))
 def search():
     data = request.get_json()
-    print(json.dumps(data,indent=4))
+    #print(json.dumps(data,indent=4))
     #
     #fill a list of Solution objects and return the List. Currently just returning current games, so it wont work.
     #
