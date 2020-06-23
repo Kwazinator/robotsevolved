@@ -18,6 +18,14 @@ def get_games_data(numMoves,Offset):
     return (gameslist,highscoreslist)
 
 
+def get_learned_games():
+    gameslist = [13,12,11,14,15]
+    returnlist = list()
+    for game in gameslist:
+        returnlist.append(GameService().get_game(game).serialize())
+    return json.dumps(returnlist)
+
+
 @bp.route('/')
 @jwt_optional
 def index():
@@ -28,6 +36,7 @@ def index():
     solutionsview = None
     puzzlerushview = None
     loggedin = 'No'
+    learngameslist = get_learned_games()
     if (userID is not None):
         #gamesview = json.dumps(UserService().get_user_games_view(userID))
         #solutionsview = json.dumps(UserService().get_user_solutions_view(userID))
@@ -70,7 +79,7 @@ def index():
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
 def about():
@@ -89,6 +98,7 @@ def play(uri):
     solutionsview = None
     puzzlerushview = None
     loggedin = 'No'
+    learngameslist = get_learned_games()
     if (userID is not None):
         #gamesview = json.dumps(UserService().get_user_games_view(userID))
         #solutionsview = json.dumps(UserService().get_user_solutions_view(userID))
@@ -132,7 +142,7 @@ def play(uri):
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional

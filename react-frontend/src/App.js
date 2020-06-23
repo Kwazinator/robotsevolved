@@ -149,7 +149,7 @@ class App extends React.Component {
         super(props);
         if (window.uri === '') {
             this.state = {
-                PageSelected: <Home handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
+                PageSelected: <Home handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
             };
         }
         else {
@@ -329,6 +329,20 @@ class App extends React.Component {
         });
     };
 
+    handleClickLearnGame = event => {
+        event.preventDefault();
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        console.log(window.learngameslist);
+        this.setState({
+            PageSelected: <Game learnMode={'Yes'} games={window.learngameslist}/>,
+            open: isOpen
+        });
+
+    };
+
     handleMobileMenuClose = () => {
         this.setState({
             mobileAnchorEl: null,
@@ -362,7 +376,7 @@ class App extends React.Component {
                         className={clsx(classes.appBar, {
                             [classes.appBarShift]: this.state.open,
                         })}
-                    <
+                     >
                         <Toolbar>
                             <IconButton
                                 color="inherit"

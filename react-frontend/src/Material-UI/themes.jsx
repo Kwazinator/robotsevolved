@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   iconcards: {
     maxWidth: 345,
+    minWidth: 250,
   },
   createboardcard: {
     ':hover': {

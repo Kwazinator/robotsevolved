@@ -1,9 +1,9 @@
 
 import React from 'react';
 import axios from 'axios';
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router';
 import Draggable from 'react-draggable';
-
+import LearnGameItems from '../components/LearnGameItems';
 import MovesView from '../components/MovesView';
 import Square from '../components/Square';
 import Board from '../components/Board';
@@ -97,6 +97,20 @@ class Game extends React.Component {
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
             this.state.squareSize = 40;
+            this.state.copiedToClipboard = false;
+            this.state.numPuzzleon = 0;
+            this.state.createMode = 'No';
+            this.state.buildMode = false;
+            this.state.totalMovesList = [];
+            this.state.solutiondifference = [];
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
+        }
+        else if (this.props.learnMode === 'Yes') {
+            this.state = JSON.parse(this.props.games[0].puzzledata)
+            this.state.games = this.props.games
+            this.state.gameWon = false;
+            this.state.ColoredLineDirections = [];
+            this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
             this.state.createMode = 'No';
@@ -484,6 +498,50 @@ class Game extends React.Component {
         }
     };
 
+    handleLearnClickGame = index => {
+        var puzzledata = JSON.parse(this.props.games[index].puzzledata);
+        var squareSize = setDefaultSquareSize(puzzledata.width);
+        this.setState(
+            extend(puzzledata,{squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice()})
+        );
+    }
+
+
+    loadSidebar = () => {
+        if (this.props.learnMode == 'Yes') {
+            return (
+                <Grid container xs={12} direction="column">
+                {
+                    this.state.games.map((game,index) =>
+                        <Grid item xs={4}>
+                            <LearnGameItems selected={this.state.numPuzzleon} game={game} index={index} handleLearnClickGame={this.handleLearnClickGame}/>
+                        </Grid>
+                    )
+                }
+                </Grid>
+            )
+        }
+        else if (this.state.createMode === 'Yes') {
+            return null
+        }
+        else {
+            return(
+            <div style={{display: 'grid'}}>
+                <Typography
+                    color="secondary"
+                    display="block"
+                    variant={"h4"}
+
+                >
+                    {this.props.name}
+                </Typography>
+                <br/>
+                <HighScores highscores={this.state.highscores}/>
+            </div>
+            )
+        }
+    }
+
     handlePlayerMovementFromMouse = (posObj) => {
         var newDirection;
         var robot = this.state.playerState[this.state.robotSelected];
@@ -671,18 +729,7 @@ class Game extends React.Component {
                     </Board>
                 </Grid>
                 <Grid item xs={12} sm={3} md={2}>
-                    <div style={{display: 'grid'}}>
-                        <Typography
-                            color="secondary"
-                            display="block"
-                            variant={"h4"}
-
-                        >
-                            {this.props.name}
-                        </Typography>
-                        <br/>
-                        <HighScores highscores={this.state.highscores}/>
-                    </div>
+                    {this.loadSidebar()}
                 </Grid>
                 <BoardResetModal
                     createBoard={this.createBoard}
