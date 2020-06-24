@@ -76,6 +76,7 @@ class DisplayView extends React.Component {
     };
 
     handleDimensionChange = (event,value) => {
+        document.getElementsByClassName("MuiSlider-thumb")[0].blur();
         var dimension = parseInt(value);
         if (dimension.toString() === "NaN") {
             dimension = 10;
@@ -146,6 +147,7 @@ class DisplayView extends React.Component {
                          max={16}
                          defaultValue={this.props.squareSizeValue}
                          valueLabelDisplay="auto"
+                         id="sliderelement"
                      />
                  </div>
                  {this.puzzleRush()}

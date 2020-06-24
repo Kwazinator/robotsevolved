@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 
 export default function LearnGameItems(props) {
@@ -8,26 +8,22 @@ export default function LearnGameItems(props) {
     }
     if (props.selected === props.index) {
         return (
-            <Typography
-                color="primary"
-                display="block"
-                variant={"h2"}
+            <Button
+                variant="contained" color="primary"
                 onClick={handleLearnClickGame}
             >
                 {props.game.name}
-            </Typography>
+            </Button>
         )
     }
     else {
         return (
-            <Typography
-                color="secondary"
-                display="block"
-                variant={"h4"}
+            <Button
+                variant="contained"
                 onClick={handleLearnClickGame}
             >
                 {props.game.name}
-            </Typography>
+            </Button>
         )
     }
 

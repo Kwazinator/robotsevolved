@@ -1,4 +1,4 @@
-
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router';
@@ -529,13 +529,16 @@ class Game extends React.Component {
         if (this.props.learnMode == 'Yes') {
             return (
                 <Grid container xs={12} direction="column">
-                {
-                    this.state.games.map((game,index) =>
-                        <Grid item xs={4}>
-                            <LearnGameItems selected={this.state.numPuzzleon} game={game} index={index} handleLearnClickGame={this.handleLearnClickGame}/>
-                        </Grid>
-                    )
-                }
+                    <ButtonGroup
+                        orientation="vertical"
+                        aria-label="vertical contained primary button group"
+                        variant="contained">
+                        {
+                            this.state.games.map((game,index) =>
+                                    <LearnGameItems selected={this.state.numPuzzleon} game={game} index={index} handleLearnClickGame={this.handleLearnClickGame}/>
+                            )
+                        }
+                    </ButtonGroup>
                 </Grid>
             )
         }
