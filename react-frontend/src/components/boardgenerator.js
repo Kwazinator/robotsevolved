@@ -80,7 +80,7 @@ export default (width,height,randomPercent,type) => {
     var wallHorizontal = [];
     var playerState = [];
     if (type === 'blank') {
-        var goal = {top: width-1, left: height-1};
+        var goal = {top: height-1, left: width-1};
         var randompos1 = {top: 0,left: 0, color: ROBOT_BLUE, colorSignifier: 'blue'};
         var randompos2 = {top: 0,left: 1, color: ROBOT_GREEN, colorSignifier: 'green'};
         var randompos3 = {top: 1,left: 0, color: ROBOT_RED, colorSignifier: 'red'};

@@ -1,4 +1,7 @@
 import React from 'react';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import SchoolIcon from '@material-ui/icons/School';
+import SettingsIcon from '@material-ui/icons/Settings';
 import PuzzleRush from './Pages/PuzzleRush';
 import clsx from 'clsx';
 import CreateGame from './Pages/CreateGame';
@@ -488,9 +491,9 @@ class App extends React.Component {
                             Learn
                         </Typography>
                         <List>
-                            <ListItem button key={'Robits Basics'}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
-                                <ListItemText primary={'Robits Basics'} />
+                            <ListItem button key={'Lessons'} onClick={this.handleClickLearnGame}>
+                                <ListItemIcon><SchoolIcon /></ListItemIcon>
+                                <ListItemText primary={'Lessons'} />
                             </ListItem>
                             <ListItem button key={'Starter Puzzles'}>
                                 <ListItemIcon><WarningIcon /></ListItemIcon>
@@ -508,7 +511,7 @@ class App extends React.Component {
                         </Typography>
                         <List>
                             <ListItem button key={'Profile'} onClick={this.handleClickProfile}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemIcon><AccountBoxIcon /></ListItemIcon>
                                 <ListItemText primary={'Profile'} />
                             </ListItem>
                             <ListItem button key={'Teams'}>
@@ -535,7 +538,7 @@ class App extends React.Component {
                                 <ListItemText primary={'Robits Solver'} />
                             </ListItem>
                             <ListItem button key={'Settings'}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
+                                <ListItemIcon><SettingsIcon /></ListItemIcon>
                                 <ListItemText primary={'Settings'} />
                             </ListItem>
                         </List>

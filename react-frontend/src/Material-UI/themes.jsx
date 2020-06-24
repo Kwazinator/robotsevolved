@@ -50,7 +50,10 @@ const useStyles = makeStyles((theme) => ({
     ':hover': {
         content: '/static/images/CreateBoardCardIconPlaced.png',
     }
-  }
+  },
+  demo: {
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
 
 export default useStyles;

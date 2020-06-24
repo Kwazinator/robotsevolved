@@ -23,8 +23,6 @@ class PuzzleRushDAO:
         if row is None:
             return False
         else:
-            for item in row:
-                print(item)
             return True
 
     def start_puzzle(self, user_id, difficulty):
@@ -34,7 +32,6 @@ class PuzzleRushDAO:
             cursor.execute('INSERT INTO puzzle_rush (user_id,difficulty) VALUES (%s,%s)',(user_id,difficulty))
             db.commit()
             lastrowid = cursor.lastrowid
-            print(lastrowid)
             return lastrowid
         except Exception as e:
             print(e)
@@ -47,7 +44,7 @@ class PuzzleRushDAO:
         cursor.execute('SELECT * FROM puzzle_rush WHERE p_id=%s', (p_id,))
         row = cursor.fetchone()
         if row is not None:
-            return PuzzleRush(row[0],row[1],row[2],row[3],row[4])
+            return PuzzleRush(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
         else:
             return None
 
@@ -69,6 +66,19 @@ class PuzzleRushDAO:
             db = get_db()
             cursor = db.cursor()
             cursor.execute('UPDATE puzzle_rush SET score = score + 1 WHERE p_id=%s',(p_id,))
+            db.commit()
+            return 'completed'
+        except Exception as e:
+            print(e)
+            return 'failed'
+        finally:
+            pass
+
+    def end_puzzle_rush_game(self, p_id, totalMoves, differenceFrom):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('UPDATE puzzle_rush SET totalMoves=%s,differenceFrom=%s WHERE p_id=%s',(totalMoves,differenceFrom,p_id))
             db.commit()
             return 'completed'
         except Exception as e:

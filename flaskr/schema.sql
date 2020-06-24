@@ -57,6 +57,8 @@ p_start_time datetime DEFAULT CURRENT_TIMESTAMP,
 user_id INTEGER,
 score INTEGER DEFAULT 0,
 difficulty TEXT NOT NULL,
+totalMoves INTEGER DEFAULT NULL,
+differenceFrom INTEGER DEFAULT NULL,
 FOREIGN KEY (user_id) REFERENCES user(id)
 );
 

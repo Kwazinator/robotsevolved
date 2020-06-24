@@ -18,6 +18,7 @@ import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
 import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
+import DescriptionList from '../components/DescriptionList';
 import {
     LEFT,
     RIGHT,
@@ -104,6 +105,7 @@ class Game extends React.Component {
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.tipsText = []
         }
         else if (this.props.learnMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].puzzledata)
@@ -118,6 +120,7 @@ class Game extends React.Component {
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.tipsText = [this.props.games[0].description];
         }
         else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
@@ -130,6 +133,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.copiedToClipboard = false;
             this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.tipsText = []
         }
         else {
             var squareSize = 40;
@@ -147,7 +151,12 @@ class Game extends React.Component {
                 height: this.props.settingsHeight,
                 percentWall: this.props.settingsPercent,
                 squareSize: squareSize,
-                copiedToClipboard: false
+                copiedToClipboard: false,
+                tipsText: [
+                                        'Click on Wall spots to toggle',
+                                        'Click and Drag robots or goal to move robots',
+                                        'When you are ready, toggle build mode in order to solve the puzzle',
+                                        'you must solve the puzzle in order to submit.']
             },board);
             this.state.squareSize = setDefaultSquareSize(this.state.width);
         }
@@ -243,10 +252,14 @@ class Game extends React.Component {
         if (this.state.buildMode) {
             this.setState({
                 buildMode: false,
+                playerState: this.state.playerStart.slice(),
+                moveHistory: [],
             });
         }
         else {
             this.setState({
+                playerState: this.state.playerStart.slice(),
+                moveHistory: [],
                 buildMode: true,
             });
         }
@@ -403,6 +416,12 @@ class Game extends React.Component {
         });
         var avgMoves = parseInt(totalMoves / (this.state.numPuzzleon))
         var movesPerSecond = totalMoves / 300;
+
+        axios.post('/puzzlerushend', {p_id: this.state.p_id,totalMoves: totalMoves,differenceFrom: totalMovesDiff})
+            .then( res => {
+                console.log(res.data);
+            });
+
         this.setState({
             showPuzzleRushFinishedModal: true,
             numPuzzlesCompleted: this.state.numPuzzleon,
@@ -413,7 +432,6 @@ class Game extends React.Component {
             movesPerSecond: movesPerSecond
         });
     }
-
 
     checkwin = (robotPosition) => {
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
@@ -481,7 +499,7 @@ class Game extends React.Component {
             var playerState = this.state.playerState;
             var moveHistory = this.state.moveHistory;
             newPosition = extend(newPosition, {colorSignifier: playerState[this.state.robotSelected].colorSignifier});
-            if (!(newPosition.top === playerState[this.state.robotSelected].top && newPosition.left === playerState[this.state.robotSelected].left)) {
+            if (!(newPosition.top === playerState[this.state.robotSelected].top && newPosition.left === playerState[this.state.robotSelected].left) && !this.state.buildMode) {
                 moveHistory.push({
                     dir: dirObj.dir,
                     robot: this.state.robotSelected,
@@ -502,7 +520,7 @@ class Game extends React.Component {
         var puzzledata = JSON.parse(this.props.games[index].puzzledata);
         var squareSize = setDefaultSquareSize(puzzledata.width);
         this.setState(
-            extend(puzzledata,{squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice()})
+            extend(puzzledata,{squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice(),tipsText: [this.props.games[index].description]})
         );
     }
 
@@ -610,6 +628,7 @@ class Game extends React.Component {
             moveHistory: [],
         })
     };
+
 
     onStopDragHandler = (position,index) => {
         var playerState = this.state.playerState.slice();
@@ -729,6 +748,9 @@ class Game extends React.Component {
                     </Board>
                 </Grid>
                 <Grid item xs={12} sm={3} md={2}>
+                    <DescriptionList
+                        tipsText={this.state.tipsText}
+                    />
                     {this.loadSidebar()}
                 </Grid>
                 <BoardResetModal

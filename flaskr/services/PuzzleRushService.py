@@ -56,3 +56,6 @@ class PuzzleRushService:
             #check solution data based on g_id
             PuzzleRushDAO().increment_score(p_id)
         return
+
+    def end_puzzle_rush_game(self, p_id,totalMoves,differenceFrom):
+        PuzzleRushDAO().end_puzzle_rush_game(p_id,totalMoves,differenceFrom)

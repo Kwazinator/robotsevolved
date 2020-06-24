@@ -58,3 +58,12 @@ def puzzlerushsubmit():
     PuzzleRushService().submit_solution_rush(p_id,gameid,solution)
     return jsonify(result='okay')
 
+@bp.route('/puzzlerushend', methods=('GET','POST'))
+@jwt_optional
+def puzzlerushend():
+    data = request.get_json()
+    p_id = data['p_id']
+    totalMoves = data['totalMoves']
+    differenceFrom = data['differenceFrom']
+    PuzzleRushService().end_puzzle_rush_game(p_id,totalMoves,differenceFrom)
+    return jsonify(result='okay')
