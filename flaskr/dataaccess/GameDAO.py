@@ -68,7 +68,7 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         games = list()
-        cursor.execute('SELECT * from game LIMIT %s OFFSET %s',(numGames,offset))
+        cursor.execute('SELECT * from game ORDER BY created ASC LIMIT %s OFFSET %s',(numGames,offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
