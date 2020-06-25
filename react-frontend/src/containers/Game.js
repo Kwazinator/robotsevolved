@@ -68,7 +68,7 @@ const rightDisplayPanel = () => {
 };
 
 const setDefaultSquareSize = (boardWidth) => {
-    const drawerWidth = parseInt(getComputedStyle(document.getElementById("MainDrawer")).width);
+    const drawerWidth = document.getElementById("MainDrawer") == null ? 140 : parseInt(getComputedStyle(document.getElementById("MainDrawer")).width);
     const windowWidth = window.innerWidth;
     var settings = ((windowWidth < 600) ? windowWidth : (windowWidth - drawerWidth) / 1.75);
     console.log(settings);
@@ -163,6 +163,7 @@ class Game extends React.Component {
     };
 
     setDefaultSquareSize = (boardWidth) => {
+
         const drawerWidth = document.getElementById("MainDrawer")
         const windowWidth = window.innerWidth;
         var settings = windowWidth - drawerWidth;
@@ -225,7 +226,11 @@ class Game extends React.Component {
         state.playerState = this.state.playerStart.slice();
         state.moveHistory = [];
         state.createMode = 'No';
-        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit}))
+        var username = 'Anonymous';
+        if (window.userInfo !== null) {
+            username = window.userInfo.username
+        }
+        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username}))
             .then( res => {
                 this.setState({
                     uri: res.data.uri,
@@ -267,7 +272,6 @@ class Game extends React.Component {
 
     submitAnswer = event => {
         event.preventDefault();
-        console.log(this.state.uri);
         axios.post('/submithighscore', {highscore: this.state.moveHistory.length, name: document.getElementById("namesubmitHS").value, uri: this.state.uri})
             .then( res => {
                 this.setState({gameWon: false});

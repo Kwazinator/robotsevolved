@@ -1,6 +1,6 @@
 class Solutions:
 
-    def __init__(self, id=None, gameid=None, comment=None, userid=None, authorname=None,solutiondata=None,numMoves=None):
+    def __init__(self, id=None, gameid=None, comment=None, userid=None, authorname=None,solutiondata=None,numMoves=None,created=None):
         self.id = id
         self.gameid = gameid
         self.comment = comment
@@ -8,6 +8,7 @@ class Solutions:
         self.authorname = authorname
         self.solutiondata = solutiondata
         self.numMoves = numMoves
+        self.created = created
 
     def serialize(self):
         return {
@@ -17,6 +18,7 @@ class Solutions:
             'userid': self.userid,
             'authorname': self.authorname,
             'solutiondata': self.solutiondata,
-            'numMoves': self.numMoves
+            'numMoves': self.numMoves,
+            'created': self.created
         }
 

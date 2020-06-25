@@ -93,10 +93,10 @@ function ComplexGrid(props) {
                                     Author: {trimName(props.game.authorname)}
                                 </Typography>
                                 <Typography>
-                                    Created: NA
+                                    Created: {props.game.created}
                                 </Typography>
                                 <Typography color="textSecondary" variant="caption">
-                                    Plays: NA
+                                    Plays: {props.highscores.length}
                                 </Typography>
                             </div>
                             <br/>

@@ -26,6 +26,7 @@ CREATE TABLE game (
   difficulty TEXT,
   puzzledata TEXT NOT NULL,
   uri TEXT NOT NULL,
+  created datetime DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (authorid) REFERENCES user(id)
 );
 
@@ -37,6 +38,7 @@ CREATE TABLE solutions (
   authorname TEXT NOT NULL,
   solutiondata TEXT,
   numMoves INTEGER NOT NULL,
+  created datetime DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (gameid) REFERENCES game(id),
   FOREIGN KEY (userid) REFERENCES user(id)
 );

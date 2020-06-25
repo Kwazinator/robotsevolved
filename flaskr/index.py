@@ -119,7 +119,6 @@ def play(uri):
         game2["ProfilePicture"] = "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftowardsdatascience.com%2F3-numpy-image-transformations-on-baby-yoda-c27c1409b411&psig=AOvVaw27J8nyH6FuCgEtiqJp9Y7N&ust=1592512074629000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjo5PTXieoCFQAAAAAdAAAAABAD"
         solutionsview.append(game2)
         solutionsview = json.dumps(solutionsview)
-        print(solutionsview)
         puzzlerushview = {
             "bestscore": 21,
             "averagescoreday": 8.92,
@@ -152,7 +151,7 @@ def submitpuzzle():
     if userID is None:
         userID = 1
     if (GameService().check_same_game(json.dumps(data['puzzledata'])) == 1):
-        uri = GameService().insert_game(data['name'], 'type', 'description', userID, 'test', 1, json.dumps(data['puzzledata']))
+        uri = GameService().insert_game(data['name'], 'type', 'description', userID, data['authorname'], 1, json.dumps(data['puzzledata']))
         return jsonify(uri=uri)
     else:
         return jsonify(uri='GameAlreadyExists')
