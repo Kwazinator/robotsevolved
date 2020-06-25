@@ -16,7 +16,7 @@ const styles = theme => ({
     root: {
         width: "100%",
         maxWidth: 360,
-        height: 180
+        height: 220
     },
 
     item: {
@@ -89,11 +89,11 @@ function ComplexGrid(props) {
                                 {trimName(props.game.name)}
                             </Typography>
                             <div>
-                                <Typography>
-                                    Author: {trimName(props.game.authorname)}
+                                <Typography variant="caption">
+                                    By: {trimName(props.game.authorname)}
                                 </Typography>
                                 <Typography>
-                                    Created: {props.game.created}
+                                    {props.game.created}
                                 </Typography>
                                 <Typography color="textSecondary" variant="caption">
                                     Plays: {props.highscores.length}
