@@ -18,6 +18,7 @@ import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
 import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
+import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
 import {
     LEFT,
@@ -106,6 +107,18 @@ class Game extends React.Component {
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
             this.state.tipsText = []
+        }
+        else if (this.props.randomGame == 'Yes') {
+            this.state = JSON.parse(this.props.game.g_puzzledata)
+            this.state.lowestMoves = this.props.game.g_moves
+            this.state.lowestMoveSequence = JSON.parse(this.props.game.g_solutiondata)
+            this.state.difficulty = this.props.game.g_difficulty
+            this.state.createMode = 'No';
+            this.state.gameWon = false;
+            this.state.buildMode = false;
+            this.state.ColoredLineDirections = [];
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.tipsText = ['this game was randomly generated']
         }
         else if (this.props.learnMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].puzzledata)
@@ -286,7 +299,7 @@ class Game extends React.Component {
         this.setState({
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
-            gameWon: false
+            gameWon: false,
         });
     };
 
@@ -307,6 +320,15 @@ class Game extends React.Component {
             });
         }
     };
+
+    closeRandomStatsModal = event => {
+        this.setState({
+            closeRandomStatsModal: false,
+            playerState: this.state.playerStart.slice(),
+            moveHistory: [],
+            gameWon: false
+        });
+    }
 
     closeCreateBoardModal = event => {
         this.setState({
@@ -333,6 +355,14 @@ class Game extends React.Component {
         this.closeCreateBoardModal()
     };
 
+    showStatsModal = () => {
+        this.setState({
+            playerState: this.state.playerStart.slice(),
+            moveHistory: [],
+            gameWon: false,
+            showStatsModal: true,
+        });
+    }
 
     handleCollision = (dirObj,robotSelected,color) => {
         var newPosition;
@@ -446,13 +476,27 @@ class Game extends React.Component {
                 if (window.userInfo !== null) {
                     username = window.userInfo.username
                 }
-                return  (<YouWinModal
-                    show={this.state.gameWon}
-                    numMoves={this.state.moveHistory.length}
-                    submitAnswer={this.submitAnswer}
-                    resetPuzzle={this.resetPuzzle}
-                    username={username}
-                />);
+                if (this.props.randomGame === 'Yes') {
+                    return (
+                        <RandomGameStatsModal
+                            show={this.state.gameWon}
+                            lowestMoves={this.state.lowestMoves}
+                            lowestMoveSequence={this.state.lowestMoveSequence}
+                            numMoves={this.state.moveHistory.length}
+                            difficulty={this.state.difficulty}
+                            resetPuzzle={this.resetPuzzle}
+                        />
+                    );
+                }
+                else {
+                    return  (<YouWinModal
+                        show={this.state.gameWon}
+                        numMoves={this.state.moveHistory.length}
+                        submitAnswer={this.submitAnswer}
+                        resetPuzzle={this.resetPuzzle}
+                        username={username}
+                    />);
+                }
             }
             else if (this.props.puzzleRush === 'Yes'){
                 axios.post('/puzzlerushsubmit', {p_id: this.state.p_id,g_id:this.state.games[this.state.numPuzzleon].g_id, moveHistory: this.state.moveHistory})
@@ -547,6 +591,9 @@ class Game extends React.Component {
             )
         }
         else if (this.state.createMode === 'Yes') {
+            return null
+        }
+        else if (this.props.randomGame === 'Yes') {
             return null
         }
         else {

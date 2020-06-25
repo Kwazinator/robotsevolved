@@ -1,4 +1,5 @@
 import React from 'react';
+import CasinoIcon from '@material-ui/icons/Casino';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -152,7 +153,7 @@ class App extends React.Component {
         super(props);
         if (window.uri === '') {
             this.state = {
-                PageSelected: <Home handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
+                PageSelected: <Home handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
             };
         }
         else {
@@ -195,6 +196,21 @@ class App extends React.Component {
             window.location.href = "/auth/logout";
         }
     };
+
+    handleClickRandomGame = event => {
+        event.preventDefault();
+        axios.get('/randomgame')
+            .then( res => {
+                var game = JSON.parse(res.data.game);
+                this.setState({
+                    showPuzzleRushModal: false,
+                    PageSelected: <Game randomGame={'Yes'} game={game}/>
+                });
+            })
+
+
+    }
+
 
     handleClickPuzzleRush = event => {
         event.preventDefault();
@@ -475,6 +491,10 @@ class App extends React.Component {
                             <ListItem button key={'Find a Game'} onClick={this.handleClickFindGame}>
                                 <ListItemIcon><SearchIcon /></ListItemIcon>
                                 <ListItemText primary={'Find a Game'} />
+                            </ListItem>
+                            <ListItem button key={'Random Game'} onClick={this.handleClickRandomGame}>
+                                <ListItemIcon><CasinoIcon /></ListItemIcon>
+                                <ListItemText primary={'Random Game'} />
                             </ListItem>
                             <ListItem button key={'Puzzle Rush'} onClick={this.handleClickPuzzleRush}>
                                 <ListItemIcon><ExtensionIcon /></ListItemIcon>

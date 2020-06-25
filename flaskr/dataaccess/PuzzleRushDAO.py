@@ -1,5 +1,6 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.PuzzleRush import PuzzleRush
+from flaskr.dataaccess.entities.Gen import Gen
 #from random_word import RandomWords
 import uuid
 import datetime
@@ -86,3 +87,9 @@ class PuzzleRushDAO:
             return 'failed'
         finally:
             pass
+    def get_random_game(self, difficulty):
+        cursor = get_db().cursor()
+        cursor.execute('SELECT * FROM generated_games WHERE g_difficulty=%s order by RAND() LIMIT 1',(difficulty,))
+        row = cursor.fetchone()
+        return Gen(row[0],row[1],row[2],row[3],row[4],row[5],row[6]).serialize()
+

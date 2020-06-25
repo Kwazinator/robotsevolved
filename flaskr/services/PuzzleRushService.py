@@ -59,3 +59,6 @@ class PuzzleRushService:
 
     def end_puzzle_rush_game(self, p_id,totalMoves,differenceFrom):
         PuzzleRushDAO().end_puzzle_rush_game(p_id,totalMoves,differenceFrom)
+
+    def get_random_game(self, difficulty):
+        return PuzzleRushDAO().get_random_game(difficulty)

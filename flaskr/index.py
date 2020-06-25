@@ -3,6 +3,7 @@ from flask import (
 )
 from flaskr.services.GameService import GameService
 from flaskr.services.UserService import UserService
+from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
@@ -197,10 +198,8 @@ def search():
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 
-@bp.route('/databasedownload', methods=('GET',))
-@jwt_required
-def databasedownload():
-    if (get_jwt_identity() == 1 or get_jwt_identity() == 2):
-        return send_file('../instance/flaskr.sqlite')
-    else:
-        return 404
+@bp.route('/randomgame', methods=('GET',))
+@jwt_optional
+def randomgame():
+    game = PuzzleRushService().get_random_game('easy')
+    return jsonify(game=json.dumps(game))

@@ -24,8 +24,7 @@ export default function ComplexGrid(props) {
                     </Typography>
                 </Grid>
                 <Grid item xs={6} spacing={3}>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/uoJ0OxQxiGA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </Grid>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5VSS4pDfEUk?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                </Grid>
                 <Grid container xs={12} spacing={4} justify={'center'}>
                     <Grid item xs={2}>
                         <Card className={classes.iconcards}>
@@ -61,7 +60,7 @@ export default function ComplexGrid(props) {
                               component="img"
                               alt="Create Board"
                               height="140"
-                              image="/static/images/CreateBoardCardIcon.png"
+                              image="/static/images/LessonsBoardCardIcon.png"
                               title="Learn"
                             />
                             <CardContent>
@@ -79,7 +78,7 @@ export default function ComplexGrid(props) {
                     </Grid>
                     <Grid item xs={2}>
                         <Card className={classes.iconcards}>
-                          <CardActionArea>
+                          <CardActionArea onClick={props.handleClickRandomGame}>
                             <CardMedia
                               component="img"
                               alt="Play a Random Game"
