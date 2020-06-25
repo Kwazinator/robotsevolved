@@ -16,7 +16,7 @@ const styles = theme => ({
     root: {
         width: "100%",
         maxWidth: 360,
-        height: 220
+        height: 180
     },
 
     item: {
