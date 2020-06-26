@@ -25,7 +25,7 @@ class PuzzleRushService:
                 games = GenDAO().getPuzzles(13, 9, numPuzzles)
             elif difficulty == 'hard':
                 games = GenDAO().getPuzzles(18, 14, numPuzzles)
-            elif difficulty == 'exteremely hard':
+            elif difficulty == 'Exteremly Hard':
                 games = GenDAO().getPuzzles(22, 19, numPuzzles)
             elif difficulty == 'godly':
                 games = GenDAO().getPuzzles(50, 23, numPuzzles)

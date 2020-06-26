@@ -76,7 +76,7 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickExHardPuzzleRush = (event) => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('exteremely hard')
+        this.handleClickPuzzleRushModal('Exteremly Hard')
         this.setState({
             isLoading: true
         })

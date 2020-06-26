@@ -74,7 +74,7 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickExHard = event => {
         event.preventDefault();
-        this.handleClickRandomGameModal('exteremely hard')
+        this.handleClickRandomGameModal('Exteremly Hard')
         this.setState({
             isLoading: true
         })
