@@ -5,6 +5,23 @@ import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import {
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
+    MAX_WIDTH,
+    MAX_HEIGHT,
+    ROBOT_BLUE,
+    ROBOT_GREEN,
+    ROBOT_RED,
+    ROBOT_YELLOW,
+    GREEN_UP_PICTURE,
+    DIRECTION_MAP_IMAGES,
+    LINE_INDICATOR_COLOR
+} from '../../constants/constants';
+
+
 
 const buttonpanel = () => {
     return {
@@ -18,10 +35,16 @@ class RandomGameStatsModal extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            answers: null,
+        }
     }
 
     showStatsModal = () => {
-        console.log('do some shit here to show the stats');
+        this.props.handleShowRandomAnswers()
+        this.setState({
+            answers: this.props.lowestMoveSequence
+        })
     };
 
     render() {
@@ -40,9 +63,7 @@ class RandomGameStatsModal extends React.Component {
                     <div>
                         lowest possible moves: {this.props.lowestMoves}
                     </div>
-                    <div>
-                        Sequence: {this.props.lowestMoveSequence}
-                    </div>
+                    {this.state.answers}
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="secondary" onClick={this.showStatsModal}>Show Puzzle Answers</Button>

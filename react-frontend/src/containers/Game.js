@@ -67,6 +67,40 @@ const rightDisplayPanel = () => {
         marginTop: '15px'
     }
 };
+const formatGeneratedMoveSequence = (moves) => {
+    var images = []
+    moves.map(move => {
+        var color = move.charAt(0);
+        var direction = move.charAt(1);
+        if (color == 'B') {
+            color = 'blue'
+        }
+        else if (color == 'R') {
+            color = 'red'
+        }
+        else if (color == 'Y') {
+            color = 'yellow'
+        }
+        else {
+            color = 'green'
+        }
+        if (direction == 'N') {
+            direction = UP
+        }
+        else if (direction == 'S') {
+            direction = DOWN
+        }
+        else if (direction == 'E') {
+            direction = RIGHT
+        }
+        else {
+            direction = LEFT
+        }
+        images.push(<img src={DIRECTION_MAP_IMAGES[color][direction]}/>)
+    });
+    return images
+}
+
 
 const setDefaultSquareSize = (boardWidth) => {
     const drawerWidth = document.getElementById("MainDrawer") == null ? 140 : parseInt(getComputedStyle(document.getElementById("MainDrawer")).width);
@@ -111,7 +145,7 @@ class Game extends React.Component {
         else if (this.props.randomGame == 'Yes') {
             this.state = JSON.parse(this.props.game.g_puzzledata)
             this.state.lowestMoves = this.props.game.g_moves
-            this.state.lowestMoveSequence = JSON.parse(this.props.game.g_solutiondata)
+            this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.game.g_solutiondata))
             this.state.difficulty = this.props.game.g_difficulty
             this.state.createMode = 'No';
             this.state.gameWon = false;
@@ -485,6 +519,7 @@ class Game extends React.Component {
                             numMoves={this.state.moveHistory.length}
                             difficulty={this.state.difficulty}
                             resetPuzzle={this.resetPuzzle}
+                            handleShowRandomAnswers={this.handleShowRandomAnswers}
                         />
                     );
                 }
@@ -539,6 +574,12 @@ class Game extends React.Component {
             return '';
         }
     };
+
+    handleShowRandomAnswers = () => {
+        this.setState({
+            tipsText: [this.state.lowestMoveSequence]
+        })
+    }
 
     handlePlayerMovement = (dirObj) => {
         if (dirObj.dir !== undefined && this.state.gameWon === false) {

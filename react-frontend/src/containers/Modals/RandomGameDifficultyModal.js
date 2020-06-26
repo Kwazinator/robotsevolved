@@ -15,7 +15,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 
-
 const divStyle = () => {
     return ({
             display: 'flex',
@@ -37,51 +36,49 @@ class PuzzleRushDifficultyModal extends React.Component {
         this.props.show = false;
     };
 
-    handleClickPuzzleRushModal = (difficulty) => {
-        console.log(difficulty)
-        axios.post('/puzzlerush', {difficulty: difficulty, action: 'start'})
-                .then( res => {
-                        var games = JSON.parse(res.data.games);
-                        var p_id = res.data.p_id;
-                        this.setState({
-                            isLoading: false,
-                        });
-                        this.props.handleClickPuzzleRush(difficulty,games,p_id);
+    handleClickRandomGameModal = (difficulty) => {
+        axios.get('/randomgame?difficulty=' + difficulty)
+            .then( res => {
+                var game = JSON.parse(res.data.game);
+                this.setState({
+                    isLoading: false,
                 });
-    };
+                this.props.handleClickRandomGame(game,difficulty);
+            })
+    }
 
-    handleClickEasyPuzzleRush = (event) => {
+
+    handleClickEasy = event => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('easy')
+        this.handleClickRandomGameModal('easy')
         this.setState({
             isLoading: true
         })
     }
 
-    handleClickMediumPuzzleRush = (event) => {
+    handleClickMedium = event => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('medium')
+         this.handleClickRandomGameModal('medium')
         this.setState({
             isLoading: true
         })
     }
 
-    handleClickHardPuzzleRush = (event) => {
+    handleClickHard = event => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('hard')
+         this.handleClickRandomGameModal('hard')
         this.setState({
             isLoading: true
         })
     }
 
-    handleClickExHardPuzzleRush = (event) => {
+    handleClickExHard = event => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('exteremely hard')
+        this.handleClickRandomGameModal('exteremely hard')
         this.setState({
             isLoading: true
         })
     }
-
 
     render () {
         return (
@@ -93,7 +90,7 @@ class PuzzleRushDifficultyModal extends React.Component {
             >
                 <DialogTitle id="customized-dialog-title-2" onClose={this.handleClose}>Select a Difficulty</DialogTitle>
                 <DialogContent dividers>
-                                {this.state.isLoading ? (
+                            {this.state.isLoading ? (
                                     <Grid
                                         container xs={12}
                                         spacing={4}
@@ -106,36 +103,36 @@ class PuzzleRushDifficultyModal extends React.Component {
                                               <CircularProgress />
                                          </div>
                                     </Grid>
-                                                        ) : (
-                                    <Grid
-                                        container xs={12}
-                                        spacing={4}
-                                        direction="column"
-                                        alignItems="center"
-                                        justify="center"
-                                        wrap="nowrap"
-                                    >
-                                         <Grid item xs={12}>
-                                            <Button onClick={this.handleClickEasyPuzzleRush} variant="contained" color="primary">
-                                                Easy
-                                            </Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Button onClick={this.handleClickMediumPuzzleRush} variant="contained" color="primary">
-                                                Medium
-                                            </Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Button onClick={this.handleClickHardPuzzleRush} variant="contained" color="primary">
-                                                Hard
-                                            </Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Button onClick={this.handleClickExHardPuzzleRush} variant="contained" color="primary">
-                                                Exteremely Hard
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
+                            ) : (
+                            <Grid
+                                container xs={12}
+                                spacing={4}
+                                direction="column"
+                                alignItems="center"
+                                justify="center"
+                                wrap="nowrap"
+                            >
+                                <Grid item xs={12}>
+                                    <Button onClick={this.handleClickEasy} variant="contained" color="primary">
+                                        Easy
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button onClick={this.handleClickMedium} variant="contained" color="primary">
+                                        Medium
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button onClick={this.handleClickHard} variant="contained" color="primary">
+                                        Hard
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button onClick={this.handleClickExHard} variant="contained" color="primary">
+                                        Exteremely Hard
+                                    </Button>
+                                </Grid>
+                            </Grid>
                             )}
                 </DialogContent>
                 <DialogActions>

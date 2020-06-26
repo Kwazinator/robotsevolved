@@ -1,9 +1,9 @@
 import React from 'react';
+import InfoIcon from '@material-ui/icons/Info';
 import CasinoIcon from '@material-ui/icons/Casino';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/Settings';
-import PuzzleRush from './Pages/PuzzleRush';
 import clsx from 'clsx';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
@@ -42,8 +42,10 @@ import {MOBILE_INNER_SCREEN_WIDTH} from "./constants/constants";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 import PuzzleRushDifficultyModal from "./containers/Modals/PuzzleRushDifficultyModal";
+import RandomGameDifficultyModal from "./containers/Modals/RandomGameDifficultyModal";
 import ProfilePage from "./Pages/ProfilePage";
-
+import RandomGamePage from "./Pages/RandomGamePage";
+import PuzzleRushPage from "./Pages/PuzzleRushPage";
 
 const drawerWidth = 240;
 
@@ -197,18 +199,23 @@ class App extends React.Component {
         }
     };
 
-    handleClickRandomGame = event => {
+    handleClickRandomGameModal = (game,difficulty) => {
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        this.setState({
+            showRandomGameModal: false,
+            PageSelected: <RandomGamePage randomGame={'Yes'} game={game} difficulty={difficulty}/>,
+            open: isOpen,
+        });
+    }
+
+    handleClickRandomGame = (event) => {
         event.preventDefault();
-        axios.get('/randomgame')
-            .then( res => {
-                var game = JSON.parse(res.data.game);
-                this.setState({
-                    showPuzzleRushModal: false,
-                    PageSelected: <Game randomGame={'Yes'} game={game}/>
-                });
-            })
-
-
+        this.setState({
+            showRandomGameModal: true,
+        });
     }
 
 
@@ -219,69 +226,17 @@ class App extends React.Component {
         });
     };
 
-    handleClickEasyPuzzleRush = event => {
-        axios.post('/puzzlerush', {difficulty: 'easy', action: 'start'})
-                .then( res => {
-                        var games = JSON.parse(res.data.games);
-                        var p_id = res.data.p_id;
-                        this.setState({
-                            showPuzzleRushModal: false,
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'easy'}/>
-                        });
-                    //this.props.history.push('/play/' + res.data.uri)
-                });
-    };
 
-     handleClickMediumPuzzleRush = event => {
-        axios.post('/puzzlerush', {difficulty: 'medium', action: 'start'})
-                .then( res => {
-                        var games = JSON.parse(res.data.games);
-                        var p_id = res.data.p_id;
-                        this.setState({
-                            showPuzzleRushModal: false,
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'medium'}/>
-                        });
-                    //this.props.history.push('/play/' + res.data.uri)
-                });
-    };
-
-     handleClickHardPuzzleRush = event => {
-        axios.post('/puzzlerush', {difficulty: 'hard', action: 'start'})
-                .then( res => {
-                        var games = JSON.parse(res.data.games);
-                        var p_id = res.data.p_id;
-                        this.setState({
-                            showPuzzleRushModal: false,
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'hard'}/>
-                        });
-                    //this.props.history.push('/play/' + res.data.uri)
-                });
-    };
-
-     handleClickExHardPuzzleRush = event => {
-        axios.post('/puzzlerush', {difficulty: 'exteremely hard', action: 'start'})
-                .then( res => {
-                        var games = JSON.parse(res.data.games);
-                        var p_id = res.data.p_id;
-                        this.setState({
-                            showPuzzleRushModal: false,
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={'exteremely hard'}/>
-                        });
-                    //this.props.history.push('/play/' + res.data.uri)
-                });
-    };
-
-     handleClickGodlyPuzzleRush = event => {
-        axios.post('/puzzlerush', {difficulty: 'godly', action: 'start'})
-                .then( res => {
-                        var games = JSON.parse(res.data.games);
-                        var p_id = res.data.p_id;
-                        this.setState({
-                            showPuzzleRushModal: false,
-                            PageSelected: <Game puzzleRush={'Yes'} games={games} p_id={p_id}/>
-                        });
-                    //this.props.history.push('/play/' + res.data.uri)
-                });
+    handleClickPuzzleRushModal = (difficulty,games,p_id) => {
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        this.setState({
+            showPuzzleRushModal: false,
+            PageSelected: <PuzzleRushPage puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
+            open: isOpen
+        });
     };
 
     closeLoginModal = event => {
@@ -298,11 +253,24 @@ class App extends React.Component {
         });
     }
 
-    handleGameClick = (name, gamedata,highscores,uri) => {
+    closeRandomGameLoginModal = event => {
+        event.preventDefault();
         this.setState({
-            PageSelected: <PlayGame name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>
+            showRandomGameModal: false
+        });
+    }
+
+    handleGameClick = (name, gamedata,highscores,uri) => {
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        this.setState({
+            PageSelected: <PlayGame name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>,
+            open: isOpen
         });
     };
+
     handleClickCreateGame = event => {
         event.preventDefault();
         var newGame = <CreateGame state={"new"}/>; //KNOWN bug where if you create a game you have to refresh the page to cause a re-render of <CreateGame/>
@@ -553,9 +521,9 @@ class App extends React.Component {
                             Tools
                         </Typography>
                         <List>
-                            <ListItem button key={'Robits Solver'}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
-                                <ListItemText primary={'Robits Solver'} />
+                            <ListItem button key={'About Us'}>
+                                <ListItemIcon><InfoIcon /></ListItemIcon>
+                                <ListItemText primary={'About Us'} />
                             </ListItem>
                             <ListItem button key={'Settings'}>
                                 <ListItemIcon><SettingsIcon /></ListItemIcon>
@@ -573,10 +541,12 @@ class App extends React.Component {
                     <PuzzleRushDifficultyModal
                         closeModal={this.closePuzzleRushLoginModal}
                         show={this.state.showPuzzleRushModal}
-                        handleClickEasyPuzzleRush={this.handleClickEasyPuzzleRush}
-                        handleClickMediumPuzzleRush={this.handleClickMediumPuzzleRush}
-                        handleClickHardPuzzleRush={this.handleClickHardPuzzleRush}
-                        handleClickExHardPuzzleRush={this.handleClickExHardPuzzleRush}
+                        handleClickPuzzleRush={this.handleClickPuzzleRushModal}
+                    />
+                    <RandomGameDifficultyModal
+                        closeModal={this.closeRandomGameLoginModal}
+                        show={this.state.showRandomGameModal}
+                        handleClickRandomGame={this.handleClickRandomGameModal}
                     />
                 </div>
             </MuiThemeProvider>
