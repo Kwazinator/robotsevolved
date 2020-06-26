@@ -21,7 +21,9 @@ export default function Descriptionlist(props) {
                           <FeedbackIcon />
                         </Avatar>
                       </ListItemAvatar>
+                      <div>
                         {text}
+                      </div>
                       <ListItemSecondaryAction>
                         <IconButton edge="end" aria-label="delete">
                           <CloseIcon />

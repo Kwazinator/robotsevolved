@@ -201,5 +201,6 @@ def search():
 @bp.route('/randomgame', methods=('GET',))
 @jwt_optional
 def randomgame():
-    game = PuzzleRushService().get_random_game('easy')
+    difficulty = request.args['difficulty']
+    game = PuzzleRushService().get_random_game(difficulty)
     return jsonify(game=json.dumps(game))
