@@ -26,7 +26,7 @@ export default function ComplexGrid(props) {
                 <Grid item xs={6} spacing={3}>
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/5VSS4pDfEUk?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} alignItems="center" justify="center">
                         <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickCreateGame}>
                             <CardMedia
@@ -52,9 +52,7 @@ export default function ComplexGrid(props) {
                             </Button>
                           </CardActions>
                         </Card>
-                    </Grid>
-                    <Grid item xs={4}>
-                    <Card className={classes.iconcards}>
+                        <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickFindGame}>
                             <CardMedia
                               component="img"
@@ -73,8 +71,6 @@ export default function ComplexGrid(props) {
                             </CardContent>
                           </CardActionArea>
                         </Card>
-                    </Grid>
-                    <Grid item xs={4}>
                         <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickRandomGame}>
                             <CardMedia
@@ -99,9 +95,7 @@ export default function ComplexGrid(props) {
                             </Button>
                           </CardActions>
                         </Card>
-                    </Grid>
-                     <Grid item xs={6}>
-                            <Card className={classes.iconcards}>
+                        <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickLearnGame}>
                             <CardMedia
                               component="img"
@@ -122,8 +116,6 @@ export default function ComplexGrid(props) {
                           <CardActions>
                           </CardActions>
                         </Card>
-                    </Grid>
-                    <Grid item xs={6}>
                         <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickPuzzleRush}>
                             <CardMedia
@@ -149,6 +141,17 @@ export default function ComplexGrid(props) {
                             </Button>
                           </CardActions>
                         </Card>
+                    </Grid>
+                    <Grid item xs={4}>
+                    </Grid>
+                    <Grid item xs={4}>
+
+                    </Grid>
+                     <Grid item xs={6}>
+
+                    </Grid>
+                    <Grid item xs={6}>
+
                     </Grid>
               </Grid>
            </div>
