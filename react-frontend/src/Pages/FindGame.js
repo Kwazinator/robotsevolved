@@ -88,6 +88,12 @@ class FindGame extends React.Component {
                         placeholder="Search"
                         inputProps={{ 'aria-label': 'search' }}
                         inputRef={ref => this.searchRef = ref}
+                        onKeyPress={(event) => {
+                            if (event.key === 'Enter') {
+                                this.handleSearchSubmit();
+                                event.preventDefault()
+                            }
+                        }}
                     />
                     <IconButton onClick={this.handleSearchSubmit} className={classes.iconButton} aria-label="search">
                         <SearchIcon />
