@@ -19,6 +19,15 @@ def get_games_data(numMoves,Offset):
     return (gameslist,highscoreslist)
 
 
+def get_games_search(numPuzzles,Offset,searchterm):
+    gameslist = GameService().get_games_by_search(numPuzzles,Offset,searchterm)
+    highscoreslist = list()
+    if gameslist is not None:
+        for game in gameslist:
+            highscoreslist.append(GameService().get_highscores(game['uri']))
+    return (gameslist,highscoreslist)
+
+
 def get_learned_games():
     gameslist = [13,12,11,14,15]
     returnlist = list()
@@ -188,13 +197,9 @@ def userDelete():
 @bp.route('/search', methods=('GET','POST'))
 def search():
     data = request.get_json()
-    #print(json.dumps(data,indent=4))
-    #
-    #fill a list of Solution objects and return the List. Currently just returning current games, so it wont work.
-    #
-    #Could modify method get_games_data to also take a search term and run a new query, OR create a new method that uses
-    #a search term like get_games_search_term(numGames,offset,searchterm)
-    get_games_data_value = get_games_data(50,0)
+    searchterm = data['search']
+    offset = data['offset']
+    get_games_data_value = get_games_search(20,offset,searchterm)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 

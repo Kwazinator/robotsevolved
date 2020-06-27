@@ -68,7 +68,7 @@ class FindGame extends React.Component {
 
     handleSearchSubmit = event => {
         var searchTerm = this.searchRef.value;
-        axios.post('/search', {search: searchTerm})
+        axios.post('/search', {search: searchTerm, offset: 0})
             .then( res => {
                 console.log(res);
                 this.setState({

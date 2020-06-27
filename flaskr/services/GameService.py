@@ -19,6 +19,10 @@ class GameService:
     def check_same_game(self,puzzledata):
         return GameDAO().check_same_game(puzzledata)
 
+    def get_games_by_search(self,numPuzzles,Offset,searchterm):
+        return GameDAO().get_games_by_search(numPuzzles,Offset,searchterm)
+
+
     def insert_highscore(self,name,userid,authorname,solutiondata,highscore,uri):
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])

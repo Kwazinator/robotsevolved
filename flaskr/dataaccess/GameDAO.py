@@ -55,6 +55,20 @@ class GameDAO:
         row = cursor.fetchone()
         return row
 
+    def get_games_by_search(self,numPuzzles,Offset,searchterm):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        searchterm = ''.join(('%',searchterm,'%'))
+        cursor.execute("SELECT * from game WHERE name LIKE %s OR authorname LIKE %s ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        query = cursor.fetchall()
+        if query is not None:
+            for row in query:
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+            return games
+        else:
+            return games
+
     def get_highscores(self,id):
         db = get_db()
         cursor = db.cursor()
