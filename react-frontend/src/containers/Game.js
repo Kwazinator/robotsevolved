@@ -203,7 +203,7 @@ class Game extends React.Component {
                                         'Click on Wall spots to toggle',
                                         'Click and Drag robots or goal to move robots',
                                         'When you are ready, toggle build mode in order to solve the puzzle',
-                                        'you must solve the puzzle in order to submit.']
+                                        'You must solve the puzzle in order to submit.']
             },board);
             this.state.squareSize = setDefaultSquareSize(this.state.width);
         }
