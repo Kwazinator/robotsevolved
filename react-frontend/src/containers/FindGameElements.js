@@ -1,22 +1,21 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import { withStyles } from "@material-ui/core/styles";
-import {Card, CardContent, CardHeader, CardActions} from "@material-ui/core";
+import {Card, CardContent} from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip"
 
 
 const styles = theme => ({
     root: {
         width: "100%",
         maxWidth: 360,
-        height: 180
+        height: 175
     },
 
     item: {
@@ -85,16 +84,22 @@ function ComplexGrid(props) {
                 <CardContent>
                     <div style={contentDivStyle()}>
                         <div style={{width: '125px'}}>
-                            <Typography variant="h5" classes={{ root: classes.lowerPadding }}>
-                                {trimName(props.game.name)}
-                            </Typography>
+                            <Tooltip title={props.game.name}>
+                                <Typography variant="h6" classes={{ root: classes.lowerPadding }}>
+                                    {trimName(props.game.name)}
+                                </Typography>
+                            </Tooltip>
                             <div>
                                 <Typography variant="caption">
                                     By: {trimName(props.game.authorname)}
                                 </Typography>
-                                <Typography>
+                            </div>
+                            <div>
+                                <Typography variant="caption">
                                     {props.game.created}
                                 </Typography>
+                            </div>
+                            <div>
                                 <Typography color="textSecondary" variant="caption">
                                     Plays: {props.highscores.length}
                                 </Typography>
