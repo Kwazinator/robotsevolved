@@ -17,16 +17,16 @@ export default function ComplexGrid(props) {
 
     return (<div className={classes.grid}>
               <Grid container spacing={4}>
-                <Grid item xs={6} spacing={3} alignItems="center" justify="center" wrap="nowrap">
+                <Grid item xs={6} spacing={3} alignItems="center" justify="center">
                     <Typography variant="h3"> Welcome To RobotsEvolved
                     </Typography>
                     <Typography> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
                     </Typography>
                 </Grid>
                 <Grid item xs={6} spacing={3}>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5VSS4pDfEUk?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                </Grid>
-                <Grid container xs={12} spacing={4} justify={'center'}>
-                    <Grid item xs={2}>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5VSS4pDfEUk?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </Grid>
+                    <Grid item xs={4}>
                         <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickCreateGame}>
                             <CardMedia
@@ -53,30 +53,28 @@ export default function ComplexGrid(props) {
                           </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={2}>
-                        <Card className={classes.iconcards}>
-                          <CardActionArea onClick={props.handleClickLearnGame}>
+                    <Grid item xs={4}>
+                    <Card className={classes.iconcards}>
+                          <CardActionArea onClick={props.handleClickFindGame}>
                             <CardMedia
                               component="img"
-                              alt="Create Board"
+                              alt="Find a Game"
                               height="140"
-                              image="/static/images/LessonsBoardCardIcon.png"
-                              title="Learn"
+                              image="/static/images/FindAGameCardIcon.png"
+                              title="Find a Game"
                             />
                             <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">
-                                Learn
+                                Find a Game
                               </Typography>
                               <Typography variant="body2" color="textSecondary" component="p">
-                                Get the basics all the way to advanced tutorials.
+                                Find a Game that has been created by another person!
                               </Typography>
                             </CardContent>
                           </CardActionArea>
-                          <CardActions>
-                          </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4}>
                         <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickRandomGame}>
                             <CardMedia
@@ -102,28 +100,30 @@ export default function ComplexGrid(props) {
                           </CardActions>
                         </Card>
                     </Grid>
-                     <Grid item xs={2}>
-                        <Card className={classes.iconcards}>
-                          <CardActionArea onClick={props.handleClickFindGame}>
+                     <Grid item xs={6}>
+                            <Card className={classes.iconcards}>
+                          <CardActionArea onClick={props.handleClickLearnGame}>
                             <CardMedia
                               component="img"
-                              alt="Find a Game"
+                              alt="Create Board"
                               height="140"
-                              image="/static/images/FindAGameCardIcon.png"
-                              title="Find a Game"
+                              image="/static/images/LessonsBoardCardIcon.png"
+                              title="Learn"
                             />
                             <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">
-                                Find a Game
+                                Learn
                               </Typography>
                               <Typography variant="body2" color="textSecondary" component="p">
-                                Find a Game that has been created by another person!
+                                Get the basics all the way to advanced tutorials.
                               </Typography>
                             </CardContent>
                           </CardActionArea>
+                          <CardActions>
+                          </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={6}>
                         <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickPuzzleRush}>
                             <CardMedia
@@ -150,7 +150,6 @@ export default function ComplexGrid(props) {
                           </CardActions>
                         </Card>
                     </Grid>
-                </Grid>
               </Grid>
            </div>
     )
