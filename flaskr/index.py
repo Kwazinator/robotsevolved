@@ -48,6 +48,8 @@ def index():
     loggedin = 'No'
     learngameslist = get_learned_games()
     dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
+    dc_id = GeneratorService().get_daily_challenge_id()
+    dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
     if (userID is not None):
         #gamesview = json.dumps(UserService().get_user_games_view(userID))
         #solutionsview = json.dumps(UserService().get_user_solutions_view(userID))
@@ -90,7 +92,7 @@ def index():
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
 def about():
@@ -111,7 +113,8 @@ def play(uri):
     loggedin = 'No'
     learngameslist = get_learned_games()
     dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
-    dailychallengeid = 1
+    dc_id = GeneratorService().get_daily_challenge_id()
+    dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
     if (userID is not None):
         #gamesview = json.dumps(UserService().get_user_games_view(userID))
         #solutionsview = json.dumps(UserService().get_user_solutions_view(userID))
@@ -154,7 +157,7 @@ def play(uri):
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional

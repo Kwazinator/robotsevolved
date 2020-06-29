@@ -163,7 +163,8 @@ class Game extends React.Component {
             this.state.playerStateList = [];
             this.state.moveHistoryList=[];
             this.state.tipsText = [];
-            this.state.dc_id = 1;
+            this.state.highscores = this.props.highscores;
+            this.state.dc_id = this.props.dc_id;
             this.state.gamesWonDaily = [false,false,false,false];
         }
         else if (this.props.randomGame === 'Yes') {
@@ -279,12 +280,14 @@ class Game extends React.Component {
 
     componentDidMount = () => {
         if (this.props.loadedGame === 'Yes') {
+            this.updateHighscores();
             var IntervalId = setInterval(this.updateHighscores, 4000);
             this.setState({
                 IntervalId: IntervalId,
             });
         }
         else if (this.props.dailyChallengeMode === 'Yes') {
+            this.updateDailyHighscores();
             var IntervalId = setInterval(this.updateDailyHighscores, 4000);
             this.setState({
                 IntervalId: IntervalId,
@@ -550,15 +553,12 @@ class Game extends React.Component {
         moveHistoryList.map(moveHistory => {
             numMoves += moveHistory.length
         })
-        console.log(moveHistoryList)
-        console.log(numMoves)
         axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id})
             .then( res => {
-                this.setState({gameWon: false});
+                console.log(res)
             });
-        this.resetPuzzle();
-
-
+        this.state.gameWon = false;
+        this.handleUndoMove();
     }
 
     checkwin = (robotPosition) => {
@@ -590,14 +590,11 @@ class Game extends React.Component {
                             Won = false
                         }
                     });
-                    var numMoves = 0;
-                    this.state.moveHistoryList.map((moveHistory,index) => {
-                        if (index == this.state.numPuzzleon) {
-                            numMoves += this.state.moveHistory.length
-                        }
-                        else {
-                            numMoves += moveHistory.length
-                        }
+                    var moveHistoryList = this.state.moveHistoryList
+                    moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
+                    var numMoves = 0
+                    moveHistoryList.map(moveHistory => {
+                        numMoves += moveHistory.length
                     })
                     return Won ? <YouWinModal
                         show={this.state.gameWon}

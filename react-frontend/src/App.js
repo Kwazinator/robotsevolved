@@ -190,7 +190,7 @@ class App extends React.Component {
         }
         console.log(window.dailyChallengeGameslist);
         this.setState({
-            PageSelected: <Game dailyChallengeMode={'Yes'} games={window.dailyChallengeGameslist}/>,
+            PageSelected: <Game dailyChallengeMode={'Yes'} games={window.dailyChallengeGameslist} dc_id={window.dc_id} highscores={window.dchighscores}/>,
             open: isOpen
         });
     }
@@ -472,6 +472,10 @@ class App extends React.Component {
                             <ListItem button key={'Find a Game'} onClick={this.handleClickFindGame}>
                                 <ListItemIcon><SearchIcon /></ListItemIcon>
                                 <ListItemText primary={'Find a Game'} />
+                            </ListItem>
+                            <ListItem button key={'Daily Challenge'} onClick={this.handleClickDailyChallenge}>
+                                <ListItemIcon><ExtensionIcon /></ListItemIcon>
+                                <ListItemText primary={'Daily Challenge'} />
                             </ListItem>
                             <ListItem button key={'Random Game'} onClick={this.handleClickRandomGame}>
                                 <ListItemIcon><CasinoIcon /></ListItemIcon>

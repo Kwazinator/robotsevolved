@@ -52,11 +52,12 @@ class GenDAO:
             cursor = db.cursor()
             cursor.execute('INSERT INTO daily_challenge_submit (score,user_id,solutiondata,name,dc_id) VALUES (%s,%s,%s,%s,%s)',(score, userid, solutiondata, name, dc_id))
             db.commit()
+            return 'OK'
         except Exception as e:
-            print('Error in GenDAO().insert_daily_challenge_submit')
+            print('error in insert daily challenge submit')
             print(e)
         finally:
-            return 'OK'
+            pass
 
     def get_daily_challenge_highscores(self,dc_id):
         cursor = get_db().cursor()
@@ -65,3 +66,37 @@ class GenDAO:
         for row in cursor.fetchall():
             highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5]).serialize())
         return highscores
+
+    def get_daily_challenge_id(self):
+        try:
+            cursor = get_db().cursor()
+            cursor.execute('SELECT id FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC LIMIT 1')
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print(e)
+            return 1
+        finally:
+            pass
+
+    def check_current_daily_submit(self,userid,dc_id):
+        cursor = get_db().cursor()
+        cursor.execute('SELECT * FROM daily_challenge_submit WHERE dc_id=%s AND user_id=%s ORDER by score ASC LIMIT 1', (dc_id,userid))
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        else:
+            return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5])
+
+    def update_daily_challenge_submit(self,score, userid, solutiondata, name, dc_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('UPDATE daily_challenge_submit SET score=%s,solutiondata=%s,name=%s,submitted=CURRENT_TIMESTAMP WHERE user_id=%s AND dc_id=%s',(score, solutiondata, name, userid, dc_id))
+            db.commit()
+            return 'OK'
+        except Exception as e:
+            print('error in updatedailychallengesubmit')
+            print(e)
+        finally:
+            pass

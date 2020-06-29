@@ -26,7 +26,18 @@ class GeneratorService:
         return returnlist
 
     def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id):
-        return GenDAO().insert_daily_challenge_submit(score,userid,solutiondata,name,dc_id)
+        submitted = GenDAO().check_current_daily_submit(userid,dc_id)
+        if userid == 1:
+            return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id)
+        elif submitted is not None and submitted.score > score:
+            return GenDAO().update_daily_challenge_submit(score, userid, solutiondata, name, dc_id)
+        elif submitted is None:
+            return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id)
+        else:
+            return 'already submitted'
 
     def get_daily_challenge_highscores(self, dc_id):
         return GenDAO().get_daily_challenge_highscores(dc_id)
+
+    def get_daily_challenge_id(self):
+        return GenDAO().get_daily_challenge_id()
