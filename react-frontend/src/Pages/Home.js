@@ -117,6 +117,27 @@ export default function ComplexGrid(props) {
                           </CardActions>
                         </Card>
                         <Card className={classes.iconcards}>
+                          <CardActionArea onClick={props.handleClickDailyChallenge}>
+                            <CardMedia
+                              component="img"
+                              alt="Create Board"
+                              height="140"
+                              image="/static/images/LessonsBoardCardIcon.png"
+                              title="Daily Challenge"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                Daily Challenge
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary" component="p">
+                                Complete The Daily Challenge
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                          </CardActions>
+                        </Card>
+                        <Card className={classes.iconcards}>
                           <CardActionArea onClick={props.handleClickPuzzleRush}>
                             <CardMedia
                               component="img"

@@ -15,3 +15,18 @@ class GeneratorService:
 
     def insert_puzzle(self, g_name, g_difficulty, g_puzzledata, g_uri, g_moves, g_solutiondata):
         return GenDAO().insertPuzzles(g_name, g_difficulty, g_puzzledata, g_uri, g_moves, g_solutiondata)
+
+    def get_puzzle_by_id(self,id):
+        return GenDAO().get_puzzle_by_id(id)
+
+    def get_daily_puzzles(self):
+        returnlist = list()
+        for game in GenDAO().get_daily_puzzles():
+            returnlist.append(GenDAO().get_puzzle_by_id(game))
+        return returnlist
+
+    def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id):
+        return GenDAO().insert_daily_challenge_submit(score,userid,solutiondata,name,dc_id)
+
+    def get_daily_challenge_highscores(self, dc_id):
+        return GenDAO().get_daily_challenge_highscores(dc_id)

@@ -17,6 +17,7 @@ import YouWinModal from '../components/YouWinModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
+import DailyChallengeScores from '../components/DailyChallengeScores';
 import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
 import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
@@ -106,7 +107,6 @@ const setDefaultSquareSize = (boardWidth) => {
     const drawerWidth = document.getElementById("MainDrawer") == null ? 140 : parseInt(getComputedStyle(document.getElementById("MainDrawer")).width);
     const windowWidth = window.innerWidth;
     var settings = ((windowWidth < 600) ? windowWidth : (windowWidth - drawerWidth) / 1.75);
-    console.log(settings);
     settings = settings / boardWidth;
     settings = parseInt(settings);
     settings = settings - (settings % 4);
@@ -142,7 +142,31 @@ class Game extends React.Component {
             this.state.squareSize = setDefaultSquareSize(this.state.width);
             this.state.tipsText = []
         }
-        else if (this.props.randomGame == 'Yes') {
+        else if (this.props.dailyChallengeMode === 'Yes') {
+            this.state = JSON.parse(this.props.games[0].g_puzzledata)
+            this.state.goals = [];
+            this.props.games.map(game => {
+                var gamedata = JSON.parse(game.g_puzzledata)
+                this.state.goals.push(gamedata.goal)
+            })
+            this.state.games = this.props.games
+            this.state.gameWon = false;
+            this.state.ColoredLineDirections = [];
+            this.state.showBoardResetPanelModal = false;
+            this.state.copiedToClipboard = false;
+            this.state.numPuzzleon = 0;
+            this.state.createMode = 'No';
+            this.state.buildMode = false;
+            this.state.totalMovesList = [];
+            this.state.solutiondifference = [];
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.playerStateList = [];
+            this.state.moveHistoryList=[];
+            this.state.tipsText = [];
+            this.state.dc_id = 1;
+            this.state.gamesWonDaily = [false,false,false,false];
+        }
+        else if (this.props.randomGame === 'Yes') {
             this.state = JSON.parse(this.props.game.g_puzzledata)
             this.state.lowestMoves = this.props.game.g_moves
             this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.game.g_solutiondata))
@@ -243,9 +267,25 @@ class Game extends React.Component {
 
     };
 
+
+    updateDailyHighscores = () => {
+        axios.get('/dailychallengehighscores?dc_id=' + this.state.dc_id)
+            .then( res => {
+                this.setState({
+                    highscores: JSON.parse(res.data.highscores),
+                });
+            });
+    }
+
     componentDidMount = () => {
         if (this.props.loadedGame === 'Yes') {
-            var IntervalId = setInterval(this.updateHighscores, 2000);
+            var IntervalId = setInterval(this.updateHighscores, 4000);
+            this.setState({
+                IntervalId: IntervalId,
+            });
+        }
+        else if (this.props.dailyChallengeMode === 'Yes') {
+            var IntervalId = setInterval(this.updateDailyHighscores, 4000);
             this.setState({
                 IntervalId: IntervalId,
             });
@@ -256,9 +296,10 @@ class Game extends React.Component {
         if (this.props.loadedGame === 'Yes') {
             clearInterval(this.state.IntervalId);
         }
+        else if (this.props.dailyChallengeMode === 'Yes') {
+            clearInterval(this.state.IntervalId);
+        }
     };
-
-
 
     robotSelect = (i) => {
         this.setState({
@@ -501,6 +542,25 @@ class Game extends React.Component {
         });
     }
 
+    submitDailyAnswer = (event) => {
+        event.preventDefault();
+        var moveHistoryList = this.state.moveHistoryList
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
+        var numMoves = 0
+        moveHistoryList.map(moveHistory => {
+            numMoves += moveHistory.length
+        })
+        console.log(moveHistoryList)
+        console.log(numMoves)
+        axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id})
+            .then( res => {
+                this.setState({gameWon: false});
+            });
+        this.resetPuzzle();
+
+
+    }
+
     checkwin = (robotPosition) => {
         if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
             if (this.state.gameWon === false)
@@ -522,6 +582,30 @@ class Game extends React.Component {
                             handleShowRandomAnswers={this.handleShowRandomAnswers}
                         />
                     );
+                }
+                else if (this.props.dailyChallengeMode === 'Yes') {
+                    var Won=true
+                    this.state.gamesWonDaily.map((gameWon,index) => {
+                        if (!(index == this.state.numPuzzleon) && !gameWon) {
+                            Won = false
+                        }
+                    });
+                    var numMoves = 0;
+                    this.state.moveHistoryList.map((moveHistory,index) => {
+                        if (index == this.state.numPuzzleon) {
+                            numMoves += this.state.moveHistory.length
+                        }
+                        else {
+                            numMoves += moveHistory.length
+                        }
+                    })
+                    return Won ? <YouWinModal
+                        show={this.state.gameWon}
+                        numMoves={numMoves}
+                        submitAnswer={this.submitDailyAnswer}
+                        resetPuzzle={this.resetPuzzle}
+                        username={username}
+                    /> : null;
                 }
                 else {
                     return  (<YouWinModal
@@ -549,7 +633,6 @@ class Game extends React.Component {
                     axios.get('/puzzlerushgetmore?p_id=' + this.props.p_id + '&difficulty=' + this.props.difficulty)
                         .then( res => {
                                 var games = JSON.parse(res.data.games);
-                                console.log(games)
                                 var stategames = this.state.games
                                 var newarray = stategames.concat(games)
                                 this.setState({
@@ -613,6 +696,40 @@ class Game extends React.Component {
         );
     }
 
+    handleDailyClickGame = index => {
+        var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
+        var squareSize = setDefaultSquareSize(puzzledata.width);
+        if (this.state.moveHistoryList[index]==undefined) {
+            var moveHistory = [];
+        }
+        else {
+            var moveHistory = this.state.moveHistoryList[index];
+        }
+
+        if (this.state.playerStateList[index]==undefined) {
+            puzzledata.playerState = puzzledata.playerStart.slice()
+        }
+        else {
+            puzzledata.playerState = this.state.playerStateList[index];
+        }
+        var gamesWonDaily = this.state.gamesWonDaily
+        if (this.state.gameWon) {
+            gamesWonDaily[this.state.numPuzzleon] = true
+        }
+        else {
+            gamesWonDaily[this.state.numPuzzleon] = false
+        }
+        var playerState = this.state.playerState.slice();
+        var playerStateList = this.state.playerStateList;
+        playerStateList[this.state.numPuzzleon] = playerState;
+        var moveHistoryList = this.state.moveHistoryList;
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
+
+        this.setState(
+            extend(puzzledata,{highscores: this.state.highscores, squareSize: squareSize, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonDaily: gamesWonDaily})
+        );
+    }
+
 
     loadSidebar = () => {
         if (this.props.learnMode == 'Yes') {
@@ -624,10 +741,31 @@ class Game extends React.Component {
                         variant="contained">
                         {
                             this.state.games.map((game,index) =>
-                                    <LearnGameItems selected={this.state.numPuzzleon} game={game} index={index} handleLearnClickGame={this.handleLearnClickGame}/>
+                                    <LearnGameItems selected={this.state.numPuzzleon} game={game} index={index} handleClickGame={this.handleLearnClickGame}/>
                             )
                         }
                     </ButtonGroup>
+                </Grid>
+            )
+        }
+        else if (this.props.dailyChallengeMode === 'Yes') {
+            return(
+                <Grid container xs={12} direction="column">
+                    <Grid item xs={12}>
+                        <ButtonGroup
+                            orientation="vertical"
+                            aria-label="vertical contained primary button group"
+                            variant="contained">
+                            {
+                                this.state.games.map((game,index) =>
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={index} index={index} handleClickGame={this.handleDailyClickGame}/>
+                                )
+                            }
+                        </ButtonGroup>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <DailyChallengeScores highscores={this.state.highscores}/>
+                    </Grid>
                 </Grid>
             )
         }

@@ -3,16 +3,17 @@ import Button from "@material-ui/core/Button";
 
 
 export default function LearnGameItems(props) {
-    const handleLearnClickGame = () => {
-        props.handleLearnClickGame(props.index)
+    const handleClick = () => {
+        props.handleClickGame(props.index)
     }
     if (props.selected === props.index) {
         return (
             <Button
                 variant="contained" color="primary"
-                onClick={handleLearnClickGame}
+                onClick={handleClick}
             >
                 {props.game.name}
+                {props.name}
             </Button>
         )
     }
@@ -20,9 +21,10 @@ export default function LearnGameItems(props) {
         return (
             <Button
                 variant="contained"
-                onClick={handleLearnClickGame}
+                onClick={handleClick}
             >
                 {props.game.name}
+                {props.name}
             </Button>
         )
     }

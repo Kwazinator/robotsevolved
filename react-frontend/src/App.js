@@ -155,7 +155,7 @@ class App extends React.Component {
         super(props);
         if (window.uri === '') {
             this.state = {
-                PageSelected: <Home handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
+                PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
             };
         }
         else {
@@ -181,6 +181,19 @@ class App extends React.Component {
             open: false
         })
     };
+
+    handleClickDailyChallenge = (event) => {
+        event.preventDefault();
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        console.log(window.dailyChallengeGameslist);
+        this.setState({
+            PageSelected: <Game dailyChallengeMode={'Yes'} games={window.dailyChallengeGameslist}/>,
+            open: isOpen
+        });
+    }
 
     handleDrawerOpen = () => {
         this.setState( {

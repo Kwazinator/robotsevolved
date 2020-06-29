@@ -71,3 +71,25 @@ CREATE TABLE puzzle_rush_to_generated_games (
     FOREIGN KEY (g_id) REFERENCES generated_games(g_id),
     FOREIGN KEY (pr_id) REFERENCES puzzle_rush(p_id)
 );
+
+CREATE TABLE daily_challenge (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    created datetime DEFAULT CURRENT_TIMESTAMP,
+    g_id1 MEDIUMTEXT NOT NULL,
+    g_id2 MEDIUMTEXT NOT NULL,
+    g_id3 MEDIUMTEXT NOT NULL,
+    g_id4 MEDIUMTEXT NOT NULL,
+    bestScore INTEGER NOT NULL
+);
+
+CREATE TABLE daily_challenge_submit (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    score INTEGER NOT NULL,
+    user_id INTEGER DEFAULT 0,
+    solutiondata MEDIUMTEXT NOT NULL,
+    name TEXT NOT NULL,
+    dc_id INTEGER NOT NULL,
+    submitted datetime DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (dc_id) REFERENCES daily_challenge(id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);

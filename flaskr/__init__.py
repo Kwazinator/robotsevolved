@@ -96,6 +96,9 @@ def create_app(test_config=None):
     from . import index
     app.register_blueprint(index.bp)
 
+    from . import dailychallenge
+    app.register_blueprint(dailychallenge.bp)
+
     from . import puzzleRush
     app.register_blueprint(puzzleRush.bp)
 

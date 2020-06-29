@@ -35,11 +35,6 @@ class PuzzleRushService:
         gamelist = list()
         for game in games:
             if PuzzleRushDAO().match_game_to_puzzle(p_id, game['g_id']) == 'completed':
-                #game.pop('g_solutiondata')
-                #game.pop('g_moves')
-                #
-                #REMOVE THIS WHEN WE WANT IT TO BE SERVER-SIDE FOR PUZZLE RUSHES
-                #
                 gamelist.append(game)
         return gamelist
 
