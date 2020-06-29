@@ -22,3 +22,4 @@ SELECT
 --take above averages for puzzlerush.score and get percentile against all puzzlerush.scores in the entire database (DISCLUDING puzzle rush games with score of 0)
 SELECT
 
+INSERT into Robots.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (454,444,443,442,41);

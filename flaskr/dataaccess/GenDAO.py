@@ -42,7 +42,7 @@ class GenDAO:
 
     def get_daily_puzzles(self):
         cursor = get_db().cursor()
-        cursor.execute('SELECT * FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC')
+        cursor.execute('SELECT * FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created DESC LIMIT 1')
         row = cursor.fetchone()
         return (row[2],row[3],row[4],row[5])
 
@@ -70,7 +70,7 @@ class GenDAO:
     def get_daily_challenge_id(self):
         try:
             cursor = get_db().cursor()
-            cursor.execute('SELECT id FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC LIMIT 1')
+            cursor.execute('SELECT id FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created DESC LIMIT 1')
             row = cursor.fetchone()
             return row[0]
         except Exception as e:
