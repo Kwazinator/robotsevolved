@@ -12,7 +12,6 @@ export default function LearnGameItems(props) {
                 variant="contained" color="primary"
                 onClick={handleClick}
             >
-                {props.game.name}
                 {props.name}
             </Button>
         )
@@ -23,7 +22,6 @@ export default function LearnGameItems(props) {
                 variant="contained"
                 onClick={handleClick}
             >
-                {props.game.name}
                 {props.name}
             </Button>
         )

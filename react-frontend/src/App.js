@@ -47,6 +47,8 @@ import RandomGameDifficultyModal from "./containers/Modals/RandomGameDifficultyM
 import ProfilePage from "./Pages/ProfilePage";
 import RandomGamePage from "./Pages/RandomGamePage";
 import PuzzleRushPage from "./Pages/PuzzleRushPage";
+import LessonsPage from "./Pages/LessonsPage";
+import DailyChallengePage from "./Pages/DailyChallenge";
 import AboutUs from "./Pages/AboutUs";
 
 const drawerWidth = 240;
@@ -192,7 +194,7 @@ class App extends React.Component {
         }
         console.log(window.dailyChallengeGameslist);
         this.setState({
-            PageSelected: <Game dailyChallengeMode={'Yes'} games={window.dailyChallengeGameslist} dc_id={window.dc_id} highscores={window.dchighscores}/>,
+            PageSelected: <DailyChallengePage/>,
             open: isOpen
         });
     }
@@ -351,7 +353,7 @@ class App extends React.Component {
         }
         console.log(window.learngameslist);
         this.setState({
-            PageSelected: <Game learnMode={'Yes'} games={window.learngameslist}/>,
+            PageSelected: <LessonsPage/>,
             open: isOpen
         });
 

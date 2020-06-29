@@ -21,6 +21,7 @@ import DailyChallengeScores from '../components/DailyChallengeScores';
 import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
 import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
+import YouWinLessonModal from '../components/YouWinLessonModal';
 import {
     LEFT,
     RIGHT,
@@ -604,6 +605,13 @@ class Game extends React.Component {
                         username={username}
                     /> : null;
                 }
+                else if (this.props.learnMode === 'Yes') {
+                    return  (<YouWinLessonModal
+                        show={this.state.gameWon}
+                        numMoves={this.state.moveHistory.length}
+                        resetPuzzle={this.resetPuzzle}
+                    />);
+                }
                 else {
                     return  (<YouWinModal
                         show={this.state.gameWon}
@@ -689,7 +697,7 @@ class Game extends React.Component {
         var puzzledata = JSON.parse(this.props.games[index].puzzledata);
         var squareSize = setDefaultSquareSize(puzzledata.width);
         this.setState(
-            extend(puzzledata,{squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice(),tipsText: [this.props.games[index].description]})
+            extend(puzzledata,{buildMode: false,squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice(),tipsText: [this.props.games[index].description]})
         );
     }
 
@@ -738,7 +746,7 @@ class Game extends React.Component {
                         variant="contained">
                         {
                             this.state.games.map((game,index) =>
-                                    <LearnGameItems selected={this.state.numPuzzleon} game={game} index={index} handleClickGame={this.handleLearnClickGame}/>
+                                    <LearnGameItems selected={this.state.numPuzzleon} game={game} name={game.name} index={index} handleClickGame={this.handleLearnClickGame}/>
                             )
                         }
                     </ButtonGroup>
@@ -755,7 +763,7 @@ class Game extends React.Component {
                             variant="contained">
                             {
                                 this.state.games.map((game,index) =>
-                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={index} index={index} handleClickGame={this.handleDailyClickGame}/>
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickGame}/>
                                 )
                             }
                         </ButtonGroup>
