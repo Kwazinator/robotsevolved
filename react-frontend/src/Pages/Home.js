@@ -122,7 +122,7 @@ export default function ComplexGrid(props) {
                               component="img"
                               alt="Create Board"
                               height="140"
-                              image="/static/images/LessonsBoardCardIcon.png"
+                              image="/static/images/DailyChallengeIcon.png"
                               title="Daily Challenge"
                             />
                             <CardContent>
@@ -162,17 +162,6 @@ export default function ComplexGrid(props) {
                             </Button>
                           </CardActions>
                         </Card>
-                    </Grid>
-                    <Grid item xs={4}>
-                    </Grid>
-                    <Grid item xs={4}>
-
-                    </Grid>
-                     <Grid item xs={6}>
-
-                    </Grid>
-                    <Grid item xs={6}>
-
                     </Grid>
               </Grid>
            </div>

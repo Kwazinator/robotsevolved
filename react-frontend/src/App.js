@@ -1,6 +1,7 @@
 import React from 'react';
 import InfoIcon from '@material-ui/icons/Info';
 import CasinoIcon from '@material-ui/icons/Casino';
+import TodayIcon from '@material-ui/icons/Today';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -46,6 +47,7 @@ import RandomGameDifficultyModal from "./containers/Modals/RandomGameDifficultyM
 import ProfilePage from "./Pages/ProfilePage";
 import RandomGamePage from "./Pages/RandomGamePage";
 import PuzzleRushPage from "./Pages/PuzzleRushPage";
+import AboutUs from "./Pages/AboutUs";
 
 const drawerWidth = 240;
 
@@ -329,6 +331,18 @@ class App extends React.Component {
         });
     };
 
+
+    handleClickAboutUs = event => {
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        this.setState({
+            PageSelected: <AboutUs/>,
+            open: isOpen
+        });
+    }
+
     handleClickLearnGame = event => {
         event.preventDefault();
         var isOpen = true;
@@ -474,7 +488,7 @@ class App extends React.Component {
                                 <ListItemText primary={'Find a Game'} />
                             </ListItem>
                             <ListItem button key={'Daily Challenge'} onClick={this.handleClickDailyChallenge}>
-                                <ListItemIcon><ExtensionIcon /></ListItemIcon>
+                                <ListItemIcon><TodayIcon /></ListItemIcon>
                                 <ListItemText primary={'Daily Challenge'} />
                             </ListItem>
                             <ListItem button key={'Random Game'} onClick={this.handleClickRandomGame}>
@@ -538,7 +552,7 @@ class App extends React.Component {
                             Tools
                         </Typography>
                         <List>
-                            <ListItem button key={'About Us'}>
+                            <ListItem button key={'About Us'} onClick={this.handleClickAboutUs}>
                                 <ListItemIcon><InfoIcon /></ListItemIcon>
                                 <ListItemText primary={'About Us'} />
                             </ListItem>
