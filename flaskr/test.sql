@@ -5,7 +5,12 @@
 --#####################################################################################################################
 --Get all the games.* created by the user and the best solutions.score of the games
 --AND the user.id, user.username and user.profilePicture of the person with the best score.
-SELECT
+select min(numMoves), u.id as UserID, u.username as Username, u.profilePicture as profilePicture, g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+from solutions s right join
+game g on s.gameid = g.id left join
+`user` u on u.id = s.userid
+where authorid = '1'
+group by g.id
 
 
 ------------------------------------------SolutionsProfileView--------------------------------------------------------
@@ -18,7 +23,7 @@ SELECT
 
 ------------------------------------------PuzzleRushStatsProfileView--------------------------------------------------
 --#####################################################################################################################
---Get Percentile of the user's average puzzlerush.score and puzzlefush.diffVal (over the timeframe of 1 day and 1 week and 1 month)
+--Get average puzzlerush.score and puzzlefush.diffVal of user (over the timeframe of 1 day and 1 week and 1 month)
 --take above averages for puzzlerush.score and get percentile against all puzzlerush.scores in the entire database (DISCLUDING puzzle rush games with score of 0)
 SELECT
 

@@ -4,8 +4,6 @@ import Paper from "@material-ui/core/Paper";
 import CardMedia from '@material-ui/core/CardMedia';
 
 export default function AboutUs(props) {
-
-    var image = '/static/images/284f909d-0d5c-4ae1-b100-76c9d46ae7d4.png'
     return (<div id="GameMain">
                 <div class="row3">
                   <div class="column3">
@@ -19,10 +17,9 @@ export default function AboutUs(props) {
                       </div>
                     </div>
                   </div>
-
                   <div class="column3">
                     <div class="card3">
-                      <img src={image} alt="Mike"/>
+                      <img src={"/static/images/284f909d-0d5c-4ae1-b100-76c9d46ae7d4.png"} alt="Mike"/>
                       <div class="container3">
                         <h2>Jonah Tollefson</h2>
                         <p class="title3">Front-End Dev.</p>
@@ -30,14 +27,13 @@ export default function AboutUs(props) {
                       </div>
                     </div>
                   </div>
-
                   <div class="column3">
                     <div class="card3">
-                      <img src={image} alt="John"/>
+                      <img src={"/static/images/derekschultz.jpg"} alt="John"/>
                       <div class="container3">
-                        <h2>Derek Shultz</h2>
+                        <h2>Derek Schultz</h2>
                         <p class="title3">Back-End Dev.</p>
-                        <p>Hi my name is derek XD</p>
+                        <p>Full time Software Engineer. Graduated from University of Wisconsin Platteville with a BS in Computer Science and Minor in Business Administration. Worked on most of the database aspect of RobotsEvolved and some back end functionality. I enjoy video games, beer, and playing darts.</p>
                       </div>
                     </div>
                   </div>
