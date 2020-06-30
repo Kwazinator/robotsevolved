@@ -15,10 +15,10 @@ def daily_challenge():
     userID = get_jwt_identity()
     if (userID is not None):
         value = GeneratorService().insert_daily_challenge_submit(data['score'], userID, json.dumps(data['solutiondata']), data['name'],
-                                                         data['dc_id'])
+                                                         data['dc_id'], json.dumps(data['playerStateList']))
     else:
         value = GeneratorService().insert_daily_challenge_submit(data['score'], 1, json.dumps(data['solutiondata']), data['name'],
-                                                         data['dc_id'])
+                                                         data['dc_id'], json.dumps(data['playerStateList']))
     return value
 
 @bp.route('/dailychallengehighscores',methods=('GET','POST'))

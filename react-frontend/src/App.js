@@ -194,7 +194,7 @@ class App extends React.Component {
         }
         console.log(window.dailyChallengeGameslist);
         this.setState({
-            PageSelected: <DailyChallengePage/>,
+            PageSelected: <DailyChallengePage savedMoves={window.dc_movesList} playerStateList={window.dc_playerList}/>,
             open: isOpen
         });
     }

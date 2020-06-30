@@ -46,11 +46,11 @@ class GenDAO:
         row = cursor.fetchone()
         return (row[2],row[3],row[4],row[5])
 
-    def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id):
+    def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id,playerStateList):
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('INSERT INTO daily_challenge_submit (score,user_id,solutiondata,name,dc_id) VALUES (%s,%s,%s,%s,%s)',(score, userid, solutiondata, name, dc_id))
+            cursor.execute('INSERT INTO daily_challenge_submit (score,user_id,solutiondata,name,dc_id,playerStateList) VALUES (%s,%s,%s,%s,%s,%s)',(score, userid, solutiondata, name, dc_id,playerStateList))
             db.commit()
             return 'OK'
         except Exception as e:
@@ -64,8 +64,18 @@ class GenDAO:
         highscores = list()
         cursor.execute('SELECT * FROM daily_challenge_submit WHERE dc_id=%s ORDER by score ASC, submitted ASC',(dc_id,))
         for row in cursor.fetchall():
-            highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5]).serialize())
+            highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],row[6].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7]).serialize())
         return highscores
+
+    def get_daily_challenge_moves(self,dc_id,user_id):
+        cursor = get_db().cursor()
+        cursor.execute('SELECT solutiondata,playerStateList FROM daily_challenge_submit WHERE dc_id=%s and user_id=%s LIMIT 1',
+                       (dc_id,user_id))
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        else:
+            return (row[0],row[1])
 
     def get_daily_challenge_id(self):
         try:
@@ -86,13 +96,13 @@ class GenDAO:
         if row is None:
             return None
         else:
-            return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5])
+            return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],row[6].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7])
 
-    def update_daily_challenge_submit(self,score, userid, solutiondata, name, dc_id):
+    def update_daily_challenge_submit(self,score, userid, solutiondata, name, dc_id,playerStateList):
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('UPDATE daily_challenge_submit SET score=%s,solutiondata=%s,name=%s,submitted=CURRENT_TIMESTAMP WHERE user_id=%s AND dc_id=%s',(score, solutiondata, name, userid, dc_id))
+            cursor.execute('UPDATE daily_challenge_submit SET score=%s,solutiondata=%s,name=%s,submitted=CURRENT_TIMESTAMP,playerStatelist=%s WHERE user_id=%s AND dc_id=%s',(score, solutiondata, name,playerStateList, userid, dc_id))
             db.commit()
             return 'OK'
         except Exception as e:

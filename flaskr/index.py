@@ -45,6 +45,9 @@ def index():
     gamesview = None
     solutionsview = None
     puzzlerushview = None
+    dc_movesList = None
+    dc_playerList = None
+    dc_moves=None
     loggedin = 'No'
     learngameslist = get_learned_games()
     dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
@@ -92,7 +95,11 @@ def index():
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+        dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
+        if dc_moves is not None:
+            dc_movesList = dc_moves[0]
+            dc_playerList = dc_moves[1]
+    return render_template('index.html',dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
 def about():
@@ -109,6 +116,8 @@ def play(uri):
     user = None
     gamesview = None
     solutionsview = None
+    dc_movesList = None
+    dc_playerList = None
     puzzlerushview = None
     loggedin = 'No'
     learngameslist = get_learned_games()
@@ -157,7 +166,12 @@ def play(uri):
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+        dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
+        if dc_moves is not None:
+            dc_movesList = dc_moves[0]
+            dc_playerList = dc_moves[1]
+
+    return render_template('index.html',dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional

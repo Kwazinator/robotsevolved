@@ -9,7 +9,7 @@ class DailyChallengePage extends React.Component {
 
     render () {
         return (
-            <Game dailyChallengeMode={'Yes'} games={window.dailyChallengeGameslist} dc_id={window.dc_id} highscores={window.dchighscores}
+            <Game dailyChallengeMode={'Yes'} playerStateList={this.props.playerStateList} savedMoves={this.props.savedMoves} games={window.dailyChallengeGameslist} dc_id={window.dc_id} highscores={window.dchighscores}
              />
         )
     }

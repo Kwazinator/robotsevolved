@@ -14,6 +14,8 @@ import Grid from '@material-ui/core/Grid';
 import ColoredLine from '../components/ColoredLine';
 import extend from '../constants/extend';
 import YouWinModal from '../components/YouWinModal';
+import YouWinDailySingleModal from '../components/YouWinDailySingleModal';
+import YouWinDailyFinalModal from '../components/YouWinDailyFinalModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
@@ -161,12 +163,22 @@ class Game extends React.Component {
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
-            this.state.playerStateList = [];
-            this.state.moveHistoryList=[];
-            this.state.tipsText = [];
+            console.log('here')
+            console.log(this.props.playerStateList)
+            this.state.gamesWonDaily = [false,false,false,false];
+            if (this.props.savedMoves != null) {
+                this.state.moveHistoryList = this.props.savedMoves
+                this.state.gamesWonDaily = [true,true,true,true]
+                this.state.moveHistory = this.props.savedMoves[0].slice()
+                this.state.playerState = this.props.playerStateList[0].slice()
+            }
+            else {
+                this.state.moveHistoryList=[];
+            }
+            this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
+            this.state.tipsText = ['Complete All puzzles to complete'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
-            this.state.gamesWonDaily = [false,false,false,false];
         }
         else if (this.props.randomGame === 'Yes') {
             this.state = JSON.parse(this.props.game.g_puzzledata)
@@ -546,20 +558,29 @@ class Game extends React.Component {
         });
     }
 
-    submitDailyAnswer = (event) => {
-        event.preventDefault();
-        var moveHistoryList = this.state.moveHistoryList
-        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
+    submitDailyAnswer = (LastRobotPosition) => {
+        var moveHistoryList = this.state.moveHistoryList.slice()
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice()
         var numMoves = 0
         moveHistoryList.map(moveHistory => {
             numMoves += moveHistory.length
-        })
-        axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id})
+        });
+        var playerStateList = this.state.playerStateList.slice()
+        var playerState = this.state.playerState.slice()
+        console.log(this.state.robotSelected)
+        playerState[parseInt(this.state.robotSelected)] = LastRobotPosition;
+        console.log(playerState[parseInt(this.state.robotSelected)])
+        console.log(playerState);
+
+        playerStateList[this.state.numPuzzleon] = playerState
+        console.log(LastRobotPosition);
+        console.log(playerState);
+        axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id, playerStateList: playerStateList})
             .then( res => {
                 console.log(res)
+                this.handleUndoMove();
             });
         this.state.gameWon = false;
-        this.handleUndoMove();
     }
 
     checkwin = (robotPosition) => {
@@ -596,14 +617,24 @@ class Game extends React.Component {
                     var numMoves = 0
                     moveHistoryList.map(moveHistory => {
                         numMoves += moveHistory.length
-                    })
-                    return Won ? <YouWinModal
+                    });
+                    return (Won ? <YouWinDailyFinalModal
                         show={this.state.gameWon}
                         numMoves={numMoves}
                         submitAnswer={this.submitDailyAnswer}
                         resetPuzzle={this.resetPuzzle}
                         username={username}
-                    /> : null;
+                        undoMove={this.handleUndoMove}
+                        robotPosition={robotPosition}
+                    /> : <YouWinDailySingleModal
+                        show={this.state.gameWon}
+                        numMoves={this.state.moveHistory.length}
+                        undoMove={this.handleUndoMove}
+                        resetPuzzle={this.resetPuzzle}
+                        games={this.state.games}
+                        handleClickGame={this.handleDailyClickGame}
+                        numPuzzleon={this.state.numPuzzleon}
+                    />);
                 }
                 else if (this.props.learnMode === 'Yes') {
                     return  (<YouWinLessonModal
@@ -692,6 +723,10 @@ class Game extends React.Component {
             this.checkwin(newPosition);
         }
     };
+
+    moveNextPuzzle = () => {
+        console.log('pressed')
+    }
 
     handleLearnClickGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].puzzledata);
@@ -816,13 +851,14 @@ class Game extends React.Component {
     handleUndoMove = () => {
         var moveHistory = this.state.moveHistory;
         var playerState = this.state.playerState;
-        if (this.state.gameWon === false && moveHistory.length !== 0) {
+        if (moveHistory.length !== 0) {
             var moveObj = moveHistory.pop();
             playerState[moveObj.robot].left = moveObj.prevPosition.left;
             playerState[moveObj.robot].top = moveObj.prevPosition.top;
             this.setState({
                 playerState: playerState,
-                moveHistory: moveHistory
+                moveHistory: moveHistory,
+                gameWon: false,
             });
         }
     };
