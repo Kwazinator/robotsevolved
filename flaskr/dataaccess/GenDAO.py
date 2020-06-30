@@ -62,7 +62,7 @@ class GenDAO:
     def get_daily_challenge_highscores(self,dc_id):
         cursor = get_db().cursor()
         highscores = list()
-        cursor.execute('SELECT * FROM daily_challenge_submit WHERE dc_id=%s ORDER by score ASC',(dc_id,))
+        cursor.execute('SELECT * FROM daily_challenge_submit WHERE dc_id=%s ORDER by score ASC, submitted ASC',(dc_id,))
         for row in cursor.fetchall():
             highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5]).serialize())
         return highscores
