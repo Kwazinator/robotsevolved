@@ -57,3 +57,6 @@ class PuzzleRushService:
 
     def get_random_game(self, difficulty):
         return PuzzleRushDAO().get_random_game(difficulty)
+
+    def get_puzzle_rush_profile_view(self,user_id):
+        return PuzzleRushDAO().get_puzzle_rush_profile_view(user_id)

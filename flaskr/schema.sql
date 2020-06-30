@@ -90,6 +90,7 @@ CREATE TABLE daily_challenge_submit (
     name TEXT NOT NULL,
     dc_id INTEGER NOT NULL,
     submitted datetime DEFAULT CURRENT_TIMESTAMP,
+    playerStateList mediumtext NOT NULL,
     FOREIGN KEY (dc_id) REFERENCES daily_challenge(id),
     FOREIGN KEY (user_id) REFERENCES user(id)
 );

@@ -45,7 +45,7 @@ export default function ProfilePage(props) {
                                           id={"panel" + index + "-header"}
                                         >
                                           <Typography className={classes.heading}>{game.name}</Typography>
-                                          <Typography className={classes.secondaryHeading}>SomeStuffHere</Typography>
+                                          <Typography className={classes.secondaryHeading}>Plays: </Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                           <ProfilePageCreatedGamesDetails
@@ -67,8 +67,8 @@ export default function ProfilePage(props) {
                                       aria-controls={"panel" + index + "-content"}
                                       id={"panel" + index + "-header"}
                                     >
-                                      <Typography className={classes.heading}>{solution.HSname}</Typography>
-                                      <Typography className={classes.secondaryHeading}>Score: {solution.highscore}</Typography>
+                                      <Typography className={classes.heading}>{solution.name}</Typography>
+                                      <Typography className={classes.secondaryHeading}>Score: {solution.numMoves}</Typography>
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <ProfilePageSolutionDetails

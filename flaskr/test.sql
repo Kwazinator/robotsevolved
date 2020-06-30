@@ -27,4 +27,44 @@ SELECT
 --take above averages for puzzlerush.score and get percentile against all puzzlerush.scores in the entire database (DISCLUDING puzzle rush games with score of 0)
 SELECT
 
+-- GamesProfileView
+select min(numMoves), u.id as UserID, u.username as Username, u.profilePicture as profilePicture, g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+from solutions s right join
+game g on s.gameid = g.id left join
+`user` u on u.id = s.userid
+where authorid = '1'
+group by g.id
+
+
+-- SolutionsProfileView
+select min(numMoves), g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+from solutions s right join
+game g on s.gameid = g.id left join
+`user` u on u.id = s.userid
+where s.userid = '2'
+group by g.id
+
+-- Puzzle Rush Average
+select AVG(score), AVG(totalMoves), AVG(differenceFrom) from puzzle_rush pr
+where user_id = '2' and totalMoves is not null
+
+-- Puzzle Rush Best Score
+SELECT * from puzzle_rush pr
+where user_id = '2' and totalMoves is not null
+ORDER BY SCORE DESC LIMIT 1
+
+-- Puzzle Rush Lowest Moves
+SELECT * from puzzle_rush pr
+where user_id = '2' and totalMoves is not null
+ORDER BY totalMoves asc LIMIT 1
+
+-- Puzzle Rush Lowest Diffrence
+SELECT * from puzzle_rush pr
+where user_id = '2' and totalMoves is not null
+ORDER BY differenceFrom asc LIMIT 1
+
+
+
+
+
 INSERT into Robots.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (454,444,443,442,41);

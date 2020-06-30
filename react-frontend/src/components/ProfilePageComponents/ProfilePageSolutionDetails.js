@@ -9,9 +9,16 @@ export default function ProfilePageSolutionDetails(props) {
         props.handleClickPlayGame(props.solution.name,props.solution.puzzledata,[],props.solution.uri);
     }
     return (<div>
-              <Typography>
-                {props.solution.HSname}
-              </Typography>
+              <Grid container xs={12}>
+                <Grid item xs={6}>
+                    <Typography> Highscore Holder: </Typography>
+                </Grid>
+                 <Grid item xs={6}>
+                  <Typography>
+                    {props.solution.name} - {props.solution.numMoves}
+                  </Typography>
+              </Grid>
+              </Grid>
               <Button onClick={handleClickPlayGame} variant="contained" color="primary">
                     Play
               </Button>

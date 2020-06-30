@@ -1,6 +1,8 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.Game import Game
+from flaskr.dataaccess.entities.GamesProfileView import GamesProfileView
 #from random_word import RandomWords
+from flaskr.dataaccess.entities.SolutionsProfileView import SolutionsProfileView
 from flaskr.dataaccess.entities.Solutions import Solutions
 import uuid
 
@@ -87,6 +89,47 @@ class GameDAO:
         if query is not None:
             for row in query:
                 games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+            return games
+        else:
+            return games
+
+    def get_games_profile_view(self,user_id):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        cursor.execute('''
+        select min(numMoves), u.id as UserID, u.username as Username, u.profilePicture as profilePicture, g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+        from solutions s right join
+        game g on s.gameid = g.id left join
+        `user` u on u.id = s.userid
+        where authorid = %s
+        group by g.id
+        ''',(user_id,))
+        query = cursor.fetchall()
+        if query is not None:
+            for row in query:
+                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8]).serialize())
+            return games
+        else:
+            return games
+
+
+    def get_solutions_profile_view(self,user_id):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        cursor.execute('''
+        select min(numMoves), g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+        from solutions s right join
+        game g on s.gameid = g.id left join
+        `user` u on u.id = s.userid
+        where s.userid = %s
+        group by g.id
+        ''',(user_id,))
+        query = cursor.fetchall()
+        if query is not None:
+            for row in query:
+                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], row[4].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5]).serialize())
             return games
         else:
             return games

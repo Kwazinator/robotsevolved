@@ -738,7 +738,6 @@ class Game extends React.Component {
 
     handleDailyClickGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
-        var squareSize = setDefaultSquareSize(puzzledata.width);
         if (this.state.moveHistoryList[index]==undefined) {
             var moveHistory = [];
         }
@@ -766,7 +765,7 @@ class Game extends React.Component {
         moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
 
         this.setState(
-            extend(puzzledata,{highscores: this.state.highscores, squareSize: squareSize, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonDaily: gamesWonDaily})
+            extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonDaily: gamesWonDaily})
         );
     }
 

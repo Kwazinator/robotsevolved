@@ -1,19 +1,27 @@
 class GamesProfileView:
 
-    def __init__(self, p_id=None,p_start_time=None,user_id=None,score=None, difficulty=None):
-        self.p_id = p_id
-        self.p_start_time = p_start_time
+    def __init__(self, numMoves=None,user_id=None,username=None,profilepicture=None,game_id=None,name=None,puzzledata=None,created=None,uri=None):
+        self.numMoves = numMoves
+        self.username = username
         self.user_id = user_id
-        self.score = score
-        self.difficulty = difficulty
+        self.profilepicture = profilepicture
+        self.game_id = game_id
+        self.name = name
+        self.puzzledata = puzzledata
+        self.created = created
+        self.uri = uri
 
 
     def serialize(self):
         return {
-            'p_id': self.p_id,
-            'p_start_time': self.p_start_time,
+            'numMoves': self.numMoves,
+            'username': self.username,
             'user_id': self.user_id,
-            'score': self.score,
-            'difficulty': self.difficulty
+            'profilepicture': self.profilepicture,
+            'game_id': self.game_id,
+            'name': self.name,
+            'puzzledata': self.puzzledata,
+            'created': self.created,
+            'uri': self.uri
         }
 

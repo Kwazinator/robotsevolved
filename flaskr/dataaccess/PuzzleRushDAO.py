@@ -1,6 +1,7 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.PuzzleRush import PuzzleRush
 from flaskr.dataaccess.entities.Gen import Gen
+from flaskr.dataaccess.entities.PuzzleRushStatsProfileView import PuzzleRushStatsProfileView
 #from random_word import RandomWords
 import uuid
 import datetime
@@ -48,6 +49,20 @@ class PuzzleRushDAO:
             return PuzzleRush(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
         else:
             return None
+
+    def get_puzzle_rush_profile_view(self, user_id):
+        cursor = get_db().cursor()
+        cursor.execute('''
+        select AVG(score), AVG(totalMoves), AVG(differenceFrom) from puzzle_rush pr
+        where user_id = %s and totalMoves is not null
+        ''', (user_id,))
+        row = cursor.fetchone()
+        if row is not None:
+            return PuzzleRushStatsProfileView(row[0],row[1],row[2]).serialize()
+        else:
+            return None
+
+
 
     def match_game_to_puzzle(self,p_id,g_id):
         try:

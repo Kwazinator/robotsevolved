@@ -96,6 +96,9 @@ def index():
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
         dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
+        gamesview = json.dumps(GameService().get_games_profile_view(userID))
+        puzzlerushview = json.dumps(PuzzleRushService().get_puzzle_rush_profile_view(userID))
+        solutionsview = json.dumps(GameService().get_solutions_profile_view(userID))
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
@@ -131,6 +134,8 @@ def play(uri):
         #Start test data
         gamesviewlist = list()
         solutionsview = list()
+
+
         gamesviewlist.append(GameService().get_game(2).serialize())
         gamesview = json.dumps(gamesviewlist)
         game1 = GameService().get_game(2).serialize()
@@ -163,6 +168,9 @@ def play(uri):
             "bestdiffvalpercentile": .9
         }
         puzzlerushview = json.dumps(puzzlerushview)
+        gamesview = json.dumps(GameService().get_games_profile_view(userID))
+        puzzlerushview = json.dumps(PuzzleRushService().get_puzzle_rush_profile_view(userID))
+        solutionsview = json.dumps(GameService().get_solutions_profile_view(userID))
         #end test data
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'

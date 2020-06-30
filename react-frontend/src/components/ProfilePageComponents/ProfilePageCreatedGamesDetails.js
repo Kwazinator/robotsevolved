@@ -10,9 +10,16 @@ export default function ProfilePageCreatedGamesDetails(props) {
     }
 
     return (<div>
-              <Typography>
-                {props.game.name}
-              </Typography>
+            <Grid container xs={12}>
+                <Grid item xs={6}>
+                    <Typography> Highscore Holder: </Typography>
+                </Grid>
+                 <Grid item xs={6}>
+                  <Typography>
+                    {props.game.username} - {props.game.numMoves}
+                  </Typography>
+              </Grid>
+              </Grid>
               <Button onClick={handleClickPlayGame} variant="contained" color="primary">
                     Play
               </Button>

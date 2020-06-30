@@ -56,3 +56,9 @@ class GameService:
 
     def get_all_games(self,numGames,offset):
         return GameDAO().get_all_games(numGames,offset)
+
+    def get_games_profile_view(self, user_id):
+        return GameDAO().get_games_profile_view(user_id)
+
+    def get_solutions_profile_view(self,user_id):
+        return GameDAO().get_solutions_profile_view(user_id)
