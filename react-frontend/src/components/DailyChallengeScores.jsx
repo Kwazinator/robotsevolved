@@ -1,14 +1,14 @@
 import React from 'react';
 import { FaCrown } from 'react-icons/fa';
-import { GoVerified } from "react-icons/go";
-
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 
 
 const styleouter = () => {
     return {
-        marginleft: '15px',
-        float: 'left'
+        marginTop: '30px',
     };
 
 }
@@ -22,30 +22,35 @@ const styleelements = () => {
 }
 
 const highscorestyle = highscore => {
-    return (
-        <div style={styleelements()}>{'By: ' + highscore.name}
-            <div>
-                {'Moves: ' + highscore.score}
-            </div>
-            <div>
-                {highscore.user_id != 1 ? <GoVerified/> : null}
-            </div>
-            <div>
-                {highscore.wins != 0 ? highscore.wins : null}
-                {highscore.wins != null ? <FaCrown/> : null}
-            </div>
-        </div>
+    return (<Grid item xs={12}>
+        <Paper elevation={3}>
+            <Grid container spacing={0}>
+                <Grid item xs={9}>
+                    <Typography color={'primary'}>
+                        {highscore.name}
+                    </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                        {highscore.wins == 0 || highscore.wins == null ? null : highscore.wins}
+                        {highscore.wins == 0 || highscore.wins == null ? null : <FaCrown/> }
+                </Grid>
+                <Grid item xs={6}>
+                <Typography color={'textSecondary'}>{highscore.score}</Typography>
+                </Grid>
+             </Grid>
+        </Paper>
+        </Grid>
 
     )
 };
 
 
 export default ({highscores}) => (
-    <div style={styleouter()}>{'All Submissions:'}
+    <Grid style={styleouter()} container direction={'column'} spacing={1}>
         {
-            highscores.map(highscore =>
-                highscorestyle(highscore)
-            )
+                highscores.map(highscore =>
+                    highscorestyle(highscore)
+                )
         }
-    </div>
+    </Grid>
 )
