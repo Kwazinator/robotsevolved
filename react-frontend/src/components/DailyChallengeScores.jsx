@@ -3,7 +3,7 @@ import { FaCrown } from 'react-icons/fa';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-
+import { GoVerified } from "react-icons/go";
 
 
 const styleouter = () => {
@@ -33,6 +33,7 @@ const highscorestyle = highscore => {
                 <Grid item xs={3}>
                         {highscore.wins == 0 || highscore.wins == null ? null : highscore.wins}
                         {highscore.wins == 0 || highscore.wins == null ? null : <FaCrown/> }
+                        {highscore.user_id != 1 ? <GoVerified/> : null}
                 </Grid>
                 <Grid item xs={6}>
                 <Typography color={'textSecondary'}>{highscore.score}</Typography>

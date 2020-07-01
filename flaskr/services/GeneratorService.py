@@ -37,7 +37,7 @@ class GeneratorService:
             return 'already submitted'
 
     def get_daily_challenge_highscores(self, dc_id):
-        userlist = GenDAO().get_daily_challenge_winners()
+        userlist = GenDAO().get_daily_challenge_winners(dc_id)
         highscores = GenDAO().get_daily_challenge_highscores(dc_id)
         highscoreslist = list()
         for score in highscores:
@@ -48,8 +48,8 @@ class GeneratorService:
                 highscoreslist.append(score)
         return highscoreslist
 
-    def get_daily_challenge_winners(self):
-        return GenDAO().get_daily_challenge_winners()
+    def get_daily_challenge_winners(self,dc_id):
+        return GenDAO().get_daily_challenge_winners(dc_id)
 
     def get_daily_challenge_id(self):
         return GenDAO().get_daily_challenge_id()
