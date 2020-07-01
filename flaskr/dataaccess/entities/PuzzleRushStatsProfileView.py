@@ -7,9 +7,5 @@ class PuzzleRushStatsProfileView:
 
 
     def serialize(self):
-        return {
-            'averageScore': float(self.averageScore),
-            'averageTotal': float(self.averageTotal),
-            'averageDiff': float(self.averageDiff)
-        }
+        return {'None': 'None'}
 
