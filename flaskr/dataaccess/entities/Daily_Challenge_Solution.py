@@ -1,6 +1,6 @@
 class Daily_Challenge_Solution:
 
-    def __init__(self, id=None, score=None, user_id=None, solutiondata=None, name=None, dc_id=None, submitted=None, playerStateList=None):
+    def __init__(self, id=None, score=None, user_id=None, solutiondata=None, name=None, dc_id=None, submitted=None, playerStateList=None, wins=None):
         self.id = id
         self.submitted = submitted
         self.score = score
@@ -9,6 +9,7 @@ class Daily_Challenge_Solution:
         self.name = name
         self.dc_id = dc_id
         self.playerStateList = playerStateList
+        self.wins = wins
 
     def serialize(self):
         return {
@@ -17,6 +18,7 @@ class Daily_Challenge_Solution:
             'score': self.score,
             'user_id': self.user_id,
             'name': self.name,
-            'dc_id': self.dc_id
+            'dc_id': self.dc_id,
+            'wins': self.wins
         }
 

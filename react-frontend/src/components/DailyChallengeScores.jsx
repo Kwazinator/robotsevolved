@@ -1,4 +1,9 @@
 import React from 'react';
+import { FaCrown } from 'react-icons/fa';
+import { GoVerified } from "react-icons/go";
+
+
+
 
 const styleouter = () => {
     return {
@@ -23,7 +28,11 @@ const highscorestyle = highscore => {
                 {'Moves: ' + highscore.score}
             </div>
             <div>
-                {highscore.user_id != 1 ? 'verified' : 'not verified'}
+                {highscore.user_id != 1 ? <GoVerified/> : null}
+            </div>
+            <div>
+                {highscore.wins != 0 ? highscore.wins : null}
+                {highscore.wins != 0 ? <FaCrown/> : null}
             </div>
         </div>
 
