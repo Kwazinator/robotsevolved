@@ -192,9 +192,10 @@ class App extends React.Component {
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
-        console.log(window.dailyChallengeGameslist);
+        const dc_movesList = window.dc_movesList == null ? null : JSON.parse(JSON.stringify(window.dc_movesList))
+        const dc_playerList = window.dc_playerList == null ? null : JSON.parse(JSON.stringify(window.dc_playerList))
         this.setState({
-            PageSelected: <DailyChallengePage savedMoves={window.dc_movesList} playerStateList={window.dc_playerList}/>,
+            PageSelected: <DailyChallengePage savedMoves={dc_movesList} playerStateList={dc_playerList}/>,
             open: isOpen
         });
     }
@@ -202,7 +203,7 @@ class App extends React.Component {
     handleDrawerOpen = () => {
         this.setState( {
             open: true
-        })
+        });
     };
 
     SignInButtonPressed = (type) => {
@@ -351,7 +352,6 @@ class App extends React.Component {
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
-        console.log(window.learngameslist);
         this.setState({
             PageSelected: <LessonsPage/>,
             open: isOpen

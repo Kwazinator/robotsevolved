@@ -26,22 +26,17 @@ class YouWinDailySingleModal extends React.Component {
 
     render() {
         return (
-            <Dialog onClose={this.handleClose}
+            <Dialog onClose={this.handleClose} container={() => document.getElementById('MainGameBoard')} style={{position: 'absolute'}} BackdropProps={{ style: { position: 'absolute' } }}
                     aria-labelledby="customized-dialog-title"
                     open={this.props.show}
                     maxWidth={"xs"}
             >
-                <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>You Completed one of the puzzles!</DialogTitle>
+                <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>Completed!</DialogTitle>
                 <DialogContent dividers>
                     <div>
                         You used {this.props.numMoves} Moves, for this puzzle. Complete all for your final score.
                     </div>
                     <br/>
-                    {
-                        this.props.games.map((game,index) =>
-                            <LearnGameItems selected={this.props.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.props.handleClickGame}/>
-                        )
-                    }
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="primary" onClick={this.props.undoMove}>Undo Move</Button>

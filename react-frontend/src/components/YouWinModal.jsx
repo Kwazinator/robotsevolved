@@ -22,7 +22,7 @@ class YouWinModal extends React.Component {
 
     render() {
         return (
-            <Dialog onClose={this.handleClose}
+            <Dialog onClose={this.handleClose} container={() => document.getElementById('MainGameBoard')} style={{position: 'absolute'}} BackdropProps={{ style: { position: 'absolute' } }}
                     aria-labelledby="customized-dialog-title"
                     open={this.props.show}
                     maxWidth={"xs"}

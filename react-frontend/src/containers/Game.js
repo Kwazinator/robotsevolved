@@ -634,6 +634,7 @@ class Game extends React.Component {
                         games={this.state.games}
                         handleClickGame={this.handleDailyClickGame}
                         numPuzzleon={this.state.numPuzzleon}
+                        moveNextPuzzle={this.moveNextPuzzle}
                     />);
                 }
                 else if (this.props.learnMode === 'Yes') {
@@ -725,7 +726,7 @@ class Game extends React.Component {
     };
 
     moveNextPuzzle = () => {
-        console.log('pressed')
+        this.handleDailyClickGame((this.state.numPuzzleon + 1) % 4)
     }
 
     handleLearnClickGame = index => {

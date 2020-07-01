@@ -6,7 +6,6 @@ export default function LearnGameItems(props) {
     const handleClick = () => {
         props.handleClickGame(props.index)
     }
-    console.log(props.name);
     if (props.selected === props.index) {
         return (
             <Button
