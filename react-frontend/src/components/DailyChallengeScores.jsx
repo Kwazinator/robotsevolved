@@ -32,7 +32,7 @@ const highscorestyle = highscore => {
             </div>
             <div>
                 {highscore.wins != 0 ? highscore.wins : null}
-                {highscore.wins != 0 ? <FaCrown/> : null}
+                {highscore.wins != null ? <FaCrown/> : null}
             </div>
         </div>
 
