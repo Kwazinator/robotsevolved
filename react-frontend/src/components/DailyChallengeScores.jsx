@@ -21,6 +21,19 @@ const styleelements = () => {
 
 }
 
+const CrownCounter = highscore => {
+    var crowns = []
+    var i;
+    for (i=0; i<highscore.wins;i++) {
+        crowns.push(<FaCrown/>);
+    }
+    return (
+        <div>
+            {crowns}
+        </div>
+    )
+}
+
 const highscorestyle = highscore => {
     return (<Grid item xs={12}>
         <Paper elevation={3}>
@@ -31,8 +44,7 @@ const highscorestyle = highscore => {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                        {highscore.wins == 0 || highscore.wins == null ? null : highscore.wins}
-                        {highscore.wins == 0 || highscore.wins == null ? null : <FaCrown/> }
+                        {highscore.wins == 0 || highscore.wins == null ? null : CrownCounter(highscore) }
                         {highscore.user_id != 1 ? <GoVerified/> : null}
                 </Grid>
                 <Grid item xs={6}>

@@ -62,7 +62,7 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%',searchterm,'%'))
-        cursor.execute("SELECT * from game WHERE name LIKE %s OR authorname LIKE %s ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
@@ -84,7 +84,7 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         games = list()
-        cursor.execute('SELECT * from game ORDER BY created DESC LIMIT %s OFFSET %s',(numGames,offset))
+        cursor.execute("SELECT * from game WHERE type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(numGames,offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:

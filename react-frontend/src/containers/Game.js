@@ -702,7 +702,7 @@ class Game extends React.Component {
     }
 
     handlePlayerMovement = (dirObj) => {
-        if (dirObj.dir !== undefined && this.state.gameWon === false) {
+        if (dirObj.dir !== undefined && this.state.gameWon === false && !this.state.buildMode) {
             var oldPositon = {left: this.state.playerState[this.state.robotSelected].left, top: this.state.playerState[this.state.robotSelected].top};
             var newPosition = this.handleCollision(dirObj, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color);
             var playerState = this.state.playerState;
