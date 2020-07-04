@@ -29,7 +29,7 @@ def get_games_search(numPuzzles,Offset,searchterm):
 
 
 def get_learned_games():
-    gameslist = [13,12,24,11,14,15]
+    gameslist = [13,12,24,25,11,14,15,26]
     returnlist = list()
     for game in gameslist:
         returnlist.append(GameService().get_game(game).serialize())
