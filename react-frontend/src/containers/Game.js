@@ -163,7 +163,6 @@ class Game extends React.Component {
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
-            console.log('here')
             console.log(this.props.playerStateList)
             this.state.gamesWonDaily = [false,false,false,false];
             if (this.props.savedMoves != null) {
@@ -176,7 +175,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Complete All puzzles to complete'];
+            this.state.tipsText = ['Complete All puzzles to complete','Puzzles Reset at 3PM EST'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
         }

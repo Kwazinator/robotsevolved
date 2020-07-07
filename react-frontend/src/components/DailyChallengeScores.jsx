@@ -50,6 +50,9 @@ const highscorestyle = highscore => {
                 <Grid item xs={6}>
                 <Typography color={'textSecondary'}>{highscore.score}</Typography>
                 </Grid>
+                <Grid item xs={6}>
+                <Typography color={'secondary'} variant={'body2'}>{highscore.submitted}</Typography>
+                </Grid>
              </Grid>
         </Paper>
         </Grid>

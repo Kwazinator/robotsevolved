@@ -3,6 +3,7 @@ from flaskr.dataaccess.entities.Gen import Gen
 from flaskr.dataaccess.entities.Daily_Challenge_Solution import Daily_Challenge_Solution
 #from random_word import RandomWords
 import uuid
+from datetime import timedelta
 
 class GenDAO:
 
@@ -64,7 +65,7 @@ class GenDAO:
         highscores = list()
         cursor.execute('SELECT * FROM daily_challenge_submit WHERE dc_id=%s ORDER by score ASC, submitted ASC',(dc_id,))
         for row in cursor.fetchall():
-            highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],row[6].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7]).serialize())
+            highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],(row[6] - timedelta(hours=4)).strftime('%I:%M:%S %p').lstrip("0").replace(" 0", " "),row[7]).serialize())
         return highscores
 
     def get_daily_challenge_moves(self,dc_id,user_id):
