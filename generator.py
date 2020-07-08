@@ -348,6 +348,7 @@ def solver(gamejson):
     print(result)
 '''
 
+    print('herererer')
     jsoning = json.loads(json.dumps(paths, indent=4))
     solutionnumbers = list()
     newpaths = list()
