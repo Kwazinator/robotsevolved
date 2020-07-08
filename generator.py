@@ -121,11 +121,11 @@ def boardgeneratorclassic():
             randomnum = random.randint(0, 15)
             if (i*4 + j == goalposrandom):
                 goalspot = int(randomnum / 4)
-                if goalspot == 1:
+                if goalspot == 0:
                     goalpos = {'top': i*3 + 1, 'left':j*3 + 1}
-                elif goalspot == 2:
+                elif goalspot == 1:
                     goalpos = {'top': i * 3 + 1, 'left': j * 3 + 2}
-                elif goalspot == 3:
+                elif goalspot == 2:
                     goalpos = {'top': i * 3 + 2, 'left': j * 3 + 1}
                 else:
                     goalpos = {'top': i * 3 + 2, 'left': j * 3 + 2}
