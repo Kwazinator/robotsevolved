@@ -97,44 +97,44 @@ def classicstruct(top,left,randomnum):
     return (toreturnvert,toreturnhoriz)
 
 def checkwallverttop(firstwall, wallHorizontal,wallVerticle):
-    flagnogood = True
+    flagnogood = False
     for wallH in wallHorizontal:
         if wallH['top'] == 1 and (firstwall['left'] == wallH['left'] or firstwall['left'] == wallH['left'] - 1):
-            flagnogood = False
+            flagnogood = True
     for wallV in wallVerticle:
         if wallV['top'] == 1 and firstwall['left'] == wallV['left']:
-            flagnogood = False
+            flagnogood = True
     return flagnogood
 
 
 def checkwallvertbottom(wall, wallHorizontal,wallVerticle):
-    flagnogood = True
+    flagnogood = False
     for wallH in wallHorizontal:
         if wallH['top'] == 15 and (wall['left'] == wallH['left'] or wall['left'] == wallH['left'] - 1):
-            flagnogood = False
+            flagnogood = True
     for wallV in wallVerticle:
         if wallV['top'] == 14 and wall['left'] == wallV['left']:
-            flagnogood = False
+            flagnogood = True
     return flagnogood
 
 def checkwallhorizleft(wall, wallHorizontal,wallVerticle):
-    flagnogood = True
+    flagnogood = False
     for wallV in wallVerticle:
         if wallV['left'] == 1 and (wall['top'] == wallV['top'] or wall['top'] == wallV['top'] - 1):
-            flagnogood = False
+            flagnogood = True
     for wallH in wallHorizontal:
         if wallH['left'] == 1 and (wall['top'] == wallH['top']):
-            flagnogood = False
+            flagnogood = True
     return flagnogood
 
 def checkwallhorizright(wall, wallHorizontal,wallVerticle):
-    flagnogood = True
+    flagnogood = False
     for wallV in wallVerticle:
         if wallV['left'] == 15 and (wall['top'] == wallV['top'] or wall['top'] == wallV['top'] - 1):
-            flagnogood = False
+            flagnogood = True
     for wallH in wallHorizontal:
         if wallH['left'] == 14 and (wall['top'] == wallH['top']):
-            flagnogood = False
+            flagnogood = True
     return flagnogood
 
 def boardgeneratorclassic():
@@ -174,9 +174,9 @@ def boardgeneratorclassic():
             wallVerticle.append(walls[0])
 
     #randomize top walls
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         first = random.randint(2,5)
         firstwall = {'top': 0, 'left': first}
@@ -186,9 +186,9 @@ def boardgeneratorclassic():
             break
     wallVerticle.append({'top': 0, 'left': first, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         second = random.randint(11, 14)
         secondwall = {'top': 0, 'left': second}
@@ -198,9 +198,9 @@ def boardgeneratorclassic():
             break
     wallVerticle.append({'top': 0, 'left': second, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         third = random.randint(first + 2, second - 2)
         thirdwall = {'top': 0, 'left': third, 'opacity': 1}
@@ -211,9 +211,9 @@ def boardgeneratorclassic():
     wallVerticle.append({'top': 0, 'left': third, 'opacity': 1})
 
     #randomize bottom walls
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         first = random.randint(2,5)
         firstwall = {'top': 15, 'left': first, 'opacity': 1}
@@ -223,9 +223,9 @@ def boardgeneratorclassic():
             break
     wallVerticle.append({'top': 15, 'left': first, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         second = random.randint(11, 14)
         secondwall = {'top': 15, 'left': second, 'opacity': 1}
@@ -235,9 +235,9 @@ def boardgeneratorclassic():
             break
     wallVerticle.append({'top': 15, 'left': second, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         third = random.randint(first + 2, second - 2)
         thirdwall = {'top': 15, 'left': third, 'opacity': 1}
@@ -252,9 +252,9 @@ def boardgeneratorclassic():
 
 
     #randomize left walls
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         first = random.randint(2,5)
         firstwall = {'top': first, 'left': 0, 'opacity': 1}
@@ -264,9 +264,9 @@ def boardgeneratorclassic():
             break
     wallHorizontal.append({'top': first, 'left': 0, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         second = random.randint(11, 14)
         secondwall = {'top': second, 'left': 0, 'opacity': 1}
@@ -276,9 +276,9 @@ def boardgeneratorclassic():
             break
     wallHorizontal.append({'top': second, 'left': 0, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         third = random.randint(first + 2, second - 2)
         thirdwall = {'top': third, 'left': 0, 'opacity': 1}
@@ -290,9 +290,9 @@ def boardgeneratorclassic():
 
 
     #randomize right walls
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         first = random.randint(2,5)
         firstwall = {'top': first, 'left': 15, 'opacity': 1}
@@ -302,9 +302,9 @@ def boardgeneratorclassic():
             break
     wallHorizontal.append({'top': first, 'left': 15, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         second = random.randint(11, 14)
         secondwall = {'top': second, 'left': 15, 'opacity': 1}
@@ -314,9 +314,9 @@ def boardgeneratorclassic():
             break
     wallHorizontal.append({'top': second, 'left': 15, 'opacity': 1})
 
-    nogood = False
+    nogood = True
     maxtries = 0
-    while(not nogood):
+    while(nogood):
         maxtries += 1
         third = random.randint(first + 2, second - 2)
         thirdwall = {'top': third, 'left': 15, 'opacity': 1}
