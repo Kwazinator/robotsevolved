@@ -183,12 +183,6 @@ def boardgeneratorclassic():
     for j, item in enumerate(range(16)):
         for i, item in enumerate(range(16)):
             boardState.append({'top': j,'left': i})
-
-
-    print(playerState)
-    print(wallHorizontal)
-    print(wallVerticle)
-    print(goalpos)
     return {
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,
@@ -336,10 +330,6 @@ def solver(gamejson):
                 grid1[x] = 'X'
 
         result = list()
-        print(grid1)
-        print(robots)
-        print(colors)
-        print(token)
         #threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
@@ -349,8 +339,6 @@ def solver(gamejson):
         thread.join()
     print(result)
 '''
-
-    print('herererer')
     jsoning = json.loads(json.dumps(paths, indent=4))
     solutionnumbers = list()
     newpaths = list()
