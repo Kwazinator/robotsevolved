@@ -262,7 +262,7 @@ def boardgeneratorclassic():
         if maxtries >= 100:
             print('broken')
             break
-    wallVerticle.append({'top': first, 'left': 0, 'opacity': 1})
+    wallHorizontal.append({'top': first, 'left': 0, 'opacity': 1})
 
     nogood = False
     maxtries = 0
@@ -274,7 +274,7 @@ def boardgeneratorclassic():
         if maxtries >= 100:
             print('broken')
             break
-    wallVerticle.append({'top': second, 'left': 0, 'opacity': 1})
+    wallHorizontal.append({'top': second, 'left': 0, 'opacity': 1})
 
     nogood = False
     maxtries = 0
@@ -286,7 +286,7 @@ def boardgeneratorclassic():
         if maxtries >= 100:
             print('broken')
             break
-    wallVerticle.append({'top': third, 'left': 0, 'opacity': 1})
+    wallHorizontal.append({'top': third, 'left': 0, 'opacity': 1})
 
 
     #randomize right walls
@@ -300,7 +300,7 @@ def boardgeneratorclassic():
         if maxtries >= 100:
             print('broken')
             break
-    wallVerticle.append({'top': first, 'left': 15, 'opacity': 1})
+    wallHorizontal.append({'top': first, 'left': 15, 'opacity': 1})
 
     nogood = False
     maxtries = 0
@@ -312,7 +312,7 @@ def boardgeneratorclassic():
         if maxtries >= 100:
             print('broken')
             break
-    wallVerticle.append({'top': second, 'left': 15, 'opacity': 1})
+    wallHorizontal.append({'top': second, 'left': 15, 'opacity': 1})
 
     nogood = False
     maxtries = 0
@@ -324,7 +324,7 @@ def boardgeneratorclassic():
         if maxtries >= 100:
             print('broken')
             break
-    wallVerticle.append({'top': third, 'left': 15, 'opacity': 1})
+    wallHorizontal.append({'top': third, 'left': 15, 'opacity': 1})
 
     playerState = list()
     goal = {'top': math.floor(random.random() * math.floor(16)),
