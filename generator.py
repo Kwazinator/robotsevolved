@@ -321,6 +321,10 @@ def solver(gamejson):
                 grid1[x] = 'X'
 
         result = list()
+        print(grid1)
+        print(robots)
+        print(colors)
+        print(token)
         #threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
