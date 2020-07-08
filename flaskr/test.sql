@@ -120,4 +120,4 @@ ORDER BY differenceFrom asc LIMIT 1
 
 
 --INSERT DAILY CHALLENGE
-INSERT into Robots.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (454,444,443,442,41);
+INSERT into Robots.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (1,2,3,4,41);

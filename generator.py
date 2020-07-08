@@ -116,8 +116,8 @@ def boardgeneratorclassic():
             elif (checkj == (16-1)):
                 wallHorizontal.append({'top': checkj+1, 'left': checki, 'opacity': 1})
 
-    for i, nothing in enumerate(range(4)):
-        for j, nothing2 in enumerate(range(4)):
+    for i, nothing in enumerate(range(5)):
+        for j, nothing2 in enumerate(range(5)):
             randomnum = random.randint(0, 15)
             if (i*4 + j == goalposrandom):
                 goalspot = int(randomnum / 4)
@@ -153,17 +153,17 @@ def boardgeneratorclassic():
     first = random.randint(2,5)
     second = random.randint(11,14)
     third = random.randint(first + 2, second - 2)
-    wallVerticle.append({'top': first, 'left': 0})
-    wallVerticle.append({'top': second, 'left': 0})
-    wallVerticle.append({'top': third, 'left': 0})
+    wallHorizontal.append({'top': first, 'left': 0})
+    wallHorizontal.append({'top': second, 'left': 0})
+    wallHorizontal.append({'top': third, 'left': 0})
 
     #randomize right walls
     first = random.randint(2,5)
     second = random.randint(11,14)
     third = random.randint(first + 2, second - 2)
-    wallVerticle.append({'top': first, 'left': 15})
-    wallVerticle.append({'top': second, 'left': 15})
-    wallVerticle.append({'top': third, 'left': 15})
+    wallHorizontal.append({'top': first, 'left': 15})
+    wallHorizontal.append({'top': second, 'left': 15})
+    wallHorizontal.append({'top': third, 'left': 15})
 
     playerState = list()
     goal = {'top': math.floor(random.random() * math.floor(16)),
