@@ -106,6 +106,19 @@ def boardgeneratorclassic():
 
     goalpos = None
 
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            checkj = j
+            checki = i
+            if (checki < 1):
+                wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
+            elif (checki == (16-1)):
+                wallVerticle.append({'top': checkj, 'left': checki+1, 'opacity': 1})
+            if (checkj < 1):
+                wallHorizontal.append({'top': checkj,'left': checki, 'opacity': 1})
+            elif (checkj == (16-1)):
+                wallHorizontal.append({'top': checkj+1, 'left': checki, 'opacity': 1})
+
     for i, nothing in enumerate(range(4)):
         for j, nothing2 in enumerate(range(4)):
             randomnum = random.randint(0, 15)
