@@ -101,9 +101,6 @@ def boardgeneratorclassic():
     goalposrandom = random.randint(0, 15)
     wallHorizontal = list()
     wallVerticle = list()
-
-    goalindex = 0
-
     goalpos = None
 
     for j, item in enumerate(range(16)):
@@ -187,6 +184,11 @@ def boardgeneratorclassic():
         for i, item in enumerate(range(16)):
             boardState.append({'top': j,'left': i})
 
+
+    print(playerState)
+    print(wallHorizontal)
+    print(wallVerticle)
+    print(goalpos)
     return {
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,
