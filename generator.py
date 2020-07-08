@@ -100,7 +100,7 @@ def classicstruct(top,left,randomnum):
 def boardgeneratorclassic():
     goalposrandom = random.randint(0, 15)
     wallHorizontal = list()
-    wallVerticle = list()
+    wallVerticle = [{'top': 0, 'left': 0}]
     goalpos = None
 
     for j, item in enumerate(range(16)):
