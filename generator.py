@@ -2,6 +2,7 @@ import random
 import math
 import json
 import model
+import random
 import ricochet
 from flaskr.db import get_db
 import flaskr
@@ -50,15 +51,148 @@ def randomBoardPosition(dontPlacePositions,width,height):
                 tryAgain = True
     return {'top': Y, 'left': X}
 
+
+
+
+
+def classicstruct(top,left,randomnum):
+    classicStructureHorizontal = [
+        {'top': top,'left': left},
+        {'top': top,'left': left},
+        {'top': top + 1, 'left': left},
+        {'top': top + 1, 'left': left},
+        {'top': top, 'left': left + 1},
+        {'top': top, 'left': left + 1},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 1, 'left': left},
+        {'top': top + 1, 'left': left},
+        {'top': top + 2, 'left': left},
+        {'top': top + 2, 'left': left},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 2, 'left': left + 1},
+        {'top': top + 2, 'left': left + 1}
+    ]
+    classicStructureVert = [
+        {'top': top, 'left': left},
+        {'top': top, 'left': left + 1},
+        {'top': top, 'left': left + 1},
+        {'top': top, 'left': left},
+        {'top': top, 'left': left + 1},
+        {'top': top, 'left': left + 2},
+        {'top': top, 'left': left + 2},
+        {'top': top, 'left': left + 1},
+        {'top': top + 1, 'left': left},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 1, 'left': left},
+        {'top': top + 1, 'left': left + 1},
+        {'top': top + 1, 'left': left + 2},
+        {'top': top + 1, 'left': left + 2},
+        {'top': top + 1, 'left': left + 1}
+    ]
+    toreturnvert = classicStructureVert[randomnum]
+    toreturnhoriz = classicStructureHorizontal[randomnum]
+    return (toreturnvert,toreturnhoriz)
+
+
+def boardgeneratorclassic():
+    goalposrandom = random.randint(0, 15)
+    wallHorizontal = list()
+    wallVerticle = list()
+
+    goalindex = 0
+
+    goalpos = None
+
+    for i, nothing in enumerate(range(4)):
+        for j, nothing2 in enumerate(range(4)):
+            randomnum = random.randint(0, 15)
+            if (i*4 + j == goalposrandom):
+                goalspot = int(randomnum / 4)
+                if goalspot == 1:
+                    goalpos = {'top': i*3 + 1, 'left':j*3 + 1}
+                elif goalspot == 2:
+                    goalpos = {'top': i * 3 + 1, 'left': j * 3 + 2}
+                elif goalspot == 3:
+                    goalpos = {'top': i * 3 + 2, 'left': j * 3 + 1}
+                else:
+                    goalpos = {'top': i * 3 + 2, 'left': j * 3 + 2}
+            walls = classicstruct(i*3 + 1,j*3 + 1,randomnum)
+            wallHorizontal.append(walls[1])
+            wallVerticle.append(walls[0])
+
+    #randomize top walls
+    first = random.randint(2,5)
+    second = random.randint(11,14)
+    third = random.randint(first + 2, second - 2)
+    wallVerticle.append({'top': 0, 'left': first})
+    wallVerticle.append({'top': 0, 'left': second})
+    wallVerticle.append({'top': 0, 'left': third})
+
+    #randomize bottom walls
+    first = random.randint(2,5)
+    second = random.randint(11,14)
+    third = random.randint(first + 2, second - 2)
+    wallVerticle.append({'top': 15, 'left': first})
+    wallVerticle.append({'top': 15, 'left': second})
+    wallVerticle.append({'top': 15, 'left': third})
+
+    #randomize left walls
+    first = random.randint(2,5)
+    second = random.randint(11,14)
+    third = random.randint(first + 2, second - 2)
+    wallVerticle.append({'top': first, 'left': 0})
+    wallVerticle.append({'top': second, 'left': 0})
+    wallVerticle.append({'top': third, 'left': 0})
+
+    #randomize right walls
+    first = random.randint(2,5)
+    second = random.randint(11,14)
+    third = random.randint(first + 2, second - 2)
+    wallVerticle.append({'top': first, 'left': 15})
+    wallVerticle.append({'top': second, 'left': 15})
+    wallVerticle.append({'top': third, 'left': 15})
+
+    playerState = list()
+    goal = {'top': math.floor(random.random() * math.floor(16)),
+            'left': math.floor(random.random() * math.floor(16))}
+    randomPositions = [goal]
+    for i, item in enumerate(range(5)):
+        randomPositions.append(randomBoardPosition(randomPositions,16,16))
+    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
+    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
+    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
+    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00'})
+    playerState.append(randompos1)
+    playerState.append(randompos2)
+    playerState.append(randompos3)
+    playerState.append(randompos4)
+    boardState = list()
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            boardState.append({'top': j,'left': i})
+
+    return {
+        'playerState': playerState,
+        'wallHorizontal': wallHorizontal,
+        'wallVerticle': wallVerticle,
+        'goal': goalpos,
+        'boardState': boardState
+    }
+
+
 def boardgenerator(width=16,height=16,randomPercent=.9):
     boardState = list()
     wallVerticle = [{'top': 0, 'left': 0}]
     wallHorizontal = list()
     playerState = list()
-    goal = {'top': math.floor(random.random() * math.floor(height)),
-            'left': math.floor(random.random() * math.floor(width))}
-    randomPositions = [goal]
 
+    playerState = list()
+    goal = {'top': math.floor(random.random() * math.floor(16)),
+            'left': math.floor(random.random() * math.floor(16))}
+    randomPositions = [goal]
     for i, item in enumerate(range(5)):
         randomPositions.append(randomBoardPosition(randomPositions,width,height))
     randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})

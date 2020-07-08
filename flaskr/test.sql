@@ -44,6 +44,59 @@ game g on s.gameid = g.id left join
 where s.userid = '2'
 group by g.id
 
+
+
+
+
+
+SELECT * from daily_challenge dc
+JOIN generated_games gg on gg.g_id = dc.g_id1 or gg.g_id = dc.g_id2 or gg.g_id = dc.g_id3 or gg.g_id = dc.g_id4
+Group By dc.id
+ORDER by dc.created ASC LIMIT 10
+
+--
+--Daily Challenge History View
+--each row represents a daily challenge up to say 10 rows
+--**************************
+-- Info needed for each daily challenge in order
+-- * of daily challenge (dc_id, created,g_id1,g_id2,g_id3,g_id4,bestScore)
+-- * of generated_game where the g_id = g_id1
+-- * of generated_game where the g_id = g_id2
+-- * of generated_game where the g_id = g_id3
+-- * of generated_game where the g_id = g_id4
+-- * of daily_challenge_submit of the LOWEST score and Most recent time
+--
+--
+
+SELECT * from daily_challenge dc
+JOIN generated_games gg1 on gg1.g_id = dc.g_id1
+JOIN generated_games gg2 on gg2.g_id = dc.g_id2
+JOIN generated_games gg3 on gg3.g_id = dc.g_id3
+JOIN generated_games gg4 on gg4.g_id = dc.g_id4
+JOIN daily_challenge_submit dcs on dcs.id =
+  (SELECT id
+    from daily_challenge_submit dcs2
+    WHERE dcs2.dc_id = dc.id
+    ORDER by SCORE ASC LIMIT 1)
+WHERE dc.id != (
+    SELECT MAX(id)
+    from daily_challenge
+    WHERE CURRENT_TIMESTAMP() >= created)
+Group By dc.id
+ORDER by dc.created ASC LIMIT 10
+
+--
+--
+--
+--
+--
+--
+--
+--date of daily challenge, lowest possible # of moves per puzzle, lowest possible moves per puzzle, lowest possible solution (maybe even for each puzzle and even the sequence), the uri of the puzzle.
+--top 5 submitters in order and their scores and whether or not their are verified and how many daily challenges they have won before,
+--
+--
+
 -- Puzzle Rush Average
 select AVG(score), AVG(totalMoves), AVG(differenceFrom) from puzzle_rush pr
 where user_id = '2' and totalMoves is not null
@@ -66,5 +119,5 @@ ORDER BY differenceFrom asc LIMIT 1
 
 
 
-
+--INSERT DAILY CHALLENGE
 INSERT into Robots.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (454,444,443,442,41);
