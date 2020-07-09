@@ -106,9 +106,40 @@ def getnoplacelisttop(wallVerticle,wallHorizontal):
     for wallV in wallVerticle:
         if wallV['top'] == 1:
             noplacelist.append(wallV['left'])
-
     return noplacelist
 
+def getnoplacelistbottom(wallVerticle, wallHorizontal):
+    noplacelist = list()
+    for wallH in wallHorizontal:
+        if wallH['top'] == 15:
+            noplacelist.append(wallH['left'])
+            noplacelist.append(wallH['left'] - 1)
+    for wallV in wallVerticle:
+        if wallV['top'] == 14:
+            noplacelist.append(wallV['left'])
+    return noplacelist
+
+def getnoplacelistleft(wallVerticle, wallHorizontal):
+    noplacelist = list()
+    for wallH in wallHorizontal:
+        if wallH['left'] == 1:
+            noplacelist.append(wallH['top'])
+    for wallV in wallVerticle:
+        if wallV['left'] == 1:
+            noplacelist.append(wallV['top'])
+            noplacelist.append(wallV['top'] - 1)
+    return noplacelist
+
+def getnoplacelistright(wallVerticle, wallHorizontal):
+    noplacelist = list()
+    for wallH in wallHorizontal:
+        if wallH['left'] == 14:
+            noplacelist.append(wallH['top'])
+    for wallV in wallVerticle:
+        if wallV['left'] == 15:
+            noplacelist.append(wallV['top'])
+            noplacelist.append(wallV['top'] - 1)
+    return noplacelist
 
 def boardgeneratorclassic():
     goalposrandom = random.randint(0, 15)
@@ -149,47 +180,79 @@ def boardgeneratorclassic():
     #randomize top walls
 
     noplace = getnoplacelisttop(wallVerticle,wallHorizontal)
-    print(noplace)
-    print(wallVerticle)
-    print(wallHorizontal)
-    first = random.randint(2, 5)
-    while (first in noplace):
-        first = random.randint(2, 5)
-    second = random.randint(11, 14)
-    while (second in noplace):
-        second = random.randint(11, 14)
-    third = random.randint(first + 2, second - 2)
-    while (third in noplace):
-        third = random.randint(first + 2, second - 2)
-    wallVerticle.append({'top': 0, 'left': first})
-    wallVerticle.append({'top': 0, 'left': second})
-    wallVerticle.append({'top': 0, 'left': third})
+    location = random.randint(2,14)
+    while (location in noplace):
+        location = random.randint(2,14)
+    location2 = random.randint(2,14)
+    while (location2 in noplace or abs(location2 - location) <= 1):
+        location2 = random.randint(2,14)
+    maxtries = 0
+    location3 = random.randint(2,14)
+    while (location3 in noplace or abs(location3-location) <= 1 or abs(location3-location2) <= 1) and maxtries <= 3000:
+        location3 = random.randint(2,14)
+        maxtries += 1
+
+    wallVerticle.append({'top': 0, 'left': location})
+    wallVerticle.append({'top': 0, 'left': location2})
+    if (maxtries < 3000):
+        wallVerticle.append({'top': 0, 'left': location3})
 
     #randomize bottom walls
-    first = random.randint(2, 5)
-    second = random.randint(11, 14)
-    third = random.randint(first + 2, second - 2)
-    wallVerticle.append({'top': 15, 'left': first})
-    wallVerticle.append({'top': 15, 'left': second})
-    wallVerticle.append({'top': 15, 'left': third})
+
+    noplace = getnoplacelistbottom(wallVerticle, wallHorizontal)
+    location = random.randint(2,14)
+    while (location in noplace):
+        location = random.randint(2,14)
+    location2 = random.randint(2,14)
+    while (location2 in noplace or abs(location2 - location) <= 1):
+        location2 = random.randint(2,14)
+    maxtries = 0
+    location3 = random.randint(2,14)
+    while (location3 in noplace or abs(location3-location) <= 1 or abs(location3-location2) <= 1) and maxtries <= 3000:
+        location3 = random.randint(2,14)
+        maxtries += 1
+
+    wallVerticle.append({'top': 15, 'left': location})
+    wallVerticle.append({'top': 15, 'left': location2})
+    wallVerticle.append({'top': 15, 'left': location3})
 
 
     #randomize left walls
-    first = random.randint(2, 5)
-    second = random.randint(11, 14)
-    third = random.randint(first + 2, second - 2)
-    wallHorizontal.append({'top': first, 'left': 0})
-    wallHorizontal.append({'top': second, 'left': 0})
-    wallHorizontal.append({'top': third, 'left': 0})
+    noplace = getnoplacelistleft(wallVerticle, wallHorizontal)
+    location = random.randint(2,14)
+    while (location in noplace):
+        location = random.randint(2,14)
+    location2 = random.randint(2,14)
+    while (location2 in noplace or abs(location2 - location) <= 1):
+        location2 = random.randint(2,14)
+    maxtries = 0
+    location3 = random.randint(2,14)
+    while (location3 in noplace or abs(location3-location) <= 1 or abs(location3-location2) <= 1) and maxtries <= 3000:
+        location3 = random.randint(2,14)
+        maxtries += 1
+
+    wallHorizontal.append({'top': location, 'left': 0})
+    wallHorizontal.append({'top': location2, 'left': 0})
+    wallHorizontal.append({'top': location3, 'left': 0})
 
 
     #randomize right walls
-    first = random.randint(2, 5)
-    second = random.randint(11, 14)
-    third = random.randint(first + 2, second - 2)
-    wallHorizontal.append({'top': first, 'left': 15})
-    wallHorizontal.append({'top': second, 'left': 15})
-    wallHorizontal.append({'top': third, 'left': 15})
+    noplace = getnoplacelistright(wallVerticle, wallHorizontal)
+    location = random.randint(2,14)
+    while (location in noplace):
+        location = random.randint(2,14)
+    location2 = random.randint(2,14)
+    while (location2 in noplace or abs(location2 - location) <= 1):
+        location2 = random.randint(2,14)
+    maxtries = 0
+    location3 = random.randint(2,14)
+    while (location3 in noplace or abs(location3-location) <= 1 or abs(location3-location2) <= 1) and maxtries <= 3000:
+        location3 = random.randint(2,14)
+        maxtries += 1
+
+    wallHorizontal.append({'top': location, 'left': 15})
+    wallHorizontal.append({'top': location2, 'left': 15})
+    wallHorizontal.append({'top': location3, 'left': 15})
 
 
     playerState = list()
