@@ -193,10 +193,10 @@ def boardgeneratorclassic():
         location3 = random.randint(2,14)
         maxtries += 1
 
-    wallVerticle.append({'top': 0, 'left': location})
-    wallVerticle.append({'top': 0, 'left': location2})
+    wallVerticle.append({'top': 0, 'left': location, 'opacity': 1})
+    wallVerticle.append({'top': 0, 'left': location2, 'opacity': 1})
     if (maxtries < 3000):
-        wallVerticle.append({'top': 0, 'left': location3})
+        wallVerticle.append({'top': 0, 'left': location3, 'opacity': 1})
 
     #randomize bottom walls
 
@@ -213,9 +213,10 @@ def boardgeneratorclassic():
         location3 = random.randint(2,14)
         maxtries += 1
 
-    wallVerticle.append({'top': 15, 'left': location})
-    wallVerticle.append({'top': 15, 'left': location2})
-    wallVerticle.append({'top': 15, 'left': location3})
+    wallVerticle.append({'top': 15, 'left': location, 'opacity': 1})
+    wallVerticle.append({'top': 15, 'left': location2, 'opacity': 1})
+    if (maxtries < 3000):
+        wallVerticle.append({'top': 15, 'left': location3, 'opacity': 1})
 
 
     #randomize left walls
@@ -232,9 +233,10 @@ def boardgeneratorclassic():
         location3 = random.randint(2,14)
         maxtries += 1
 
-    wallHorizontal.append({'top': location, 'left': 0})
-    wallHorizontal.append({'top': location2, 'left': 0})
-    wallHorizontal.append({'top': location3, 'left': 0})
+    wallHorizontal.append({'top': location, 'left': 0, 'opacity': 1})
+    wallHorizontal.append({'top': location2, 'left': 0, 'opacity': 1})
+    if (maxtries < 3000):
+        wallHorizontal.append({'top': location3, 'left': 0, 'opacity': 1})
 
 
     #randomize right walls
@@ -251,9 +253,10 @@ def boardgeneratorclassic():
         location3 = random.randint(2,14)
         maxtries += 1
 
-    wallHorizontal.append({'top': location, 'left': 15})
-    wallHorizontal.append({'top': location2, 'left': 15})
-    wallHorizontal.append({'top': location3, 'left': 15})
+    wallHorizontal.append({'top': location, 'left': 15, 'opacity': 1})
+    wallHorizontal.append({'top': location2, 'left': 15, 'opacity': 1})
+    if (maxtries < 3000):
+        wallHorizontal.append({'top': location3, 'left': 15, 'opacity': 1})
 
 
     playerState = list()
