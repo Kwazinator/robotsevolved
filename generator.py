@@ -105,7 +105,7 @@ def getnoplacelisttop(wallVerticle,wallHorizontal):
             noplacelist.append(wallH['left'] - 1)
     for wallV in wallVerticle:
         if wallV['top'] == 1:
-            noplacelist.append(wallH['left'])
+            noplacelist.append(wallV['left'])
 
     return noplacelist
 
