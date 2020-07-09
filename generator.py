@@ -127,7 +127,7 @@ def getnoplacelistleft(wallVerticle, wallHorizontal):
     for wallV in wallVerticle:
         if wallV['left'] == 1:
             noplacelist.append(wallV['top'])
-            noplacelist.append(wallV['top'] - 1)
+            noplacelist.append(wallV['top'] + 1)
     return noplacelist
 
 def getnoplacelistright(wallVerticle, wallHorizontal):
@@ -138,7 +138,7 @@ def getnoplacelistright(wallVerticle, wallHorizontal):
     for wallV in wallVerticle:
         if wallV['left'] == 15:
             noplacelist.append(wallV['top'])
-            noplacelist.append(wallV['top'] - 1)
+            noplacelist.append(wallV['top'] + 1)
     return noplacelist
 
 def boardgeneratorclassic():
