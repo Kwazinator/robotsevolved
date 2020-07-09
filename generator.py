@@ -96,46 +96,19 @@ def classicstruct(top,left,randomnum):
     toreturnhoriz = classicStructureHorizontal[randomnum]
     return (toreturnvert,toreturnhoriz)
 
-def checkwallverttop(firstwall, wallHorizontal,wallVerticle):
-    flagnogood = False
-    for wallH in wallHorizontal:
-        if wallH['top'] == 1 and (firstwall['left'] == wallH['left'] or firstwall['left'] == wallH['left'] - 1):
-            flagnogood = True
-    for wallV in wallVerticle:
-        if wallV['top'] == 1 and firstwall['left'] == wallV['left']:
-            flagnogood = True
-    return flagnogood
 
-
-def checkwallvertbottom(wall, wallHorizontal,wallVerticle):
-    flagnogood = False
+def getnoplacelisttop(wallVerticle,wallHorizontal):
+    noplacelist = list()
     for wallH in wallHorizontal:
-        if wallH['top'] == 15 and (wall['left'] == wallH['left'] or wall['left'] == wallH['left'] - 1):
-            flagnogood = True
+        if wallH['top'] == 1:
+            noplacelist.append(wallH['left'])
+            noplacelist.append(wallH['left'] - 1)
     for wallV in wallVerticle:
-        if wallV['top'] == 14 and wall['left'] == wallV['left']:
-            flagnogood = True
-    return flagnogood
+        if wallV['top'] == 1:
+            noplacelist.append(wallH['left'])
 
-def checkwallhorizleft(wall, wallHorizontal,wallVerticle):
-    flagnogood = False
-    for wallV in wallVerticle:
-        if wallV['left'] == 1 and (wall['top'] == wallV['top'] or wall['top'] == wallV['top'] - 1):
-            flagnogood = True
-    for wallH in wallHorizontal:
-        if wallH['left'] == 1 and (wall['top'] == wallH['top']):
-            flagnogood = True
-    return flagnogood
+    return noplacelist
 
-def checkwallhorizright(wall, wallHorizontal,wallVerticle):
-    flagnogood = False
-    for wallV in wallVerticle:
-        if wallV['left'] == 15 and (wall['top'] == wallV['top'] or wall['top'] == wallV['top'] - 1):
-            flagnogood = True
-    for wallH in wallHorizontal:
-        if wallH['left'] == 14 and (wall['top'] == wallH['top']):
-            flagnogood = True
-    return flagnogood
 
 def boardgeneratorclassic():
     goalposrandom = random.randint(0, 15)
@@ -174,157 +147,48 @@ def boardgeneratorclassic():
             wallVerticle.append(walls[0])
 
     #randomize top walls
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        first = random.randint(2,5)
-        firstwall = {'top': 0, 'left': first}
-        nogood = checkwallverttop(firstwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallVerticle.append({'top': 0, 'left': first, 'opacity': 1})
 
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
+    noplace = getnoplacelisttop(wallVerticle,wallHorizontal)
+    print(noplace)
+    first = random.randint(2, 5)
+    while (first in noplace):
+        first = random.randint(2, 5)
+    second = random.randint(11, 14)
+    while (second in noplace):
         second = random.randint(11, 14)
-        secondwall = {'top': 0, 'left': second}
-        nogood = checkwallverttop(secondwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallVerticle.append({'top': 0, 'left': second, 'opacity': 1})
-
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
+    third = random.randint(first + 2, second - 2)
+    while (third in noplace):
         third = random.randint(first + 2, second - 2)
-        thirdwall = {'top': 0, 'left': third, 'opacity': 1}
-        nogood = checkwallverttop(thirdwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallVerticle.append({'top': 0, 'left': third, 'opacity': 1})
+    wallVerticle.append({'top': 0, 'left': first})
+    wallVerticle.append({'top': 0, 'left': second})
+    wallVerticle.append({'top': 0, 'left': third})
 
     #randomize bottom walls
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        first = random.randint(2,5)
-        firstwall = {'top': 15, 'left': first, 'opacity': 1}
-        nogood = checkwallvertbottom(firstwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallVerticle.append({'top': 15, 'left': first, 'opacity': 1})
-
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        second = random.randint(11, 14)
-        secondwall = {'top': 15, 'left': second, 'opacity': 1}
-        nogood = checkwallvertbottom(secondwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallVerticle.append({'top': 15, 'left': second, 'opacity': 1})
-
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        third = random.randint(first + 2, second - 2)
-        thirdwall = {'top': 15, 'left': third, 'opacity': 1}
-        nogood = checkwallvertbottom(thirdwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallVerticle.append({'top': 15, 'left': third, 'opacity': 1})
-
-
-
+    first = random.randint(2, 5)
+    second = random.randint(11, 14)
+    third = random.randint(first + 2, second - 2)
+    wallVerticle.append({'top': 15, 'left': first})
+    wallVerticle.append({'top': 15, 'left': second})
+    wallVerticle.append({'top': 15, 'left': third})
 
 
     #randomize left walls
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        first = random.randint(2,5)
-        firstwall = {'top': first, 'left': 0, 'opacity': 1}
-        nogood = checkwallhorizleft(firstwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallHorizontal.append({'top': first, 'left': 0, 'opacity': 1})
-
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        second = random.randint(11, 14)
-        secondwall = {'top': second, 'left': 0, 'opacity': 1}
-        nogood = checkwallhorizleft(secondwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallHorizontal.append({'top': second, 'left': 0, 'opacity': 1})
-
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        third = random.randint(first + 2, second - 2)
-        thirdwall = {'top': third, 'left': 0, 'opacity': 1}
-        nogood = checkwallhorizleft(thirdwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallHorizontal.append({'top': third, 'left': 0, 'opacity': 1})
+    first = random.randint(2, 5)
+    second = random.randint(11, 14)
+    third = random.randint(first + 2, second - 2)
+    wallHorizontal.append({'top': first, 'left': 0})
+    wallHorizontal.append({'top': second, 'left': 0})
+    wallHorizontal.append({'top': third, 'left': 0})
 
 
     #randomize right walls
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        first = random.randint(2,5)
-        firstwall = {'top': first, 'left': 15, 'opacity': 1}
-        nogood = checkwallhorizright(firstwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallHorizontal.append({'top': first, 'left': 15, 'opacity': 1})
+    first = random.randint(2, 5)
+    second = random.randint(11, 14)
+    third = random.randint(first + 2, second - 2)
+    wallHorizontal.append({'top': first, 'left': 15})
+    wallHorizontal.append({'top': second, 'left': 15})
+    wallHorizontal.append({'top': third, 'left': 15})
 
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        second = random.randint(11, 14)
-        secondwall = {'top': second, 'left': 15, 'opacity': 1}
-        nogood = checkwallhorizright(secondwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallHorizontal.append({'top': second, 'left': 15, 'opacity': 1})
-
-    nogood = True
-    maxtries = 0
-    while(nogood):
-        maxtries += 1
-        third = random.randint(first + 2, second - 2)
-        thirdwall = {'top': third, 'left': 15, 'opacity': 1}
-        nogood = checkwallhorizright(thirdwall, wallHorizontal,wallVerticle)
-        if maxtries >= 1000:
-            print('broken')
-            break
-    wallHorizontal.append({'top': third, 'left': 15, 'opacity': 1})
 
     playerState = list()
     goal = {'top': math.floor(random.random() * math.floor(16)),
