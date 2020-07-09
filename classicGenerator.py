@@ -24,19 +24,19 @@ if __name__ == "__main__":
             solution = generator.solver(generator.boardgeneratorclassic())
             moves = solution['moves']
             solutiondata = solution['solutiondata']
-            if (moves >= 17 and not godflag):
+            if (moves >= 23 and not godflag):
                 app = flaskr.create_app()
                 with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'GodTeir', generator.formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     godflag = True
                     print('found turkutier puzzle of ' + str(moves) + ' moves')
-            elif (15 < moves < 17 and not exteremlyhardflag):
+            elif (17 < moves < 23 and not exteremlyhardflag):
                 app = flaskr.create_app()
                 with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'Exteremly Hard', generator.formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
                     exteremlyhardflag = True
                     print('found exteremlyhard puzzle of ' + str(moves) + ' moves')
-            elif (13 < moves <= 15 and not hardflag):
+            elif (13 < moves <= 17 and not hardflag):
                 app = flaskr.create_app()
                 with app.app_context():
                     GeneratorService().insert_puzzle('algo', 'hard', generator.formatsolutiondata(solution), 'abcdefg', moves, json.dumps(solutiondata))
