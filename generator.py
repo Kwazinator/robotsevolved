@@ -102,7 +102,7 @@ def getnoplacelisttop(wallVerticle,wallHorizontal):
     for wallH in wallHorizontal:
         if wallH['top'] == 1:
             noplacelist.append(wallH['left'])
-            noplacelist.append(wallH['left'] - 1)
+            noplacelist.append(wallH['left'] + 1)
     for wallV in wallVerticle:
         if wallV['top'] == 1:
             noplacelist.append(wallV['left'])
@@ -113,7 +113,7 @@ def getnoplacelistbottom(wallVerticle, wallHorizontal):
     for wallH in wallHorizontal:
         if wallH['top'] == 15:
             noplacelist.append(wallH['left'])
-            noplacelist.append(wallH['left'] - 1)
+            noplacelist.append(wallH['left'] + 1)
     for wallV in wallVerticle:
         if wallV['top'] == 14:
             noplacelist.append(wallV['left'])
