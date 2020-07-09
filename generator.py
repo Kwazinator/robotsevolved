@@ -142,7 +142,6 @@ def getnoplacelistright(wallVerticle, wallHorizontal):
     return noplacelist
 
 def boardgeneratorclassic():
-    print('puzzle')
     goalposrandom = random.randint(0, 15)
     wallHorizontal = list()
     wallVerticle = [{'top': 0, 'left': 0, 'opacity': 1}]
