@@ -150,6 +150,8 @@ def boardgeneratorclassic():
 
     noplace = getnoplacelisttop(wallVerticle,wallHorizontal)
     print(noplace)
+    print(wallVerticle)
+    print(wallHorizontal)
     first = random.randint(2, 5)
     while (first in noplace):
         first = random.randint(2, 5)
