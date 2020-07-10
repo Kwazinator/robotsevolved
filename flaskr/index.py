@@ -95,7 +95,7 @@ def play(uri):
     daily_challenge_history = GeneratorService().get_daily_challenge_history()
     metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by:" + gamefromuri['authorname'] + '\n' + gamefromuri[
         'name']
-    urlformeta = "http://robotsevolved.com/play/" + gamefromuri
+    urlformeta = "http://robotsevolved.com/play/" + uri
     if (userID is not None):
         gamesview = json.dumps(GameService().get_games_profile_view(userID))
         puzzlerushview = json.dumps(PuzzleRushService().get_puzzle_rush_profile_view(userID))
