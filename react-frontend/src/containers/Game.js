@@ -665,7 +665,7 @@ class Game extends React.Component {
                 var solutiondifference = this.state.solutiondifference
                 solutiondifference.push(solutionmoves)
                 var puzzledata = JSON.parse(this.state.games[this.state.numPuzzleon + 1].g_puzzledata)
-                if (this.state.numPuzzleon + 3 > this.state.games.length) {
+                if (this.state.numPuzzleon + 10 > this.state.games.length) {
                     axios.get('/puzzlerushgetmore?p_id=' + this.props.p_id + '&difficulty=' + this.props.difficulty)
                         .then( res => {
                                 var games = JSON.parse(res.data.games);

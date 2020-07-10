@@ -4,6 +4,7 @@ from flaskr.dataaccess.entities.Daily_Challenge_Solution import Daily_Challenge_
 #from random_word import RandomWords
 import uuid
 from datetime import timedelta
+import random
 
 class GenDAO:
 
