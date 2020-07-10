@@ -52,9 +52,6 @@ def puzzlerushsubmit():
     p_id = data['p_id']
     gameid = data['g_id']
     solution = data['moveHistory']
-    print(p_id)
-    print(gameid)
-    print(solution)
     PuzzleRushService().submit_solution_rush(p_id,gameid,solution)
     return jsonify(result='okay')
 

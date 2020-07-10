@@ -104,7 +104,9 @@ class PuzzleRushDAO:
             pass
     def get_random_game(self, difficulty):
         cursor = get_db().cursor()
-        cursor.execute('SELECT * FROM generated_games WHERE g_difficulty=%s order by RAND() LIMIT 1',(difficulty,))
+        cursor.execute('SELECT g_id FROM generated_games WHERE g_difficulty=%s order by RAND() LIMIT 1',(difficulty,))
+        row = cursor.fetchone()
+        cursor.execute('SELECT * FROM generated_games WHERE g_id=%s',(row[0],))
         row = cursor.fetchone()
         return Gen(row[0],row[1],row[2],row[3],row[4],row[5],row[6]).serialize()
 
