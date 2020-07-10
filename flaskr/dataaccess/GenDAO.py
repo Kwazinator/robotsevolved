@@ -1,5 +1,6 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.Gen import Gen
+from flaskr.dataaccess.entities.Daily_Challenge_History_View import Daily_Challenge_History_View
 from flaskr.dataaccess.entities.Daily_Challenge_Solution import Daily_Challenge_Solution
 #from random_word import RandomWords
 import uuid
@@ -124,5 +125,20 @@ class GenDAO:
         except Exception as e:
             print('error in updatedailychallengesubmit')
             print(e)
+        finally:
+            pass
+
+    def get_daily_challenge_history(self):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT * from v_daily_history')
+            DCHlist = list()
+            for row in cursor.fetchall():
+                DCHlist.append(Daily_Challenge_History_View(*row))
+            return DCHlist
+        except Exception as e:
+            print(e)
+            print('error in daily challenge history fetching')
         finally:
             pass

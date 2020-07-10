@@ -56,3 +56,6 @@ class GeneratorService:
 
     def get_daily_challenge_moves(self,dc_id, user_id):
         return GenDAO().get_daily_challenge_moves(dc_id,user_id)
+
+    def get_daily_challenge_history(self):
+        return GenDAO().get_daily_challenge_history()
