@@ -14,10 +14,16 @@ class GenDAO:
     def getPuzzles (self, upper_bound, lower_bound, numPuzzles):
         cursor = get_db().cursor()
         puzzleList = list()
-        cursor.execute('SELECT * FROM generated_games WHERE g_name = %s AND g_moves BETWEEN %s AND %s order by RAND() LIMIT %s',
-                       ('algo',lower_bound, upper_bound, numPuzzles))
+        cursor.execute(
+            'SELECT g_id FROM generated_games WHERE g_name = %s AND g_moves BETWEEN %s AND %s order by RAND() LIMIT %s',
+            ('algo', lower_bound, upper_bound, numPuzzles))
+        idlist = list()
         for row in cursor.fetchall():
-            puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5],row[6]).serialize())
+            idlist.append(row[0])
+        for id in idlist:
+            cursor.execute('SELECT * FROM generated_games WHERE g_id=%s', (id,))
+            row = cursor.fetchone()
+            puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize())
         return puzzleList
 
     def insertPuzzles(self, g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata):
