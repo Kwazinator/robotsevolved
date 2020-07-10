@@ -102,7 +102,9 @@ def index():
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
-    return render_template('index.html',dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+
+        metatagcontent = "Competetive board game Insipred by Ricochet Robots"
+    return render_template('index.html',metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
 def about():
@@ -112,7 +114,8 @@ def about():
 @bp.route('/play/<uri>')
 @jwt_optional
 def play(uri):
-    data = json.dumps(GameService().get_game_uri(uri))
+    gamefromuri = GameService().get_game_uri(uri)
+    data = json.dumps(gamefromuri)
     highscores = json.dumps(GameService().get_highscores(uri))
     get_games_data_value = get_games_data(50,0)
     userID = get_jwt_identity()
@@ -178,8 +181,8 @@ def play(uri):
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
-
-    return render_template('index.html',dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by:" +  gamefromuri['authorname'] + '\n' + gamefromuri['name']
+    return render_template('index.html',metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional
