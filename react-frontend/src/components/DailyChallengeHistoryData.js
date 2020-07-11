@@ -1,5 +1,6 @@
 import React from 'react';
 import MovesView from '../components/MovesView';
+import ShowDailyChallengeScoreCard from '../components/ShowDailyChallengeScoresCard'
 
 class DailyChallengeHistoryData extends React.Component {
 
@@ -10,19 +11,21 @@ class DailyChallengeHistoryData extends React.Component {
     render() {
         return (
             <div>
-                {this.props.nameSubmitted} - {this.props.scoreSubmitted}
-                <br/>
                 Difficulty of: {this.props.difficultyforPuzzle}
-                <br/>
-                Best Possible of: {this.props.lowestMovesforPuzzle}
-                <br/>
-                {this.props.lowestMoveSequence}
-                <br/>
-                Player
-                <br/>
-                <MovesView
-                    moveHistory={this.props.playerMovedSequence} playerState={[{colorSignifier: "blue"},{colorSignifier: "green"},{colorSignifier: "yellow"},{colorSignifier: "red"}]}
+                <ShowDailyChallengeScoreCard
+                    name={"Robit God"}
+                    bestScore={this.props.bestScore}
+                    MovesforPuzzle={this.props.lowestMovesforPuzzle}
+                    MoveSequence={this.props.lowestMoveSequence}
                 />
+                <ShowDailyChallengeScoreCard
+                    name={this.props.nameSubmitted}
+                    bestScore={this.props.scoreSubmitted}
+                    MovesforPuzzle={this.props.playerMovedSequence.length}
+                    MoveSequence={<MovesView
+                                        moveHistory={this.props.playerMovedSequence} playerState={[{colorSignifier: "blue"},{colorSignifier: "green"},{colorSignifier: "yellow"},{colorSignifier: "red"}]}
+                                  />}
+                 />
             </div>
         )
     }

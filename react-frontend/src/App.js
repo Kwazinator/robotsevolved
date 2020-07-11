@@ -265,6 +265,7 @@ class App extends React.Component {
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
+        console.log(history);
         this.setState({
             PageSelected: <DailyChallengeHistoryAnswersPage history={history}/>,
             open: isOpen
