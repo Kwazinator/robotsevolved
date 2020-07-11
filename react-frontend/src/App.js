@@ -50,6 +50,10 @@ import PuzzleRushPage from "./Pages/PuzzleRushPage";
 import LessonsPage from "./Pages/LessonsPage";
 import DailyChallengePage from "./Pages/DailyChallenge";
 import AboutUs from "./Pages/AboutUs";
+import DailyChallengeHistory from "./Pages/DailyChallengeHistory";
+import DailyChallengeHistoryAnswersPage from "./Pages/DailyChallengeHistoryAnswersPage";
+import { FaMedal } from 'react-icons/fa';
+import TimerIcon from '@material-ui/icons/Timer';
 
 const drawerWidth = 240;
 
@@ -244,6 +248,28 @@ class App extends React.Component {
         });
     };
 
+    handleClickDailyChallengeHistory = (event) => {
+        event.preventDefault();
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        this.setState({
+            PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={window.daily_challenge_history}/>,
+            open: isOpen
+        });
+    }
+
+    handleDailyPuzzleHistoryClick = history => {
+        var isOpen = true;
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            isOpen = false
+        }
+        this.setState({
+            PageSelected: <DailyChallengeHistoryAnswersPage history={history}/>,
+            open: isOpen
+        });
+    }
 
     handleClickPuzzleRushModal = (difficulty,games,p_id) => {
         var isOpen = true;
@@ -498,7 +524,7 @@ class App extends React.Component {
                                 <ListItemText primary={'Random Game'} />
                             </ListItem>
                             <ListItem button key={'Puzzle Rush'} onClick={this.handleClickPuzzleRush}>
-                                <ListItemIcon><ExtensionIcon /></ListItemIcon>
+                                <ListItemIcon><TimerIcon /></ListItemIcon>
                                 <ListItemText primary={'Puzzle Rush'} />
                             </ListItem>
                         </List>
@@ -535,13 +561,9 @@ class App extends React.Component {
                                 <ListItemIcon><AccountBoxIcon /></ListItemIcon>
                                 <ListItemText primary={'Profile'} />
                             </ListItem>
-                            <ListItem button key={'Teams'}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
-                                <ListItemText primary={'Teams'} />
-                            </ListItem>
-                            <ListItem button key={'Forum'}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
-                                <ListItemText primary={'Forum'} />
+                            <ListItem button key={'Daily Challenge History'} onClick={this.handleClickDailyChallengeHistory}>
+                                <ListItemIcon><FaMedal /></ListItemIcon>
+                                <ListItemText primary={'Daily Challenge History'} />
                             </ListItem>
                         </List>
                         <Divider />

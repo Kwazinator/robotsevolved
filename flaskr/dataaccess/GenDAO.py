@@ -135,7 +135,7 @@ class GenDAO:
             cursor.execute('SELECT * from v_daily_history')
             DCHlist = list()
             for row in cursor.fetchall():
-                DCHlist.append(Daily_Challenge_History_View(*row))
+                DCHlist.append(Daily_Challenge_History_View(*row).serialize())
             return DCHlist
         except Exception as e:
             print(e)

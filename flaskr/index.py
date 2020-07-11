@@ -53,7 +53,7 @@ def index():
     dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
     dc_id = GeneratorService().get_daily_challenge_id()
     dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
-    daily_challenge_history = GeneratorService().get_daily_challenge_history()
+    daily_challenge_history = json.dumps(GeneratorService().get_daily_challenge_history(),indent=4)
     metatagcontent = "Competetive board game Insipred by Ricochet Robots"
     urlformeta = "http://robotsevolved.com"
     if (userID is not None):
@@ -66,6 +66,8 @@ def index():
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
+
+    print(daily_challenge_history)
     return render_template('index.html',urlformeta=urlformeta,daily_challenge_history=daily_challenge_history,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, gamesview=gamesview,solutionsview=solutionsview,puzzlerushview=puzzlerushview,loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/about')
@@ -92,7 +94,7 @@ def play(uri):
     dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
     dc_id = GeneratorService().get_daily_challenge_id()
     dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
-    daily_challenge_history = GeneratorService().get_daily_challenge_history()
+    daily_challenge_history = json.dumps(GeneratorService().get_daily_challenge_history())
     metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by:" + gamefromuri['authorname'] + '\n' + gamefromuri[
         'name']
     urlformeta = "http://robotsevolved.com/play/" + uri

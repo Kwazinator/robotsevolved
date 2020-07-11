@@ -24,6 +24,7 @@ import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
 import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
 import YouWinLessonModal from '../components/YouWinLessonModal';
+import DailyChallengeHistoryData from '../components/DailyChallengeHistoryData';
 import {
     LEFT,
     RIGHT,
@@ -144,6 +145,36 @@ class Game extends React.Component {
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
             this.state.tipsText = []
+        }
+        else if (this.props.dailyChallengeModeAnswers === 'Yes') {
+            this.state = JSON.parse(this.props.games[0].g_puzzledata)
+            this.state.goals = [];
+            this.props.games.map(game => {
+                var gamedata = JSON.parse(game.g_puzzledata)
+                this.state.goals.push(gamedata.goal)
+            })
+            this.state.games = this.props.games;
+            this.state.gameWon = false;
+            this.state.ColoredLineDirections = [];
+            this.state.showBoardResetPanelModal = false;
+            this.state.copiedToClipboard = false;
+            this.state.numPuzzleon = 0;
+            this.state.createMode = 'No';
+            this.state.buildMode = false;
+            this.state.totalMovesList = [];
+            this.state.solutiondifference = [];
+            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.gamesWonDaily = [false,false,false,false];
+            this.state.moveHistoryList=[];
+
+            this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.games[0].g_solutiondata))
+            this.state.lowestMovesforPuzzle = this.props.games[0].g_moves
+            this.state.difficultyforPuzzle = this.props.games[0].g_difficulty
+            this.state.playerMovedSequence = JSON.parse(this.props.solutionDataSubmitted)[0]
+
+            this.state.playerStateList = [];
+            this.state.tipsText = [];
+            this.state.highscores = [];
         }
         else if (this.props.dailyChallengeMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
@@ -604,6 +635,9 @@ class Game extends React.Component {
                         />
                     );
                 }
+                else if (this.props.dailyChallengeModeAnswers === 'Yes') {
+                    return null
+                }
                 else if (this.props.dailyChallengeMode === 'Yes') {
                     var Won=true
                     this.state.gamesWonDaily.map((gameWon,index) => {
@@ -736,6 +770,46 @@ class Game extends React.Component {
         );
     }
 
+    handleDailyClickAnswersGame = index => {
+        var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
+        if (this.state.moveHistoryList[index]==undefined) {
+            var moveHistory = [];
+        }
+        else {
+            var moveHistory = this.state.moveHistoryList[index];
+        }
+
+        if (this.state.playerStateList[index]==undefined) {
+            puzzledata.playerState = puzzledata.playerStart.slice()
+        }
+        else {
+            puzzledata.playerState = this.state.playerStateList[index];
+        }
+        var gamesWonDaily = this.state.gamesWonDaily
+        if (this.state.gameWon) {
+            gamesWonDaily[this.state.numPuzzleon] = true
+        }
+        else {
+            gamesWonDaily[this.state.numPuzzleon] = false
+        }
+        var playerState = this.state.playerState.slice();
+        var playerStateList = this.state.playerStateList;
+        playerStateList[this.state.numPuzzleon] = playerState;
+        var moveHistoryList = this.state.moveHistoryList;
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
+        var lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.games[index].g_solutiondata))
+        var lowestMovesforPuzzle = this.props.games[index].g_moves
+        var difficultyforPuzzle = this.props.games[index].g_difficulty
+        var playerMovedSequence = JSON.parse(this.props.solutionDataSubmitted)[index]
+
+        this.setState(
+            extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory,
+                    gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonDaily: gamesWonDaily,
+                    lowestMoveSequence: lowestMoveSequence, lowestMovesforPuzzle: lowestMovesforPuzzle, difficultyforPuzzle: difficultyforPuzzle,
+                    playerMovedSequence: playerMovedSequence})
+        );
+    }
+
     handleDailyClickGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
         if (this.state.moveHistoryList[index]==undefined) {
@@ -787,6 +861,35 @@ class Game extends React.Component {
                 </Grid>
             )
         }
+        else if (this.props.dailyChallengeModeAnswers === 'Yes') {
+            return(
+                <Grid container xs={12} direction="column">
+                    <Grid item xs={12}>
+                        <ButtonGroup
+                            orientation="vertical"
+                            aria-label="vertical contained primary button group"
+                            variant="contained">
+                            {
+                                this.state.games.map((game,index) =>
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickAnswersGame}/>
+                                )
+                            }
+                        </ButtonGroup>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <DailyChallengeHistoryData
+                            lowestMovesforPuzzle={this.state.lowestMovesforPuzzle}
+                            lowestMoveSequence={this.state.lowestMoveSequence}
+                            difficultyforPuzzle={this.state.difficultyforPuzzle}
+                            nameSubmitted={this.props.nameSubmitted}
+                            playerMovedSequence={this.state.playerMovedSequence}
+                            bestScore={this.props.bestScore}
+                            scoreSubmitted={this.props.scoreSubmitted}
+                         />
+                    </Grid>
+                </Grid>
+            )
+        }
         else if (this.props.dailyChallengeMode === 'Yes') {
             return(
                 <Grid container xs={12} direction="column">
@@ -797,7 +900,7 @@ class Game extends React.Component {
                             variant="contained">
                             {
                                 this.state.games.map((game,index) =>
-                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickGame}/>
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickAnswersGame}/>
                                 )
                             }
                         </ButtonGroup>

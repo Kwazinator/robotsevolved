@@ -26,14 +26,14 @@ class Daily_Challenge_History_View:
 
     def serialize(self):
         return {
-            'created': self.created,
+            'created': self.created.strftime('%b %d %Y').lstrip("0").replace(" 0", " "),
             'dc_id': self.dc_id,
             'bestScore': self.bestScore,
             'games': self.games,
             'user_id': self.user_id,
             'nameSubmitted': self.name,
             'scoreSubmitted': self.score,
-            'submitted': self.submitted,
+            'submitted': self.submitted.strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
             'playerStateList': self.playerStateList,
             'dcsID': self.dcsID,
             'solutionDataSubmitted': self.solutiondata
