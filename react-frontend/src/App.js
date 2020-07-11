@@ -227,6 +227,9 @@ class App extends React.Component {
             isOpen = false
         }
         this.setState({
+            PageSelected: null
+        });
+        this.setState({
             showRandomGameModal: false,
             PageSelected: <RandomGamePage randomGame={'Yes'} game={game} difficulty={difficulty}/>,
             open: isOpen,
@@ -277,6 +280,9 @@ class App extends React.Component {
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
+        this.setState({
+            PageSelected: null
+        });
         this.setState({
             showPuzzleRushModal: false,
             PageSelected: <PuzzleRushPage puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
@@ -392,6 +398,13 @@ class App extends React.Component {
             mobileMenuOpen: false
         });
     };
+
+    showPage = () => {
+        console.log(this.state.PageSelected);
+        return(
+            this.state.PageSelected
+        )
+    }
 
 
     handleMobileMenuOpen = (event) => {
@@ -591,7 +604,7 @@ class App extends React.Component {
                         [classes.contentShift]: this.state.open,
                     })}>
                         <div className={classes.drawerHeader} />
-                        {this.state.PageSelected}
+                        {this.showPage()}
                     </main>
                     <LoginModal closeLoginModal={this.closeLoginModal} show={this.state.showLoginModal}/>
                     <PuzzleRushDifficultyModal

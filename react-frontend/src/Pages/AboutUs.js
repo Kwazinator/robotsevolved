@@ -13,7 +13,7 @@ export default function AboutUs(props) {
                         <h2>Kyle Kwasniewski</h2>
                         <p class="title3">Creator &amp; FullStack Dev.</p>
                         <p>This Project was made in order to learn React as a web-framework. If there are any features that you would like to see then feel free to email my personal email below.</p>
-                        <p>kwasiky at gmail dot com</p>
+                        <p>robotsevolved@gmail.com</p>
                       </div>
                     </div>
                   </div>

@@ -9,24 +9,20 @@ import IconButton from '@material-ui/core/IconButton';
 import FeedbackIcon from '@material-ui/icons/Feedback'
 import CloseIcon from '@material-ui/icons/Close'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import CloseIconWithOnClick from './CloseIconWithOnClick'
 
 export default function Descriptionlist(props) {
     return(
             <List>
               {
-                  props.tipsText.map(text =>
+                  props.tipsText.map((text,index) =>
                     <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FeedbackIcon />
-                        </Avatar>
-                      </ListItemAvatar>
                       <div>
                         {text}
                       </div>
                       <ListItemSecondaryAction>
                         <IconButton edge="end" aria-label="delete">
-                          <CloseIcon />
+                          <CloseIconWithOnClick index={index} handleClose={props.handleCloseToolTips}/>
                         </IconButton>
                       </ListItemSecondaryAction>
                     </ListItem>

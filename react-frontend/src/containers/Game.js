@@ -758,6 +758,13 @@ class Game extends React.Component {
         }
     };
 
+    handleCloseToolTips = (index) => {
+        this.state.tipsText.splice(index,1);
+        this.setState({
+            tipsText: this.state.tipsText,
+        });
+    }
+
     moveNextPuzzle = () => {
         this.handleDailyClickGame((this.state.numPuzzleon + 1) % 4)
     }
@@ -1125,6 +1132,7 @@ class Game extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={3} md={2}>
                     <DescriptionList
+                        handleCloseToolTips={this.handleCloseToolTips}
                         tipsText={this.state.tipsText}
                     />
                     {this.loadSidebar()}
