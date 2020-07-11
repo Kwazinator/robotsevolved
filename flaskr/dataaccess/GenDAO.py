@@ -97,7 +97,7 @@ class GenDAO:
     def get_daily_challenge_id(self):
         try:
             cursor = get_db().cursor()
-            cursor.execute('SELECT id FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC LIMIT 1')
+            cursor.execute('SELECT dc_id FROM daily_challenge WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC LIMIT 1')
             row = cursor.fetchone()
             return row[0]
         except Exception as e:
@@ -123,7 +123,7 @@ class GenDAO:
             db.commit()
             return 'OK'
         except Exception as e:
-            print('error in updatedailychallengesubmit')
+            print('error in update_daily_challenge_submit')
             print(e)
         finally:
             pass

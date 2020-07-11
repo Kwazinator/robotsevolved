@@ -27,7 +27,7 @@ class UserDAO:
 
     def get_user(self,userID):
         cursor = get_db().cursor()
-        cursor.execute('SELECT * from user WHERE id=%s', (userID,))
+        cursor.execute('SELECT * from user WHERE user_id=%s', (userID,))
         row = cursor.fetchone()
         if row is not None:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
@@ -35,7 +35,7 @@ class UserDAO:
             return None
     def delete_user(self, userID):
         cursor = get_db().cursor()
-        cursor.execute("UPDATE user SET activeFlag = 'N' WHERE id=%s", (userID,))
+        cursor.execute("UPDATE user SET activeFlag = 'N' WHERE user_id=%s", (userID,))
         row = cursor.fetchone()
         return
 
@@ -46,32 +46,5 @@ class UserDAO:
         row = cursor.fetchone()
         if row is not None:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
-        else:
-            return None
-
-    def get_user_games_view(self,userID):
-        cursor = get_db().cursor()
-        cursor.execute("SELECT * from GamesProfileView WHERE userID=%s",(userID,)).fetchone()
-        row = cursor.fetchone()
-        if row is not None:
-            return GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize()
-        else:
-            return None
-
-    def get_user_solutions_view(self, userID):
-        cursor = get_db().cursor()
-        cursor.execute("SELECT * from SolutionsProfileView WHERE userID=%s",(userID,)).fetchone()
-        row = cursor.fetchone()
-        if row is not None:
-            return SolutionsProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize()
-        else:
-            return None
-
-    def get_user_puzzlerush_view(self,userID):
-        cursor = get_db().cursor()
-        cursor.execute("SELECT * from PuzzleRushStatsProfileView WHERE userID=%s",(userID,)).fetchone()
-        row = cursor.fetchone()
-        if row is not None:
-            return PuzzleRushStatsProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize()
         else:
             return None

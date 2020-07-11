@@ -30,7 +30,7 @@ class GameDAO:
 
     def get_game(self,gameid):
         cursor = get_db().cursor()
-        cursor.execute('SELECT * from game WHERE id=%s',(gameid,))
+        cursor.execute('SELECT * from game WHERE game_id=%s',(gameid,))
         row = cursor.fetchone()
         return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "))
 
@@ -98,12 +98,12 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         cursor.execute('''
-        select min(numMoves), u.id as UserID, u.username as Username, u.profilePicture as profilePicture, g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+        select min(numMoves), u.user_id as UserID, u.username as Username, u.profilePicture as profilePicture, g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
         from solutions s right join
-        game g on s.gameid = g.id left join
-        `user` u on u.id = s.userid
+        game g on s.gameid = g.game_id left join
+        `user` u on u.user_id = s.userid
         where authorid = %s
-        group by g.id
+        group by g.game_id
         ''',(user_id,))
         query = cursor.fetchall()
         if query is not None:
@@ -119,12 +119,12 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         cursor.execute('''
-        select min(numMoves), g.id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+        select min(numMoves), g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
         from solutions s right join
-        game g on s.gameid = g.id left join
-        `user` u on u.id = s.userid
+        game g on s.gameid = g.game_id left join
+        `user` u on u.user_id = s.userid
         where s.userid = %s
-        group by g.id
+        group by g.game_id
         ''',(user_id,))
         query = cursor.fetchall()
         if query is not None:

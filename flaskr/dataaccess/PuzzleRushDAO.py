@@ -17,9 +17,9 @@ class PuzzleRushDAO:
         cursor = db.cursor()
         cursor.execute(
             """
-            SELECT p_id
+            SELECT pr_id
             FROM puzzle_rush
-            WHERE p_id = %s and CURRENT_TIMESTAMP() <= TIMESTAMPADD(minute, +5, p_start_time)""",
+            WHERE pr_id = %s and CURRENT_TIMESTAMP() <= TIMESTAMPADD(minute, +5, p_start_time)""",
             (p_id,))
         row = cursor.fetchone()
         if row is None:
@@ -43,7 +43,7 @@ class PuzzleRushDAO:
 
     def get_puzzle_rush(self, p_id):
         cursor = get_db().cursor()
-        cursor.execute('SELECT * FROM puzzle_rush WHERE p_id=%s', (p_id,))
+        cursor.execute('SELECT * FROM puzzle_rush WHERE pr_id=%s', (p_id,))
         row = cursor.fetchone()
         if row is not None:
             return PuzzleRush(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
@@ -81,7 +81,7 @@ class PuzzleRushDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('UPDATE puzzle_rush SET score = score + 1 WHERE p_id=%s',(p_id,))
+            cursor.execute('UPDATE puzzle_rush SET score = score + 1 WHERE pr_id=%s',(p_id,))
             db.commit()
             return 'completed'
         except Exception as e:
@@ -94,7 +94,7 @@ class PuzzleRushDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('UPDATE puzzle_rush SET totalMoves=%s,differenceFrom=%s WHERE p_id=%s',(totalMoves,differenceFrom,p_id))
+            cursor.execute('UPDATE puzzle_rush SET totalMoves=%s,differenceFrom=%s WHERE pr_id=%s',(totalMoves,differenceFrom,p_id))
             db.commit()
             return 'completed'
         except Exception as e:
