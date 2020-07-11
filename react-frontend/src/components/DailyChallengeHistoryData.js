@@ -23,7 +23,7 @@ class DailyChallengeHistoryData extends React.Component {
                     bestScore={this.props.scoreSubmitted}
                     MovesforPuzzle={this.props.playerMovedSequence.length}
                     MoveSequence={<MovesView
-                                        moveHistory={this.props.playerMovedSequence} playerState={[{colorSignifier: "blue"},{colorSignifier: "green"},{colorSignifier: "yellow"},{colorSignifier: "red"}]}
+                                        moveHistory={this.props.playerMovedSequence} playerState={[{colorSignifier: "blue"},{colorSignifier: "green"},{colorSignifier: "red"},{colorSignifier: "yellow"}]}
                                   />}
                  />
             </div>
