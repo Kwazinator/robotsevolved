@@ -54,6 +54,8 @@ import DailyChallengeHistory from "./Pages/DailyChallengeHistory";
 import DailyChallengeHistoryAnswersPage from "./Pages/DailyChallengeHistoryAnswersPage";
 import { FaMedal } from 'react-icons/fa';
 import TimerIcon from '@material-ui/icons/Timer';
+import LoadingPage from './components/LoadingPage';
+
 
 const drawerWidth = 240;
 
@@ -163,12 +165,16 @@ class App extends React.Component {
         super(props);
         if (window.uri === '') {
             this.state = {
-                PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>, //default page for website
+                PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+                dailychallengehistoryloaded: false,
+                profileDataloaded: false,
             };
         }
         else {
             this.state = {
                 PageSelected: <PlayGame name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
+                dailychallengehistoryloaded: false,
+                profileDataloaded: false,
             };
         }
         this.state.open = true;
@@ -176,12 +182,6 @@ class App extends React.Component {
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
         this.state.showPuzzleRushModal = false;
-
-        if (window.loggedin === 'Yes') {
-            this.state.gamesview = window.gamesview;
-            this.state.solutionsview = window.solutionsview;
-            this.state.puzzlerushview = window.puzzlerushview;
-        }
     }
 
     handleDrawerClose = () => {
@@ -253,14 +253,35 @@ class App extends React.Component {
 
     handleClickDailyChallengeHistory = (event) => {
         event.preventDefault();
-        var isOpen = true;
-        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-            isOpen = false
+        if (!this.state.dailychallengehistoryloaded) {
+            axios.get('/getDailyChallengeHistory')
+                .then( res => {
+                        var isOpen = true;
+                        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                            isOpen = false
+                        }
+                        var historydata = JSON.parse(res.data)
+                        this.setState({
+                            PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={historydata}/>,
+                            open: isOpen,
+                            challengeHistoryData: historydata,
+                            dailychallengehistoryloaded: true,
+                        });
+                });
+            this.setState({
+                PageSelected: <LoadingPage/>,
+            });
         }
-        this.setState({
-            PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={window.daily_challenge_history}/>,
-            open: isOpen
-        });
+        else {
+            var isOpen = true;
+            if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                isOpen = false
+            }
+            this.setState({
+                PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={this.state.challengeHistoryData}/>,
+                open: isOpen
+            });
+        }
     }
 
     handleDailyPuzzleHistoryClick = history => {
@@ -268,7 +289,6 @@ class App extends React.Component {
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
-        console.log(history);
         this.setState({
             PageSelected: <DailyChallengeHistoryAnswersPage history={history}/>,
             open: isOpen
@@ -338,16 +358,41 @@ class App extends React.Component {
 
 
     handleClickProfile = event => {
-        event.preventDefault();
-        var isOpen = true;
-        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-            isOpen = false
-        }
         if (window.loggedin === 'Yes') {
-            this.setState({
-                PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={this.state.gamesview} solutionsview={this.state.solutionsview} puzzlerushview={this.state.puzzlerushview}/>,
-                open: isOpen
-            });
+            if (!this.state.profileDataloaded) {
+                    axios.get('/getProfileData')
+                        .then( res => {
+                            var isOpen = true;
+                            if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                                isOpen = false
+                            }
+                            var profileData = res.data;
+                            var gamesview = JSON.parse(profileData.gamesview)
+                            var solutionsview = JSON.parse(profileData.solutionsview)
+                            var puzzlerushview = JSON.parse(profileData.puzzlerushview)
+                            this.setState({
+                                PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={gamesview} solutionsview={solutionsview} puzzlerushview={puzzlerushview}/>,
+                                open: isOpen,
+                                gamesview: gamesview,
+                                solutionsview: solutionsview,
+                                puzzlerushview: puzzlerushview,
+                                profileDataloaded: true,
+                            });
+                        });
+                    this.setState({
+                        PageSelected: <LoadingPage/>,
+                    });
+                }
+                else {
+                    var isOpen = true;
+                    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                        isOpen = false
+                    }
+                    this.setState({
+                        PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={this.state.gamesview} solutionsview={this.state.solutionsview} puzzlerushview={this.state.puzzlerushview}/>,
+                        open: isOpen
+                    });
+                }
         }
         else {
             this.SignInButtonPressed('Sign in');
@@ -400,7 +445,6 @@ class App extends React.Component {
     };
 
     showPage = () => {
-        console.log(this.state.PageSelected);
         return(
             this.state.PageSelected
         )

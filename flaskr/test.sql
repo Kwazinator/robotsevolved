@@ -87,11 +87,6 @@ ORDER by dc.created ASC LIMIT 10
 
 --
 --
---
---
---
---
---
 --date of daily challenge, lowest possible # of moves per puzzle, lowest possible moves per puzzle, lowest possible solution (maybe even for each puzzle and even the sequence), the uri of the puzzle.
 --top 5 submitters in order and their scores and whether or not their are verified and how many daily challenges they have won before,
 --
