@@ -177,7 +177,7 @@ class App extends React.Component {
                 profileDataloaded: false,
             };
         }
-        this.state.open = true;
+        this.state.open = false;
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
@@ -200,7 +200,6 @@ class App extends React.Component {
         const dc_playerList = window.dc_playerList == null ? null : JSON.parse(JSON.stringify(window.dc_playerList))
         this.setState({
             PageSelected: <DailyChallengePage savedMoves={dc_movesList} playerStateList={dc_playerList}/>,
-            open: isOpen
         });
     }
 
@@ -232,7 +231,6 @@ class App extends React.Component {
         this.setState({
             showRandomGameModal: false,
             PageSelected: <RandomGamePage randomGame={'Yes'} game={game} difficulty={difficulty}/>,
-            open: isOpen,
         });
     }
 
@@ -263,7 +261,6 @@ class App extends React.Component {
                         var historydata = JSON.parse(res.data)
                         this.setState({
                             PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={historydata}/>,
-                            open: isOpen,
                             challengeHistoryData: historydata,
                             dailychallengehistoryloaded: true,
                         });
@@ -279,7 +276,6 @@ class App extends React.Component {
             }
             this.setState({
                 PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={this.state.challengeHistoryData}/>,
-                open: isOpen
             });
         }
     }
@@ -291,7 +287,6 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <DailyChallengeHistoryAnswersPage history={history}/>,
-            open: isOpen
         });
     }
 
@@ -306,7 +301,6 @@ class App extends React.Component {
         this.setState({
             showPuzzleRushModal: false,
             PageSelected: <PuzzleRushPage puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
-            open: isOpen
         });
     };
 
@@ -338,7 +332,6 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <PlayGame name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>,
-            open: isOpen
         });
     };
 
@@ -352,7 +345,6 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: newGame, //if selected page is already CreateGame it wont refresh known problem
-            open: isOpen
         });
     };
 
@@ -372,7 +364,6 @@ class App extends React.Component {
                             var puzzlerushview = JSON.parse(profileData.puzzlerushview)
                             this.setState({
                                 PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={gamesview} solutionsview={solutionsview} puzzlerushview={puzzlerushview}/>,
-                                open: isOpen,
                                 gamesview: gamesview,
                                 solutionsview: solutionsview,
                                 puzzlerushview: puzzlerushview,
@@ -390,7 +381,6 @@ class App extends React.Component {
                     }
                     this.setState({
                         PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={this.state.gamesview} solutionsview={this.state.solutionsview} puzzlerushview={this.state.puzzlerushview}/>,
-                        open: isOpen
                     });
                 }
         }
@@ -408,9 +398,14 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <FindGame handleGameClick={this.handleGameClick}/>,
-            open: isOpen
         });
     };
+
+    handleHomePageClick = () => {
+        this.setState({
+            PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+        });
+    }
 
 
     handleClickAboutUs = event => {
@@ -420,19 +415,13 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <AboutUs/>,
-            open: isOpen
         });
     }
 
     handleClickLearnGame = event => {
         event.preventDefault();
-        var isOpen = true;
-        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-            isOpen = false
-        }
         this.setState({
             PageSelected: <LessonsPage/>,
-            open: isOpen
         });
 
     };
@@ -487,6 +476,7 @@ class App extends React.Component {
                             >
                                 <MenuIcon />
                             </IconButton>
+                            <img onClick={this.handleHomePageClick} width={50} height={50} src="/static/images/logo150.png"/>
                             <Typography variant="h6" className={classes.title} noWrap>
                                 <a href="/" style={{color: 'white'}}>RobotsEvolved
                                     <span>.com</span>
@@ -495,11 +485,6 @@ class App extends React.Component {
                             <div className={classes.grow} />
                             <div className={classes.sectionDesktop}>
                                 <LoggedInUser/>
-                                <IconButton aria-label="show 2 new notifications" color="inherit">
-                                    <Badge badgeContent={2} color="secondary">
-                                        <NotificationsIcon />
-                                    </Badge>
-                                </IconButton>
                             </div>
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -634,9 +619,9 @@ class App extends React.Component {
                             Tools
                         </Typography>
                         <List>
-                            <ListItem button key={'About Us'} onClick={this.handleClickAboutUs}>
+                            <ListItem button key={'About'} onClick={this.handleClickAboutUs}>
                                 <ListItemIcon><InfoIcon /></ListItemIcon>
-                                <ListItemText primary={'About Us'} />
+                                <ListItemText primary={'About'} />
                             </ListItem>
                             <ListItem button key={'Settings'}>
                                 <ListItemIcon><SettingsIcon /></ListItemIcon>

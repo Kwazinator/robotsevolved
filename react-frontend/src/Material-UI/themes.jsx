@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     marginTop: '150px',
   },
+  homepage: {
+    marginTop: '40px',
+  },
   griditems: {
     margin: 'auto',
   },
@@ -44,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
       marginTop: '150px',
   },
   iconcards: {
-    maxWidth: 345,
-    minWidth: 250,
-    float: 'left',
+    width: '250px',
+    display: 'inline-block',
     marginLeft: '40px',
     marginTop: '40px',
     marginBotton: '40px',
-    marginRight: '40px'
+    marginRight: '40px',
+    textAlign: 'center',
   },
   createboardcard: {
     ':hover': {

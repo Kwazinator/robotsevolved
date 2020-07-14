@@ -36,26 +36,26 @@ const CrownCounter = highscore => {
 
 const highscorestyle = highscore => {
     return (<Grid item xs={12}>
-        <Paper elevation={3}>
-            <Grid container spacing={0}>
-                <Grid item xs={9}>
-                    <Typography color={'primary'}>
-                        {highscore.name}
-                    </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                        {highscore.wins == 0 || highscore.wins == null ? null : CrownCounter(highscore) }
-                        {highscore.user_id != 1 ? <GoVerified/> : null}
-                </Grid>
-                <Grid item xs={6}>
-                <Typography color={'textSecondary'}>{highscore.score}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                <Typography color={'secondary'} variant={'body2'}>{highscore.submitted}</Typography>
-                </Grid>
-             </Grid>
-        </Paper>
-        </Grid>
+                <Paper elevation={3}>
+                    <Grid container spacing={0}>
+                        <Grid item xs={9}>
+                            <Typography color={'primary'} style={{float: 'left'}}>
+                                {highscore.name}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                                {highscore.wins == 0 || highscore.wins == null ? null : CrownCounter(highscore) }
+                                {highscore.user_id != 1 ? <GoVerified/> : null}
+                        </Grid>
+                        <Grid item xs={6}>
+                        <Typography color={'textSecondary'}>{highscore.score}</Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                        <Typography color={'secondary'} variant={'body2'}>{highscore.submitted}</Typography>
+                        </Grid>
+                     </Grid>
+                </Paper>
+            </Grid>
 
     )
 };
