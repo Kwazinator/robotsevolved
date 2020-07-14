@@ -32,8 +32,7 @@ class GenDAO:
             db = get_db()
             cursor = db.cursor()
             uri = uuid.uuid4().hex
-            print(uri)
-            cursor.execute('INSERT INTO generated_games (g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata) VALUES (%s,%s,%s,%s,%s,%s)',(g_name, g_difficulty, g_puzzledata, g_uri, g_moves, g_solutiondata))
+            cursor.execute('INSERT INTO generated_games (g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata) VALUES (%s,%s,%s,%s,%s,%s)',(g_name, g_difficulty, g_puzzledata, uri, g_moves, g_solutiondata))
             db.commit()
             return uri
         except Exception as e:
