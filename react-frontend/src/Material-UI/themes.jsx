@@ -55,6 +55,16 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '40px',
     textAlign: 'center',
   },
+  iconcardsDaily: {
+    maxWidth: 345,
+    minWidth: 250,
+    float: 'left',
+    marginLeft: '40px',
+    marginTop: '40px',
+    marginBotton: '40px',
+    marginRight: '40px',
+    textAlign: 'center',
+  },
   createboardcard: {
     ':hover': {
         content: '/static/images/CreateBoardCardIconPlaced.png',

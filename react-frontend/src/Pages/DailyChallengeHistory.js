@@ -21,7 +21,7 @@ export default function DailyChallengeHistory(props) {
                     {
                         props.dailychallengehistory.map(history =>
                             <Grid item xs={12} alignItems="center" justify="center">
-                                <Card className={classes.iconcards}>
+                                <Card className={classes.iconcardsDaily}>
                                   <CardActionArea onClick={props.handleClickCreateGame}>
                                     <CardContent>
                                       <Typography gutterBottom variant="caption" component="p">
