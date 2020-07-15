@@ -19,7 +19,7 @@ export default function ComplexGrid(props) {
     return (<div className={classes.homepage}>
               <Grid container spacing={4}>
                 <Grid item xs={2} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
-                    <Typography variant="h4"> Controls
+                    <Typography className={classes.titlehome} variant="h4"> Controls
                     </Typography>
                     <Divider />
                         <Typography
@@ -46,7 +46,7 @@ export default function ComplexGrid(props) {
                     <Typography>Or use mouse button to click</Typography>
                     <Divider/>
                     <div style={{marginTop:'100px'}}>
-                    <Typography variant="h4"> News
+                    <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
                     <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/1/2020
                     </Typography>
@@ -54,10 +54,11 @@ export default function ComplexGrid(props) {
 
                 </Grid>
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
-                    <Typography variant="h3"> Welcome To RobotsEvolved
+                    <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                     </Typography>
-                    <Typography> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                    <Typography variant="p2"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
                     </Typography>
+                    <br/>
                     <video width="320" height="240" autoplay muted>
                           <source src="/static/videos/tutorial.mp4" type="video/mp4"/>
                           Your browser does not support the video tag.
@@ -74,7 +75,7 @@ export default function ComplexGrid(props) {
                                   title="Create Board"
                                 />
                                 <CardContent>
-                                  <Typography gutterBottom variant="h5" component="h2">
+                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                     Create Board
                                   </Typography>
                                 </CardContent>
@@ -90,7 +91,7 @@ export default function ComplexGrid(props) {
                                   title="Find a Game"
                                 />
                                 <CardContent>
-                                  <Typography gutterBottom variant="h5" component="h2">
+                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                     Find a Game
                                   </Typography>
                                 </CardContent>
@@ -106,7 +107,7 @@ export default function ComplexGrid(props) {
                                   title="Daily Challenge"
                                 />
                                 <CardContent>
-                                  <Typography gutterBottom variant="h5" component="h2">
+                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                     Daily Challenge
                                   </Typography>
                                 </CardContent>
@@ -122,7 +123,7 @@ export default function ComplexGrid(props) {
                                   title="Play a Random Game"
                                 />
                                 <CardContent>
-                                  <Typography gutterBottom variant="h5" component="h2">
+                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                     Play a Random Game
                                   </Typography>
                                 </CardContent>
@@ -138,7 +139,7 @@ export default function ComplexGrid(props) {
                                   title="Learn"
                                 />
                                 <CardContent>
-                                  <Typography gutterBottom variant="h5" component="h2">
+                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                     Learn
                                   </Typography>
                                 </CardContent>
@@ -154,7 +155,7 @@ export default function ComplexGrid(props) {
                                   title="Contemplative Reptile"
                                 />
                                 <CardContent style={{textAlign: 'center'}}>
-                                  <Typography gutterBottom variant="h5" component="h2">
+                                  <Typography className={classes.iconfonts} gutterBottom variant="h5" component="h2">
                                     Puzzle Rush
                                   </Typography>
                                 </CardContent>
@@ -162,7 +163,7 @@ export default function ComplexGrid(props) {
                             </Card>
                 </Grid>
                 <Grid item xs={2} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
-                <Typography variant="h4"> Daily Challenge Scores
+                <Typography className={classes.titlehome} variant="h4"> Daily Challenge Scores
                 </Typography>
                 <DailyChallengeScores highscores={window.dchighscores}/>
                 </Grid>

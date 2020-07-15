@@ -65,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '40px',
     textAlign: 'center',
   },
+  titlehome: {
+    fontFamily: "'Epilogue', sans-serif",
+    marginBottom: '30px',
+  },
+  iconfonts: {
+    fontFamily: "'Arvo', serif",
+  },
   createboardcard: {
     ':hover': {
         content: '/static/images/CreateBoardCardIconPlaced.png',

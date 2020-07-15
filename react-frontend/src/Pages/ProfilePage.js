@@ -1,6 +1,7 @@
 import React from 'react';
 import Game from '../containers/Game';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import GameListItemView from '../components/GameListItemView';
 import SearchBarFindGame from '../components/SearchBarFindGame';
 import FindGameElements from '../containers/FindGameElements'
@@ -21,21 +22,18 @@ export default function ProfilePage(props) {
     const classes = useStyles();
     const [expandedGame, setExpandedGame] = React.useState(false);
     const [expandedHighscores, setExpandedHighscores] = React.useState(false);
-    const [expandedPuzzleRush, setExpandedPuzzleRush] = React.useState(false);
     const handleChangeGame = (panel) => (event, isExpandedGame) => {
         setExpandedGame(isExpandedGame ? panel : false);
     };
     const handleChangeHighscores = (panel) => (event, isExpandedHighScores) => {
         setExpandedHighscores(isExpandedHighScores ? panel : false);
     };
-    const handleChangePuzzleRush = (panel) => (event, isExpandedPuzzleRush) => {
-        setExpandedPuzzleRush(isExpandedPuzzleRush ? panel : false);
-    };
+    console.log(props.puzzlerushview);
     return (
             <div id={'GameMain'} className={classes.root}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item xs={4}>
-                        <Typography variant="h3">Games Created</Typography>
+                        <Typography className={classes.titlehome} variant="h3">Games Created</Typography>
                         {
                             props.gamesview.map((game,index) =>
                                     <ExpansionPanel expanded={expandedGame === 'panelgame' + index} onChange={handleChangeGame('panelgame' + index)}>
@@ -58,7 +56,7 @@ export default function ProfilePage(props) {
                         }
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="h3">Games Solved</Typography>
+                        <Typography className={classes.titlehome} variant="h3">Games Solved</Typography>
                         {
                             props.solutionsview.map((solution,index) =>
                                 <ExpansionPanel expanded={expandedHighscores === 'panelhigh' + index} onChange={handleChangeHighscores('panelhigh' + index)}>
@@ -81,23 +79,50 @@ export default function ProfilePage(props) {
                         }
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="h3">Puzzle Rush Data:</Typography>
-                        <ExpansionPanel expanded={expandedPuzzleRush === 'panel9'} onChange={handleChangePuzzleRush('panel9')}>
-                            <ExpansionPanelSummary
-                              expandIcon={<ExpandMoreIcon />}
-                              aria-controls="panel9bh-content"
-                              id="panel9bh-header"
-                            >
-                              <Typography className={classes.heading}>COMING SOON</Typography>
-                              <Typography className={classes.secondaryHeading}>COMING SOON</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
+                        <Typography className={classes.titlehome} variant="h3">Puzzle Rush Data:</Typography>
+                        <Paper>
+                              <Typography className={classes.heading}>Easy</Typography>
+                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxeasy}</Typography>
                               <Typography>
-                                Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-                                maximus est, id dignissim quam.
+                                Average Score: {props.puzzlerushview.averageeasy}
                               </Typography>
-                            </ExpansionPanelDetails>
-                          </ExpansionPanel>
+                              <Typography>
+                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffeasy}
+                              </Typography>
+                          </Paper>
+                          <br/>
+                          <Paper>
+                              <Typography className={classes.heading}>Medium</Typography>
+                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxmedium}</Typography>
+                              <Typography>
+                                Average Score: {props.puzzlerushview.averagemedium}
+                              </Typography>
+                              <Typography>
+                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffmedium}
+                              </Typography>
+                            </Paper>
+                            <br/>
+                            <Paper>
+                              <Typography className={classes.heading}>Hard</Typography>
+                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxhard}</Typography>
+                              <Typography>
+                                Average Score: {props.puzzlerushview.averagehard}
+                              </Typography>
+                              <Typography>
+                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffhard}
+                              </Typography>
+                            </Paper>
+                            <br/>
+                            <Paper>
+                              <Typography className={classes.heading}>Extremely Hard</Typography>
+                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxexhard}</Typography>
+                              <Typography>
+                                Average Score: {props.puzzlerushview.averageexhard}
+                              </Typography>
+                              <Typography>
+                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffexhard}
+                              </Typography>
+                            </Paper>
                     </Grid>
                 </Grid>
             </div>

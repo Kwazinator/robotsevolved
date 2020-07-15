@@ -53,12 +53,23 @@ class PuzzleRushDAO:
     def get_puzzle_rush_profile_view(self, user_id):
         cursor = get_db().cursor()
         cursor.execute('''
-        select AVG(score), AVG(totalMoves), AVG(differenceFrom) from puzzle_rush pr
-        where user_id = %s and totalMoves is not null
-        ''', (user_id,))
+        select
+        (select MAX(score) from puzzle_rush pr1 where difficulty='easy' and user_id=%s),
+        (select MAX(score) from puzzle_rush where difficulty='medium' and user_id=%s),
+        (select MAX(score) from puzzle_rush where difficulty='hard' and user_id=%s),
+        (select MAX(score) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s),
+        (select AVG(score) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null),
+        (select AVG(score) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null),
+        (select AVG(score) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null),
+        (select AVG(score) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null),
+        (select AVG(differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null),
+        (select AVG(differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null),
+        (select AVG(differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null),
+        (select AVG(differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null)
+        ''', (user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id))
         row = cursor.fetchone()
         if row is not None:
-            return PuzzleRushStatsProfileView(row[0],row[1],row[2]).serialize()
+            return PuzzleRushStatsProfileView(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11]).serialize()
         else:
             return None
 
