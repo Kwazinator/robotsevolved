@@ -59,10 +59,7 @@ export default function ComplexGrid(props) {
                     <Typography variant="p2"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
                     </Typography>
                     <br/>
-                    <video width="320" height="240" autoplay muted>
-                          <source src="/static/videos/tutorial.mp4" type="video/mp4"/>
-                          Your browser does not support the video tag.
-                    </video>
+                        <img width="400" height="225" src='/static/videos/basic.gif'/>
                     <br/>
                     <Card className={classes.iconcards}>
                               <CardActionArea onClick={props.handleClickCreateGame}>
