@@ -12,9 +12,161 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import DailyChallengeScores from '../components/DailyChallengeScores';
 import Divider from '@material-ui/core/Divider';
+import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import SearchIcon from '@material-ui/icons/Search';
+import TimerIcon from '@material-ui/icons/Timer';
+import CasinoIcon from '@material-ui/icons/Casino';
+import TodayIcon from '@material-ui/icons/Today';
+import SchoolIcon from '@material-ui/icons/School';
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import FindGameElements from "../containers/FindGameElements";
+
 
 export default function ComplexGrid(props) {
     const classes = useStyles();
+
+    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+        return (<div className={classes.homepage} >
+                <Grid container spacing={2}>
+                    <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
+                        <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
+                        </Typography>
+                        <Typography variant="p2"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                        </Typography>
+                        <br/>
+                        <img width="400" height="225" src='/static/videos/basic.gif'/>
+                        <br/>
+                    </Grid>
+                    <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
+                        <Typography className={classes.titlehome} variant="h4"> News
+                        </Typography>
+                        <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/1/2020
+                        </Typography>
+                    </Grid>
+                    <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickCreateGame}>
+                                    <CardMedia
+                                        className={classes.createboardcard}
+                                        component="img"
+                                        alt="Create Board"
+                                        height="140"
+                                        image="/static/images/CreateBoardCardIcon.png"
+                                        title="Create Board"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Create Board
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickFindGame}>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Find a Game"
+                                        height="140"
+                                        image="/static/images/FindAGameCardIcon.png"
+                                        title="Find a Game"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Find a Game
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickDailyChallenge}>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Create Board"
+                                        height="140"
+                                        image="/static/images/DailyChallengeIcon.png"
+                                        title="Daily Challenge"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Daily Challenge
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickRandomGame}>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Play a Random Game"
+                                        height="140"
+                                        image="/static/images/puzzle.png"
+                                        title="Play a Random Game"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Play a Random Game
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickLearnGame}>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Create Board"
+                                        height="140"
+                                        image="/static/images/LessonsBoardCardIcon.png"
+                                        title="Learn"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Learn
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickPuzzleRush}>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Contemplative Reptile"
+                                        height="140"
+                                        image="/static/images/PuzzleRushIcon.png"
+                                        title="Contemplative Reptile"
+                                    />
+                                    <CardContent style={{textAlign: 'center'}}>
+                                        <Typography className={classes.iconfonts} gutterBottom variant="h5" component="h2">
+                                            Puzzle Rush
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
+                        <Typography className={classes.titlehome} variant="h4"> Daily Challenge Scores
+                        </Typography>
+                        <DailyChallengeScores highscores={window.dchighscores}/>
+                    </Grid>
+                </Grid>
+
+            </div>
+        )
+    }
 
     return (<div className={classes.homepage}>
               <Grid container spacing={4}>
@@ -111,53 +263,53 @@ export default function ComplexGrid(props) {
                               </CardActionArea>
                             </Card>
                             <Card className={classes.iconcards}>
-                              <CardActionArea onClick={props.handleClickRandomGame}>
-                                <CardMedia
-                                  component="img"
-                                  alt="Play a Random Game"
-                                  height="140"
-                                  image="/static/images/puzzle.png"
-                                  title="Play a Random Game"
-                                />
-                                <CardContent>
-                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                    Play a Random Game
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                            <Card className={classes.iconcards}>
-                              <CardActionArea onClick={props.handleClickLearnGame}>
-                                <CardMedia
-                                  component="img"
-                                  alt="Create Board"
-                                  height="140"
-                                  image="/static/images/LessonsBoardCardIcon.png"
-                                  title="Learn"
-                                />
-                                <CardContent>
-                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                    <CardActionArea onClick={props.handleClickRandomGame}>
+                        <CardMedia
+                            component="img"
+                            alt="Play a Random Game"
+                            height="140"
+                            image="/static/images/puzzle.png"
+                            title="Play a Random Game"
+                        />
+                        <CardContent>
+                            <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                Play a Random Game
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+                    <Card className={classes.iconcards}>
+                        <CardActionArea onClick={props.handleClickLearnGame}>
+                            <CardMedia
+                                component="img"
+                                alt="Create Board"
+                                height="140"
+                                image="/static/images/LessonsBoardCardIcon.png"
+                                title="Learn"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                     Learn
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                            <Card className={classes.iconcards}>
-                              <CardActionArea onClick={props.handleClickPuzzleRush}>
-                                <CardMedia
-                                  component="img"
-                                  alt="Contemplative Reptile"
-                                  height="140"
-                                  image="/static/images/PuzzleRushIcon.png"
-                                  title="Contemplative Reptile"
-                                />
-                                <CardContent style={{textAlign: 'center'}}>
-                                  <Typography className={classes.iconfonts} gutterBottom variant="h5" component="h2">
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                    <Card className={classes.iconcards}>
+                        <CardActionArea onClick={props.handleClickPuzzleRush}>
+                            <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="140"
+                                image="/static/images/PuzzleRushIcon.png"
+                                title="Contemplative Reptile"
+                            />
+                            <CardContent style={{textAlign: 'center'}}>
+                                <Typography className={classes.iconfonts} gutterBottom variant="h5" component="h2">
                                     Puzzle Rush
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
                 </Grid>
                 <Grid item xs={2} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                 <Typography className={classes.titlehome} variant="h4"> Daily Challenge Scores

@@ -1054,7 +1054,7 @@ class Game extends React.Component {
                     />
                     <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
                 </Grid>
-                <Grid item xs={12} sm={6} md={8}>
+                <Grid item xs={12} sm={6} md={8} zeroMinWidth>
                     <Board width={this.state.width * this.state.squareSize} height={this.state.height * this.state.squareSize}>
                         {
                             this.state.boardState.map(square =>

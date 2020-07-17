@@ -70,7 +70,6 @@ class FindGame extends React.Component {
         var searchTerm = this.searchRef.value;
         axios.post('/search', {search: searchTerm, offset: 0})
             .then( res => {
-                console.log(res);
                 this.setState({
                     highscoreslist: JSON.parse(res.data.highscoreslist),
                     gameslist: JSON.parse(res.data.gameslist)
