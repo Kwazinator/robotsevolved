@@ -67,6 +67,20 @@ class GenDAO:
         finally:
             pass
 
+
+    def get_game_uri(self,uri):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT * from generated_games WHERE g_id=(SELECT g_id from generated_games where g_uri=%s)',(uri,))
+            return cursor.fetchone()
+        except Exception as e:
+            print('error in insert daily challenge submit')
+            print(e)
+        finally:
+            pass
+
+
     def get_daily_challenge_highscores(self,dc_id):
         cursor = get_db().cursor()
         highscores = list()

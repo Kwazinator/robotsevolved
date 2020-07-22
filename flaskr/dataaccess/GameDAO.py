@@ -43,6 +43,15 @@ class GameDAO:
         else:
             return 0
 
+    def update_highscore(self,solution_id,gameid, name, userid, authorname, solutiondata, highscore):
+        db = get_db()
+        cursor = db.cursor()
+        row = cursor.execute(
+            'UPDATE solutions SET solutiondata=%s,numMoves=%s WHERE solutions_id=%s',
+            (solutiondata,highscore,solution_id))
+        db.commit()
+        return "Completed"
+
     def insert_highscore(self,gameid,name,userid,authorname,solutiondata,highscore):
         db = get_db()
         cursor = db.cursor()

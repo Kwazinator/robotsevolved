@@ -84,8 +84,15 @@ def getdailychallengehistory():
 @jwt_optional
 def play(uri):
     gamefromuri = GameService().get_game_uri(uri)
+    if 'g_id' not in gamefromuri.keys():
+        highscores = json.dumps(GameService().get_highscores(uri))
+        authorname = gamefromuri['authorname']
+        name = gamefromuri['name']
+    else:
+        highscores = '[]'
+        authorname = ' Random Generated'
+        name = gamefromuri['g_difficulty']
     data = json.dumps(gamefromuri)
-    highscores = json.dumps(GameService().get_highscores(uri))
     get_games_data_value = get_games_data(50,0)
     userID = get_jwt_identity()
     user = None
@@ -96,8 +103,7 @@ def play(uri):
     dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
     dc_id = GeneratorService().get_daily_challenge_id()
     dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
-    metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by:" + gamefromuri['authorname'] + '\n' + gamefromuri[
-        'name']
+    metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + authorname + '\n' + name
     urlformeta = "http://robotsevolved.com/play/" + uri
     if (userID is not None):
         user = UserService().get_user(get_jwt_identity()).serialize()

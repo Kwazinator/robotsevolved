@@ -35,7 +35,10 @@ class DisplayView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { copyButtonText: "Copy Puzzle Link" };
+        this.state = {
+                        copyButtonText: "Copy Puzzle Link"
+                     };
+        this.state.uri = this.props.isDailyChallenge === 'Yes' ? 'dailychallenge' : this.props.uri;
     }
 
     isCreateMode = (createMode) => {
@@ -63,7 +66,7 @@ class DisplayView extends React.Component {
     copyToClipboard = () => {
         var dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
-        dummy.value = 'http://' + window.location.host + '/play/' + this.props.uri;
+        dummy.value = 'http://' + window.location.host + '/play/' + this.state.uri;
         dummy.select();
         document.execCommand("copy");
         document.body.removeChild(dummy);
@@ -88,33 +91,24 @@ class DisplayView extends React.Component {
         this.props.DimensionChanged(dimension);
     };
 
-    puzzleRush = () => {
-        if (this.props.isPuzzleRush === 'Yes'){
-            return (
-                     <div>
-                        <Typography id="discrete-slider-small-steps"
-                                     color="textSecondary"
-                                     display="inline"
-                                     gutterBottom>
-                             Puzzles: {this.props.numPuzzleRush}
-                         </Typography>
-                        <Timer puzzleRushTimeUp={this.props.puzzleRushTimeUp}>
-                        </Timer>
-                     </div>
-            )
+    showPuzzleLink = () => {
+        if (this.props.createMode === 'Yes' || this.props.isPuzzleRush === 'Yes' || this.props.isLesson === 'Yes' || this.props.isDailyChallengeAnswers === 'Yes' || this.props.isDailyChallenge === 'Yes') {
+            return null;
         }
         else {
-            return null
+                return(
+                     <div style={{paddingBottom: '10px'}}>
+                         <Button fullWidth={true} variant="contained" color="secondary" style={{marginRight: "10px"}}
+                                 onClick={this.copyToClipboard}>{this.state.copyButtonText}</Button>
+                     </div>
+                    )
         }
     }
 
      render() {
          return (
              <div style={controlpanel()}>
-                 <div style={{paddingBottom: '10px'}}>
-                     <Button fullWidth={true} variant="contained" color="secondary" style={{marginRight: "10px"}}
-                             onClick={this.copyToClipboard}>{this.state.copyButtonText}</Button>
-                 </div>
+                {this.showPuzzleLink()}
                  <Divider />
                  <Typography
                      color="textSecondary"
@@ -150,7 +144,6 @@ class DisplayView extends React.Component {
                          id="sliderelement"
                      />
                  </div>
-                 {this.puzzleRush()}
                  <Divider/>
              </div>
          )

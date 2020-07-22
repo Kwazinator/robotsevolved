@@ -1,5 +1,7 @@
 from flaskr.dataaccess.GameDAO import GameDAO
 from flaskr.dataaccess.entities.Game import Game
+from flaskr.dataaccess.entities.Gen import Gen
+from flaskr.dataaccess.GenDAO import GenDAO
 import json
 import datetime
 from flask import current_app
@@ -27,25 +29,36 @@ class GameService:
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
         scoreList = GameDAO().get_highscores(game.id)
-        duplicateScore = False
+        UpdateUserScore = False
         rtnMessage = ""
-
+        userSubmitted = False
+        idtoupdate = None
         for Solution in scoreList:
-            if (Solution['numMoves'] == highscore and Solution['comment'] == name):
-                duplicateScore = True
+            if (Solution['numMoves'] == highscore and Solution['comment'] == name and userid == 1):
+                return "Duplicate highscore cannot be submitted."
+            if (Solution['numMoves'] >= highscore and Solution['userid'] == userid and userid != 1):
+                UpdateUserScore = True
+                idtoupdate = Solution['id']
+            if (Solution['userid'] == userid):
+                userSubmitted = True
         gameid = game.id
-        if(not duplicateScore):
-            GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
-            rtnMessage = "Submitted"
-            return rtnMessage
+        if (UpdateUserScore):
+            return GameDAO().update_highscore(idtoupdate,gameid, name, userid, authorname, solutiondata, highscore)
         else:
-            rtnMessage = "Duplicate highscore cannot be submitted."
-            return rtnMessage
+            if (not userSubmitted or userid==1):
+                GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
+                rtnMessage = "Submitted"
+                return rtnMessage
+            else:
+                return 'not a higher score'
 
     def get_game_uri(self,uri):
         row = GameDAO().get_game_uri(uri)
         if row is None:
-            return {'uri': ''}
+            generated = GenDAO().get_game_uri(uri)
+            if generated is None:
+                return {'uri': ''}
+            return Gen(generated[0],generated[1],generated[2],generated[3],generated[4],generated[5],generated[6]).serialize()
         else:
             return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7]).serialize()
 

@@ -1,6 +1,13 @@
 import React from 'react';
 import MovesView from '../components/MovesView';
 import ShowDailyChallengeScoreCard from '../components/ShowDailyChallengeScoresCard'
+import Typography from '@material-ui/core/Typography';
+
+const stylebelow = () => {
+    return {
+        marginTop: '40px'
+    }
+}
 
 class DailyChallengeHistoryData extends React.Component {
 
@@ -11,7 +18,7 @@ class DailyChallengeHistoryData extends React.Component {
     render() {
         return (
             <div>
-                Difficulty of: {this.props.difficultyforPuzzle}
+                <Typography style={stylebelow()} variant="h4"> {this.props.difficultyforPuzzle} </Typography>
                 <ShowDailyChallengeScoreCard
                     name={"Robit God"}
                     bestScore={this.props.bestScore}

@@ -34,7 +34,7 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                         <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                         </Typography>
-                        <Typography variant="p2"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                        <Typography variant="p2" paragraph={true}> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
                         </Typography>
                         <br/>
                         <img width="400" height="225" src='/static/videos/basic.gif'/>

@@ -171,13 +171,22 @@ class App extends React.Component {
             };
         }
         else {
-            this.state = {
-                PageSelected: <PlayGame name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
-                dailychallengehistoryloaded: false,
-                profileDataloaded: false,
-            };
+            if (window.token.g_id == undefined) {
+                this.state = {
+                    PageSelected: <PlayGame name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
+                    dailychallengehistoryloaded: false,
+                    profileDataloaded: false,
+                };
+            }
+            else {
+                this.state = {
+                    PageSelected: <RandomGamePage randomGame={'Yes'} game={window.token} difficulty={window.token.g_difficulty}/>,
+                    dailychallengehistoryloaded: false,
+                    profileDataloaded: false,
+                }
+            }
         }
-        this.state.open = false;
+        this.state.open = true;
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;

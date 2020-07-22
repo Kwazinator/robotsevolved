@@ -25,6 +25,7 @@ import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
 import YouWinLessonModal from '../components/YouWinLessonModal';
 import DailyChallengeHistoryData from '../components/DailyChallengeHistoryData';
+import Timer from "../components/Timer";
 import {
     LEFT,
     RIGHT,
@@ -220,7 +221,9 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.ColoredLineDirections = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width);
-            this.state.tipsText = ['this game was randomly generated']
+            this.state.tipsText = ['this game was randomly generated'];
+            this.state.uri = this.props.game.g_uri;
+            window.history.pushState({id: 'Random Game'},'RobotsEvolved | Random Game','/play/' + this.props.game.g_uri)
         }
         else if (this.props.learnMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].puzzledata)
@@ -249,6 +252,7 @@ class Game extends React.Component {
             this.state.copiedToClipboard = false;
             this.state.squareSize = setDefaultSquareSize(this.state.width);
             this.state.tipsText = []
+            window.history.pushState({id: 'Play Game'},'RobotsEvolved | Play Game','/play/'+ this.props.uri)
         }
         else {
             var squareSize = 40;
@@ -919,10 +923,25 @@ class Game extends React.Component {
             )
         }
         else if (this.state.createMode === 'Yes') {
-            return null
+            return null;
         }
         else if (this.props.randomGame === 'Yes') {
-            return null
+            return null;
+        }
+        else if (this.props.puzzleRush) {
+            return (
+                     <div>
+                        <Timer puzzleRushTimeUp={this.puzzleRushTimeUp}>
+                        </Timer>
+                        <Typography id="discrete-slider-small-steps"
+                                     color="Primary"
+                                     variant="h3"
+                                     display="inline"
+                                     gutterBottom>
+                             {this.state.numPuzzleon}
+                         </Typography>
+                     </div>
+            );
         }
         else {
             return(
@@ -1051,6 +1070,9 @@ class Game extends React.Component {
                         undoMove = {this.handleUndoMove}
                         buildMode = {this.state.buildMode}
                         squareSizeValue = {parseInt((this.state.squareSize/4))}
+                        isLesson = {this.props.learnMode}
+                        isDailyChallenge = {this.props.dailyChallengeMode}
+                        isDailyChallengeAnswers = {this.props.dailyChallengeModeAnswers}
                     />
                     <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
                 </Grid>
