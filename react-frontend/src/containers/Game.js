@@ -1,4 +1,5 @@
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router';
@@ -863,9 +864,46 @@ class Game extends React.Component {
                         orientation="vertical"
                         aria-label="vertical contained primary button group"
                         variant="contained">
+                        <Divider/>
+                        <Typography
+                             color="textSecondary"
+                             display="block"
+                             variant="caption"
+                             style={{paddingBottom: '10px'}}
+                         >
+                             Beginner Lessons
+                         </Typography>
                         {
-                            this.state.games.map((game,index) =>
-                                    <LearnGameItems selected={this.state.numPuzzleon} game={game} name={game.name} index={index} handleClickGame={this.handleLearnClickGame}/>
+                            this.state.games.map((game,index) => {
+                                    if (index === 4) {
+                                        return(
+                                                <Typography
+                                                     color="textSecondary"
+                                                     display="block"
+                                                     variant="caption"
+                                                     style={{paddingBottom: '10px', paddingTop: '30px'}}
+                                                 >
+                                                     Intermediate Lessons
+                                                 </Typography>
+                                        )
+                                    }
+                                    else if (index === 7) {
+                                            return(
+                                                <Typography
+                                                     color="textSecondary"
+                                                     display="block"
+                                                     variant="caption"
+                                                     style={{paddingBottom: '10px', paddingTop: '30px'}}
+                                                 >
+                                                     Advanced Lessons
+                                                 </Typography>
+                                        )
+                                    }
+                                    return(
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={game.name} index={index} handleClickGame={this.handleLearnClickGame}/>
+                                    )
+                                }
+
                             )
                         }
                     </ButtonGroup>

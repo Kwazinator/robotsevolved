@@ -594,10 +594,6 @@ class App extends React.Component {
                                 <ListItemIcon><SchoolIcon /></ListItemIcon>
                                 <ListItemText primary={'Lessons'} />
                             </ListItem>
-                            <ListItem button key={'Starter Puzzles'}>
-                                <ListItemIcon><WarningIcon /></ListItemIcon>
-                                <ListItemText primary={'Starter Puzzles'} />
-                            </ListItem>
                         </List>
                         <Divider />
                         <Typography
@@ -631,10 +627,6 @@ class App extends React.Component {
                             <ListItem button key={'About'} onClick={this.handleClickAboutUs}>
                                 <ListItemIcon><InfoIcon /></ListItemIcon>
                                 <ListItemText primary={'About'} />
-                            </ListItem>
-                            <ListItem button key={'Settings'}>
-                                <ListItemIcon><SettingsIcon /></ListItemIcon>
-                                <ListItemText primary={'Settings'} />
                             </ListItem>
                         </List>
                     </Drawer>
