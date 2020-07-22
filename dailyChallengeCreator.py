@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 totalMoves = 0
                 listid = list()
                 for daypuzzle in daypuzzles:
-                    print('found ' + daypuzzle['difficulty'] + ' puzzle of ' + daypuzzle['moves'] + ' moves')
+                    print('found ' + str(daypuzzle['difficulty']) + ' puzzle of ' + str(daypuzzle['moves']) + ' moves')
                     totalMoves += daypuzzle['moves']
                     listid.append(GeneratorService().insert_puzzle('dailyChallenge', daypuzzle['difficulty'], daypuzzle['puzzledata'], 'abcdefg', daypuzzle['moves'], daypuzzle['solutiondata']))
                 random.shuffle(listid)
