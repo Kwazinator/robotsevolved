@@ -27,6 +27,15 @@ class GenDAO:
             puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize())
         return puzzleList
 
+    def insert_daily_challenge(self,date,id1,id2,id3,id4,bestScore):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute(
+            'INSERT INTO daily_challenge (created, g_id1, g_id2, g_id3, g_id4,bestScore) VALUES (%s,%s,%s,%s,%s,%s)',
+            (date,id1,id2,id3,id4,bestScore))
+        db.commit()
+        return None
+
     def insertPuzzles(self, g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata):
         try:
             db = get_db()
@@ -34,7 +43,7 @@ class GenDAO:
             uri = uuid.uuid4().hex
             cursor.execute('INSERT INTO generated_games (g_name, g_difficulty, g_puzzledata, g_uri, g_moves,g_solutiondata) VALUES (%s,%s,%s,%s,%s,%s)',(g_name, g_difficulty, g_puzzledata, uri, g_moves, g_solutiondata))
             db.commit()
-            return uri
+            return cursor.lastrowid
         except Exception as e:
             print('Error in GenDAO().insertPuzzles')
             print(e)

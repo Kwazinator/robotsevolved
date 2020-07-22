@@ -25,6 +25,9 @@ class GeneratorService:
             returnlist.append(GenDAO().get_puzzle_by_id(game))
         return returnlist
 
+    def insert_daily_challenge(self, date,id1,id2,id3,id4,bestScore):
+        return GenDAO().insert_daily_challenge(date,id1,id2,id3,id4,bestScore)
+
     def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id, playerStateList):
         submitted = GenDAO().check_current_daily_submit(userid,dc_id)
         if userid == 1:
