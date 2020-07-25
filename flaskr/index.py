@@ -59,11 +59,17 @@ def index():
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
-    return render_template('index.html',urlformeta=urlformeta,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', highscoreslist=json.dumps(get_games_data_value[1]), uri='',gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',urlformeta=urlformeta,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='')
 
 @bp.route('/about')
 def about():
     return 'yolo'
+
+@bp.route('/getFindGames')
+def getFindGames():
+    get_games_data_value = get_games_data(50, 0)
+    return jsonify(gameslist=json.dumps(get_games_data_value[0]), highscoreslist=json.dumps(get_games_data_value[1]))
+
 
 @bp.route('/getProfileData')
 @jwt_required
@@ -112,7 +118,7 @@ def play(uri):
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
-    return render_template('index.html',urlformeta=urlformeta,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores,highscoreslist=json.dumps(get_games_data_value[1]), uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',urlformeta=urlformeta,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional

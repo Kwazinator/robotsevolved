@@ -39,10 +39,8 @@ class FindGame extends React.Component {
 
     constructor(props) {
         super(props);
-        var gameslist = window.gameslist;
-        var highscoreslist = window.highscoreslist;
-        console.log(gameslist);
-        console.log(highscoreslist);
+        var gameslist = this.props.gameslist;
+        var highscoreslist = this.props.highscoreslist;
         this.state = {
             gameslist: gameslist,
             highscoreslist: highscoreslist,
