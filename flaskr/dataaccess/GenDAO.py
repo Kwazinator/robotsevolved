@@ -12,12 +12,12 @@ class GenDAO:
     def __init__(self):
         pass
 
-    def getPuzzles (self, upper_bound, lower_bound, numPuzzles):
+    def getPuzzles (self, upper_bound, lower_bound, numPuzzles,type):
         cursor = get_db().cursor()
         puzzleList = list()
         cursor.execute(
             'SELECT g_id FROM generated_games WHERE g_name = %s AND g_moves BETWEEN %s AND %s order by RAND() LIMIT %s',
-            ('algo', lower_bound, upper_bound, numPuzzles))
+            (type, lower_bound, upper_bound, numPuzzles))
         idlist = list()
         for row in cursor.fetchall():
             idlist.append(row[0])

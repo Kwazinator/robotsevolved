@@ -121,8 +121,9 @@ INSERT into `Robots-Dev`.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VAL
 --DB MIGRATION
 select * from `Robots-Dev`.generated_games gg WHERE g_uri!='abcdefg' LIMIT 1
 DELETE from `Robots-Dev`.generated_games WHERE g_uri='abcdefg';
-DELETE from `Robots-Dev`.puzzle_rush_to_generated_games WHERE 1=1;
-DELETE from `Robots-Dev`.puzzle_rush WHERE 1=1;
-DELETE from `Robots-Dev`.daily_challenge_submit WHERE 1=1;
-DELETE from `Robots-Dev`.daily_challenge WHERE 1=1;
+DELETE from `Robots`.generated_games WHERE 1=1;
+DELETE from `Robots`.puzzle_rush_to_generated_games WHERE 1=1;
+DELETE from `Robots`.puzzle_rush WHERE 1=1;
+DELETE from `Robots`.daily_challenge_submit WHERE 1=1;
+DELETE from `Robots`.daily_challenge WHERE 1=1;
 INSERT into `Robots-Dev`.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (1,2,3,4,41);

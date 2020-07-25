@@ -176,5 +176,6 @@ def search():
 @jwt_optional
 def randomgame():
     difficulty = request.args['difficulty']
-    game = PuzzleRushService().get_random_game(difficulty)
+    type = request.args['type']
+    game = PuzzleRushService().get_random_game(difficulty,type)
     return jsonify(game=json.dumps(game))

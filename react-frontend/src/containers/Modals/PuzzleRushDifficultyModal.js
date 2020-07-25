@@ -4,6 +4,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Input from "@material-ui/core/Input";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -14,6 +15,11 @@ import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 
 const divStyle = () => {
@@ -30,6 +36,7 @@ class PuzzleRushDifficultyModal extends React.Component {
         super(props);
         this.state = {
             isLoading: false,
+            value: 'classic',
         }
     }
 
@@ -39,7 +46,7 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickPuzzleRushModal = (difficulty) => {
         console.log(difficulty)
-        axios.post('/puzzlerush', {difficulty: difficulty, action: 'start'})
+        axios.post('/puzzlerush', {difficulty: difficulty, action: 'start',type: this.state.value})
                 .then( res => {
                         var games = JSON.parse(res.data.games);
                         var p_id = res.data.p_id;
@@ -52,7 +59,7 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickEasyPuzzleRush = (event) => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('easy')
+        this.handleClickPuzzleRushModal('easy',this.state.value)
         this.setState({
             isLoading: true
         })
@@ -60,7 +67,7 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickMediumPuzzleRush = (event) => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('medium')
+        this.handleClickPuzzleRushModal('medium',this.state.value)
         this.setState({
             isLoading: true
         })
@@ -68,7 +75,7 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickHardPuzzleRush = (event) => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('hard')
+        this.handleClickPuzzleRushModal('hard',this.state.value)
         this.setState({
             isLoading: true
         })
@@ -76,10 +83,16 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     handleClickExHardPuzzleRush = (event) => {
         event.preventDefault();
-        this.handleClickPuzzleRushModal('Exteremly Hard')
+        this.handleClickPuzzleRushModal('Exteremly Hard',this.state.value)
         this.setState({
             isLoading: true
         })
+    }
+
+    handleChange = (event) => {
+        this.setState(
+            {value: event.target.value}
+        )
     }
 
 
@@ -110,30 +123,38 @@ class PuzzleRushDifficultyModal extends React.Component {
                                     <Grid
                                         container xs={12}
                                         spacing={4}
-                                        direction="column"
                                         alignItems="center"
                                         justify="center"
                                         wrap="nowrap"
                                     >
-                                         <Grid item xs={12}>
+                                         <Grid item xs={6}>
+                                         <ButtonGroup
+                                            orientation="vertical"
+                                            color="primary"
+                                            aria-label="vertical outlined primary button group"
+                                          >
                                             <Button onClick={this.handleClickEasyPuzzleRush} variant="contained" color="primary">
                                                 Easy
                                             </Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
                                             <Button onClick={this.handleClickMediumPuzzleRush} variant="contained" color="primary">
                                                 Medium
                                             </Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
                                             <Button onClick={this.handleClickHardPuzzleRush} variant="contained" color="primary">
                                                 Hard
                                             </Button>
-                                        </Grid>
-                                        <Grid item xs={12}>
                                             <Button onClick={this.handleClickExHardPuzzleRush} variant="contained" color="primary">
                                                 Exteremely Hard
                                             </Button>
+                                          </ButtonGroup>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <FormControl component="fieldset">
+                                              <FormLabel component="legend">Game Type</FormLabel>
+                                              <RadioGroup aria-label="game type" name="gametype" value={this.state.value} onChange={this.handleChange}>
+                                                <FormControlLabel value="classic" control={<Radio />} label="Classic" />
+                                                <FormControlLabel value="random" control={<Radio />} label="Random" />
+                                              </RadioGroup>
+                                            </FormControl>
                                         </Grid>
                                     </Grid>
                             )}
