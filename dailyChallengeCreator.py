@@ -40,10 +40,15 @@ if __name__ == "__main__":
         NotFound = True
         for puzzleday in weekly:
             daypuzzles = list()
+            classicorrandom = ['c', 'r', 'r', 'c']
+            random.shuffle(classicorrandom)
             for difficultypuzzle in week[puzzleday]:
                 NotFound = True
                 while (NotFound):
-                    solution = generator.solver(generator.boardgeneratorclassic())
+                    if classicorrandom[-1] == 'c':
+                        solution = generator.solver(generator.boardgeneratorclassic())
+                    else:
+                        solution = generator.solver(generator.boardgenerator())
                     moves = solution['moves']
                     solutiondata = solution['solutiondata']
                     if (moves >= 23):
@@ -68,6 +73,7 @@ if __name__ == "__main__":
                             }
                         )
                         NotFound = False
+                        classicorrandom.pop()
             app = flaskr.create_app()
             with app.app_context():
                 totalMoves = 0
