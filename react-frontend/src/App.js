@@ -260,33 +260,22 @@ class App extends React.Component {
 
     handleClickDailyChallengeHistory = (event) => {
         event.preventDefault();
-        if (!this.state.dailychallengehistoryloaded) {
-            axios.get('/getDailyChallengeHistory')
-                .then( res => {
-                        var isOpen = true;
-                        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-                            isOpen = false
-                        }
-                        var historydata = JSON.parse(res.data)
-                        this.setState({
-                            PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={historydata}/>,
-                            challengeHistoryData: historydata,
-                            dailychallengehistoryloaded: true,
-                        });
-                });
-            this.setState({
-                PageSelected: <LoadingPage/>,
+        axios.get('/getDailyChallengeHistory')
+            .then( res => {
+                    var isOpen = true;
+                    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                        isOpen = false
+                    }
+                    var historydata = JSON.parse(res.data)
+                    this.setState({
+                        PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={historydata}/>,
+                        challengeHistoryData: historydata,
+                        dailychallengehistoryloaded: true,
+                    });
             });
-        }
-        else {
-            var isOpen = true;
-            if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-                isOpen = false
-            }
-            this.setState({
-                PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={this.state.challengeHistoryData}/>,
-            });
-        }
+        this.setState({
+            PageSelected: <LoadingPage/>,
+        });
     }
 
     handleDailyPuzzleHistoryClick = history => {
@@ -360,7 +349,6 @@ class App extends React.Component {
 
     handleClickProfile = event => {
         if (window.loggedin === 'Yes') {
-            if (!this.state.profileDataloaded) {
                     axios.get('/getProfileData')
                         .then( res => {
                             var isOpen = true;
@@ -383,16 +371,6 @@ class App extends React.Component {
                         PageSelected: <LoadingPage/>,
                     });
                 }
-                else {
-                    var isOpen = true;
-                    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-                        isOpen = false
-                    }
-                    this.setState({
-                        PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={this.state.gamesview} solutionsview={this.state.solutionsview} puzzlerushview={this.state.puzzlerushview}/>,
-                    });
-                }
-        }
         else {
             this.SignInButtonPressed('Sign in');
         }
@@ -401,12 +379,20 @@ class App extends React.Component {
 
     handleClickFindGame = event => {
         event.preventDefault();
-        var isOpen = true;
-        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-            isOpen = false
-        }
+        axios.get('/getFindGames')
+            .then( res => {
+                const gameslist = JSON.parse(res.data.gameslist)
+                const highscoreslist = JSON.parse(res.data.highscoreslist)
+                var isOpen = true;
+                if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                    isOpen = false
+                }
+                this.setState({
+                    PageSelected: <FindGame gameslist={gameslist} highscoreslist={highscoreslist} handleGameClick={this.handleGameClick}/>,
+                });
+        });
         this.setState({
-            PageSelected: <FindGame handleGameClick={this.handleGameClick}/>,
+            PageSelected: <LoadingPage/>,
         });
     };
 

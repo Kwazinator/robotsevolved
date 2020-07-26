@@ -27,11 +27,11 @@ class PuzzleRushDAO:
         else:
             return True
 
-    def start_puzzle(self, user_id, difficulty):
+    def start_puzzle(self, user_id, difficulty,type):
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('INSERT INTO puzzle_rush (user_id,difficulty) VALUES (%s,%s)',(user_id,difficulty))
+            cursor.execute('INSERT INTO puzzle_rush (user_id,difficulty,type) VALUES (%s,%s,%s)',(user_id,difficulty,type))
             db.commit()
             lastrowid = cursor.lastrowid
             return lastrowid
@@ -46,7 +46,7 @@ class PuzzleRushDAO:
         cursor.execute('SELECT * FROM puzzle_rush WHERE pr_id=%s', (p_id,))
         row = cursor.fetchone()
         if row is not None:
-            return PuzzleRush(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+            return PuzzleRush(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
         else:
             return None
 
@@ -113,9 +113,9 @@ class PuzzleRushDAO:
             return 'failed'
         finally:
             pass
-    def get_random_game(self, difficulty):
+    def get_random_game(self, difficulty,type):
         cursor = get_db().cursor()
-        cursor.execute('SELECT g_id FROM generated_games WHERE g_difficulty=%s order by RAND() LIMIT 1',(difficulty,))
+        cursor.execute('SELECT g_id FROM generated_games WHERE g_difficulty=%s and g_name=%s order by RAND() LIMIT 1',(difficulty,type))
         row = cursor.fetchone()
         cursor.execute('SELECT * FROM generated_games WHERE g_id=%s',(row[0],))
         row = cursor.fetchone()

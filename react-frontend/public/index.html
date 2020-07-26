@@ -5,6 +5,8 @@
     <meta name="title" content="Robots Evolved">
     <meta name="description" content="{{metatagcontent}}">
 
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{urlformeta}}">
@@ -26,8 +28,6 @@
     <script>
       window.token = JSON.parse({{gamedata|tojson|safe}});
       window.highscores = JSON.parse({{highscores|tojson|safe}});
-      window.highscoreslist = JSON.parse({{highscoreslist|tojson|safe}});
-      window.gameslist = JSON.parse({{gameslist|tojson|safe}});
       window.uri = '{{uri}}';
       window.userInfo = JSON.parse({{user|tojson|safe}});
       window.loggedin = '{{loggedin}}';

@@ -993,7 +993,9 @@ class Game extends React.Component {
                     {this.props.name}
                 </Typography>
                 <br/>
+                <Grid container xs={12} direction="column">
                 <HighScores highscores={this.state.highscores}/>
+                </Grid>
             </div>
             )
         }
