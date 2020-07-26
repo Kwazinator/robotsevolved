@@ -74,7 +74,7 @@ def getFindGames():
 @bp.route('/getProfileData')
 @jwt_required
 def getProfileData():
-    userID = get_jwt_identity();
+    userID = get_jwt_identity()
     gamesview = json.dumps(GameService().get_games_profile_view(userID))
     puzzlerushview = json.dumps(PuzzleRushService().get_puzzle_rush_profile_view(userID))
     solutionsview = json.dumps(GameService().get_solutions_profile_view(userID))
@@ -85,6 +85,14 @@ def getdailychallengehistory():
     daily_challenge_history = json.dumps(GeneratorService().get_daily_challenge_history())
     return jsonify(daily_challenge_history)
 
+
+@bp.route('/settingsChange', methods=('GET','POST'))
+@jwt_required
+def settingsChange():
+    userID = get_jwt_identity()
+    data = request.get_json()
+    UserService().change_settings(userID,data['LineDirections'])
+    return 'OK'
 
 @bp.route('/play/<uri>')
 @jwt_optional

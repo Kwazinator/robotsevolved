@@ -1,6 +1,6 @@
 class User:
 
-    def __init__(self, userID=None, username=None, logintype=None, accountID=None, profilePicture=None, email=None, activeFlag=None):
+    def __init__(self, userID=None, username=None, logintype=None, accountID=None, profilePicture=None, email=None, activeFlag=None,LineDirFlag=None):
         self.userID = userID
         self.username = username
         self.logintype = logintype
@@ -8,6 +8,7 @@ class User:
         self.profilePicture = profilePicture
         self.email = email
         self.activeFlag = activeFlag
+        self.LineDirFlag = LineDirFlag
 
     def serialize(self):
         return {
@@ -18,5 +19,6 @@ class User:
             'profilePicture': self.profilePicture,
             'email': self.email,
             'activeFlag': self.activeFlag,
+            'LineDirFlag': self.LineDirFlag
         }
 

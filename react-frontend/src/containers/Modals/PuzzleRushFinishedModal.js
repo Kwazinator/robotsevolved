@@ -51,12 +51,6 @@ class PuzzleRushWinModal extends React.Component {
                                 </ListItem>
                                 <ListItem>
                                   <ListItemText
-                                    primary="Percentile"
-                                    secondary={this.props.percentile}
-                                  />
-                                </ListItem>
-                                <ListItem>
-                                  <ListItemText
                                     primary="Average time Per Puzzle"
                                     secondary={this.props.averageTime}
                                   />

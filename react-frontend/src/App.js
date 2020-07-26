@@ -163,6 +163,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
+
         if (window.uri === '') {
             this.state = {
                 PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
@@ -173,14 +174,14 @@ class App extends React.Component {
         else {
             if (window.token.g_id == undefined) {
                 this.state = {
-                    PageSelected: <PlayGame name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
+                    PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={window.userInfo.LineDirFlag === 'Y'} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
                     dailychallengehistoryloaded: false,
                     profileDataloaded: false,
                 };
             }
             else {
                 this.state = {
-                    PageSelected: <RandomGamePage randomGame={'Yes'} game={window.token} difficulty={window.token.g_difficulty}/>,
+                    PageSelected: <RandomGamePage handleLineDirections={this.handleLineDirections} LineDirections={window.userInfo.LineDirFlag === 'Y'} randomGame={'Yes'} game={window.token} difficulty={window.token.g_difficulty}/>,
                     dailychallengehistoryloaded: false,
                     profileDataloaded: false,
                 }
@@ -191,6 +192,12 @@ class App extends React.Component {
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
         this.state.showPuzzleRushModal = false;
+         if (window.loggedin === 'Yes') {
+            this.state.LineDirections = window.userInfo.LineDirFlag === 'Y';
+         }
+         else {
+            this.state.LineDirections = true;
+         }
     }
 
     handleDrawerClose = () => {
@@ -198,6 +205,18 @@ class App extends React.Component {
             open: false
         })
     };
+
+    handleLineDirections = (boolean) => {
+        if (window.loggedin === 'Yes') {
+            axios.post('/settingsChange', {LineDirections: boolean ? 'Y' : 'N'})
+                .then( res => {
+                    console.log('changed');
+                });
+        }
+        this.setState({
+            LineDirections: boolean
+        });
+    }
 
     handleClickDailyChallenge = (event) => {
         event.preventDefault();
@@ -208,7 +227,7 @@ class App extends React.Component {
         const dc_movesList = window.dc_movesList == null ? null : JSON.parse(JSON.stringify(window.dc_movesList))
         const dc_playerList = window.dc_playerList == null ? null : JSON.parse(JSON.stringify(window.dc_playerList))
         this.setState({
-            PageSelected: <DailyChallengePage savedMoves={dc_movesList} playerStateList={dc_playerList}/>,
+            PageSelected: <DailyChallengePage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} savedMoves={dc_movesList} playerStateList={dc_playerList}/>,
         });
     }
 
@@ -239,7 +258,7 @@ class App extends React.Component {
         });
         this.setState({
             showRandomGameModal: false,
-            PageSelected: <RandomGamePage randomGame={'Yes'} game={game} difficulty={difficulty}/>,
+            PageSelected: <RandomGamePage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} randomGame={'Yes'} game={game} difficulty={difficulty}/>,
         });
     }
 
@@ -284,7 +303,7 @@ class App extends React.Component {
             isOpen = false
         }
         this.setState({
-            PageSelected: <DailyChallengeHistoryAnswersPage history={history}/>,
+            PageSelected: <DailyChallengeHistoryAnswersPage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} history={history}/>,
         });
     }
 
@@ -298,7 +317,7 @@ class App extends React.Component {
         });
         this.setState({
             showPuzzleRushModal: false,
-            PageSelected: <PuzzleRushPage puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
+            PageSelected: <PuzzleRushPage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
         });
     };
 
@@ -329,20 +348,18 @@ class App extends React.Component {
             isOpen = false
         }
         this.setState({
-            PageSelected: <PlayGame name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>,
+            PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>,
         });
     };
 
     handleClickCreateGame = event => {
         event.preventDefault();
-        var newGame = <CreateGame state={"new"}/>; //KNOWN bug where if you create a game you have to refresh the page to cause a re-render of <CreateGame/>
-
         var isOpen = true;
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
         this.setState({
-            PageSelected: newGame, //if selected page is already CreateGame it wont refresh known problem
+            PageSelected: <CreateGame handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} state={"new"}/>, //if selected page is already CreateGame it wont refresh known problem
         });
     };
 
@@ -416,7 +433,7 @@ class App extends React.Component {
     handleClickLearnGame = event => {
         event.preventDefault();
         this.setState({
-            PageSelected: <LessonsPage/>,
+            PageSelected: <LessonsPage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections}/>,
         });
 
     };

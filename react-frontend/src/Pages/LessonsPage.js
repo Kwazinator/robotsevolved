@@ -9,7 +9,11 @@ class LessonsPage extends React.Component {
 
     render () {
         return (
-            <Game learnMode={'Yes'} games={window.learngameslist}/>
+            <Game
+                handleLineDirections={this.props.handleLineDirections}
+                LineDirections={this.props.LineDirections}
+                learnMode={'Yes'}
+                games={window.learngameslist}/>
         )
     }
 

@@ -9,7 +9,10 @@ class PuzzleRushPage extends React.Component {
 
     render () {
         return (
-            <Game puzzleRush={'Yes'}
+            <Game
+                  handleLineDirections={this.props.handleLineDirections}
+                  LineDirections={this.props.LineDirections}
+                  puzzleRush={'Yes'}
                   p_id={this.props.p_id}
                   games={this.props.games}
                   difficulty={this.props.difficulty}

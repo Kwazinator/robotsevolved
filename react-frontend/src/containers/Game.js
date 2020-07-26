@@ -109,22 +109,31 @@ const formatGeneratedMoveSequence = (moves) => {
 }
 
 
-const setDefaultSquareSize = (boardWidth) => {
+const setDefaultSquareSize = (boardWidth,boardHeight) => {
     const drawerWidth = document.getElementById("MainDrawer") == null ? 140 : parseInt(getComputedStyle(document.getElementById("MainDrawer")).width);
     const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    var settingstop = windowHeight - 120;
+
+    settingstop = settingstop / boardHeight
+    settingstop = parseInt(settingstop);
+    settingstop = settingstop - (settingstop % 4)
+
     var settings = ((windowWidth < 600) ? windowWidth : (windowWidth - drawerWidth) / 1.75);
     settings = settings / boardWidth;
     settings = parseInt(settings);
     settings = settings - (settings % 4);
-    if (settings < 16) {
-        settings = 16;
+    var squarevalue = settings > settingstop ? settingstop : settings
+    if (squarevalue < 16) {
+        squarevalue = 16;
     }
-    else if (settings > 52) {
-        settings = 52;
+    else if (squarevalue > 52) {
+        squarevalue = 52;
     }
-    return settings;
+    return squarevalue;
 };
 
+const ColoredLineDirections = [LEFT,RIGHT,UP,DOWN]
 
 
 class Game extends React.Component {
@@ -145,7 +154,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = []
         }
         else if (this.props.dailyChallengeModeAnswers === 'Yes') {
@@ -165,7 +174,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.gamesWonDaily = [false,false,false,false];
             this.state.moveHistoryList=[];
 
@@ -195,7 +204,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             console.log(this.props.playerStateList)
             this.state.gamesWonDaily = [false,false,false,false];
             if (this.props.savedMoves != null) {
@@ -208,7 +217,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Complete All puzzles to complete','Puzzles Reset at 3PM EST'];
+            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles Reset at 3PM EST'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
         }
@@ -221,7 +230,7 @@ class Game extends React.Component {
             this.state.gameWon = false;
             this.state.buildMode = false;
             this.state.ColoredLineDirections = [];
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = ['this game was randomly generated'];
             this.state.uri = this.props.game.g_uri;
             window.history.pushState({id: 'Random Game'},'RobotsEvolved | Random Game','/play/' + this.props.game.g_uri)
@@ -238,7 +247,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = [this.props.games[0].description];
         }
         else if (this.props.loadedGame === 'Yes') {
@@ -251,7 +260,7 @@ class Game extends React.Component {
             this.state.squareSize = 40;
             this.state.buildMode = false;
             this.state.copiedToClipboard = false;
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = []
             window.history.pushState({id: 'Play Game'},'RobotsEvolved | Play Game','/play/'+ this.props.uri)
         }
@@ -278,20 +287,9 @@ class Game extends React.Component {
                                         'When you are ready, toggle build mode in order to solve the puzzle',
                                         'You must solve the puzzle in order to submit.']
             },board);
-            this.state.squareSize = setDefaultSquareSize(this.state.width);
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
         }
-    };
-
-    setDefaultSquareSize = (boardWidth) => {
-
-        const drawerWidth = document.getElementById("MainDrawer")
-        const windowWidth = window.innerWidth;
-        var settings = windowWidth - drawerWidth;
-        settings = ((windowWidth < 600) ? settings : settings / 1.5);
-        settings = settings / boardWidth;
-        this.setState({
-            squareSize: settings,
-        });
+        this.state.showColoredLineDirections = this.props.LineDirections;
     };
 
     updateHighscores = () => {
@@ -380,15 +378,17 @@ class Game extends React.Component {
     };
 
     toggleLineIndicators = () => {
-        if (this.state.ColoredLineDirections.length === 0) {
+        if (this.state.showColoredLineDirections === true) {
             this.setState({
-                ColoredLineDirections: [LEFT,RIGHT,UP,DOWN],
+                showColoredLineDirections: false,
             });
+            this.props.handleLineDirections(false)
         }
         else {
             this.setState({
-                ColoredLineDirections: [],
+                showColoredLineDirections: true,
             });
+            this.props.handleLineDirections(true)
         }
     };
 
@@ -471,7 +471,7 @@ class Game extends React.Component {
 
     createBoard = (width,height,percent) => {
         var board = BoardGenerator(width,height,percent, 'blank');
-        var squareSize = setDefaultSquareSize(width);
+        var squareSize = setDefaultSquareSize(width,height);
         this.setState(extend({
             width: width,
             height: height,
@@ -667,6 +667,7 @@ class Game extends React.Component {
                     /> : <YouWinDailySingleModal
                         show={this.state.gameWon}
                         numMoves={this.state.moveHistory.length}
+                        totalMoves={numMoves}
                         undoMove={this.handleUndoMove}
                         resetPuzzle={this.resetPuzzle}
                         games={this.state.games}
@@ -776,7 +777,7 @@ class Game extends React.Component {
 
     handleLearnClickGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].puzzledata);
-        var squareSize = setDefaultSquareSize(puzzledata.width);
+        var squareSize = setDefaultSquareSize(puzzledata.width,puzzledata.height);
         this.setState(
             extend(puzzledata,{buildMode: false,squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice(),tipsText: [this.props.games[index].description]})
         );
@@ -1001,19 +1002,8 @@ class Game extends React.Component {
         }
     }
 
-    handlePlayerMovementFromMouse = (posObj) => {
-        var newDirection;
-        var robot = this.state.playerState[this.state.robotSelected];
-        if (posObj.top === robot.top && posObj.left < robot.left)
-            newDirection = { top: 0, left: -(this.state.squareSize), dir: LEFT};
-        else if (posObj.top === robot.top && posObj.left > robot.left)
-            newDirection = { top: 0, left: this.state.squareSize, dir: RIGHT};
-        else if (posObj.top < robot.top && posObj.left === robot.left)
-            newDirection = { top: -(this.state.squareSize), left: 0, dir: UP};
-        else if (posObj.top > robot.top && posObj.left === robot.left)
-            newDirection = { top: this.state.squareSize, left: 0, dir: DOWN};
-        else newDirection = { top: 0, left: 0, dir: undefined};
-        this.handlePlayerMovement(newDirection)
+    handlePlayerMovementFromMouse = (direction) => {
+        this.handlePlayerMovement({dir: direction})
     };
 
     handleUndoMove = () => {
@@ -1106,6 +1096,7 @@ class Game extends React.Component {
                         copiedClipboard = {this.copiedClipboard}
                         copiedToClipboard = {this.copiedToClipboard}
                         toggleLineIndicators = {this.toggleLineIndicators}
+                        showColoredLineDirections={this.state.showColoredLineDirections}
                         toggleBuildMode = {this.toggleBuildMode}
                         undoMove = {this.handleUndoMove}
                         buildMode = {this.state.buildMode}
@@ -1122,7 +1113,6 @@ class Game extends React.Component {
                             this.state.boardState.map(square =>
                                 <Square dimension={this.state.squareSize}
                                         position={{top:square.top,left: square.left}}
-                                        handlePlayerMovementFromMouse={this.handlePlayerMovementFromMouse}
                                 />
                             )
                         }
@@ -1134,20 +1124,6 @@ class Game extends React.Component {
                             isCreateMode={this.state.createMode}
                             buildMode={this.state.buildMode}
                         />
-                        {
-                            this.state.ColoredLineDirections.map(ColoredLineDirection =>
-                                <ColoredLine
-                                    dimension={this.state.squareSize}
-                                    dir={ColoredLineDirection}
-                                    position={{
-                                        top: this.state.playerState[this.state.robotSelected].top,
-                                        left: this.state.playerState[this.state.robotSelected].left
-                                    }}
-                                    endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
-                                    color={LINE_INDICATOR_COLOR}
-                                />
-                            )
-                        }
                         {
                             this.state.playerState.map((player, index) =>
                                 <Robot
@@ -1166,7 +1142,6 @@ class Game extends React.Component {
                                 />
                             )
                         }
-
                         {
                             this.state.wallHorizontal.map(wallH =>
                                 <Wall
@@ -1188,7 +1163,23 @@ class Game extends React.Component {
                                     onClick={this.createModeWallClick}
                                 />
                             )
-
+                        }
+                        {
+                            ColoredLineDirections.map(ColoredLineDirection =>
+                                <ColoredLine
+                                    dimension={this.state.squareSize}
+                                    dir={ColoredLineDirection}
+                                    position={{
+                                        top: this.state.playerState[this.state.robotSelected].top,
+                                        left: this.state.playerState[this.state.robotSelected].left
+                                    }}
+                                    endPosition={this.handleCollision({dir: ColoredLineDirection}, this.state.robotSelected, this.state.playerState[this.state.robotSelected].color)}
+                                    color={this.state.playerState[this.state.robotSelected].color}
+                                    show={this.state.showColoredLineDirections}
+                                    handleClick={this.handlePlayerMovementFromMouse}
+                                    buildMode={this.state.buildMode}
+                                />
+                            )
                         }
                     </Board>
                 </Grid>

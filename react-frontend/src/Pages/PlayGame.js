@@ -9,7 +9,10 @@ class PlayGame extends React.Component {
 
     render () {
         return (
-            <Game loadedGame={'Yes'}
+            <Game
+                  handleLineDirections={this.props.handleLineDirections}
+                  LineDirections={this.props.LineDirections}
+                  loadedGame={'Yes'}
                   name={this.props.name}
                   gamedata={this.props.gamedata}
                   highscores={this.props.highscores}

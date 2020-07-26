@@ -10,7 +10,10 @@ class DailyChallengeHistoryAnswersPage extends React.Component {
     render () {
         console.log(this.props.history);
         return (
-            <Game dailyChallengeModeAnswers={'Yes'}
+            <Game
+                handleLineDirections={this.props.handleLineDirections}
+                LineDirections={this.props.LineDirections}
+                dailyChallengeModeAnswers={'Yes'}
                 nameSubmitted={this.props.history.nameSubmitted}
                 bestScore={this.props.history.bestScore}
                 created={this.props.history.created}

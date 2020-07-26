@@ -12,6 +12,20 @@ class UserDAO:
     def __init__(self):
         pass
 
+
+    def change_settings(self,userID,LineDir):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute("UPDATE user SET LineDirFlag=%s WHERE user_id=%s",(LineDir,userID))
+            db.commit()
+            return 'OK'
+        except Exception as e:
+            print('Error in UserDAO().insert_user')
+            print(e)
+        finally:
+            pass
+
     def insert_user(self,username, logintype, accountID, profilePicture, email, activeFlag):
         try:
             db = get_db()
@@ -30,7 +44,7 @@ class UserDAO:
         cursor.execute('SELECT * from user WHERE user_id=%s', (userID,))
         row = cursor.fetchone()
         if row is not None:
-            return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+            return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
         else:
             return None
     def delete_user(self, userID):

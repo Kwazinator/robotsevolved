@@ -11,7 +11,10 @@ export default function AboutUs(props) {
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item spacing={4} xs={12} justify={"center"} alignItems={"center"}>
                         <Typography variant={'body1'}>
-                            RobotsEvolved.com is based on the board game Ricochet Robots. We have several game modes and variants that are inspired by the several Chess variants on the internet. Tell your friends about the site and get people on here!
+                            RobotsEvolved.com is based on the board game Ricochet Robots.
+                            We have several game modes and variants that are inspired by the several Chess variants on the internet.
+                            If you use Google Login or Facebook Login we will never email or sell your information.
+                            Tell your friends about the site and get people on here!
                         </Typography>
                     </Grid>
                     <Grid spacing={4} item xs={12} sm={6} justify={"center"} alignItems={"center"}>
@@ -27,7 +30,7 @@ export default function AboutUs(props) {
                                     Random
                                 </Typography>
                                 <Typography variant={"body1"} paragraph={true}>
-                                    Random Puzzles are created by having a 10% chance for a wall to spawn in Any location possible wall location, Goals and Robit placements are completely random also.
+                                    Random Puzzles are created by having a 10% chance for a wall to spawn in Any location possible wall location, Goals and Robot placements are completely random also.
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -69,15 +72,16 @@ export default function AboutUs(props) {
                         </Card>
                     </Grid>
                     <Grid item spacing={4} xs={12} sm={4} justify={"center"} alignItems={"center"}>
-                        <div class="card3" style={{height: "480px"}}>
+                        <Paper class="card3">
                           <img src={"/static/images/284457_10151211078621477_839164197_n.jpg"} alt="Jane"/>
                           <div class="container3">
                             <h2>Kyle Kwasniewski</h2>
                             <p class="title3">Creator &amp; FullStack Dev.</p>
-                            <p>This Project was made in order to learn React as a web-framework. If there are any features that you would like to see then feel free to email my personal email below.</p>
+                            <p>I work in Software Development and Dev-Ops in New York and consider myself a Ricochet Robots enthusiast so I decided to make this application as a way to better hone my skill in web frameworks as well as pass the time during the quarantine. If you find any bugs or feature requests for robotsevolved please let me know by emailing me below. Ill get to developing the feature/fixing annoying bugs.</p>
+                            <p>Thanks for playing!</p>
                             <p>robotsevolved@gmail.com</p>
                           </div>
-                        </div>
+                        </Paper>
                     </Grid>
                     <Grid item spacing={4} xs={12} sm={4} justify={"center"} alignItems={"center"}>
                         <div className="card3" style={{height: "480px"}}>

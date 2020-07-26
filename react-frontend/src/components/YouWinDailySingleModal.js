@@ -4,6 +4,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import Dialog from "@material-ui/core/Dialog";
 import LearnGameItems from '../components/LearnGameItems';
 
@@ -33,9 +34,17 @@ class YouWinDailySingleModal extends React.Component {
             >
                 <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>Completed!</DialogTitle>
                 <DialogContent dividers>
-                    <div>
-                        You used {this.props.numMoves} Moves, for this puzzle. Complete all for your final score.
-                    </div>
+                    <Typography variant="body1">
+                        You used {this.props.numMoves} Moves, for this puzzle.
+                    </Typography>
+                    <br/>
+                    <Typography variant="body1">
+                        Total Moves: {this.props.totalMoves}
+                    </Typography>
+                    <br/>
+                    <Typography variant="body1">
+                        Finish all puzzles to get submit your score!
+                    </Typography>
                     <br/>
                 </DialogContent>
                 <DialogActions>

@@ -20,12 +20,14 @@ class ToggleSettings extends React.Component {
 
 
     render() {
+        console.log(this.props.showColoredLineDirections)
         return (
             <div style={buttonpanel()}>
                 <FormControlLabel
                     value="end"
                     control={<Switch color="primary" onChange={this.handleClick}/>}
-                    label="Line Indicators"
+                    label="Path Indicators"
+                    checked={this.props.showColoredLineDirections}
                 />
             </div>
         )

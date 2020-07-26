@@ -123,7 +123,8 @@ class DisplayView extends React.Component {
                      <Button onClick={this.props.undoMove}>Undo</Button>
                  </ButtonGroup>
                  {this.isCreateMode(this.props.createMode)}
-                 <ToggleSettings onClick={this.props.toggleLineIndicators}/>
+                 <Divider />
+                 <ToggleSettings showColoredLineDirections={this.props.showColoredLineDirections} onClick={this.props.toggleLineIndicators}/>
                  <div style={buttonPanel()}>
                      <Typography id="discrete-slider-small-steps"
                                  color="textSecondary"

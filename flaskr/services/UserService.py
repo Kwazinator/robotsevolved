@@ -8,6 +8,9 @@ class UserService:
     def __init__(self):
         pass
 
+    def change_settings(self,userID, LineDir):
+        return UserDAO().change_settings(userID,LineDir)
+
     def get_user_games_view(self,userID):
         return UserDAO().get_user_games_view(userID)
 

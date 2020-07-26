@@ -40,10 +40,6 @@ const styleinside2 = ({dimension,position}) => {
 
 class Square extends React.Component {
 
-    handleClick = () => {
-        this.props.handlePlayerMovementFromMouse(this.props.position);
-    };
-
     render() {
         return (
             <div onClick={this.handleClick} style={styleoutside(this.props)}>
