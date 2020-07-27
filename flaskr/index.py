@@ -10,6 +10,13 @@ import json
 
 bp = Blueprint('index', __name__)
 
+
+def trimstring(stringtotrim):
+    if len(stringtotrim) > 32:
+        stringtotrim = stringtotrim[:32]
+    return stringtotrim
+
+
 def get_games_data(numMoves,Offset):
     gameslist = GameService().get_all_games(numMoves, Offset)  # get_all_games(numGames,offset)
     highscoreslist = list()
@@ -82,7 +89,8 @@ def getdailychallengehistory():
 def settingsChange():
     userID = get_jwt_identity()
     data = request.get_json()
-    UserService().change_settings(userID,data['LineDirections'])
+    if data['LineDirections'] == 'Y' or data['LineDirections'] == 'N':
+        UserService().change_settings(userID,data['LineDirections'])
     return 'OK'
 
 @bp.route('/play/<uri>')
@@ -119,7 +127,8 @@ def submitpuzzle():
     if userID is None:
         userID = 1
     if (GameService().check_same_game(json.dumps(data['puzzledata'])) == 1):
-        uri = GameService().insert_game(data['name'], 'type', 'description', userID, data['authorname'], 1, json.dumps(data['puzzledata']))
+
+        uri = GameService().insert_game(trimstring(data['name']), 'type', 'description', userID, trimstring(data['authorname']), 1, json.dumps(data['puzzledata']))
         return jsonify(uri=uri)
     else:
         return jsonify(uri='GameAlreadyExists')
@@ -137,7 +146,7 @@ def submithighscore():
     userID = get_jwt_identity()
     if userID is None:
         userID = 1
-    rtnMessage = GameService().insert_highscore(data['name'],userID,'test','test',data['highscore'],data['uri'])
+    rtnMessage = GameService().insert_highscore(trimstring(data['name']),userID,'test','test',data['highscore'],data['uri'])
     return rtnMessage
 
 @bp.route('/userCreate', methods={'GET', 'POST'})
@@ -155,7 +164,7 @@ def userDelete():
 @bp.route('/search', methods=('GET','POST'))
 def search():
     data = request.get_json()
-    searchterm = data['search']
+    searchterm = trimstring(data['search'])
     offset = data['offset']
     get_games_data_value = get_games_search(20,offset,searchterm)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))

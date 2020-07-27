@@ -34,8 +34,8 @@ class UserService:
         return UserDAO().delete_user(userID)
 
     def create_jwt(self, userID):
-        access_token = create_access_token(identity=userID, expires_delta=datetime.timedelta(weeks=32))
-        refresh_token = create_refresh_token(identity=userID, expires_delta=datetime.timedelta(weeks=52))
+        access_token = create_access_token(identity=userID, expires_delta=datetime.timedelta(weeks=80))
+        refresh_token = create_refresh_token(identity=userID, expires_delta=datetime.timedelta(weeks=104))
         jwt = {
             'access_token': access_token,
             'refresh_token': refresh_token

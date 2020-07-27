@@ -4327,3 +4327,42 @@ input:checked + .slider:before {
 .button3:hover {
   background-color: #555;
 }
+
+
+#buttonfb {
+  background-color: #3B5998;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none; /* remove underline from anchors */
+}
+
+#buttonfb:hover {
+    opacity: 1;
+}
+
+#buttongoogle {
+  background-color: #dd4b39;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none; /* remove underline from anchors */
+}
+
+#buttongoogle:hover {
+    opacity: 1;
+}

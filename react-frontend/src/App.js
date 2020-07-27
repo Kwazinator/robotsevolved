@@ -173,15 +173,17 @@ class App extends React.Component {
         }
         else {
             if (window.token.g_id == undefined) {
+                const linedir = window.userInfo == undefined ? true : window.userInfo.LineDirFlag === 'Y';
                 this.state = {
-                    PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={window.userInfo.LineDirFlag === 'Y'} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
+                    PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={linedir} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri}/>, //when uri is entered to play specific game
                     dailychallengehistoryloaded: false,
                     profileDataloaded: false,
                 };
             }
             else {
+                const linedir = window.userInfo == undefined ? true : window.userInfo.LineDirFlag === 'Y';
                 this.state = {
-                    PageSelected: <RandomGamePage handleLineDirections={this.handleLineDirections} LineDirections={window.userInfo.LineDirFlag === 'Y'} randomGame={'Yes'} game={window.token} difficulty={window.token.g_difficulty}/>,
+                    PageSelected: <RandomGamePage handleLineDirections={this.handleLineDirections} LineDirections={linedir} randomGame={'Yes'} game={window.token} difficulty={window.token.g_difficulty}/>,
                     dailychallengehistoryloaded: false,
                     profileDataloaded: false,
                 }

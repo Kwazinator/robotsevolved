@@ -8,16 +8,23 @@ import json
 
 bp = Blueprint('dailychallenge', __name__)
 
+
+
+def trimstring(stringtotrim):
+    if len(stringtotrim) > 32:
+        stringtotrim = stringtotrim[:32]
+    return stringtotrim
+
 @bp.route('/dailychallenge',methods=('GET','POST'))
 @jwt_optional
 def daily_challenge():
     data = request.get_json()
     userID = get_jwt_identity()
     if (userID is not None):
-        value = GeneratorService().insert_daily_challenge_submit(data['score'], userID, json.dumps(data['solutiondata']), data['name'],
+        value = GeneratorService().insert_daily_challenge_submit(data['score'], userID, json.dumps(data['solutiondata']), trimstring(data['name']),
                                                          data['dc_id'], json.dumps(data['playerStateList']))
     else:
-        value = GeneratorService().insert_daily_challenge_submit(data['score'], 1, json.dumps(data['solutiondata']), data['name'],
+        value = GeneratorService().insert_daily_challenge_submit(data['score'], 1, json.dumps(data['solutiondata']), trimstring(data['name']),
                                                          data['dc_id'], json.dumps(data['playerStateList']))
     return value
 

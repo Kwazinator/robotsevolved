@@ -81,6 +81,23 @@ def create_app(test_config=None):
         resp_json = google.get("/oauth2/v2/userinfo").json()
         return auth.new_google_login(resp_json["name"], token["id_token"], resp_json["email"], resp_json['picture'], resp_json['id'])
 
+    with open("credentials/FacebookAPIkeys.txt", 'r') as f:
+        data = f.read()
+    infofb = data.splitlines()
+
+    facebook_bp = make_facebook_blueprint(
+        client_id=infofb[0],
+        client_secret=infofb[1],
+        scope='email'
+    )
+    app.register_blueprint(facebook_bp, url_prefix='/login')
+
+
+    @oauth_authorized.connect_via(facebook_bp)
+    def facebook_logged_in(blueprint, token):
+        if facebook.authorized:
+            fb = facebook.get('me?fields=id,email,name,picture').json()
+            return auth.new_facebook_login(fb['id'], fb['name'], fb['email'], fb['picture']['data']['url'])
 
     try:
         os.makedirs(app.instance_path)

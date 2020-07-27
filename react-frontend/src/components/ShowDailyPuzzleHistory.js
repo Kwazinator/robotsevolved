@@ -9,8 +9,7 @@ export default function ShowDailyPuzzleHistory(props) {
     }
     return (
             <Button size="small" color="primary" onClick={handleDailyPuzzleHistoryClick}>
-                 details
+                 show answers
             </Button>
-
     )
 }
