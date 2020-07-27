@@ -220,7 +220,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST'];
+            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST, the page will refresh automatically'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
         }
@@ -324,6 +324,9 @@ class Game extends React.Component {
                 this.setState({
                     highscores: JSON.parse(res.data.highscores),
                 });
+                if (res.data.dc_id != this.state.dc_id) {
+                    this.props.handleClickDailyChallenge();
+                }
             });
     }
 

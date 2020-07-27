@@ -9,7 +9,7 @@ class DailyChallengePage extends React.Component {
 
     render () {
         return (
-            <Game handleLineDirections={this.props.handleLineDirections} LineDirections={this.props.LineDirections} dailyChallengeMode={'Yes'} playerStateList={this.props.playerStateList} savedMoves={this.props.savedMoves} games={this.props.dailyChallengeGameslist} dc_id={this.props.dc_id} highscores={this.props.dchighscores}
+            <Game handleClickDailyChallenge={this.props.handleClickDailyChallenge} handleLineDirections={this.props.handleLineDirections} LineDirections={this.props.LineDirections} dailyChallengeMode={'Yes'} playerStateList={this.props.playerStateList} savedMoves={this.props.savedMoves} games={this.props.dailyChallengeGameslist} dc_id={this.props.dc_id} highscores={this.props.dchighscores}
              />
         )
     }

@@ -26,7 +26,8 @@ def daily_challenge():
 def daily_challenge_highscores():
     dc_id = request.args['dc_id']
     highscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
-    return jsonify(highscores=highscores)
+    dc_id = GeneratorService().get_daily_challenge_id()
+    return jsonify(dc_id=dc_id, highscores=highscores)
 
 
 @bp.route('/getDailyChallengeData',methods=('GET','POST'))

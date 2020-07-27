@@ -229,6 +229,7 @@ class App extends React.Component {
                     const dc_playerList = res.data.dc_playerList == null ? null : JSON.parse(res.data.dc_playerList)
                     this.setState({
                                     PageSelected: <DailyChallengePage
+                                                        handleClickDailyChallenge={this.handleClickDailyChallenge}
                                                         dailyChallengeGameslist={JSON.parse(res.data.dailyChallengeGameslist)}
                                                         dc_id={res.data.dc_id}
                                                         dchighscores={JSON.parse(res.data.dchighscores)}

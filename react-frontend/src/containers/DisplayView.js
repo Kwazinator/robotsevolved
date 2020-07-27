@@ -91,15 +91,6 @@ class DisplayView extends React.Component {
         this.props.DimensionChanged(dimension);
     };
 
-    showDailyChallengeTimer = () => {
-        if (this.props.isDailyChallenge === 'Yes') {
-            return null
-        }
-        else {
-            return null
-        }
-    }
-
     showPuzzleLink = () => {
         if (this.props.createMode === 'Yes' || this.props.isPuzzleRush === 'Yes' || this.props.isLesson === 'Yes' || this.props.isDailyChallengeAnswers === 'Yes' || this.props.isDailyChallenge === 'Yes') {
             return null;
@@ -118,7 +109,6 @@ class DisplayView extends React.Component {
          return (
              <div style={controlpanel()}>
                 {this.showPuzzleLink()}
-                {this.showDailyChallengeTimer()}
                  <Divider />
                  <Typography
                      color="textSecondary"
