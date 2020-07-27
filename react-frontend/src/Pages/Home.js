@@ -197,12 +197,25 @@ export default function ComplexGrid(props) {
 
                     <Typography>Or use mouse button to click</Typography>
                     <Divider/>
+                        <Typography
+                            className={classes.dividerFullWidth}
+                            color="textSecondary"
+                            display="block"
+                            variant="caption"
+                        >
+                            HotKeys
+                        </Typography>
+                        <img width={'20%'} height={'auto'} src={"/static/images/spacebar.png"}/>
+                        <img width={'20%'} height={'auto'} src={"/static/images/enterkey.png"}/>
+                    <Typography>Undo - Reset</Typography>
+                    <Divider />
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
                     <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/1/2020
                     </Typography>
                     </div>
+
 
                 </Grid>
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>

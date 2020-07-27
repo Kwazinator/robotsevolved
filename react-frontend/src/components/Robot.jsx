@@ -63,47 +63,6 @@ const styleinside2 = ({dimension,color,index,selected}) => {
 
 class Robot extends React.Component {
 
-    handleKeyDown = (e) => {
-        let newDirection;
-
-        switch(e.keyCode) {
-            case 37:
-                newDirection = { top: 0, left: -40, dir: LEFT};
-                break;
-            case 38:
-                newDirection = { top: -40, left: 0, dir: UP};
-                break;
-            case 39:
-                newDirection = { top: 0, left: 40, dir: RIGHT};
-                break;
-            case 40:
-                newDirection = { top: 40, left: 0, dir: DOWN};
-                break;
-            case 9:
-                this.props.tabSelector();
-                return;
-                break;
-            case 32:
-                this.props.resetPuzzle();
-                return;
-                break;
-            /*case 83:
-                newDirection = { top: 40, left: 0, dir: DOWN};
-                break;
-            case 68:
-                newDirection = { top: 0, left: 40, dir: RIGHT};
-                break;
-            case 87:
-                newDirection = { top: -40, left: 0, dir: UP};
-                break;*/
-            default:
-                return;
-
-
-        }
-        this.props.handlePlayerMovement(newDirection);
-    };
-
     handleClick = () => {
         this.props.onClick(this.props.index);
     };
@@ -141,12 +100,8 @@ class Robot extends React.Component {
 
     render () {
         return (
-        this.handleCreateMode()
+            this.handleCreateMode()
         );
-    }
-
-    componentDidMount() {
-        window.onkeydown = this.handleKeyDown;
     }
 }
 

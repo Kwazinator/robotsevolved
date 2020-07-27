@@ -13,8 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
 
-
-
 class PuzzleRushWinModal extends React.Component {
 
     constructor(props) {

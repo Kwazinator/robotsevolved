@@ -27,3 +27,20 @@ def daily_challenge_highscores():
     dc_id = request.args['dc_id']
     highscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
     return jsonify(highscores=highscores)
+
+
+@bp.route('/getDailyChallengeData',methods=('GET','POST'))
+@jwt_optional
+def get_daily_challenge_data():
+    userID = get_jwt_identity()
+    dc_id = GeneratorService().get_daily_challenge_id()
+    dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
+    dc_movesList = None
+    dc_playerList = None
+    dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
+    if (userID is not None):
+        dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
+        if dc_moves is not None:
+            dc_movesList = dc_moves[0]
+            dc_playerList = dc_moves[1]
+    return jsonify(dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist)

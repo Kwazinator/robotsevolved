@@ -40,26 +40,17 @@ def get_learned_games():
 @bp.route('/')
 @jwt_optional
 def index():
-    get_games_data_value = get_games_data(50,0)
     userID = get_jwt_identity()
     user = None
-    dc_movesList = None
-    dc_playerList = None
+    dc_id = GeneratorService().get_daily_challenge_id()
     loggedin = 'No'
     learngameslist = get_learned_games()
-    dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
-    dc_id = GeneratorService().get_daily_challenge_id()
-    dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
     metatagcontent = "Competetive board game Insipred by Ricochet Robots"
     urlformeta = "http://robotsevolved.com"
     if (userID is not None):
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-        dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
-        if dc_moves is not None:
-            dc_movesList = dc_moves[0]
-            dc_playerList = dc_moves[1]
-    return render_template('index.html',urlformeta=urlformeta,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList,dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='')
+    return render_template('index.html',urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='')
 
 @bp.route('/about')
 def about():
@@ -97,6 +88,7 @@ def settingsChange():
 @bp.route('/play/<uri>')
 @jwt_optional
 def play(uri):
+    dc_id = GeneratorService().get_daily_challenge_id()
     gamefromuri = GameService().get_game_uri(uri)
     if 'g_id' not in gamefromuri.keys():
         highscores = json.dumps(GameService().get_highscores(uri))
@@ -110,23 +102,14 @@ def play(uri):
     get_games_data_value = get_games_data(50,0)
     userID = get_jwt_identity()
     user = None
-    dc_movesList = None
-    dc_playerList = None
     loggedin = 'No'
     learngameslist = get_learned_games()
-    dailychallengelist = json.dumps(GeneratorService().get_daily_puzzles())
-    dc_id = GeneratorService().get_daily_challenge_id()
-    dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
     metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + authorname + '\n' + name
     urlformeta = "http://robotsevolved.com/play/" + uri
     if (userID is not None):
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-        dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
-        if dc_moves is not None:
-            dc_movesList = dc_moves[0]
-            dc_playerList = dc_moves[1]
-    return render_template('index.html',urlformeta=urlformeta,metatagcontent=metatagcontent,dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri, gameslist=json.dumps(get_games_data_value[0]))
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional

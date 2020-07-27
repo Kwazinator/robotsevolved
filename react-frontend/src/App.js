@@ -218,16 +218,29 @@ class App extends React.Component {
         });
     }
 
-    handleClickDailyChallenge = (event) => {
-        event.preventDefault();
-        var isOpen = true;
-        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
-            isOpen = false
-        }
-        const dc_movesList = window.dc_movesList == null ? null : JSON.parse(JSON.stringify(window.dc_movesList))
-        const dc_playerList = window.dc_playerList == null ? null : JSON.parse(JSON.stringify(window.dc_playerList))
+    handleClickDailyChallenge = () => {
+        axios.get('/getDailyChallengeData')
+            .then( res => {
+                    var isOpen = true;
+                    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                        isOpen = false
+                    }
+                    const dc_movesList = res.data.dc_movesList == null ? null : JSON.parse(res.data.dc_movesList)
+                    const dc_playerList = res.data.dc_playerList == null ? null : JSON.parse(res.data.dc_playerList)
+                    this.setState({
+                                    PageSelected: <DailyChallengePage
+                                                        dailyChallengeGameslist={JSON.parse(res.data.dailyChallengeGameslist)}
+                                                        dc_id={res.data.dc_id}
+                                                        dchighscores={JSON.parse(res.data.dchighscores)}
+                                                        handleLineDirections={this.handleLineDirections}
+                                                        LineDirections={this.state.LineDirections}
+                                                        savedMoves={dc_movesList}
+                                                        playerStateList={dc_playerList}
+                                    />
+                                });
+                    });
         this.setState({
-            PageSelected: <DailyChallengePage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} savedMoves={dc_movesList} playerStateList={dc_playerList}/>,
+            PageSelected: <LoadingPage/>,
         });
     }
 

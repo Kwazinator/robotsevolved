@@ -30,14 +30,16 @@ class GeneratorService:
 
     def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id, playerStateList):
         submitted = GenDAO().check_current_daily_submit(userid,dc_id)
-        if userid == 1:
-            return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)
-        elif submitted is not None and submitted.score > score:
-            return GenDAO().update_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)
-        elif submitted is None:
-            return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)
-        else:
-            return 'already submitted'
+        if (GenDAO().get_daily_challenge_id() == dc_id):
+            if userid == 1:
+                return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)
+            elif submitted is not None and submitted.score > score:
+                return GenDAO().update_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)
+            elif submitted is None:
+                return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)
+            else:
+                return 'already submitted'
+        return 'something went wrong'
 
     def get_daily_challenge_highscores(self, dc_id):
         userlist = GenDAO().get_daily_challenge_winners(dc_id)

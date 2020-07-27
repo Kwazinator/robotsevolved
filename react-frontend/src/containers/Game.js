@@ -48,7 +48,10 @@ import Typography from "@material-ui/core/Typography";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
-    if([37, 38, 39, 40, 9].indexOf(e.keyCode) > -1) {
+    if(e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+  }
+    if([37, 38, 39, 40, 9,13].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
@@ -217,7 +220,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles Reset at 3PM EST'];
+            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
         }
@@ -325,6 +328,7 @@ class Game extends React.Component {
     }
 
     componentDidMount = () => {
+        window.onkeydown = this.handleKeyDown;
         if (this.props.loadedGame === 'Yes') {
             this.updateHighscores();
             var IntervalId = setInterval(this.updateHighscores, 4000);
@@ -348,6 +352,50 @@ class Game extends React.Component {
         else if (this.props.dailyChallengeMode === 'Yes') {
             clearInterval(this.state.IntervalId);
         }
+    };
+
+    handleKeyDown = (e) => {
+        let newDirection;
+        switch(e.keyCode) {
+            case 37:
+                newDirection = { top: 0, left: -40, dir: LEFT};
+                break;
+            case 38:
+                newDirection = { top: -40, left: 0, dir: UP};
+                break;
+            case 39:
+                newDirection = { top: 0, left: 40, dir: RIGHT};
+                break;
+            case 40:
+                newDirection = { top: 40, left: 0, dir: DOWN};
+                break;
+            case 9:
+                this.tabSelector();
+                return;
+                break;
+            case 32:
+                if (!this.state.gameWon) {
+                    this.handleUndoMove();
+                }
+                break;
+                return;
+            case 13:
+                if (!this.state.gameWon) {
+                    this.resetPuzzle();
+                }
+            /*case 83:
+                newDirection = { top: 40, left: 0, dir: DOWN};
+                break;
+            case 68:
+                newDirection = { top: 0, left: 40, dir: RIGHT};
+                break;
+            case 87:
+                newDirection = { top: -40, left: 0, dir: UP};
+                break;*/
+            default:
+                return;
+        }
+        this.handlePlayerMovement(newDirection);
     };
 
     robotSelect = (i) => {
@@ -615,6 +663,8 @@ class Game extends React.Component {
                 console.log(res)
                 this.handleUndoMove();
             });
+        window.dc_movesList = moveHistoryList;
+        window.dc_playerList = playerStateList;
         this.state.gameWon = false;
     }
 
