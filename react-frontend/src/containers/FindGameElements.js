@@ -101,7 +101,7 @@ function ComplexGrid(props) {
                             </div>
                             <div>
                                 <Typography color="textSecondary" variant="caption">
-                                    Plays: {props.highscores.length}
+                                    Plays: {props.game.plays}
                                 </Typography>
                             </div>
                             <br/>

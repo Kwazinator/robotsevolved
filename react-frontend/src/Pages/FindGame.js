@@ -58,15 +58,37 @@ class FindGame extends React.Component {
       });
     };
 
-    handleCloseFilterMenu = event => {
+    handleCloseFilterMenuMostPlayed = event => {
         this.setState( {
             anchorEl: null
         })
+        var searchTerm = this.searchRef.value;
+        axios.post('/search', {search: searchTerm, filter: 'MostPlayed', offset: 0})
+            .then( res => {
+                this.setState({
+                    highscoreslist: JSON.parse(res.data.highscoreslist),
+                    gameslist: JSON.parse(res.data.gameslist)
+                });
+            });
+    };
+
+    handleCloseFilterMenuHighest = event => {
+        this.setState( {
+            anchorEl: null
+        })
+        var searchTerm = this.searchRef.value;
+        axios.post('/search', {search: searchTerm, filter: 'Highest', offset: 0})
+            .then( res => {
+                this.setState({
+                    highscoreslist: JSON.parse(res.data.highscoreslist),
+                    gameslist: JSON.parse(res.data.gameslist)
+                });
+            });
     };
 
     handleSearchSubmit = event => {
         var searchTerm = this.searchRef.value;
-        axios.post('/search', {search: searchTerm, offset: 0})
+        axios.post('/search', {search: searchTerm, filter: 'None', offset: 0})
             .then( res => {
                 this.setState({
                     highscoreslist: JSON.parse(res.data.highscoreslist),
@@ -111,9 +133,8 @@ class FindGame extends React.Component {
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleCloseFilterMenu}
                     >
-                        <MenuItem onClick={this.handleCloseFilterMenu}>Most Popular</MenuItem>
-                        <MenuItem onClick={this.handleCloseFilterMenu}>Hottest</MenuItem>
-                        <MenuItem onClick={this.handleCloseFilterMenu}>Newest</MenuItem>
+                        <MenuItem onClick={this.handleCloseFilterMenuMostPlayed}>Most Played</MenuItem>
+                        <MenuItem onClick={this.handleCloseFilterMenuHighest}>Highest Scores</MenuItem>
                     </Menu>
                 </Paper>
                 <br/>

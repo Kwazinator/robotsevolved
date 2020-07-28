@@ -27,7 +27,7 @@ export default class SignInButton extends React.Component {
             var textToShow = 'Sign in';
         }
         return (
-            <Button color="primary" onClick={this.handleClick}>{textToShow}</Button>
+            <Button color="black" onClick={this.handleClick}><b>{textToShow}</b></Button>
         )
     }
 }

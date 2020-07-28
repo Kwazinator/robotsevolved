@@ -63,7 +63,7 @@ export default function ProfilePage(props) {
                                           id={"panel" + index + "-header"}
                                         >
                                           <Typography className={classes.heading}>{game.name}</Typography>
-                                          <Typography className={classes.secondaryHeading}>Plays: </Typography>
+                                          <Typography className={classes.secondaryHeading}>Plays: {game.plays}</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                           <ProfilePageCreatedGamesDetails

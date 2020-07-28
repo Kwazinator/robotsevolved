@@ -35,13 +35,28 @@ def get_games_data(numMoves,Offset):
     return (gameslist,highscoreslist)
 
 
-def get_games_search(numPuzzles,Offset,searchterm):
-    gameslist = GameService().get_games_by_search(numPuzzles,Offset,searchterm)
-    highscoreslist = list()
-    if gameslist is not None:
-        for game in gameslist:
-            highscoreslist.append(GameService().get_highscores(game['uri']))
-    return (gameslist,highscoreslist)
+def get_games_search(numPuzzles,Offset,searchterm,filter):
+    if filter == 'None':
+        gameslist = GameService().get_games_by_search(numPuzzles,Offset,searchterm)
+        highscoreslist = list()
+        if gameslist is not None:
+            for game in gameslist:
+                highscoreslist.append(GameService().get_highscores(game['uri']))
+        return (gameslist,highscoreslist)
+    elif filter == 'MostPlayed':
+        gameslist = GameService().get_games_by_search_most_played(numPuzzles, Offset, searchterm)
+        highscoreslist = list()
+        if gameslist is not None:
+            for game in gameslist:
+                highscoreslist.append(GameService().get_highscores(game['uri']))
+        return (gameslist, highscoreslist)
+    elif filter == 'Highest':
+        gameslist = GameService().get_games_by_search_highest_score(numPuzzles, Offset, searchterm)
+        highscoreslist = list()
+        if gameslist is not None:
+            for game in gameslist:
+                highscoreslist.append(GameService().get_highscores(game['uri']))
+        return (gameslist, highscoreslist)
 
 
 def get_learned_games():
@@ -170,8 +185,9 @@ def submithighscore():
 def search():
     data = request.get_json()
     searchterm = trimstring(data['search'])
+    filter = data['filter']
     offset = data['offset']
-    get_games_data_value = get_games_search(20,offset,searchterm)
+    get_games_data_value = get_games_search(20,offset,searchterm,filter)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 

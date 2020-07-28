@@ -109,6 +109,9 @@ const useStyles = (theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
+    toolbar1: {
+        backgroundColor: '#14A76C',
+    },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
@@ -509,7 +512,7 @@ class App extends React.Component {
                             [classes.appBarShift]: this.state.open,
                         })}
                      >
-                        <Toolbar>
+                        <Toolbar className={classes.toolbar1}>
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"

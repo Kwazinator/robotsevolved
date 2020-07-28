@@ -28,11 +28,23 @@ class GameDAO:
         finally:
             pass
 
+    def increment_plays(self,gameid):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('UPDATE game SET plays=plays+1 WHERE game_id=%s',(gameid,))
+            db.commit()
+        except Exception as e:
+            print('Error in GameDAO().insert_game')
+            print(e)
+        finally:
+            pass
+
     def get_game(self,gameid):
         cursor = get_db().cursor()
         cursor.execute('SELECT * from game WHERE game_id=%s',(gameid,))
         row = cursor.fetchone()
-        return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "))
+        return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10])
 
     def check_same_game(self,puzzledata):
         cursor = get_db().cursor()
@@ -70,12 +82,49 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         games = list()
-        searchterm = ''.join(('%',searchterm,'%'))
+        searchterm = ''.join(('%', searchterm, '%'))
         cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+            return games
+        else:
+            return games
+
+    def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        searchterm = ''.join(('%', searchterm, '%'))
+        cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY plays DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        query = cursor.fetchall()
+        if query is not None:
+            for row in query:
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+            return games
+        else:
+            return games
+
+    def get_games_by_search_highest_score(self, numPuzzles, Offset, searchterm):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        searchterm = ''.join(('%', searchterm, '%'))
+        cursor.execute(
+            """SELECT g.*,MIN(s.numMoves) from game g
+                JOIN solutions s ON g.game_id = s.gameid 
+                WHERE g.name LIKE %s AND type='type' OR
+                g.authorname LIKE %s AND type='type'
+                GROUP BY g.game_id
+                ORDER BY s.numMoves DESC LIMIT %s OFFSET %s""",
+            (searchterm, searchterm, numPuzzles, Offset))
+        query = cursor.fetchall()
+        if query is not None:
+            for row in query:
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8],
+                                  row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
+                                  row[10]).serialize())
             return games
         else:
             return games
@@ -97,7 +146,7 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
             return games
         else:
             return games
@@ -107,7 +156,7 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         cursor.execute('''
-        select min(numMoves), u.user_id as UserID, u.username as Username, u.profilePicture as profilePicture, g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+        select min(numMoves), u.user_id as UserID, u.username as Username, u.profilePicture as profilePicture, g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri, g.plays
         from solutions s right join
         game g on s.gameid = g.game_id left join
         `user` u on u.user_id = s.userid
@@ -117,7 +166,7 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8]).serialize())
+                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8],row[9]).serialize())
             return games
         else:
             return games

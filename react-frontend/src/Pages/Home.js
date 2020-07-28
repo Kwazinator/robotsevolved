@@ -34,7 +34,7 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                         <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                         </Typography>
-                        <Typography variant="p2" paragraph={true}> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                        <Typography variant="p1" paragraph={true}> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
                         </Typography>
                         <br/>
                         <img width="400" height="225" src='/static/videos/basic.gif'/>
@@ -205,14 +205,13 @@ export default function ComplexGrid(props) {
                         >
                             HotKeys
                         </Typography>
-                        <img width={'20%'} height={'auto'} src={"/static/images/spacebar.png"}/>
-                        <img width={'20%'} height={'auto'} src={"/static/images/enterkey.png"}/>
-                    <Typography>Undo - Reset</Typography>
+                        <img width={'20%'} height={'auto'} src={"/static/images/spacebar.png"}/> <Typography display={'block'}>Undo</Typography>
+                        <img width={'20%'} height={'auto'} src={"/static/images/enterkey.png"}/> <Typography>Reset</Typography>
                     <Divider />
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
-                    <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/1/2020
+                    <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/7/2020
                     </Typography>
                     </div>
 
@@ -221,7 +220,7 @@ export default function ComplexGrid(props) {
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                     <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                     </Typography>
-                    <Typography variant="p2"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                    <Typography paragraph={true} variant="p1"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
                     </Typography>
                     <br/>
                         <img width="400" height="225" src='/static/videos/basic.gif'/>

@@ -24,6 +24,12 @@ class GameService:
     def get_games_by_search(self,numPuzzles,Offset,searchterm):
         return GameDAO().get_games_by_search(numPuzzles,Offset,searchterm)
 
+    def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm):
+        return GameDAO().get_games_by_search_most_played(numPuzzles,Offset,searchterm)
+
+    def get_games_by_search_highest_score(self,numPuzzles,Offset,searchterm):
+        return GameDAO().get_games_by_search_highest_score(numPuzzles,Offset,searchterm)
+
 
     def insert_highscore(self,name,userid,authorname,solutiondata,highscore,uri):
         row = GameDAO().get_game_uri(uri)
@@ -43,9 +49,11 @@ class GameService:
                 userSubmitted = True
         gameid = game.id
         if (UpdateUserScore):
+            GameDAO().increment_plays(gameid)
             return GameDAO().update_highscore(idtoupdate,gameid, name, userid, authorname, solutiondata, highscore)
         else:
             if (not userSubmitted or userid==1):
+                GameDAO().increment_plays(gameid)
                 GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
                 rtnMessage = "Submitted"
                 return rtnMessage
