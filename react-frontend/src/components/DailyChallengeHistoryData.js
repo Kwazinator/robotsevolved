@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 
 const stylebelow = () => {
     return {
-        marginTop: '40px'
+        marginTop: '40px',
+        marginBottom: '20px'
     }
 }
 
@@ -20,7 +21,7 @@ class DailyChallengeHistoryData extends React.Component {
             <div>
                 <Typography style={stylebelow()} variant="h4"> {this.props.difficultyforPuzzle} </Typography>
                 <ShowDailyChallengeScoreCard
-                    name={"Robit God"}
+                    name={"Robot God"}
                     bestScore={this.props.bestScore}
                     MovesforPuzzle={this.props.lowestMovesforPuzzle}
                     MoveSequence={this.props.lowestMoveSequence}
@@ -28,7 +29,7 @@ class DailyChallengeHistoryData extends React.Component {
                 <ShowDailyChallengeScoreCard
                     name={this.props.nameSubmitted}
                     bestScore={this.props.scoreSubmitted}
-                    MovesforPuzzle={this.props.playerMovedSequence.length}
+                    MovesforPuzzle={null}
                     MoveSequence={<MovesView
                                         moveHistory={this.props.playerMovedSequence} playerState={[{colorSignifier: "blue"},{colorSignifier: "green"},{colorSignifier: "red"},{colorSignifier: "yellow"}]}
                                   />}

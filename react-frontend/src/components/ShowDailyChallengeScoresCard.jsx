@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   title: {
-    fontSize: 14,
+    fontSize: 25,
   },
   pos: {
     marginBottom: 12,
@@ -33,11 +33,8 @@ export default function ShowDailyChallengeScoresCard(props) {
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {props.name}
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography style={{marginBottom: '30px'}} variant="h5" component="h2">
           {props.bestScore}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          This Puzzle Moves
         </Typography>
         <Typography variant="body2" component="p">
           {props.MovesforPuzzle}

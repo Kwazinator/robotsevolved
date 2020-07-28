@@ -8,7 +8,7 @@ export default function ShowDailyPuzzleHistory(props) {
         props.handleDailyPuzzleHistoryClick(props.history)
     }
     return (
-            <Button size="small" color="primary" onClick={handleDailyPuzzleHistoryClick}>
+            <Button style={{marginLeft: '60px'}} variant="contained" size="small" color="primary" onClick={handleDailyPuzzleHistoryClick}>
                  show answers
             </Button>
     )

@@ -23,6 +23,7 @@ import SchoolIcon from '@material-ui/icons/School';
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import FindGameElements from "../containers/FindGameElements";
+import {GOAL_IMAGE} from '../constants/constants';
 
 
 export default function ComplexGrid(props) {
@@ -34,7 +35,7 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                         <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                         </Typography>
-                        <Typography variant="p1" paragraph={true}> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                        <Typography variant="p1" paragraph={true}>Puzzle Game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
                         </Typography>
                         <br/>
                         <img width="400" height="225" src='/static/videos/basic.gif'/>
@@ -158,7 +159,25 @@ export default function ComplexGrid(props) {
                         </Grid>
                     </Grid>
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
-                        <Typography className={classes.titlehome} variant="h4"> Daily Challenge Scores
+                    <Typography className={classes.titledailyroto} variant="h4"> Daily Challenge Rotation
+                    </Typography>
+                        <Typography variant="body1">
+                            Medium Mondays <br/>
+                            <Typography paragraph={true} variant="caption">(Medium,Medium,Medium,Medium)</Typography>
+                            Tryhard Teusdays <br/>
+                            <Typography paragraph={true} variant="caption">(ExHard,ExHard,Hard,Hard)</Typography>
+                            Wild Wednesdays <br/>
+                            <Typography paragraph={true} variant="caption">Hard,Hard,Medium,Medium)</Typography>
+                            Tilted Thursday<br/>
+                            <Typography paragraph={true} variant="caption">(ExHard,Hard,Medium,Easy)</Typography>
+                            Flyin Fridays<br/>
+                            <Typography paragraph={true} variant="caption">(Medium,Easy,Easy,Easy)</Typography>
+                            Sleepy Saturdays<br/>
+                            <Typography paragraph={true} variant="caption">(Medium,Easy,Easy,Easy)</Typography>
+                            Standard Sundays<br/>
+                            <Typography paragraph={true} variant="caption">(Hard,Medium,Medium,Easy)</Typography>
+                        </Typography>
+                        <Typography style={{marginTop: '30px'}} className={classes.titlehome} variant="h4"> Daily Challenge Scores
                         </Typography>
                         <DailyChallengeScores highscores={window.dchighscores}/>
                     </Grid>
@@ -183,7 +202,7 @@ export default function ComplexGrid(props) {
                             Movement
                         </Typography>
                     <img width={'20%'} height={'auto'} src={"/static/images/keyboard.png"}/>
-                    <Typography>Or use mouse button to click on the Robot you want to move</Typography>
+                    <Typography>Pieces Move until they hit a wall or another piece</Typography>
                     <Divider />
                         <Typography
                             className={classes.dividerFullWidth}
@@ -195,7 +214,7 @@ export default function ComplexGrid(props) {
                         </Typography>
                         <img width={'20%'} height={'auto'} src={"/static/images/tab.png"}/>
 
-                    <Typography>Or use mouse button to click</Typography>
+                    <Typography>Or click</Typography>
                     <Divider/>
                         <Typography
                             className={classes.dividerFullWidth}
@@ -220,7 +239,7 @@ export default function ComplexGrid(props) {
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                     <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                     </Typography>
-                    <Typography paragraph={true} variant="p1"> Create your own Robots Boards and challenge others to solve them, or play puzzle rush and get better.
+                    <Typography paragraph={true} variant="p1">Puzzle Game for anyone to play! Create your own custom boards or play a random Solved game.<br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
                     </Typography>
                     <br/>
                         <img width="400" height="225" src='/static/videos/basic.gif'/>
@@ -324,6 +343,24 @@ export default function ComplexGrid(props) {
                     </Card>
                 </Grid>
                 <Grid item xs={2} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
+                <Typography className={classes.titledailyroto} variant="h4"> Daily Challenge Rotation
+                </Typography>
+                <Typography variant="body2">
+                            Medium Mondays<br/>
+                            <Typography paragraph={true} variant="caption">(Medium,Medium,Medium,Medium)</Typography>
+                            Tryhard Teusdays<br/>
+                            <Typography paragraph={true} variant="caption">(ExHard,ExHard,Hard,Hard)</Typography>
+                            Wild Wednesdays<br/>
+                            <Typography paragraph={true} variant="caption">(Hard,Hard,Medium,Medium)</Typography>
+                            Tilted Thursday<br/>
+                            <Typography paragraph={true} variant="caption">(ExHard,Hard,Medium,Easy)</Typography>
+                            Flyin Fridays<br/>
+                            <Typography paragraph={true} variant="caption">(Medium,Easy,Easy,Easy)</Typography>
+                            Sleepy Saturdays<br/>
+                            <Typography paragraph={true} variant="caption">(Medium,Easy,Easy,Easy)</Typography>
+                            Standard Sundays<br/>
+                            <Typography paragraph={true} variant="caption">(Hard,Medium,Medium,Easy)</Typography>
+                </Typography>
                 <Typography className={classes.titlehome} variant="h4"> Daily Challenge Scores
                 </Typography>
                 <DailyChallengeScores highscores={window.dchighscores}/>

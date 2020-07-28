@@ -69,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "'Epilogue', sans-serif",
     marginBottom: '30px',
   },
+  titledailyroto: {
+    fontFamily: "'Epilogue', sans-serif",
+    marginBottom: '10px',
+  },
   iconfonts: {
     fontFamily: "'Arvo', serif",
   },

@@ -18,16 +18,36 @@ export default function AboutUs(props) {
                         </Typography>
                     </Grid>
                     <Grid spacing={4} item xs={12} sm={6} justify={"center"} alignItems={"center"}>
-                        <Card style={{height: "350px"}}>
+                        <Card>
                             <CardContent>
                                 <Typography color={'textPrimary'} variant={"h4"}>
-                                    Classic
+                                    Daily Challenge Rotation
+                                </Typography>
+                                <Typography variant={"body1"} paragraph={true}>
+                                    The Daily Challenge rotates its difficulty every day as specified below (random order)
+                                    <br/>
+                                    Medium Mondays - (Medium,Medium,Medium,Medium)
+                                    <br/>
+                                    Tryhard Teusdays - (ExHard,ExHard,Hard,Hard)
+                                    <br/>
+                                    Wild Wednesdays - (Hard,Hard,Medium,Medium)
+                                    <br/>
+                                    Tilted Thursday - (ExHard,Hard,Medium,Easy)
+                                    <br/>
+                                    Flyin Fridays - (Medium,Easy,Easy,Easy)
+                                    <br/>
+                                    Sleepy Saturdays - (Medium,Easy,Easy,Easy)
+                                    <br/>
+                                    Standard Sundays - (Hard,Medium,Medium,Easy)
+                                </Typography>
+                                <Typography color={'textPrimary'} variant={"h4"}>
+                                    Classic Puzzles
                                 </Typography>
                                 <Typography variant={"body1"} paragraph={true}>
                                     Classic Puzzles are based on the original Game. These Puzzles only have walls that are L shaped and a goal is in the center of one of them.
                                 </Typography>
                                 <Typography variant={"h4"} display={"inline"}>
-                                    Random
+                                    Random Puzzles
                                 </Typography>
                                 <Typography variant={"body1"} paragraph={true}>
                                     Random Puzzles are created by having a 10% chance for a wall to spawn in Any location possible wall location, Goals and Robot placements are completely random also.
@@ -36,7 +56,7 @@ export default function AboutUs(props) {
                         </Card>
                     </Grid>
                     <Grid spacing={4} item xs={12} sm={6} justify={"center"} alignItems={"center"}>
-                        <Card style={{height: "350px"}}>
+                        <Card>
                             <CardContent>
                                 <Typography variant={"h5"}>
                                     Easy
@@ -66,7 +86,7 @@ export default function AboutUs(props) {
                                     God Tier
                                 </Typography>
                                 <Typography variant={"body2"} paragraph={true}>
-                                    Puzzles of this difficulty always can be solved in over 23 Moves
+                                    Puzzles of this difficulty always can be solved in over 23 Moves, Note: there are a low number of these puzzles due to the CPU required to create them
                                 </Typography>
                             </CardContent>
                         </Card>

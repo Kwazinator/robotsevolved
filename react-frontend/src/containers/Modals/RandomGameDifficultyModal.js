@@ -86,6 +86,11 @@ class PuzzleRushDifficultyModal extends React.Component {
         })
     }
 
+    handleClickGodMode = event => {
+        event.preventDefault();
+        this.handleClickRandomGameModal('GodTeir',this.state.value)
+    }
+
     handleChange = (event) => {
         this.setState(
             {value: event.target.value}
@@ -140,6 +145,9 @@ class PuzzleRushDifficultyModal extends React.Component {
                                         </Button>
                                         <Button onClick={this.handleClickExHard} variant="contained" color="primary">
                                             Extremely Hard
+                                        </Button>
+                                        <Button onClick={this.handleClickGodMode} variant="contained" color="primary">
+                                            God Tier
                                         </Button>
                                      </ButtonGroup>
                                 </Grid>

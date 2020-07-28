@@ -38,16 +38,13 @@ export default function DailyChallengeHistory(props) {
                             >
                                 <Typography className={classes.heading}>{history.created}</Typography>
                                 <Typography className={classes.secondaryHeading}>Winner: {history.nameSubmitted}</Typography>
+                                <ShowDailyPuzzleHistory history={history} handleDailyPuzzleHistoryClick={props.handleDailyPuzzleHistoryClick}/>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <div>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         <FaCrown/> {history.nameSubmitted} - {history.scoreSubmitted} <FaCrown/>
                                     </Typography>
                                     <Typography className={classes.secondaryHeading}>Lowest possible solution: {history.bestScore}</Typography>
-                                    <br/>
-                                    <ShowDailyPuzzleHistory history={history} handleDailyPuzzleHistoryClick={props.handleDailyPuzzleHistoryClick}/>
-                                </div>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     )
