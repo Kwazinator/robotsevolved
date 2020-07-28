@@ -80,6 +80,10 @@ const useStyles = makeStyles((theme) => ({
   demo: {
     backgroundColor: theme.palette.background.paper,
   },
+  centeredProfile: {
+    marginTop: '20px',
+    display: 'inline-block',
+  }
 }));
 
 export default useStyles;

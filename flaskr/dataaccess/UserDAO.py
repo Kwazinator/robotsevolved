@@ -30,7 +30,7 @@ class UserDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            row = cursor.execute('INSERT INTO user (username, logintype, accountID, profilePicture, email, activeFlag) VALUES (%s,%s,%s,%s,%s,%s)',(username, logintype, accountID, profilePicture, email, activeFlag))
+            row = cursor.execute('INSERT INTO user (username, logintype, accountID, profilePicture, email, activeFlag,OGname) VALUES (%s,%s,%s,%s,%s,%s,%s)',(username, logintype, accountID, profilePicture, email, activeFlag,username))
             db.commit()
             return cursor.lastrowid #return the userID that was created
         except Exception as e:
@@ -53,6 +53,18 @@ class UserDAO:
         row = cursor.fetchone()
         return
 
+    def change_username(self, user_id, username):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute("UPDATE user SET username=%s WHERE user_id=%s",(username,user_id))
+            db.commit()
+            return 'OK'
+        except Exception as e:
+            print('Error in UserDAO().change_username')
+            print(e)
+        finally:
+            pass
 
     def get_user_by_logintype(self,accountID,logintype):
         cursor = get_db().cursor()
@@ -62,3 +74,12 @@ class UserDAO:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
         else:
             return None
+
+    def username_not_taken(self,username,user_id):
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * from user WHERE username=%s or OGname=%s and user_id!=%s", (username,username,user_id))
+        row = cursor.fetchone()
+        if row is not None:
+            return False
+        else:
+            return True

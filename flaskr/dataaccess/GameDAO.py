@@ -71,7 +71,7 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%',searchterm,'%'))
-        cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
@@ -84,7 +84,7 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         highscores = list()
-        cursor.execute('SELECT * from solutions where gameid = %s ORDER BY numMoves ASC', (id,))
+        cursor.execute('SELECT * from solutions where gameid = %s ORDER BY numMoves,created ASC', (id,))
         for row in cursor.fetchall():
             highscores.append(Solutions(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
         return highscores
@@ -128,17 +128,21 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         cursor.execute('''
-        select min(numMoves), g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri
+        select min(numMoves), g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri,
+		(SELECT se.solutions_id from solutions se where gameid = g.game_id ORDER BY numMoves,created ASC LIMIT 1) as WinnerSolutionID,
+		(SELECT seo.userid from solutions seo WHERE solutions_id=WinnerSolutionID) as WinnerUserID,
+		(SELECT sed.comment from solutions sed WHERE solutions_id=WinnerSolutionID) as WinnerUsername,
+		(SELECT see.created from solutions see WHERE solutions_id=WinnerSolutionID) as WinnerCreated
         from solutions s right join
         game g on s.gameid = g.game_id left join
         `user` u on u.user_id = s.userid
         where s.userid = %s
-        group by g.game_id
+        group by g.game_id ORDER by created DESC
         ''',(user_id,))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], row[4].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5]).serialize())
+                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], row[4].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5],row[6],row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
             return games
         else:
             return games

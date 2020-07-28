@@ -7,15 +7,24 @@ from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
+import re
 
 bp = Blueprint('index', __name__)
 
 
+def deEmojify(text):
+    regrex_pattern = re.compile(pattern = "["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           "]+", flags = re.UNICODE)
+    return regrex_pattern.sub(r'',text)
+
 def trimstring(stringtotrim):
     if len(stringtotrim) > 32:
         stringtotrim = stringtotrim[:32]
-    return stringtotrim
-
+    return deEmojify(stringtotrim).rstrip()
 
 def get_games_data(numMoves,Offset):
     gameslist = GameService().get_all_games(numMoves, Offset)  # get_all_games(numGames,offset)
@@ -84,6 +93,14 @@ def getdailychallengehistory():
     return jsonify(daily_challenge_history)
 
 
+
+@bp.route('/userUpdate', methods=('GET','POST'))
+@jwt_required
+def user_update():
+    userID = get_jwt_identity()
+    data = request.get_json()
+    return UserService().change_username(userID,trimstring(data['newuser']))
+
 @bp.route('/settingsChange', methods=('GET','POST'))
 @jwt_required
 def settingsChange():
@@ -148,18 +165,6 @@ def submithighscore():
         userID = 1
     rtnMessage = GameService().insert_highscore(trimstring(data['name']),userID,'test','test',data['highscore'],data['uri'])
     return rtnMessage
-
-@bp.route('/userCreate', methods={'GET', 'POST'})
-def userCreate():
-    data = request.get_json()
-    UserService().insert_user(data['userId'], data['logintype'], data['accountId'], data['profilePicture'], data['email'])
-    return 'OK'
-
-@bp.route('/userDelete', methods={'GET', 'POST'})
-def userDelete():
-    data = request.get_json()
-    UserService().delete_user(data['userID'])
-    return 'OK'
 
 @bp.route('/search', methods=('GET','POST'))
 def search():

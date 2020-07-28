@@ -5,15 +5,25 @@ from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
+import re
 
 bp = Blueprint('dailychallenge', __name__)
 
 
 
+def deEmojify(text):
+    regrex_pattern = re.compile(pattern = "["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           "]+", flags = re.UNICODE)
+    return regrex_pattern.sub(r'',text)
+
 def trimstring(stringtotrim):
     if len(stringtotrim) > 32:
         stringtotrim = stringtotrim[:32]
-    return stringtotrim
+    return deEmojify(stringtotrim).rstrip()
 
 @bp.route('/dailychallenge',methods=('GET','POST'))
 @jwt_optional

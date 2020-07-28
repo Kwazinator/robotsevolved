@@ -2,6 +2,7 @@ import React from 'react';
 import Game from '../containers/Game';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 import GameListItemView from '../components/GameListItemView';
 import SearchBarFindGame from '../components/SearchBarFindGame';
 import FindGameElements from '../containers/FindGameElements'
@@ -15,11 +16,25 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import useStyles from '../Material-UI/themes';
 import ProfilePageCreatedGamesDetails from '../components/ProfilePageComponents/ProfilePageCreatedGamesDetails';
 import ProfilePageSolutionDetails from '../components/ProfilePageComponents/ProfilePageSolutionDetails';
+import { FaCrown } from 'react-icons/fa';
 
 
 
 export default function ProfilePage(props) {
     const classes = useStyles();
+    const submitAnswer = () => {
+        axios.post('/userUpdate',{newuser: document.getElementById("ProfileName").value})
+            .then( res => {
+                if (res.data == 'OK') {
+                    window.location.href = '/';
+                }
+                else {
+                    setError(res.data);
+                }
+            });
+    };
+
+    const [error, setError] = React.useState(null)
     const [expandedGame, setExpandedGame] = React.useState(false);
     const [expandedHighscores, setExpandedHighscores] = React.useState(false);
     const handleChangeGame = (panel) => (event, isExpandedGame) => {
@@ -32,7 +47,12 @@ export default function ProfilePage(props) {
     return (
             <div id={'GameMain'} className={classes.root}>
                 <Grid container spacing={4} alignItems={"stretch"}>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} justify={"center"} alignItems={"center"}>
+                        <TextField className={classes.centeredProfile} id={"ProfileName"} label={"Username"} defaultValue={window.userInfo.username}/>
+                        <Button className={classes.centeredProfile} variant="contained" color="secondary" onClick={submitAnswer}>Change Username</Button>
+                        <Typography color={"secondary"}>{error}</Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Typography className={classes.titlehome} variant="h3">Games Created</Typography>
                         {
                             props.gamesview.map((game,index) =>
@@ -55,7 +75,7 @@ export default function ProfilePage(props) {
                             )
                         }
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Typography className={classes.titlehome} variant="h3">Games Solved</Typography>
                         {
                             props.solutionsview.map((solution,index) =>
@@ -66,7 +86,8 @@ export default function ProfilePage(props) {
                                       id={"panel" + index + "-header"}
                                     >
                                       <Typography className={classes.heading}>{solution.name}</Typography>
-                                      <Typography className={classes.secondaryHeading}>Score: {solution.numMoves}</Typography>
+                                      <Typography className={classes.secondaryHeading}>Best: {solution.numMoves}</Typography>
+                                      {solution.WinnerUserId == window.userInfo.userID ? <FaCrown style={{marginLeft: '30px'}}/> : null}
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <ProfilePageSolutionDetails
@@ -78,7 +99,7 @@ export default function ProfilePage(props) {
                             )
                         }
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} sm={6} md={4}>
                         <Typography className={classes.titlehome} variant="h3">Puzzle Rush Data:</Typography>
                         <Paper>
                               <Typography className={classes.heading}>Easy</Typography>

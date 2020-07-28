@@ -41,3 +41,12 @@ class UserService:
             'refresh_token': refresh_token
         }
         return jwt
+
+    def change_username(self,user_id,username):
+        if (UserDAO().username_not_taken(username,user_id)):
+            if (len(username) < 2):
+                return 'must be at least 2 characters'
+            else:
+                return UserDAO().change_username(user_id, username)
+        else:
+            return 'Username has been taken'

@@ -11,11 +11,11 @@ export default function ProfilePageSolutionDetails(props) {
     return (<div>
               <Grid container xs={12}>
                 <Grid item xs={6}>
-                    <Typography> Highscore Holder: </Typography>
+                    <Typography color={'secondary'} variant={'body2'}> {props.solution.WinnerCreated} </Typography>
                 </Grid>
                  <Grid item xs={6}>
                   <Typography>
-                    {props.solution.name} - {props.solution.numMoves}
+                    {props.solution.WinnerUsername} - {props.solution.numMoves}
                   </Typography>
               </Grid>
               </Grid>
