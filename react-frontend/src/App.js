@@ -530,7 +530,7 @@ class App extends React.Component {
                             </Typography>
                             <div className={classes.grow} />
                             <div className={classes.sectionDesktop}>
-                                <LoggedInUser/>
+                                <LoggedInUser handleClick={this.SignInButtonPressed}/>
                             </div>
                             <div className={classes.sectionMobile}>
                                 <IconButton
@@ -555,7 +555,7 @@ class App extends React.Component {
                         onClose={this.handleMobileMenuClose}
                     >
                         <MenuItem>
-                            <LoggedInUser/>
+                            <LoggedInUser handleClick={this.SignInButtonPressed}/>
                         </MenuItem>
                         <MenuItem>
                             <p>Notifications</p>

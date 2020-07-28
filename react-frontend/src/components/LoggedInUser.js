@@ -1,4 +1,6 @@
 import React from 'react';
+import SignInButton from './SignInButton';
+
 
 const style = () => {
     return {
@@ -20,9 +22,13 @@ const divStyle = () => {
 
 export default class LoggedInUser extends React.Component {
 
+    SignInButtonPressed = () => {
+        this.props.handleClick('Sign in');
+    }
+
     render () {
         if (window.loggedin == 'No') {
-            return null
+            return <SignInButton onClick={this.SignInButtonPressed}/>
         }
         else {
             return (
