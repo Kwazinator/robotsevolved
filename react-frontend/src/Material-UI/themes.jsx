@@ -87,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
   centeredProfile: {
     marginTop: '20px',
     display: 'inline-block',
+  },
+  expandedPanelDCH: {
+    background: 'linear-gradient(70deg, #fff810  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #63e89e 60%, #ff7ee3 60%)'
   }
 }));
 

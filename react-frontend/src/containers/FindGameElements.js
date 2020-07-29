@@ -8,14 +8,18 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip"
+import Tooltip from "@material-ui/core/Tooltip";
+import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 
 
 const styles = theme => ({
     root: {
         width: "100%",
-        maxWidth: 360,
-        height: 175
+        maxWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? 340 : 360,
+        minWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? 340 : 320,
+        height: 225,
+        position: 'relative',
+        background: 'linear-gradient(100deg, #fdcd3b 55%, #ffed4b 55%)'
     },
 
     item: {
@@ -24,6 +28,12 @@ const styles = theme => ({
 
     upperPadding: {
         paddingTop: 3
+    },
+    upperPaddingButton: {
+        paddingTop: 3,
+        position: 'absolute',
+        bottom: 15,
+        left: 25
     },
 
     lowerPadding: {
@@ -53,11 +63,11 @@ function ComplexGrid(props) {
     var numberOfHighScores = 0;
 
     const highscorestyle = highscore => {
-        if (numberOfHighScores === 5) return "";
+        if (numberOfHighScores === 6) return "";
         numberOfHighScores++;
         return (
             <ListItem disableGutters={true} classes={{ root: classes.item }}>
-                <ListItemText primary={trimName(highscore.comment)} classes={{ root: classes.leftSideText }} />
+                <ListItemText primary={trimNameShort(highscore.comment)} classes={{ root: classes.leftSideText }} />
                 <ListItemText secondary={highscore.numMoves} classes={{ root: classes.rightSideText }} />
             </ListItem>
         )
@@ -72,6 +82,19 @@ function ComplexGrid(props) {
     };
 
     const trimName = name => {
+        var separated = (name + '').split(" ")
+        var toreturn = '';
+        separated.map((word) => {
+            if (word.length > 17)
+                toreturn += word.substring(0, 17) + "..." + ' ';
+            else {
+                toreturn += word + ' '
+            }
+        });
+        return toreturn.substring(0, toreturn.length - 1);
+    };
+
+    const trimNameShort = name => {
         if (name.length > 10)
             name = name.substring(0, 10) + "...";
         return name
@@ -79,11 +102,11 @@ function ComplexGrid(props) {
 
 
     return (
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} md={3} sm={6}>
             <Card variant="outlined" className={classes.root}>
                 <CardContent>
                     <div style={contentDivStyle()}>
-                        <div style={{width: '125px'}}>
+                        <div style={{width: '150px'}}>
                             <Tooltip title={props.game.name}>
                                 <Typography variant="h6" classes={{ root: classes.lowerPadding }}>
                                     {trimName(props.game.name)}
@@ -105,10 +128,9 @@ function ComplexGrid(props) {
                                 </Typography>
                             </div>
                             <br/>
-                            <Button onClick={handleClick} classes={{ root: classes.upperPadding }} variant="contained" color="primary">Play</Button>
+                            <Button onClick={handleClick} classes={{ root: classes.upperPaddingButton }} variant="contained" color="primary">Play</Button>
                         </div>
-                        <Divider orientation="vertical" flexItem />
-                        <div style={{width: '125px'}}>
+                        <div style={{width: '105px'}}>
                             <Typography color="textSecondary" variant="caption">
                                 Top Scores
                             </Typography>

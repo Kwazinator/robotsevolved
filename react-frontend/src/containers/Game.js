@@ -420,6 +420,7 @@ class Game extends React.Component {
         if (window.userInfo !== null) {
             username = window.userInfo.username
         }
+        console.log(state);
         axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username}))
             .then( res => {
                 this.setState({
@@ -1088,7 +1089,6 @@ class Game extends React.Component {
                     }
                 });
                 newWallHorizontal[indexToChange] = {top: top,left: left,opacity: opacity};
-                console.log('clicking horizontal wall');
                 this.setState({
                     wallHorizontal: newWallHorizontal
                 });

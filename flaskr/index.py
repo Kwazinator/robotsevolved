@@ -156,11 +156,36 @@ def play(uri):
 def submitpuzzle():
     data = request.get_json()
     userID = get_jwt_identity()
+    #check the data, no fancy stuff
+    try:
+        puzzledata = {
+            'buildMode': False,
+            'boardState': data['puzzledata']['boardState'],
+            'copiedToClipboard': False,
+            'createMode': 'No',
+            'gameWon': False,
+            'goal': data['puzzledata']['goal'],
+            'height': data['puzzledata']['height'],
+            'highscores': [],
+            'moveHistory': [],
+            'playerStart': data['puzzledata']['playerStart'],
+            'playerState': data['puzzledata']['playerState'],
+            'robotSelected': 0,
+            'showBoardResetPanelModal': False,
+            'wallHorizontal': data['puzzledata']['wallHorizontal'],
+            'wallVerticle': data['puzzledata']['wallVerticle'],
+            'width': data['puzzledata']['width'],
+        }
+    except Exception as e:
+        print('error in puzzledata submission')
+        print(e)
+        return 'Error in processing the data'
+    finally:
+        pass
     if userID is None:
         userID = 1
-    if (GameService().check_same_game(json.dumps(data['puzzledata'])) == 1):
-
-        uri = GameService().insert_game(trimstring(data['name']), 'type', 'description', userID, trimstring(data['authorname']), 1, json.dumps(data['puzzledata']))
+    if (GameService().check_same_game(json.dumps(puzzledata)) == 1):
+        uri = GameService().insert_game(trimstring(data['name']), 'type', 'description', userID, trimstring(data['authorname']), 1, json.dumps(puzzledata))
         return jsonify(uri=uri)
     else:
         return jsonify(uri='GameAlreadyExists')
