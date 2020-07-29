@@ -560,9 +560,6 @@ class App extends React.Component {
                         <MenuItem>
                             <p>Notifications</p>
                             <IconButton aria-label="show 11 new notifications" color="inherit">
-                                <Badge badgeContent={11} color="secondary">
-                                    <NotificationsIcon/>
-                                </Badge>
                             </IconButton>
                         </MenuItem>
                     </Menu>
