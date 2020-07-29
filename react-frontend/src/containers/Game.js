@@ -40,7 +40,8 @@ import {
     ROBOT_YELLOW,
     GREEN_UP_PICTURE,
     DIRECTION_MAP_IMAGES,
-    LINE_INDICATOR_COLOR
+    LINE_INDICATOR_COLOR,
+    MOBILE_INNER_SCREEN_WIDTH
 } from '../constants/constants';
 import BoardGenerator from '../components/boardgenerator';
 import BoardResetModal from "./Modals/BoardResetModal";
@@ -59,7 +60,7 @@ window.addEventListener("keydown", function(e) {
 const gamepanel = () => {
     return {
         width: '100%',
-        padding: '40px'
+        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px'
     };
 };
 
@@ -122,7 +123,7 @@ const setDefaultSquareSize = (boardWidth,boardHeight) => {
     settingstop = parseInt(settingstop);
     settingstop = settingstop - (settingstop % 4)
 
-    var settings = ((windowWidth < 600) ? windowWidth : (windowWidth - drawerWidth) / 1.75);
+    var settings = ((windowWidth < MOBILE_INNER_SCREEN_WIDTH) ? windowWidth - 20 : (windowWidth - drawerWidth) / 1.75);
     settings = settings / boardWidth;
     settings = parseInt(settings);
     settings = settings - (settings % 4);
