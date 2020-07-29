@@ -15,8 +15,8 @@ import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 const styles = theme => ({
     root: {
         width: "100%",
-        maxWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? 340 : 360,
-        minWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? 340 : 320,
+        maxWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '100%' : 360,
+        minWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '100%' : 320,
         height: 225,
         position: 'relative',
         background: 'linear-gradient(100deg, #fdcd3b 55%, #ffed4b 55%)'

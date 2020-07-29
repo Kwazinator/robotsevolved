@@ -29,7 +29,7 @@ const styles = theme => ({
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        width: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '100%' : 400,
     },
     input: {
         marginLeft: 5,

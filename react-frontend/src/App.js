@@ -557,11 +557,6 @@ class App extends React.Component {
                         <MenuItem>
                             <LoggedInUser handleClick={this.SignInButtonPressed}/>
                         </MenuItem>
-                        <MenuItem>
-                            <p>Notifications</p>
-                            <IconButton aria-label="show 11 new notifications" color="inherit">
-                            </IconButton>
-                        </MenuItem>
                     </Menu>
                     <Drawer
                         id="MainDrawer"
