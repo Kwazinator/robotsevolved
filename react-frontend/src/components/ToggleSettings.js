@@ -20,7 +20,6 @@ class ToggleSettings extends React.Component {
 
 
     render() {
-        console.log(this.props.showColoredLineDirections)
         return (
             <div style={buttonpanel()}>
                 <FormControlLabel

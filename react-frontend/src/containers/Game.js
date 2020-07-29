@@ -330,6 +330,7 @@ class Game extends React.Component {
                 if (res.data.dc_id != this.state.dc_id) {
                     this.props.handleClickDailyChallenge();
                 }
+                window.dchighscores = JSON.parse(res.data.highscores)
             });
     }
 

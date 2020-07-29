@@ -17,7 +17,6 @@ class Solutions:
             'comment': self.comment,
             'userid': self.userid,
             'authorname': self.authorname,
-            'solutiondata': self.solutiondata,
             'numMoves': self.numMoves,
             'created': self.created
         }
