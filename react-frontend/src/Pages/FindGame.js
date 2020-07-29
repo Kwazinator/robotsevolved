@@ -17,7 +17,8 @@ import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 const gamepanel = () => {
     return {
         width: '100%',
-        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px',
+        paddingTop: '40px',
+        paddingLeft: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '0px' : '40px',
         margin: '0 auto',
         align: 'center',
     }

@@ -61,9 +61,10 @@ window.addEventListener("keydown", function(e) {
 const gamepanel = () => {
     return {
         width: '100%',
-        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px'
-    };
-};
+        paddingTop: '40px',
+        paddingLeft: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '0px' : '40px',
+    }
+}
 
 const leftDisplayPanel = () => {
     return {
