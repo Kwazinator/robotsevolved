@@ -16,15 +16,15 @@ from collections import deque
 
 week = {
     'Medium Mondays': ['medium','medium','medium','medium'],
-    'TryHard Teusday': ['Exteremly Hard','hard','hard','Exteremly Hard'],
-    'Wild Wednesday': ['hard','hard','medium','medium'],
-    'Tilted Thursday': ['hard','medium','Exteremly Hard','easy'],
-    'Flyin Fridays': ['easy','easy','easy','medium'],
-    'Sleepy Saturdays': ['easy','medium','easy','medium'],
-    'Standard Sundays': ['medium','hard','medium','easy']
+    'Trouble Teusdays': ['Exteremly Hard','Exteremly Hard','Exteremly Hard','Exteremly Hard'],
+    'Wild Wednesday': ['hard','hard','hard','hard'],
+    'Tryhard Thursdays': ['Exteremly Hard','Exteremly Hard','Exteremly Hard','GodTeir'],
+    'Flyin Fridays': ['medium','medium','medium','medium'],
+    'Sleepy Saturdays': ['easy','easy','easy','easy'],
+    'Standard Sundays': ['hard','hard','hard','hard']
 }
 
-weekly = ['Medium Mondays','TryHard Teusday','Wild Wednesday','Tilted Thursday','Flyin Fridays','Sleepy Saturdays','Standard Sundays']
+weekly = ['Medium Mondays','Trouble Teusdays','Wild Wednesday','Tryhard Thursdays','Flyin Fridays','Sleepy Saturdays','Standard Sundays']
 
 
 if __name__ == "__main__":

@@ -35,27 +35,27 @@ export default function AboutUs(props) {
                                     Daily Challenge Rotation
                                 </Typography>
                                 <Typography variant={"body1"} paragraph={true}>
-                                    The Daily Challenge rotates its difficulty every day as specified below (random order)
+                                    The Daily Challenge rotates its difficulty every day as specified below with 2 x Random and 2 x Classic Type puzzles.
                                     <br/>
-                                    Medium Mondays - (Medium,Medium,Medium,Medium)
+                                    Medium Mondays - 4 x Medium
                                     <br/>
-                                    Tryhard Teusdays - (ExHard,ExHard,Hard,Hard)
+                                    Trouble Teusdays - 4 x Extremely Hard
                                     <br/>
-                                    Wild Wednesdays - (Hard,Hard,Medium,Medium)
+                                    Wild Wednesdays - 4 x Hard
                                     <br/>
-                                    Tilted Thursday - (ExHard,Hard,Medium,Easy)
+                                    Tryhard Thursdays - 3 x Extremely Hard 1 x God Teir
                                     <br/>
-                                    Flyin Fridays - (Medium,Easy,Easy,Easy)
+                                    Flyin Fridays - 4 x Medium
                                     <br/>
-                                    Sleepy Saturdays - (Medium,Easy,Easy,Easy)
+                                    Sleepy Saturdays - 4 x Easy
                                     <br/>
-                                    Standard Sundays - (Hard,Medium,Medium,Easy)
+                                    Standard Sundays - 4 x Hard
                                 </Typography>
                                 <Typography color={'textPrimary'} variant={"h4"}>
                                     Classic Puzzles
                                 </Typography>
                                 <Typography variant={"body1"} paragraph={true}>
-                                    Classic Puzzles are based on the original Game. These Puzzles only have walls that are L shaped and a goal is in the center of one of them.
+                                    Classic puzzles are based on the original Game. These Puzzles only have walls that are L shaped and a goal is in the center of one of the L puzzles.
                                 </Typography>
                                 <Typography variant={"h4"} display={"inline"}>
                                     Random Puzzles
@@ -108,7 +108,7 @@ export default function AboutUs(props) {
                           <div class="container3">
                             <h2>Kyle Kwasniewski</h2>
                             <p class="title3">Creator &amp; FullStack Dev.</p>
-                            <p>I work in Software Development and Dev-Ops in New York and consider myself a Ricochet Robots enthusiast so I decided to make this application as a way to better hone my skill in web frameworks as well as pass the time during the quarantine. If you find any bugs or feature requests for robotsevolved please let me know by emailing me below. Ill get to developing the feature/fixing annoying bugs.</p>
+                            <p>I work in Software Development and Dev-Ops in New York and consider myself a Ricochet Robots enthusiast so I decided to make this application as a way to better hone my skill in web frameworks as well as pass the time during the quarantine. If you find any bugs or feature requests for RobotsEvolved please let me know by emailing me below I would love to hear some of the ideas people have. Ill get to developing the feature/fixing annoying bugs ASAP.</p>
                             <p>Thanks for playing!</p>
                             <p>robotsevolved@gmail.com</p>
                           </div>
