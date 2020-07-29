@@ -17,8 +17,16 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ProfilePageCreatedGamesDetails from "../components/ProfilePageComponents/ProfilePageCreatedGamesDetails";
+import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 
-
+const gamepanel = () => {
+    return {
+        width: '100%',
+        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px',
+        margin: '0 auto',
+        align: 'center',
+    }
+}
 
 export default function DailyChallengeHistory(props) {
     const [expandedPanel, setExpandedPanel] = React.useState(false);
@@ -26,7 +34,7 @@ export default function DailyChallengeHistory(props) {
         setExpandedPanel(isExpanded ? panel : false);
     };
     const classes = useStyles();
-    return (<div id={'GameMain'}>
+    return (<div style={gamepanel()}>
                 <Typography className={classes.titlehome} variant="h3">Daily Challenge History</Typography>
                 {
                     props.dailychallengehistory.map((history, index) =>

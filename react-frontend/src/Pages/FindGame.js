@@ -12,6 +12,16 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
+import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
+
+const gamepanel = () => {
+    return {
+        width: '100%',
+        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px',
+        margin: '0 auto',
+        align: 'center',
+    }
+}
 
 const styles = theme => ({
     root: {
@@ -100,7 +110,7 @@ class FindGame extends React.Component {
     render () {
         const  { classes } = this.props;
         return (
-            <div id={'GameMain'}>
+            <div style={gamepanel()}>
                 <Paper component="form" className={classes.root} >
                     <InputBase
                         className={classes.input}

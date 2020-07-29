@@ -5,9 +5,19 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import {Card} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
+import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
+
+const gamepanel = () => {
+    return {
+        width: '100%',
+        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px',
+        margin: '0 auto',
+        align: 'center',
+    }
+}
 
 export default function AboutUs(props) {
-    return (<div id="GameMain">
+    return (<div style={gamepanel()}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item spacing={4} xs={12} justify={"center"} alignItems={"center"}>
                         <Typography variant={'body1'}>

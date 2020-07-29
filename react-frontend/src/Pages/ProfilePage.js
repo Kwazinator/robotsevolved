@@ -17,7 +17,17 @@ import useStyles from '../Material-UI/themes';
 import ProfilePageCreatedGamesDetails from '../components/ProfilePageComponents/ProfilePageCreatedGamesDetails';
 import ProfilePageSolutionDetails from '../components/ProfilePageComponents/ProfilePageSolutionDetails';
 import { FaCrown } from 'react-icons/fa';
+import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 
+
+const gamepanel = () => {
+    return {
+        width: '100%',
+        padding: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '5px' : '40px',
+        margin: '0 auto',
+        align: 'center',
+    }
+}
 
 
 export default function ProfilePage(props) {
@@ -45,7 +55,7 @@ export default function ProfilePage(props) {
     };
     console.log(props.puzzlerushview);
     return (
-            <div id={'GameMain'} className={classes.root}>
+            <div style={gamepanel()}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item xs={12} justify={"center"} alignItems={"center"}>
                         <TextField className={classes.centeredProfile} id={"ProfileName"} label={"Username"} defaultValue={window.userInfo.username}/>

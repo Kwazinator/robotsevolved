@@ -57,6 +57,7 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 
+
 const gamepanel = () => {
     return {
         width: '100%',
@@ -1159,7 +1160,7 @@ class Game extends React.Component {
                         isDailyChallenge = {this.props.dailyChallengeMode}
                         isDailyChallengeAnswers = {this.props.dailyChallengeModeAnswers}
                     />
-                    <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>
+                    {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? null : <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>}
                 </Grid>
                 <Grid item xs={12} sm={6} md={8} zeroMinWidth>
                     <Board width={this.state.width * this.state.squareSize} height={this.state.height * this.state.squareSize}>
@@ -1236,6 +1237,7 @@ class Game extends React.Component {
                             )
                         }
                     </Board>
+                    {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/> : null}
                 </Grid>
                 <Grid item xs={12} sm={3} md={2}>
                     <DescriptionList
