@@ -231,8 +231,6 @@ export default function ComplexGrid(props) {
                     <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/7/2020
                     </Typography>
                     </div>
-
-
                 </Grid>
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                     <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved

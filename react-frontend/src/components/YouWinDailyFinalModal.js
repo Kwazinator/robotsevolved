@@ -21,7 +21,7 @@ class YouWinDailyFinalModal extends React.Component {
     }
 
     handleClickSubmitGame = () => {
-        this.props.submitAnswer(this.props.robotPosition)
+        this.props.submitAnswer(this.props.newPlayerState)
     }
 
     render() {
@@ -38,6 +38,7 @@ class YouWinDailyFinalModal extends React.Component {
                     </div>
                     <br/>
                     <TextField id={"namesubmitHS"} label={"Username"} defaultValue={this.props.username}/>
+                    {this.props.submitted}
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="primary" onClick={this.props.undoMove}>Undo Move</Button>

@@ -1,33 +1,41 @@
 class PuzzleRushStatsProfileView:
 
-    def __init__(self, maxeasy,maxmedium,maxhard,maxexhard,averageeasy,averagemedium,averagehard,averageexhard,averagediffeasy,averagediffmedium,averagediffhard,averagediffexhard):
-        self.maxeasy = str(maxeasy)
-        self.maxmedium = str(maxmedium)
-        self.maxhard = str(maxhard)
-        self.maxexhard = str(maxexhard)
-        self.averageeasy = str(averageeasy)
-        self.averagemedium = str(averagemedium)
-        self.averagehard = str(averagehard)
-        self.averageexhard = str(averageexhard)
-        self.averagediffeasy = str(averagediffeasy)
-        self.averagediffmedium = str(averagediffmedium)
-        self.averagediffhard = str(averagediffhard)
-        self.averagediffexhard = str(averagediffexhard)
+    def __init__(self, maxeasyc,maxmediumc,maxhardc,maxexhardc,maxeasyp,maxmediump,maxhardp,maxexhardp,maxeffec,maxeffmc,maxeffhc,maxeffexc,maxeffep,maxeffmp,maxeffhp,maxeffexp):
+        self.maxeasyc = str(maxeasyc)
+        self.maxmediumc = str(maxmediumc)
+        self.maxhardc = str(maxhardc)
+        self.maxexhardc = str(maxexhardc)
+        self.maxeasyp = str(maxeasyp)
+        self.maxmediump = str(maxmediump)
+        self.maxhardp = str(maxhardp)
+        self.maxexhardp = str(maxexhardp)
+        self.maxeffec = str(maxeffec)
+        self.maxeffmc = str(maxeffmc)
+        self.maxeffhc = str(maxeffhc)
+        self.maxeffexc = str(maxeffexc)
+        self.maxeffep = str(maxeffep)
+        self.maxeffmp = str(maxeffmp)
+        self.maxeffhp = str(maxeffhp)
+        self.maxeffexp = str(maxeffexp)
 
     def serialize(self):
         return {
-                'maxeasy': self.maxeasy,
-                'maxmedium': self.maxmedium,
-                'maxhard': self.maxhard,
-                'maxexhard': self.maxexhard,
-                'averageeasy': self.averageeasy,
-                'averagemedium': self.averagemedium,
-                'averagehard': self.averagehard,
-                'averageexhard': self.averageexhard,
-                'averagediffeasy': self.averagediffeasy,
-                'averagediffmedium': self.averagediffmedium,
-                'averagediffhard': self.averagediffhard,
-                'averagediffexhard': self.averagediffexhard
+                'maxeasyc': self.maxeasyc,
+                'maxmediumc': self.maxmediumc,
+                'maxhardc': self.maxhardc,
+                'maxexhardc': self.maxexhardc,
+                'maxeasyp': self.maxeasyp,
+                'maxmediump': self.maxmediump,
+                'maxhardp': self.maxhardp,
+                'maxexhardp': self.maxexhardp,
+                'maxeffec': self.maxeffec,
+                'maxeffmc': self.maxeffmc,
+                'maxeffhc': self.maxeffhc,
+                'maxeffexc': self.maxeffexc,
+                'maxeffep': self.maxeffep,
+                'maxeffmp': self.maxeffmp,
+                'maxeffhp': self.maxeffhp,
+                'maxeffexp': self.maxeffexp
         }
 
 

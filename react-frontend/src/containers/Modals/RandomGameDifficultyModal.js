@@ -99,11 +99,12 @@ class PuzzleRushDifficultyModal extends React.Component {
 
     render () {
         return (
-            <Dialog onClose={this.handleClose}
+            <Dialog onClose={this.props.closeModal}
                     aria-labelledby="customized-dialog-title-2"
                     open={this.props.show}
                     maxWidth={"xs"}
                     fullWidth={true}
+                    onBackdropClick={this.props.closeModal}
             >
                 <DialogTitle id="customized-dialog-title-2" onClose={this.handleClose}>Select a Difficulty</DialogTitle>
                 <DialogContent dividers>

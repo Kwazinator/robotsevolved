@@ -197,6 +197,7 @@ class App extends React.Component {
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
         this.state.showPuzzleRushModal = false;
+        this.state.Loadingpage = false;
          if (window.loggedin === 'Yes') {
             this.state.LineDirections = window.userInfo.LineDirFlag === 'Y';
          }
@@ -224,6 +225,7 @@ class App extends React.Component {
     }
 
     handleClickDailyChallenge = () => {
+        this.state.loadingPage = true;
         axios.get('/getDailyChallengeData')
             .then( res => {
                     var isOpen = this.state.open;
@@ -232,19 +234,22 @@ class App extends React.Component {
                     }
                     const dc_movesList = res.data.dc_movesList == null ? null : JSON.parse(res.data.dc_movesList)
                     const dc_playerList = res.data.dc_playerList == null ? null : JSON.parse(res.data.dc_playerList)
-                    this.setState({
-                                    PageSelected: <DailyChallengePage
-                                                        handleClickDailyChallenge={this.handleClickDailyChallenge}
-                                                        dailyChallengeGameslist={JSON.parse(res.data.dailyChallengeGameslist)}
-                                                        dc_id={res.data.dc_id}
-                                                        dchighscores={JSON.parse(res.data.dchighscores)}
-                                                        handleLineDirections={this.handleLineDirections}
-                                                        LineDirections={this.state.LineDirections}
-                                                        savedMoves={dc_movesList}
-                                                        playerStateList={dc_playerList}
-                                    />,
-                                    open: isOpen
-                                });
+                    if (this.state.loadingPage) {
+                        this.setState({
+                                        PageSelected: <DailyChallengePage
+                                                            handleClickDailyChallenge={this.handleClickDailyChallenge}
+                                                            dailyChallengeGameslist={JSON.parse(res.data.dailyChallengeGameslist)}
+                                                            dc_id={res.data.dc_id}
+                                                            dchighscores={JSON.parse(res.data.dchighscores)}
+                                                            handleLineDirections={this.handleLineDirections}
+                                                            LineDirections={this.state.LineDirections}
+                                                            savedMoves={dc_movesList}
+                                                            playerStateList={dc_playerList}
+                                        />,
+                                        open: isOpen,
+                                        loadingPage: false,
+                                    });
+                        }
                     });
         this.setState({
             PageSelected: <LoadingPage/>,
@@ -279,7 +284,8 @@ class App extends React.Component {
         this.setState({
             showRandomGameModal: false,
             PageSelected: <RandomGamePage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} randomGame={'Yes'} game={game} difficulty={difficulty}/>,
-            open: isOpen
+            open: isOpen,
+            loadingPage: false,
         });
     }
 
@@ -300,6 +306,7 @@ class App extends React.Component {
 
     handleClickDailyChallengeHistory = (event) => {
         event.preventDefault();
+        this.state.loadingPage = true;
         axios.get('/getDailyChallengeHistory')
             .then( res => {
                     var isOpen = this.state.open;
@@ -307,12 +314,15 @@ class App extends React.Component {
                         isOpen = false
                     }
                     var historydata = JSON.parse(res.data)
-                    this.setState({
-                        PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={historydata}/>,
-                        challengeHistoryData: historydata,
-                        dailychallengehistoryloaded: true,
-                        open: isOpen
-                    });
+                    if (this.state.loadingPage) {
+                        this.setState({
+                            PageSelected: <DailyChallengeHistory handleDailyPuzzleHistoryClick={this.handleDailyPuzzleHistoryClick} dailychallengehistory={historydata}/>,
+                            challengeHistoryData: historydata,
+                            dailychallengehistoryloaded: true,
+                            open: isOpen,
+                            loadingPage: false,
+                        });
+                    }
             });
         this.setState({
             PageSelected: <LoadingPage/>,
@@ -326,7 +336,8 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <DailyChallengeHistoryAnswersPage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} history={history}/>,
-            open: isOpen
+            open: isOpen,
+            loadingPage: false,
         });
     }
 
@@ -340,8 +351,9 @@ class App extends React.Component {
         });
         this.setState({
             showPuzzleRushModal: false,
-            PageSelected: <PuzzleRushPage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
-            open: isOpen
+            PageSelected: <PuzzleRushPage handleClickPlayAgain={this.handleClickPuzzleRush} handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} puzzleRush={'Yes'} games={games} p_id={p_id} difficulty={difficulty}/>,
+            open: isOpen,
+            loadingPage: false,
         });
     };
 
@@ -373,7 +385,8 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} name={name} highscores={highscores} gamedata={gamedata} uri={uri}/>,
-            open: isOpen
+            open: isOpen,
+            loadingPage: false,
         });
     };
 
@@ -385,13 +398,15 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <CreateGame handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} state={"new"}/>,
-             open: isOpen
+             open: isOpen,
+             loadingPage: false,
         });
     };
 
 
     handleClickProfile = event => {
         if (window.loggedin === 'Yes') {
+            this.state.loadingPage = true;
                     axios.get('/getProfileData')
                         .then( res => {
                             var isOpen = this.state.open;
@@ -402,14 +417,17 @@ class App extends React.Component {
                             var gamesview = JSON.parse(profileData.gamesview)
                             var solutionsview = JSON.parse(profileData.solutionsview)
                             var puzzlerushview = JSON.parse(profileData.puzzlerushview)
-                            this.setState({
-                                PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={gamesview} solutionsview={solutionsview} puzzlerushview={puzzlerushview}/>,
-                                gamesview: gamesview,
-                                solutionsview: solutionsview,
-                                puzzlerushview: puzzlerushview,
-                                profileDataloaded: true,
-                                open: isOpen
-                            });
+                            if (this.state.loadingPage) {
+                                this.setState({
+                                    PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={gamesview} solutionsview={solutionsview} puzzlerushview={puzzlerushview}/>,
+                                    gamesview: gamesview,
+                                    solutionsview: solutionsview,
+                                    puzzlerushview: puzzlerushview,
+                                    profileDataloaded: true,
+                                    open: isOpen,
+                                    loadingPage: false,
+                                });
+                            }
                         });
                     this.setState({
                         PageSelected: <LoadingPage/>,
@@ -423,6 +441,7 @@ class App extends React.Component {
 
     handleClickFindGame = event => {
         event.preventDefault();
+        this.state.loadingPage = true;
         axios.get('/getFindGames')
             .then( res => {
                 const gameslist = JSON.parse(res.data.gameslist)
@@ -431,10 +450,13 @@ class App extends React.Component {
                 if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
                     isOpen = false
                 }
-                this.setState({
-                    PageSelected: <FindGame gameslist={gameslist} highscoreslist={highscoreslist} handleGameClick={this.handleGameClick}/>,
-                    open: isOpen
-                });
+                if (this.state.loadingPage) {
+                    this.setState({
+                        PageSelected: <FindGame gameslist={gameslist} highscoreslist={highscoreslist} handleGameClick={this.handleGameClick}/>,
+                        open: isOpen,
+                        loadingPage: false,
+                    });
+                }
         });
         this.setState({
             PageSelected: <LoadingPage/>,
@@ -444,6 +466,7 @@ class App extends React.Component {
     handleHomePageClick = () => {
         this.setState({
             PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+            loadingPage: false,
         });
     }
 
@@ -455,7 +478,8 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <AboutUs/>,
-            open: isOpen
+            open: isOpen,
+            loadingPage: false,
         });
     }
 
@@ -467,7 +491,8 @@ class App extends React.Component {
         }
         this.setState({
             PageSelected: <LessonsPage handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections}/>,
-            open: isOpen
+            open: isOpen,
+            loadingPage: false,
         });
 
     };

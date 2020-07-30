@@ -10,6 +10,7 @@ class PuzzleRushPage extends React.Component {
     render () {
         return (
             <Game
+                  handleClickPlayAgain={this.props.handleClickPlayAgain}
                   handleLineDirections={this.props.handleLineDirections}
                   LineDirections={this.props.LineDirections}
                   puzzleRush={'Yes'}

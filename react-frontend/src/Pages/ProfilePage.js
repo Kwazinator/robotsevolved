@@ -7,6 +7,7 @@ import GameListItemView from '../components/GameListItemView';
 import SearchBarFindGame from '../components/SearchBarFindGame';
 import FindGameElements from '../containers/FindGameElements'
 import Grid from '@material-ui/core/Grid';
+import {Table,TableContainer,TableHead,TableRow,TableCell,TableBody} from '@material-ui/core';
 import axios from 'axios';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -45,6 +46,31 @@ export default function ProfilePage(props) {
             });
     };
 
+
+    const createData = (name,col1,col2) => {
+        return {name,col1,col2}
+    }
+
+    const columns = [
+          { id: 'difficulty', label: 'Difficulty', minWidth: 50 },
+          { id: 'classic', label: 'Classic', minWidth: 50 },
+          { id: 'random', label: 'Random', minWidth: 50 },
+        ];
+
+    const rows = [
+        createData('Easy', props.puzzlerushview.maxeasyc,props.puzzlerushview.maxeasyp),
+        createData('Medium', props.puzzlerushview.maxmediumc,props.puzzlerushview.maxmediump),
+        createData('Hard', props.puzzlerushview.maxhardc,props.puzzlerushview.maxhardp),
+        createData('Extremely Hard', props.puzzlerushview.maxexhardc,props.puzzlerushview.maxexhardp)
+    ]
+
+    const rowseff = [
+        createData('Easy', props.puzzlerushview.maxeffec,props.puzzlerushview.maxeffep),
+        createData('Medium', props.puzzlerushview.maxeffmc,props.puzzlerushview.maxeffmp),
+        createData('Hard', props.puzzlerushview.maxeffhc,props.puzzlerushview.maxeffhp),
+        createData('Extremely Hard', props.puzzlerushview.maxeffexc,props.puzzlerushview.maxeffexp)
+    ]
+
     const [error, setError] = React.useState(null)
     const [expandedGame, setExpandedGame] = React.useState(false);
     const [expandedHighscores, setExpandedHighscores] = React.useState(false);
@@ -57,13 +83,13 @@ export default function ProfilePage(props) {
     console.log(props.puzzlerushview);
     return (
             <div style={gamepanel()}>
-                <Grid container spacing={4} alignItems={"stretch"}>
+                <Grid container spacing={4}>
                     <Grid item xs={12} justify={"center"} alignItems={"center"}>
                         <TextField className={classes.centeredProfile} id={"ProfileName"} label={"Username"} defaultValue={window.userInfo.username}/>
                         <Button className={classes.centeredProfile} variant="contained" color="secondary" onClick={submitAnswer}>Change Username</Button>
                         <Typography color={"secondary"}>{error}</Typography>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={12} md={4}>
                         <Typography className={classes.titlehome} variant="h3">Games Created</Typography>
                         {
                             props.gamesview.map((game,index) =>
@@ -86,7 +112,7 @@ export default function ProfilePage(props) {
                             )
                         }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item xs={12} sm={12} md={4}>
                         <Typography className={classes.titlehome} variant="h3">Games Solved</Typography>
                         {
                             props.solutionsview.map((solution,index) =>
@@ -110,51 +136,67 @@ export default function ProfilePage(props) {
                             )
                         }
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Typography className={classes.titlehome} variant="h3">Puzzle Rush Data:</Typography>
-                        <Paper>
-                              <Typography className={classes.heading}>Easy</Typography>
-                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxeasy}</Typography>
-                              <Typography>
-                                Average Score: {props.puzzlerushview.averageeasy}
-                              </Typography>
-                              <Typography>
-                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffeasy}
-                              </Typography>
-                          </Paper>
-                          <br/>
-                          <Paper>
-                              <Typography className={classes.heading}>Medium</Typography>
-                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxmedium}</Typography>
-                              <Typography>
-                                Average Score: {props.puzzlerushview.averagemedium}
-                              </Typography>
-                              <Typography>
-                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffmedium}
-                              </Typography>
-                            </Paper>
-                            <br/>
-                            <Paper>
-                              <Typography className={classes.heading}>Hard</Typography>
-                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxhard}</Typography>
-                              <Typography>
-                                Average Score: {props.puzzlerushview.averagehard}
-                              </Typography>
-                              <Typography>
-                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffhard}
-                              </Typography>
-                            </Paper>
-                            <br/>
-                            <Paper>
-                              <Typography className={classes.heading}>Extremely Hard</Typography>
-                              <Typography className={classes.secondaryHeading}>Best Score: {props.puzzlerushview.maxexhard}</Typography>
-                              <Typography>
-                                Average Score: {props.puzzlerushview.averageexhard}
-                              </Typography>
-                              <Typography>
-                                Average Difference of Moves from Optimal Solution: {props.puzzlerushview.averagediffexhard}
-                              </Typography>
-                            </Paper>
+                    <Grid item xs={12} sm={12} md={4}>
+                        <Typography className={classes.titlehome} variant="h3">Puzzle Rush Data</Typography>
+                        <Typography variant="body1" paragraph={true}>Total number of puzzles solved</Typography>
+                        <TableContainer component={Paper}>
+                          <Table className={classes.table} size="small" aria-label="a dense table">
+                            <TableHead>
+                              <TableRow>
+                                  {columns.map((column) => (
+                                    <TableCell
+                                      key={column.id}
+                                      align={column.align}
+                                      style={{ minWidth: column.minWidth, backgroundColor: 'black', color: 'white' }}
+                                    >
+                                      {column.label}
+                                    </TableCell>
+                                  ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {rows.map((row) => (
+                                <TableRow key={row.name}>
+                                  <TableCell align="left">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="left">{row.col1}</TableCell>
+                                  <TableCell align="left">{row.col2}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                        <Typography style={{marginTop: '40px'}} variant="body1">Efficiency Score</Typography>
+                        <Typography variant="caption">Calculated by (total puzzles completed) * 5 - (total redundany moves from best score)</Typography>
+                        <TableContainer component={Paper}>
+                          <Table className={classes.table} size="small" aria-label="a dense table">
+                            <TableHead>
+                              <TableRow>
+                                  {columns.map((column) => (
+                                    <TableCell
+                                      key={column.id}
+                                      align={column.align}
+                                      style={{ minWidth: column.minWidth, backgroundColor: 'black', color: 'white' }}
+                                    >
+                                      {column.label}
+                                    </TableCell>
+                                  ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {rowseff.map((row) => (
+                                <TableRow key={row.name}>
+                                  <TableCell align="left">
+                                    {row.name}
+                                  </TableCell>
+                                  <TableCell align="left">{row.col1}</TableCell>
+                                  <TableCell align="left">{row.col2}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
                     </Grid>
                 </Grid>
             </div>

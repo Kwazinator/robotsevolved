@@ -2,6 +2,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import axios from 'axios';
+import Alert from '@material-ui/lab/Alert';
 import {withRouter} from 'react-router';
 import Draggable from 'react-draggable';
 import LearnGameItems from '../components/LearnGameItems';
@@ -515,6 +516,7 @@ class Game extends React.Component {
             playerState: this.state.playerStart.slice(),
             moveHistory: [],
             gameWon: false,
+            dailySubmittedSucessfully: null
         });
     };
 
@@ -690,20 +692,27 @@ class Game extends React.Component {
             numMoves += moveHistory.length
         });
         var playerStateList = this.state.playerStateList.slice()
-        var playerState = this.state.playerState.slice()
-        playerState[parseInt(this.state.robotSelected)] = LastRobotPosition;
-        playerStateList[this.state.numPuzzleon] = playerState
+        playerStateList[this.state.numPuzzleon] = LastRobotPosition.slice()
+        console.log(playerStateList);
         axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id, playerStateList: playerStateList})
             .then( res => {
-                this.handleUndoMove();
+                this.setState({
+                    dailySubmittedSucessfully: <Alert severity="success">Submitted!</Alert>
+                });
             });
         window.dc_movesList = moveHistoryList;
         window.dc_playerList = playerStateList;
         this.state.gameWon = false;
     }
 
-    checkwin = (robotPosition) => {
-        if (robotPosition.top === this.state.goal.top && robotPosition.left === this.state.goal.left) {
+    checkwin = (newPlayerState) => {
+        var Won = false;
+        newPlayerState.map((player) => {
+            if (player.top === this.state.goal.top && player.left === this.state.goal.left) {
+                Won = true;
+            }
+        });
+        if (Won) {
             if (this.state.gameWon === false)
                 this.setState({gameWon: true});
             if (this.state.createMode === 'No' && this.props.puzzleRush !== 'Yes') {
@@ -747,7 +756,8 @@ class Game extends React.Component {
                         resetPuzzle={this.resetPuzzle}
                         username={username}
                         undoMove={this.handleUndoMove}
-                        robotPosition={robotPosition}
+                        newPlayerState={newPlayerState}
+                        submitted={this.state.dailySubmittedSucessfully}
                     /> : <YouWinDailySingleModal
                         show={this.state.gameWon}
                         numMoves={this.state.moveHistory.length}
@@ -844,7 +854,6 @@ class Game extends React.Component {
                 playerState: playerState,
                 moveHistory: moveHistory,
             });
-            this.checkwin(newPosition);
         }
     };
 
@@ -1103,6 +1112,7 @@ class Game extends React.Component {
                 playerState: playerState,
                 moveHistory: moveHistory,
                 gameWon: false,
+                dailySubmittedSucessfully: null
             });
         }
     };
@@ -1285,8 +1295,7 @@ class Game extends React.Component {
                     show={this.state.showBoardResetPanelModal}
                 />
                 {
-                    this.state.playerState.map(position =>
-                        this.checkwin(position))
+                    this.checkwin(this.state.playerState)
                 }
                 <PuzzleRushWinModal
                     show={this.state.showPuzzleRushFinishedModal}
@@ -1298,6 +1307,7 @@ class Game extends React.Component {
                     differenceOptimal={this.state.differenceOptimal}
                     movesPerSecond={this.state.movesPerSecond}
                     difficulty={this.props.difficulty}
+                    handleClickPlayAgain={this.props.handleClickPlayAgain}
                 />
             </Grid>
         </div>

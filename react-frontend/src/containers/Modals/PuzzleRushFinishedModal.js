@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
+import Alert from '@material-ui/lab/Alert';
 
 class PuzzleRushWinModal extends React.Component {
 
@@ -25,11 +26,12 @@ class PuzzleRushWinModal extends React.Component {
 
     render () {
         return (
-            <Dialog onClose={this.handleClose}
+            <Dialog onClose={this.props.closeModal}
                     aria-labelledby="customized-dialog-title-2"
                     open={this.props.show}
                     maxWidth={"xs"}
                     fullWidth={true}
+                    onBackdropClick={this.props.closeModal}
             >
                 <DialogTitle id="customized-dialog-title-2" onClose={this.handleClose}>Puzzle Rush - {this.props.difficulty}</DialogTitle>
                 <DialogContent dividers>
@@ -61,8 +63,8 @@ class PuzzleRushWinModal extends React.Component {
                                 </ListItem>
                                 <ListItem>
                                   <ListItemText
-                                    primary="Difference from most optimal Solution"
-                                    secondary={this.props.differenceOptimal}
+                                    primary="Efficiency Score: puzzles * 7 - redundant moves from best"
+                                    secondary={(this.props.numPuzzlesCompleted * 7) - this.props.differenceOptimal}
                                   />
                                 </ListItem>
                                 <ListItem>
@@ -77,7 +79,7 @@ class PuzzleRushWinModal extends React.Component {
                       </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" color="secondary" onClick={this.props.playPuzzleRushAgain}>Play Again!</Button>
+                    <Button variant="contained" color="secondary" onClick={this.props.handleClickPlayAgain}>Play Again!</Button>
                     <Button onClick={this.props.closeModal}>Close</Button>
                 </DialogActions>
             </Dialog>

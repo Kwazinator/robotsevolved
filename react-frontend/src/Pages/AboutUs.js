@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from "@material-ui/core/Paper";
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import {Card} from "@material-ui/core";
+import {Card,CardActions,Button,Avatar} from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 
@@ -18,15 +18,31 @@ const gamepanel = () => {
 }
 
 export default function AboutUs(props) {
+    const facebookclick = () => {
+        window.open('https://www.facebook.com/RobotsEvolved-105278561284154')
+    }
     return (<div style={gamepanel()}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item spacing={4} xs={12} justify={"center"} alignItems={"center"}>
-                        <Typography variant={'body1'}>
-                            RobotsEvolved.com is based on the board game Ricochet Robots.
-                            We have several game modes and variants that are inspired by the several Chess variants on the internet.
-                            If you use Google Login or Facebook Login we will never email or sell your information.
-                            Tell your friends about the site and get people on here!
-                        </Typography>
+                        <Card style={{display: 'inline-block', width: '33%'}}>
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                    About
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    RobotsEvolved.com is based on the board game Ricochet Robots.
+                                    We have several game modes and variants that are inspired by the several Chess variants on the internet.
+                                    Big thanks to
+                                    If you use Google Login or Facebook Login we will never email or sell your information.
+                                    Tell your friends about the site and get people on here!
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button onClick={facebookclick}>
+                                    <Avatar alt="Facebook" src="https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512" />
+                                </Button>
+                            </CardActions>
+                        </Card>
                     </Grid>
                     <Grid spacing={4} item xs={12} sm={6} justify={"center"} alignItems={"center"}>
                         <Card>

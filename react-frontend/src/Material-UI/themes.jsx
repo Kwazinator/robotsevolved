@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
   },
   expandedPanelDCH: {
     background: 'linear-gradient(70deg, #fff810  30%, rgba(0,0,0,0) 30%), linear-gradient(30deg, #63e89e 60%, #ff7ee3 60%)'
+  },
+  table: {
+    width: '33%'
   }
 }));
 

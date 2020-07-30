@@ -19,7 +19,7 @@ const styles = theme => ({
         minWidth: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '100%' : 235,
         height: 225,
         position: 'relative',
-        background: 'linear-gradient(100deg, #fdcd3b 55%, #ffed4b 55%)'
+        background: 'linear-gradient(100deg, #ffd34d 55%, #fff178 55%)'
     },
 
     item: {
