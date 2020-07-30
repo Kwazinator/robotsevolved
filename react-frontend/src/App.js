@@ -197,7 +197,7 @@ class App extends React.Component {
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
         this.state.showPuzzleRushModal = false;
-        this.state.Loadingpage = false;
+        this.state.loadingPage = false;
          if (window.loggedin === 'Yes') {
             this.state.LineDirections = window.userInfo.LineDirFlag === 'Y';
          }

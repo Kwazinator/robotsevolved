@@ -238,7 +238,7 @@ export default function ComplexGrid(props) {
                     <Typography paragraph={true} variant="p1">Puzzle Game for anyone to play! Create your own custom boards or play a random Solved game.<br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
                     </Typography>
                     <br/>
-                        <img width="400" height="225" src='/static/videos/basic.gif'/>
+                        <img width="300" height="300" src='/static/videos/basic2.gif'/>
                     <br/>
                     <Card className={classes.iconcards}>
                               <CardActionArea onClick={props.handleClickCreateGame}>
