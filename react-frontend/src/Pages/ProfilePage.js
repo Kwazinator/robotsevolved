@@ -137,8 +137,8 @@ export default function ProfilePage(props) {
                         }
                     </Grid>
                     <Grid item xs={12} sm={12} md={4}>
-                        <Typography className={classes.titlehome} variant="h3">Puzzle Rush Data</Typography>
-                        <Typography variant="body1" paragraph={true}>Total number of puzzles solved</Typography>
+                        <Typography className={classes.titlehome} variant="h3">Puzzle Rush Records</Typography>
+                        <Typography variant="body1">Most Puzzles Solved</Typography>
                         <TableContainer component={Paper}>
                           <Table className={classes.table} size="small" aria-label="a dense table">
                             <TableHead>
@@ -167,7 +167,7 @@ export default function ProfilePage(props) {
                             </TableBody>
                           </Table>
                         </TableContainer>
-                        <Typography style={{marginTop: '40px'}} variant="body1">Efficiency Score</Typography>
+                        <Typography style={{marginTop: '40px'}} variant="body1">Highest Efficiency Scores</Typography>
                         <Typography variant="caption">Calculated by (total puzzles completed) * 5 - (total redundany moves from best score)</Typography>
                         <TableContainer component={Paper}>
                           <Table className={classes.table} size="small" aria-label="a dense table">
