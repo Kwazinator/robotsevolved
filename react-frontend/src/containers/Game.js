@@ -211,7 +211,6 @@ class Game extends React.Component {
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
-            console.log(this.props.playerStateList)
             this.state.gamesWonDaily = [false,false,false,false];
             if (this.props.savedMoves != null) {
                 this.state.moveHistoryList = this.props.savedMoves
@@ -301,9 +300,12 @@ class Game extends React.Component {
     updateHighscores = () => {
         axios.get('/updatehighscores?uri=' + this.state.uri)
             .then( res => {
-                this.setState({
-                    highscores: JSON.parse(res.data.highscores),
-                });
+                const highscoresdata = JSON.parse(res.data.highscores)
+                if (this.FindhighscoreIsDiff(this.state.highscores,highscoresdata)) {
+                    this.setState({
+                        highscores: JSON.parse(res.data.highscores),
+                    });
+                }
             });
     };
 
@@ -321,16 +323,47 @@ class Game extends React.Component {
     };
 
 
+    FindhighscoreIsDiff = (check,tocheck) => {
+        if (check.length != tocheck.length) {
+            return true
+        }
+        var toreturn = false;
+        tocheck.map((highscore,index) => {
+            if (highscore.numMoves != check[index].numMoves) {
+                toreturn = true;
+            }
+        });
+        return toreturn;
+    }
+
+
+    DChighscoreIsDiff = (check,tocheck) => {
+        if (check.length != tocheck.length) {
+            return true
+        }
+        var toreturn = false;
+        tocheck.map((highscore,index) => {
+            if (highscore.score != check[index].score) {
+                toreturn = true;
+            }
+        });
+        return toreturn;
+    }
+
     updateDailyHighscores = () => {
         axios.get('/dailychallengehighscores?dc_id=' + this.state.dc_id)
             .then( res => {
-                this.setState({
-                    highscores: JSON.parse(res.data.highscores),
-                });
                 if (res.data.dc_id != this.state.dc_id) {
                     this.props.handleClickDailyChallenge();
+                    return
                 }
-                window.dchighscores = JSON.parse(res.data.highscores)
+                const highscoresdata = JSON.parse(res.data.highscores)//PoorMan's global redux implementation
+                if (this.DChighscoreIsDiff(this.state.highscores,highscoresdata)) {
+                    this.setState({
+                        highscores: JSON.parse(res.data.highscores),
+                    });
+                    window.dchighscores = JSON.parse(res.data.highscores)
+                }
             });
     }
 
@@ -338,14 +371,14 @@ class Game extends React.Component {
         window.onkeydown = this.handleKeyDown;
         if (this.props.loadedGame === 'Yes') {
             this.updateHighscores();
-            var IntervalId = setInterval(this.updateHighscores, 4000);
+            var IntervalId = setInterval(this.updateHighscores, 8000);
             this.setState({
                 IntervalId: IntervalId,
             });
         }
         else if (this.props.dailyChallengeMode === 'Yes') {
             this.updateDailyHighscores();
-            var IntervalId = setInterval(this.updateDailyHighscores, 4000);
+            var IntervalId = setInterval(this.updateDailyHighscores, 6000);
             this.setState({
                 IntervalId: IntervalId,
             });
@@ -658,17 +691,10 @@ class Game extends React.Component {
         });
         var playerStateList = this.state.playerStateList.slice()
         var playerState = this.state.playerState.slice()
-        console.log(this.state.robotSelected)
         playerState[parseInt(this.state.robotSelected)] = LastRobotPosition;
-        console.log(playerState[parseInt(this.state.robotSelected)])
-        console.log(playerState);
-
         playerStateList[this.state.numPuzzleon] = playerState
-        console.log(LastRobotPosition);
-        console.log(playerState);
         axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id, playerStateList: playerStateList})
             .then( res => {
-                console.log(res)
                 this.handleUndoMove();
             });
         window.dc_movesList = moveHistoryList;
@@ -975,6 +1001,7 @@ class Game extends React.Component {
                     <Grid item xs={12}>
                         <ButtonGroup
                             orientation="vertical"
+                            style={{width: '100%'}}
                             aria-label="vertical contained primary button group"
                             variant="contained">
                             {
@@ -1004,6 +1031,7 @@ class Game extends React.Component {
                     <Grid item xs={12}>
                         <ButtonGroup
                             orientation="vertical"
+                            style={{width: '100%'}}
                             aria-label="vertical contained primary button group"
                             variant="contained">
                             {

@@ -50,7 +50,7 @@ export default (props) => {
     if (props.buildMode === 'undefined' || !props.buildMode)
     {
         return (
-            <div onClick={handleClick} style={style(props)}/>
+            <div onMouseDown={handleClick} style={style(props)}/>
         );
     }
     else {
