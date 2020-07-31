@@ -168,7 +168,7 @@ export default function ProfilePage(props) {
                           </Table>
                         </TableContainer>
                         <Typography style={{marginTop: '40px'}} variant="body1">Highest Efficiency Scores</Typography>
-                        <Typography variant="caption">Calculated by (total puzzles completed) * 5 - (total redundany moves from best score)</Typography>
+                        <Typography variant="caption">Calculated by (total puzzles completed) * 7 - (total redundany moves from best score)</Typography>
                         <TableContainer component={Paper}>
                           <Table className={classes.table} size="small" aria-label="a dense table">
                             <TableHead>
