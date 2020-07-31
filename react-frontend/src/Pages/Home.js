@@ -222,7 +222,7 @@ export default function ComplexGrid(props) {
                         >
                             HotKeys
                         </Typography>
-                        <img width={'20%'} height={'auto'} src={"/static/images/Shiftbutton.jpg"}/> <Typography display={'block'}>Undo</Typography>
+                        <img width={'20%'} height={'auto'} src={"/static/images/Control-512.png"}/> <Typography display={'block'}>Undo</Typography>
                         <img width={'20%'} height={'auto'} src={"/static/images/enterkey.png"}/> <Typography>Reset</Typography>
                     <Divider />
                     <div style={{marginTop:'100px'}}>
