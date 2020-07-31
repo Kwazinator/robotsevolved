@@ -414,7 +414,7 @@ class Game extends React.Component {
                 this.tabSelector();
                 return;
                 break;
-            case 16:
+            case 17:
                 if (!this.state.gameWon) {
                     this.handleUndoMove();
                 }
