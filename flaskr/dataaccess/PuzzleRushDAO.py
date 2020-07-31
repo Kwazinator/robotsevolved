@@ -62,14 +62,14 @@ class PuzzleRushDAO:
         (select MAX(score) from puzzle_rush where difficulty='medium' and user_id=%s and type='algo' and totalMoves is not null),
         (select MAX(score) from puzzle_rush where difficulty='hard' and user_id=%s and type='algo' and totalMoves is not null),
         (select MAX(score) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and type='algo' and totalMoves is not null),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null and type='classic'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='classic'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='classic'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='classic'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null and type='algo'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='algo'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='algo'),
-        (select MAX(score * 5 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='algo')
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null and type='classic'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='classic'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='classic'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='classic'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null and type='algo'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='algo'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='algo'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='algo')
         ''', (user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id))
         row = cursor.fetchone()
         if row is not None:
