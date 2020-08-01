@@ -42,7 +42,7 @@ class Square extends React.Component {
 
     render() {
         return (
-            <div onClick={this.handleClick} style={styleoutside(this.props)}>
+            <div style={styleoutside(this.props)}>
                 <div style={styleinside(this.props)}>
                     <div style={styleinside2(this.props)}/>
                 </div>

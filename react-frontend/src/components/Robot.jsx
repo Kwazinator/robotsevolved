@@ -76,7 +76,7 @@ class Robot extends React.Component {
         if (this.props.isCreateMode === 'Yes' && this.props.buildMode) {
             return (
             <Draggable position={{x: this.props.position.left * this.props.dimension, y:this.props.position.top*this.props.dimension}} grid={this.props.draggableGrid} onStop={this.onStopDragHandler} bounds="parent">
-                <div onTouchStart={this.handleClick} onClick={this.handleClick} style={styleoutsidedraggable(this.props)}>
+                <div onClick={this.handleClick} style={styleoutsidedraggable(this.props)}>
                     <div style={styleinside(this.props)}>
                         <div style={styleinside2(this.props)}/>
                     </div>
@@ -86,7 +86,7 @@ class Robot extends React.Component {
         }
         else {
             return(
-            <div onTouchStart={this.handleClick} onClick={this.handleClick} style={styleoutside(this.props)}>
+            <div onClick={this.handleClick} style={styleoutside(this.props)}>
                 <div style={styleinside(this.props)}>
                     <div style={styleinside2(this.props)}/>
                 </div>
