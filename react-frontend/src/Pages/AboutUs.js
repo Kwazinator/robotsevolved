@@ -24,7 +24,7 @@ export default function AboutUs(props) {
     return (<div style={gamepanel()}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item spacing={4} xs={12} justify={"center"} alignItems={"center"}>
-                        <Card style={{display: 'inline-block', width: '33%'}}>
+                        <Card style={{display: 'inline-block', width: '100%'}}>
                             <CardContent>
                                 <Typography variant="h5" component="h2">
                                     About
@@ -50,7 +50,7 @@ export default function AboutUs(props) {
                                 <Typography color={'textPrimary'} variant={"h4"}>
                                     Daily Challenge Rotation
                                 </Typography>
-                                <Typography variant={"body1"} paragraph={true}>
+                                <Typography variant={"body2"} paragraph={true}>
                                     The Daily Challenge rotates its difficulty every day as specified below with 2 x Random and 2 x Classic Type puzzles.
                                     <br/>
                                     Medium Mondays - 4 x Medium
@@ -70,14 +70,14 @@ export default function AboutUs(props) {
                                 <Typography color={'textPrimary'} variant={"h4"}>
                                     Classic Puzzles
                                 </Typography>
-                                <Typography variant={"body1"} paragraph={true}>
+                                <Typography variant={"body2"} paragraph={true}>
                                     Classic puzzles are based on the original Game. These Puzzles only have walls that are L shaped and a goal is in the center of one of the L puzzles.
                                 </Typography>
                                 <Typography variant={"h4"} display={"inline"}>
                                     Random Puzzles
                                 </Typography>
-                                <Typography variant={"body1"} paragraph={true}>
-                                    Random Puzzles are created by having a 10% chance for a wall to spawn in Any location possible wall location, Goals and Robot placements are completely random also.
+                                <Typography variant={"body2"} paragraph={true}>
+                                    Random Puzzles are created by having a 10% chance for a wall to spawn in location possible, Goals and Robot placements are completely random also.
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -101,19 +101,19 @@ export default function AboutUs(props) {
                                     Hard
                                 </Typography>
                                 <Typography variant={"body2"} paragraph={true}>
-                                    Puzzles of this difficulty always can be solved in 13-18 Moves
+                                    Puzzles of this difficulty always can be solved in 14-17 Moves
                                 </Typography>
                                 <Typography variant={"h5"} >
                                     Extremely Hard
                                 </Typography>
                                 <Typography variant={"body2"} paragraph={true}>
-                                    Puzzles of this difficulty always can be solved in 18-23 Moves
+                                    Puzzles of this difficulty always can be solved in 18-22 Moves
                                 </Typography>
                                 <Typography variant={"h5"}>
                                     God Tier
                                 </Typography>
                                 <Typography variant={"body2"} paragraph={true}>
-                                    Puzzles of this difficulty always can be solved in over 23 Moves, Note: there are a low number of these puzzles due to the CPU required to create them
+                                    Puzzles of this difficulty always can be solved in 23+ Moves, Note: there are a low number of these puzzles due to the CPU required to create them
                                 </Typography>
                             </CardContent>
                         </Card>

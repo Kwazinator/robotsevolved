@@ -52,9 +52,9 @@ export default function ProfilePage(props) {
     }
 
     const columns = [
-          { id: 'difficulty', label: 'Difficulty', minWidth: 50 },
-          { id: 'classic', label: 'Classic', minWidth: 50 },
-          { id: 'random', label: 'Random', minWidth: 50 },
+          { id: 'difficulty', label: 'Difficulty', maxWidth: 75 },
+          { id: 'classic', label: 'Classic', maxWidth: 75 },
+          { id: 'random', label: 'Random', maxWidth: 75 },
         ];
 
     const rows = [
@@ -147,7 +147,7 @@ export default function ProfilePage(props) {
                                     <TableCell
                                       key={column.id}
                                       align={column.align}
-                                      style={{ minWidth: column.minWidth, backgroundColor: 'black', color: 'white' }}
+                                      style={{ maxWidth: column.maxWidth, backgroundColor: 'black', color: 'white' }}
                                     >
                                       {column.label}
                                     </TableCell>
@@ -177,7 +177,7 @@ export default function ProfilePage(props) {
                                     <TableCell
                                       key={column.id}
                                       align={column.align}
-                                      style={{ minWidth: column.minWidth, backgroundColor: 'black', color: 'white' }}
+                                      style={{ maxWidth: column.maxWidth, backgroundColor: 'black', color: 'white' }}
                                     >
                                       {column.label}
                                     </TableCell>

@@ -8,6 +8,8 @@ from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
 import re
+from werkzeug.exceptions import HTTPException
+
 
 bp = Blueprint('index', __name__)
 
@@ -225,3 +227,10 @@ def randomgame():
     type = request.args['type']
     game = PuzzleRushService().get_random_game(difficulty,type)
     return jsonify(game=json.dumps(game))
+
+@bp.errorhandler(Exception)
+def handle_exception(e):
+    # pass through HTTP errors
+    print(e)
+    # now you're handling non-HTTP exceptions only
+    return render_template("502_generic.html", e=e), 502

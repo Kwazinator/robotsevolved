@@ -69,6 +69,19 @@ class FindGame extends React.Component {
       });
     };
 
+    handleKeyDown = (e) => {
+        if (e.keycode == 13) {
+            this.handleSearchSubmit(e);
+        }
+        return;
+    }
+
+
+    componentDidMount = () => {
+        window.onkeydown = this.handleKeyDown;
+    }
+
+
     handleCloseFilterMenuMostPlayed = event => {
         this.setState( {
             anchorEl: null
