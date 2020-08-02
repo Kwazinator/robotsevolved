@@ -8,6 +8,7 @@ from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
 import re
+from flaskr.solutionChecker import checkSolution
 from werkzeug.exceptions import HTTPException
 
 
@@ -36,6 +37,18 @@ def get_games_data(numMoves,Offset):
             highscoreslist.append(GameService().get_highscores(game['uri']))
     return (gameslist,highscoreslist)
 
+
+def processwalls(walls):
+    toreturn = list()
+    for wall in walls:
+        try:
+            if wall['opacity'] == 1:
+                toreturn.append(wall)
+        except Exception as e:
+            print('wall not found with opacity')
+        finally:
+            pass
+    return toreturn
 
 def get_games_search(numPuzzles,Offset,searchterm,filter):
     if filter == 'None':
@@ -158,7 +171,6 @@ def play(uri):
 def submitpuzzle():
     data = request.get_json()
     userID = get_jwt_identity()
-    #check the data, no fancy stuff
     try:
         puzzledata = {
             'buildMode': False,
@@ -174,8 +186,8 @@ def submitpuzzle():
             'playerState': data['puzzledata']['playerState'],
             'robotSelected': 0,
             'showBoardResetPanelModal': False,
-            'wallHorizontal': data['puzzledata']['wallHorizontal'],
-            'wallVerticle': data['puzzledata']['wallVerticle'],
+            'wallHorizontal': processwalls(data['puzzledata']['wallHorizontal']),
+            'wallVerticle': processwalls(data['puzzledata']['wallVerticle']),
             'width': data['puzzledata']['width'],
         }
     except Exception as e:
@@ -186,7 +198,7 @@ def submitpuzzle():
         pass
     if userID is None:
         userID = 1
-    if (GameService().check_same_game(json.dumps(puzzledata)) == 1):
+    if (GameService().check_same_game(json.dumps(puzzledata)) == 1 and checkSolution(json.dumps(data['moveHistory']),json.dumps(puzzledata),len(data['moveHistory']))):
         uri = GameService().insert_game(trimstring(data['name']), 'type', 'description', userID, trimstring(data['authorname']), 1, json.dumps(puzzledata))
         return jsonify(uri=uri)
     else:
@@ -205,7 +217,7 @@ def submithighscore():
     userID = get_jwt_identity()
     if userID is None:
         userID = 1
-    rtnMessage = GameService().insert_highscore(trimstring(data['name']),userID,'test','test',data['highscore'],data['uri'])
+    rtnMessage = GameService().insert_highscore(trimstring(data['name']),userID,'test',json.dumps(data['solutiondata']),data['highscore'],data['uri'])
     return rtnMessage
 
 @bp.route('/search', methods=('GET','POST'))

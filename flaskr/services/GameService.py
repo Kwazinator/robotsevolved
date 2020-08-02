@@ -2,6 +2,7 @@ from flaskr.dataaccess.GameDAO import GameDAO
 from flaskr.dataaccess.entities.Game import Game
 from flaskr.dataaccess.entities.Gen import Gen
 from flaskr.dataaccess.GenDAO import GenDAO
+from flaskr.solutionChecker import checkSolution
 import json
 import datetime
 from flask import current_app
@@ -34,31 +35,35 @@ class GameService:
     def insert_highscore(self,name,userid,authorname,solutiondata,highscore,uri):
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
-        scoreList = GameDAO().get_highscores(game.id)
-        UpdateUserScore = False
-        rtnMessage = ""
-        userSubmitted = False
-        idtoupdate = None
-        for Solution in scoreList:
-            if (Solution['numMoves'] == highscore and Solution['comment'] == name and userid == 1):
-                return "Duplicate highscore cannot be submitted."
-            if (Solution['numMoves'] >= highscore and Solution['userid'] == userid and userid != 1):
-                UpdateUserScore = True
-                idtoupdate = Solution['id']
-            if (Solution['userid'] == userid):
-                userSubmitted = True
-        gameid = game.id
-        if (UpdateUserScore):
-            GameDAO().increment_plays(gameid)
-            return GameDAO().update_highscore(idtoupdate,gameid, name, userid, authorname, solutiondata, highscore)
-        else:
-            if (not userSubmitted or userid==1):
+        if checkSolution(solutiondata,game.puzzledata,highscore):
+            scoreList = GameDAO().get_highscores(game.id)
+            UpdateUserScore = False
+            rtnMessage = ""
+            userSubmitted = False
+            idtoupdate = None
+            for Solution in scoreList:
+                if (Solution['numMoves'] == highscore and Solution['comment'] == name and userid == 1):
+                    return "Duplicate highscore cannot be submitted."
+                if (Solution['numMoves'] >= highscore and Solution['userid'] == userid and userid != 1):
+                    UpdateUserScore = True
+                    idtoupdate = Solution['id']
+                if (Solution['userid'] == userid):
+                    userSubmitted = True
+            gameid = game.id
+            if (UpdateUserScore):
                 GameDAO().increment_plays(gameid)
-                GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
-                rtnMessage = "Submitted"
-                return rtnMessage
+                return GameDAO().update_highscore(idtoupdate,gameid, name, userid, authorname, solutiondata, highscore)
             else:
-                return 'not a higher score'
+                if (not userSubmitted or userid==1):
+                    GameDAO().increment_plays(gameid)
+                    GameDAO().insert_highscore(gameid, name, userid, authorname, solutiondata, highscore)
+                    rtnMessage = "Submitted"
+                    return rtnMessage
+                else:
+                    return 'not a higher score'
+        else:
+            return 'not a valid submission'
+
 
     def get_game_uri(self,uri):
         row = GameDAO().get_game_uri(uri)

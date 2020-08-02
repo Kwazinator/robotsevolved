@@ -27,6 +27,14 @@ class GenDAO:
             puzzleList.append(Gen(row[0], row[1], row[2], row[3], row[4], row[5], row[6]).serialize())
         return puzzleList
 
+    def get_daily_challenge_puzzledata(self,dc_id):
+        cursor = get_db().cursor()
+        cursor.execute("""SELECT gg.g_puzzledata from generated_games gg where gg.g_id IN ((SELECT g_id1 FROM daily_challenge WHERE dc_id = %s),(SELECT g_id2 FROM daily_challenge WHERE dc_id = %s),(SELECT g_id3 FROM daily_challenge WHERE dc_id = %s),(SELECT g_id4 FROM daily_challenge WHERE dc_id = %s))""",
+                       (dc_id,dc_id,dc_id,dc_id))
+        return cursor.fetchall()
+
+
+
     def insert_daily_challenge(self,date,id1,id2,id3,id4,bestScore):
         db = get_db()
         cursor = db.cursor()

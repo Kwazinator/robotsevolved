@@ -450,6 +450,7 @@ class Game extends React.Component {
         var namesubmit = document.getElementById("namesubmit").value;
         var state = this.state;
         state.playerState = this.state.playerStart.slice();
+        var themoveHistory = this.state.moveHistory.slice()
         state.moveHistory = [];
         state.createMode = 'No';
         var username = 'Anonymous';
@@ -457,7 +458,7 @@ class Game extends React.Component {
             username = window.userInfo.username
         }
         console.log(state);
-        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username}))
+        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory}))
             .then( res => {
                 this.setState({
                     uri: res.data.uri,
@@ -501,7 +502,7 @@ class Game extends React.Component {
 
     submitAnswer = event => {
         event.preventDefault();
-        axios.post('/submithighscore', {highscore: this.state.moveHistory.length, name: document.getElementById("namesubmitHS").value, uri: this.state.uri})
+        axios.post('/submithighscore', {highscore: this.state.moveHistory.length,solutiondata: this.state.moveHistory,name: document.getElementById("namesubmitHS").value, uri: this.state.uri})
             .then( res => {
                 this.setState({gameWon: false});
             });
@@ -654,6 +655,13 @@ class Game extends React.Component {
         return newPosition;
     };
 
+    nextLessonPuzzle  = () => {
+        var puzzle = this.state.numPuzzleon;
+        puzzle += 1;
+        puzzle = puzzle == 4 ? 5 : puzzle;
+        puzzle = puzzle == 7 ? 8 : puzzle;
+        this.handleLearnClickGame(puzzle % 12);
+    }
 
     puzzleRushTimeUp = () => {
         var totalMovesDiff = 0;
@@ -775,6 +783,7 @@ class Game extends React.Component {
                         show={this.state.gameWon}
                         numMoves={this.state.moveHistory.length}
                         resetPuzzle={this.resetPuzzle}
+                        moveNextPuzzle={this.nextLessonPuzzle}
                     />);
                 }
                 else {

@@ -30,10 +30,10 @@ export default function AboutUs(props) {
                                     About
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    RobotsEvolved.com is based on the board game Ricochet Robots.
+                                    RobotsEvolved.com is based on the board game Ricochet Robots by Alex Randolph.
                                     We have several game modes and variants that are inspired by the several Chess variants on the internet.
-                                    Big thanks to
-                                    If you use Google Login or Facebook Login we will never email or sell your information.
+                                    If you find any bugs or have any feature requests for RobotsEvolved please let me know by emailing robotsevolved@gmail.com or contacting me on FB from our FB page, I would love to hear some of the ideas people have. Ill get to developing the feature/fixing annoying bugs ASAP
+                                    If you use Google Login or Facebook Login I will NEVER email you or sell your information, it is strictly for user-identification.
                                     Tell your friends about the site and get people on here!
                                 </Typography>
                             </CardContent>
@@ -124,7 +124,7 @@ export default function AboutUs(props) {
                           <div class="container3">
                             <h2>Kyle Kwasniewski</h2>
                             <p class="title3">Creator &amp; FullStack Dev.</p>
-                            <p>I work in Software Development and Dev-Ops in New York and consider myself a Ricochet Robots enthusiast so I decided to make this application as a way to better hone my skill in web frameworks as well as pass the time during the quarantine. If you find any bugs or feature requests for RobotsEvolved please let me know by emailing me below I would love to hear some of the ideas people have. Ill get to developing the feature/fixing annoying bugs ASAP.</p>
+                            <p>I work in Software Development and Dev-Ops in New York and consider myself a Ricochet Robots enthusiast so I decided to make this application as a way to better hone my skill in web frameworks as well as pass the time during the quarantine. I play Frisbee and Ski alot as well as play my fair share of Steam games.</p>
                             <p>Thanks for playing!</p>
                             <p>robotsevolved@gmail.com</p>
                           </div>

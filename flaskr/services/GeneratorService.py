@@ -4,6 +4,7 @@ import json
 import datetime
 from flask import current_app
 import re
+from flaskr.solutionChecker import checkSolution
 
 class GeneratorService:
 
@@ -30,6 +31,11 @@ class GeneratorService:
 
     def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id, playerStateList):
         submitted = GenDAO().check_current_daily_submit(userid,dc_id)
+        solutioncheck = json.loads(solutiondata)
+        dc_gamedata = GenDAO().get_daily_challenge_puzzledata(dc_id)
+        for index, solution in enumerate(solutioncheck):
+            if (not checkSolution(json.dumps(solution),dc_gamedata[index][0],len(solution))):
+                return 'something went wrong'
         if (GenDAO().get_daily_challenge_id() == dc_id):
             if userid == 1:
                 return GenDAO().insert_daily_challenge_submit(score, userid, solutiondata, name, dc_id,playerStateList)

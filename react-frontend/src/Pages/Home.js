@@ -38,6 +38,8 @@ export default function ComplexGrid(props) {
                         <Typography variant="p1" paragraph={true}>Puzzle Game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
                         </Typography>
                         <br/>
+                        <img width="300" height="300" src='/static/videos/basic2.gif'/>
+                        <br/>
                     </Grid>
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
                         <Typography className={classes.titlehome} variant="h4"> News
@@ -222,8 +224,8 @@ export default function ComplexGrid(props) {
                         >
                             HotKeys
                         </Typography>
-                        <img width={'20%'} height={'auto'} src={"/static/images/Qkey.png"}/> <Typography display={'block'}>Undo</Typography>
-                        <img width={'20%'} height={'auto'} src={"/static/images/Wkey.png"}/> <Typography>Reset</Typography>
+                        <Typography variant="h6">Undo</Typography> <img width={'20%'} height={'auto'} src={"/static/images/Qkey.png"}/>
+                        <Typography variant="h6">Reset</Typography> <img width={'20%'} height={'auto'} src={"/static/images/Wkey.png"}/>
                     <Divider />
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News

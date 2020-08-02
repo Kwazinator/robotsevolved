@@ -38,6 +38,7 @@ class YouWinLessonModal extends React.Component {
                     </Typography>
                 </DialogContent>
                 <DialogActions>
+                    <Button variant="contained" color="secondary" onClick={this.props.moveNextPuzzle}>Next Puzzle</Button>
                     <Button onClick={this.props.resetPuzzle}>Reset</Button>
                 </DialogActions>
             </Dialog>
