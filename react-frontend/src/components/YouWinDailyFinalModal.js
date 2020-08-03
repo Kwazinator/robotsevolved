@@ -57,7 +57,7 @@ class YouWinDailyFinalModal extends React.Component {
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" color="primary" onClick={this.props.undoMove}>Undo Move</Button>
-                    <Button variant="contained" color="secondary" onClick={this.handleClickSubmitGame}>Submit Highscore</Button>
+                    {this.props.submitted == null ? <Button variant="contained" color="secondary" onClick={this.handleClickSubmitGame}>Submit Highscore</Button> : null}
                     <Button onClick={this.props.resetPuzzle}>Reset</Button>
                 </DialogActions>
             </Dialog>
