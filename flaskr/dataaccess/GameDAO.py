@@ -59,7 +59,7 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         row = cursor.execute(
-            'UPDATE solutions SET solutiondata=%s,numMoves=%s WHERE solutions_id=%s',
+            'UPDATE solutions SET solutiondata=%s,numMoves=%s,created=CURRENT_TIMESTAMP WHERE solutions_id=%s',
             (solutiondata,highscore,solution_id))
         db.commit()
         return "Completed"
