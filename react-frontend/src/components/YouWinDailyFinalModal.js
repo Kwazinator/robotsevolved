@@ -4,6 +4,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import Alert from '@material-ui/lab/Alert';
 import Dialog from "@material-ui/core/Dialog";
 
 const buttonpanel = () => {
@@ -18,10 +19,23 @@ class YouWinDailyFinalModal extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            error: null
+        }
     }
 
     handleClickSubmitGame = () => {
-        this.props.submitAnswer(this.props.newPlayerState)
+        if (document.getElementById("namesubmitHS").value == '') {
+            this.setState({
+                error: <Alert severity="error">You must choose a submit name</Alert>
+            })
+        }
+        else {
+            this.props.submitAnswer(this.props.newPlayerState);
+            this.setState({
+                error: null
+            });
+        }
     }
 
     render() {
@@ -38,6 +52,7 @@ class YouWinDailyFinalModal extends React.Component {
                     </div>
                     <br/>
                     <TextField id={"namesubmitHS"} label={"Username"} defaultValue={this.props.username}/>
+                    {this.state.error}
                     {this.props.submitted}
                 </DialogContent>
                 <DialogActions>
