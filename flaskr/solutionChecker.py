@@ -1,5 +1,17 @@
 import json
 
+def processwalls(walls):
+    toreturn = list()
+    for wall in walls:
+        try:
+            if wall['opacity'] == 1:
+                toreturn.append(wall)
+        except Exception as e:
+            print('wall not found with opacity')
+        finally:
+            pass
+    return toreturn
+
 def checkSolution(solutiondata,gamedata,numMoves):
     solutiondata = json.loads(solutiondata)
     if len(solutiondata) != numMoves:
@@ -10,8 +22,8 @@ def checkSolution(solutiondata,gamedata,numMoves):
     height = gamedata['height']
     width = gamedata['width']
     playerState = playerStart
-    wallHorizontal = gamedata['wallHorizontal']
-    wallVerticle = gamedata['wallVerticle']
+    wallHorizontal = processwalls(gamedata['wallHorizontal'])
+    wallVerticle = processwalls(gamedata['wallVerticle'])
     try:
         for move in solutiondata:
             robotindex = move['robot']
