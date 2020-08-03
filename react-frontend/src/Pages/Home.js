@@ -44,7 +44,7 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
-                        <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/1/2020
+                        <Typography> 8/3/2020 Launched Site! Thanks for joining! Im currently the top scorer on all my puzzles, can you beat me?
                         </Typography>
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
@@ -230,7 +230,7 @@ export default function ComplexGrid(props) {
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
-                    <Typography> Robots Evolved New Homepage!!! <br/>Almost Done with the project expect a release date of 8/7/2020
+                    <Typography> 8/3/2020 Launched Site! Thanks for joining! Im currently the top scorer on all my puzzles, can you beat me?
                     </Typography>
                     </div>
                 </Grid>
