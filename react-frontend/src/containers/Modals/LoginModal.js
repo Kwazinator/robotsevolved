@@ -35,6 +35,11 @@ export default class LoginModal extends React.Component {
         window.location.href = "/login/google";
     };
 
+    loginFacebook = event => {
+        event.preventDefault();
+        window.location.href = "/login/facebook";
+    }
+
     render () {
         return (
             <Dialog onClose={this.props.closeLoginModal}
@@ -56,7 +61,7 @@ export default class LoginModal extends React.Component {
                             • Profile Page to keep track of your submissions.
                         </Typography>
                     <div class="col">
-                        <a href="#" id={"buttonfb"}>
+                        <a href="#" onClick={this.loginFacebook} id={"buttonfb"}>
                           <i class="fa fa-facebook fa-fw"></i> Login with Facebook
                          </a>
                         <a onClick={this.loginGoogle} href="#" id={"buttongoogle"}><i class="fa fa-google fa-fw">
