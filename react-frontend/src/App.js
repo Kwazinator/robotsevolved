@@ -196,7 +196,7 @@ class App extends React.Component {
         }
         this.state.openChat = false;
         this.state.chatAnchor = null;
-        this.state.open = false;
+        this.state.open = window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? false : true;
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
@@ -740,9 +740,9 @@ class App extends React.Component {
                         }}
                     >
                         <iframe
-                            src="https://titanembeds.com/embed/740127738345554021?css=140&username=guest"
-                            height="600"
-                            width="400"
+                            src="https://titanembeds.com/embed/740127738345554021?css=140&username=guest&defaultchannel=740270339900178583"
+                            height= {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? (parseInt(window.innerHeight/2)) + '': "600"}
+                            width= {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? (window.innerWidth - 40) + '': "400"}
                             frameBorder="0"
                         />
                     </Popover>

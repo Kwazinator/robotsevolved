@@ -5,6 +5,7 @@ from flaskr.dataaccess.entities.GamesProfileView import GamesProfileView
 from flaskr.dataaccess.entities.SolutionsProfileView import SolutionsProfileView
 from flaskr.dataaccess.entities.Solutions import Solutions
 import uuid
+from datetime import timedelta
 
 class GameDAO:
 
@@ -44,7 +45,7 @@ class GameDAO:
         cursor = get_db().cursor()
         cursor.execute('SELECT * from game WHERE game_id=%s',(gameid,))
         row = cursor.fetchone()
-        return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10])
+        return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],(row[9] - timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10])
 
     def check_same_game(self,puzzledata):
         cursor = get_db().cursor()
@@ -101,7 +102,7 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
             return games
         else:
             return games
@@ -123,7 +124,7 @@ class GameDAO:
         if query is not None:
             for row in query:
                 games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8],
-                                  row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
+                                  (row[9] - timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
                                   row[10]).serialize())
             return games
         else:
@@ -135,7 +136,7 @@ class GameDAO:
         highscores = list()
         cursor.execute('SELECT * from solutions where gameid = %s ORDER BY numMoves,created ASC', (id,))
         for row in cursor.fetchall():
-            highscores.append(Solutions(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+            highscores.append(Solutions(row[0],row[1],row[2],row[3],row[4],row[5],row[6],(row[7] - timedelta(hours=4)).strftime('%b %d, %Y %I:%M%p').lstrip("0").replace(" 0", " ")).serialize())
         return highscores
 
     def get_all_games(self, numGames,offset):
@@ -146,7 +147,7 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
             return games
         else:
             return games
@@ -166,7 +167,7 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8],row[9]).serialize())
+                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], (row[7]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8],row[9]).serialize())
             return games
         else:
             return games
@@ -191,7 +192,7 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], row[4].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5],row[6],row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], (row[4]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5],row[6],row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
             return games
         else:
             return games

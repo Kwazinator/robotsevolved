@@ -147,7 +147,7 @@ class GenDAO:
         if row is None:
             return None
         else:
-            return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],row[6].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7])
+            return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],(row[6]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7])
 
     def update_daily_challenge_submit(self,score, userid, solutiondata, name, dc_id,playerStateList):
         try:
