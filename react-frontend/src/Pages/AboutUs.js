@@ -21,6 +21,9 @@ export default function AboutUs(props) {
     const facebookclick = () => {
         window.open('https://www.facebook.com/RobotsEvolved-105278561284154')
     }
+    const discordclick = () => {
+        window.open('https://discord.gg/VKMRQuE')
+    }
     return (<div style={gamepanel()}>
                 <Grid container spacing={4} alignItems={"stretch"}>
                     <Grid item spacing={4} xs={12} justify={"center"} alignItems={"center"}>
@@ -41,6 +44,9 @@ export default function AboutUs(props) {
                                 <Button onClick={facebookclick}>
                                     <Avatar alt="Facebook" src="https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512" />
                                 </Button>
+                                <Button onClick={discordclick}>
+                                    <Avatar alt="Discord" src="https://cdn.discordapp.com/attachments/675768013731135518/740251382862577694/icons8-discord-new-logo-48.png" />
+                                </Button>
                             </CardActions>
                         </Card>
                     </Grid>
@@ -55,7 +61,7 @@ export default function AboutUs(props) {
                                     <br/>
                                     Medium Mondays - 4 x Medium
                                     <br/>
-                                    Trouble Teusdays - 4 x Extremely Hard
+                                    Trouble Tuesdays - 4 x Extremely Hard
                                     <br/>
                                     Wild Wednesdays - 4 x Hard
                                     <br/>

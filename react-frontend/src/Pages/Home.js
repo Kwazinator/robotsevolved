@@ -35,7 +35,7 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                         <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                         </Typography>
-                        <Typography variant="p1" paragraph={true}>Puzzle Game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
+                        <Typography variant="p1" paragraph={true}>Puzzle game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
                         </Typography>
                         <br/>
                         <img width="300" height="300" src='/static/videos/basic2.gif'/>
@@ -46,27 +46,10 @@ export default function ComplexGrid(props) {
                         </Typography>
                         <Typography> 8/3/2020 Launched Site! Thanks for joining! Im currently the top scorer on all my puzzles, can you beat me?
                         </Typography>
+                        <Typography> 8/4/2020 Added Chat Room. Come and chat with us! Look in the lower right corner for chat icon.
+                        </Typography>
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
-                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
-                            <Card className={classes.iconcards}>
-                                <CardActionArea onClick={props.handleClickCreateGame}>
-                                    <CardMedia
-                                        className={classes.createboardcard}
-                                        component="img"
-                                        alt="Create Board"
-                                        height="140"
-                                        image="/static/images/CreateBoardCardIcon.png"
-                                        title="Create Board"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                            Create Board
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
                         <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
                             <Card className={classes.iconcards}>
                                 <CardActionArea onClick={props.handleClickFindGame}>
@@ -98,6 +81,25 @@ export default function ComplexGrid(props) {
                                     <CardContent>
                                         <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
                                             Daily Challenge
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickCreateGame}>
+                                    <CardMedia
+                                        className={classes.createboardcard}
+                                        component="img"
+                                        alt="Create Board"
+                                        height="140"
+                                        image="/static/images/CreateBoardCardIcon.png"
+                                        title="Create Board"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Create Board
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
@@ -164,7 +166,7 @@ export default function ComplexGrid(props) {
                         <Typography variant="body1">
                             Medium Mondays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles only</Typography>
-                            Trouble Teusdays <br/>
+                            Trouble Tuesday <br/>
                             <Typography paragraph={true} variant="caption">extremly hard puzzles only</Typography>
                             Wild Wednesdays <br/>
                             <Typography paragraph={true} variant="caption">hard puzzles only</Typography>
@@ -232,81 +234,83 @@ export default function ComplexGrid(props) {
                     </Typography>
                     <Typography> 8/3/2020 Launched Site! Thanks for joining! Im currently the top scorer on all my puzzles, can you beat me?
                     </Typography>
+                    <Typography> 8/4/2020 Added Chat Room. Come and chat with us! Look in the lower right corner for chat icon.
+                    </Typography>
                     </div>
                 </Grid>
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                     <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
                     </Typography>
-                    <Typography paragraph={true} variant="p1">Puzzle Game for anyone to play! Create your own custom boards or play a random Solved game.<br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
+                    <Typography paragraph={true} variant="p1">Puzzle game for anyone to play! Create your own custom boards or play a random Solved game.<br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
                     </Typography>
                     <br/>
                         <img width="300" height="300" src='/static/videos/basic2.gif'/>
                     <br/>
                     <Card className={classes.iconcards}>
-                              <CardActionArea onClick={props.handleClickCreateGame}>
-                                <CardMedia
-                                  className={classes.createboardcard}
-                                  component="img"
-                                  alt="Create Board"
-                                  height="140"
-                                  image="/static/images/CreateBoardCardIcon.png"
-                                  title="Create Board"
-                                />
-                                <CardContent>
-                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                    Create Board
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                            <Card className={classes.iconcards}>
-                              <CardActionArea onClick={props.handleClickFindGame}>
-                                <CardMedia
-                                  component="img"
-                                  alt="Find a Game"
-                                  height="140"
-                                  image="/static/images/FindAGameCardIcon.png"
-                                  title="Find a Game"
-                                />
-                                <CardContent>
-                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                    Find a Game
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                            <Card className={classes.iconcards}>
-                              <CardActionArea onClick={props.handleClickDailyChallenge}>
-                                <CardMedia
-                                  component="img"
-                                  alt="Create Board"
-                                  height="140"
-                                  image="/static/images/DailyChallengeIcon.png"
-                                  title="Daily Challenge"
-                                />
-                                <CardContent>
-                                  <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                    Daily Challenge
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                            <Card className={classes.iconcards}>
-                    <CardActionArea onClick={props.handleClickRandomGame}>
+                      <CardActionArea onClick={props.handleClickFindGame}>
                         <CardMedia
-                            component="img"
-                            alt="Play a Random Game"
-                            height="140"
-                            image="/static/images/puzzle.png"
-                            title="Play a Random Game"
+                          component="img"
+                          alt="Find a Game"
+                          height="140"
+                          image="/static/images/FindAGameCardIcon.png"
+                          title="Find a Game"
                         />
                         <CardContent>
-                            <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                Play a Random Game
-                            </Typography>
+                          <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                            Find a Game
+                          </Typography>
                         </CardContent>
-                    </CardActionArea>
-                </Card>
+                      </CardActionArea>
+                    </Card>
+                    <Card className={classes.iconcards}>
+                      <CardActionArea onClick={props.handleClickDailyChallenge}>
+                        <CardMedia
+                          component="img"
+                          alt="Create Board"
+                          height="140"
+                          image="/static/images/DailyChallengeIcon.png"
+                          title="Daily Challenge"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                            Daily Challenge
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                    <Card className={classes.iconcards}>
+                        <CardActionArea onClick={props.handleClickCreateGame}>
+                            <CardMedia
+                                className={classes.createboardcard}
+                                component="img"
+                                alt="Create Board"
+                                height="140"
+                                image="/static/images/CreateBoardCardIcon.png"
+                                title="Create Board"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                    Create Board
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                    <Card className={classes.iconcards}>
+                        <CardActionArea onClick={props.handleClickRandomGame}>
+                            <CardMedia
+                                component="img"
+                                alt="Play a Random Game"
+                                height="140"
+                                image="/static/images/puzzle.png"
+                                title="Play a Random Game"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                    Play a Random Game
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
                     <Card className={classes.iconcards}>
                         <CardActionArea onClick={props.handleClickLearnGame}>
                             <CardMedia
@@ -346,7 +350,7 @@ export default function ComplexGrid(props) {
                 <Typography variant="body1">
                             Medium Mondays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles only</Typography>
-                            Trouble Teusdays <br/>
+                            Trouble Tuesdays <br/>
                             <Typography paragraph={true} variant="caption">extremly hard puzzles only</Typography>
                             Wild Wednesdays <br/>
                             <Typography paragraph={true} variant="caption">hard puzzles only</Typography>

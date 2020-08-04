@@ -111,6 +111,9 @@ class FindGame extends React.Component {
     };
 
     handleSearchSubmit = event => {
+        this.setState( {
+            anchorEl: null
+        })
         var searchTerm = this.searchRef.value;
         axios.post('/search', {search: searchTerm, filter: 'None', offset: 0})
             .then( res => {
@@ -119,6 +122,12 @@ class FindGame extends React.Component {
                     gameslist: JSON.parse(res.data.gameslist)
                 });
             });
+    };
+
+    handleCloseFilterMenu = () => {
+        this.setState({
+            anchorEl: null
+        });
     };
 
     render () {
@@ -157,6 +166,7 @@ class FindGame extends React.Component {
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleCloseFilterMenu}
                     >
+                        <MenuItem onClick={this.handleSearchSubmit}>Recently Created</MenuItem>
                         <MenuItem onClick={this.handleCloseFilterMenuMostPlayed}>Most Played</MenuItem>
                         <MenuItem onClick={this.handleCloseFilterMenuHighest}>Highest Scores</MenuItem>
                     </Menu>

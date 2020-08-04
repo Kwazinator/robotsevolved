@@ -31,7 +31,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Badge from "@material-ui/core/Badge";
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import BrushIcon from '@material-ui/icons/Brush';
 import SearchIcon from '@material-ui/icons/Search';
 import WarningIcon from '@material-ui/icons/Warning'
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -55,6 +55,8 @@ import DailyChallengeHistoryAnswersPage from "./Pages/DailyChallengeHistoryAnswe
 import { FaMedal } from 'react-icons/fa';
 import TimerIcon from '@material-ui/icons/Timer';
 import LoadingPage from './components/LoadingPage';
+import ChatIcon from '@material-ui/icons/Chat';
+import Popover from "@material-ui/core/Popover";
 
 
 const drawerWidth = 240;
@@ -192,6 +194,8 @@ class App extends React.Component {
                 }
             }
         }
+        this.state.openChat = false;
+        this.state.chatAnchor = null;
         this.state.open = false;
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
@@ -205,6 +209,19 @@ class App extends React.Component {
             this.state.LineDirections = true;
          }
     }
+
+    handleChatOpen = (event) => {
+        this.setState({
+            openChat: true,
+            chatAnchor: event.currentTarget
+        })
+    };
+
+    handleChatClose = () => {
+      this.setState({
+          openChat: false
+      })
+    };
 
     handleDrawerClose = () => {
         this.setState( {
@@ -222,7 +239,7 @@ class App extends React.Component {
         this.setState({
             LineDirections: boolean
         });
-    }
+    };
 
     handleClickDailyChallenge = () => {
         this.state.loadingPage = true;
@@ -254,7 +271,7 @@ class App extends React.Component {
         this.setState({
             PageSelected: <LoadingPage/>,
         });
-    }
+    };
 
     handleDrawerOpen = () => {
         this.setState( {
@@ -287,14 +304,14 @@ class App extends React.Component {
             open: isOpen,
             loadingPage: false,
         });
-    }
+    };
 
     handleClickRandomGame = (event) => {
         event.preventDefault();
         this.setState({
             showRandomGameModal: true,
         });
-    }
+    };
 
 
     handleClickPuzzleRush = event => {
@@ -327,7 +344,7 @@ class App extends React.Component {
         this.setState({
             PageSelected: <LoadingPage/>,
         });
-    }
+    };
 
     handleDailyPuzzleHistoryClick = history => {
         var isOpen = this.state.open;
@@ -339,7 +356,7 @@ class App extends React.Component {
             open: isOpen,
             loadingPage: false,
         });
-    }
+    };
 
     handleClickPuzzleRushModal = (difficulty,games,p_id) => {
         var isOpen = this.state.open;
@@ -369,14 +386,14 @@ class App extends React.Component {
         this.setState({
             showPuzzleRushModal: false
         });
-    }
+    };
 
     closeRandomGameLoginModal = event => {
         event.preventDefault();
         this.setState({
             showRandomGameModal: false
         });
-    }
+    };
 
     handleGameClick = (name, gamedata,highscores,uri) => {
         var isOpen = this.state.open;
@@ -444,8 +461,8 @@ class App extends React.Component {
         this.state.loadingPage = true;
         axios.get('/getFindGames')
             .then( res => {
-                const gameslist = JSON.parse(res.data.gameslist)
-                const highscoreslist = JSON.parse(res.data.highscoreslist)
+                const gameslist = JSON.parse(res.data.gameslist);
+                const highscoreslist = JSON.parse(res.data.highscoreslist);
                 var isOpen = this.state.open;
                 if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
                     isOpen = false
@@ -468,7 +485,7 @@ class App extends React.Component {
             PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
             loadingPage: false,
         });
-    }
+    };
 
 
     handleClickAboutUs = event => {
@@ -481,7 +498,7 @@ class App extends React.Component {
             open: isOpen,
             loadingPage: false,
         });
-    }
+    };
 
     handleClickLearnGame = event => {
         event.preventDefault();
@@ -508,7 +525,7 @@ class App extends React.Component {
         return(
             this.state.PageSelected
         )
-    }
+    };
 
 
     handleMobileMenuOpen = (event) => {
@@ -613,10 +630,6 @@ class App extends React.Component {
                             Play
                         </Typography>
                         <List>
-                            <ListItem button key={'Create a Game'} onClick={this.handleClickCreateGame}>
-                                <ListItemIcon><PlayArrowIcon /></ListItemIcon>
-                                <ListItemText primary={'Create a Game'} />
-                            </ListItem>
                             <ListItem button key={'Find a Game'} onClick={this.handleClickFindGame}>
                                 <ListItemIcon><SearchIcon /></ListItemIcon>
                                 <ListItemText primary={'Find a Game'} />
@@ -624,6 +637,10 @@ class App extends React.Component {
                             <ListItem button key={'Daily Challenge'} onClick={this.handleClickDailyChallenge}>
                                 <ListItemIcon><TodayIcon /></ListItemIcon>
                                 <ListItemText primary={'Daily Challenge'} />
+                            </ListItem>
+                            <ListItem button key={'Create a Game'} onClick={this.handleClickCreateGame}>
+                                <ListItemIcon><BrushIcon /></ListItemIcon>
+                                <ListItemText primary={'Create a Game'} />
                             </ListItem>
                             <ListItem button key={'Random Game'} onClick={this.handleClickRandomGame}>
                                 <ListItemIcon><CasinoIcon /></ListItemIcon>
@@ -701,6 +718,34 @@ class App extends React.Component {
                         show={this.state.showRandomGameModal}
                         handleClickRandomGame={this.handleClickRandomGameModal}
                     />
+                </div>
+                <div style={{position: "fixed", bottom: "10px", right: "10px"}}>
+                    <IconButton
+                        style = {{backgroundColor: "#14a76c"}}
+                        onClick={this.handleChatOpen}
+                    >
+                        <ChatIcon />
+                    </IconButton>
+                    <Popover
+                        open={this.state.openChat}
+                        anchorEl={this.state.chatAnchor}
+                        onClose={this.handleChatClose}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "left"
+                        }}
+                        transformOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right"
+                        }}
+                    >
+                        <iframe
+                            src="https://titanembeds.com/embed/740127738345554021?css=140&username=guest"
+                            height="600"
+                            width="400"
+                            frameBorder="0"
+                        />
+                    </Popover>
                 </div>
             </MuiThemeProvider>
         )

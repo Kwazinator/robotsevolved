@@ -46,7 +46,7 @@ export default function DailyChallengeHistory(props) {
                                 id={"panel" + index + "-header"}
                             >
                                 <Typography className={classes.heading}>{history.created}</Typography>
-                                <Typography className={classes.secondaryHeading}>Winner: {history.nameSubmitted}</Typography>
+                                <Typography style={{width: '15%'}} className={classes.secondaryHeading}>Winner: {history.nameSubmitted}</Typography>
                                 <ShowDailyPuzzleHistory history={history} handleDailyPuzzleHistoryClick={props.handleDailyPuzzleHistoryClick}/>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
