@@ -184,12 +184,14 @@ def boardgeneratorclassic():
     thenum = random.randint(0,countwalls - 1)
     goalpos = goalposlist[thenum]
 
+    
     noplace = getnoplacelisttop(wallVerticle,wallHorizontal)
     location = random.randint(2,14)
     while (location in noplace):
         location = random.randint(2,14)
     location2 = random.randint(2,14)
-    while (location2 in noplace or abs(location2 - location) <= 3):
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2,14)
         location2 = random.randint(2,14)
     maxtries = 0
 
@@ -204,7 +206,8 @@ def boardgeneratorclassic():
     while (location in noplace):
         location = random.randint(2,14)
     location2 = random.randint(2,14)
-    while (location2 in noplace or abs(location2 - location) <= 3):
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2,14)
         location2 = random.randint(2,14)
 
 
@@ -219,7 +222,8 @@ def boardgeneratorclassic():
     while (location in noplace):
         location = random.randint(2,14)
     location2 = random.randint(2,14)
-    while (location2 in noplace or abs(location2 - location) <= 3):
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2,14)
         location2 = random.randint(2,14)
 
 
@@ -233,7 +237,8 @@ def boardgeneratorclassic():
     while (location in noplace):
         location = random.randint(2,14)
     location2 = random.randint(2,14)
-    while (location2 in noplace or abs(location2 - location) <= 1):
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2,14)
         location2 = random.randint(2,14)
 
 

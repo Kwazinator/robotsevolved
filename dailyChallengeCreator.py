@@ -18,7 +18,7 @@ week = {
     'Medium Mondays': ['medium','medium','medium','medium'],
     'Trouble Teusdays': ['hard','hard','hard','hard'],
     'Wild Wednesday': ['medium','medium','medium','medium'],
-    'Tryhard Thursdays': ['Exteremly Hard','Exteremly Hard','Exteremly Hard','GodTeir'],
+    'Tryhard Thursdays': ['hard','hard','hard','hard'],
     'Flyin Fridays': ['medium','medium','medium','medium'],
     'Sleepy Saturdays': ['easy','easy','easy','easy'],
     'Standard Sundays': ['hard','hard','hard','hard']
@@ -30,7 +30,7 @@ weekly = ['Medium Mondays','Trouble Teusdays','Wild Wednesday','Tryhard Thursday
 if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
-    dayonnow = 2
+    dayonnow = 1
     dayofweek = -3
     weekly = deque(weekly)
     weekly.rotate(dayofweek)
