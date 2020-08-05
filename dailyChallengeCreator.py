@@ -16,8 +16,8 @@ from collections import deque
 
 week = {
     'Medium Mondays': ['medium','medium','medium','medium'],
-    'Trouble Teusdays': ['Exteremly Hard','Exteremly Hard','Exteremly Hard','Exteremly Hard'],
-    'Wild Wednesday': ['hard','hard','hard','hard'],
+    'Trouble Teusdays': ['hard','hard','hard','hard'],
+    'Wild Wednesday': ['medium','medium','medium','medium'],
     'Tryhard Thursdays': ['Exteremly Hard','Exteremly Hard','Exteremly Hard','GodTeir'],
     'Flyin Fridays': ['medium','medium','medium','medium'],
     'Sleepy Saturdays': ['easy','easy','easy','easy'],
@@ -30,8 +30,8 @@ weekly = ['Medium Mondays','Trouble Teusdays','Wild Wednesday','Tryhard Thursday
 if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
-    dayonnow = 0
-    dayofweek = -6
+    dayonnow = 2
+    dayofweek = -3
     weekly = deque(weekly)
     weekly.rotate(dayofweek)
     while (True):
@@ -81,7 +81,7 @@ if __name__ == "__main__":
                 for daypuzzle in daypuzzles:
                     print('found ' + str(daypuzzle['difficulty']) + ' puzzle of ' + str(daypuzzle['moves']) + ' moves')
                     totalMoves += daypuzzle['moves']
-                    listid.append(GeneratorService().insert_puzzle('dailyChallenge', daypuzzle['difficulty'], daypuzzle['puzzledata'], 'abcdefg', daypuzzle['moves'], daypuzzle['solutiondata']))
+                    listid.append(GeneratorService().insert_puzzle(puzzleday, daypuzzle['difficulty'], daypuzzle['puzzledata'], 'abcdefg', daypuzzle['moves'], daypuzzle['solutiondata']))
                 random.shuffle(listid)
                 GeneratorService().insert_daily_challenge(now+timedelta(days=dayonnow),listid[0],listid[1],listid[2],listid[3],totalMoves)
             dayonnow += 1
