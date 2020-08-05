@@ -162,20 +162,21 @@ def boardgeneratorclassic():
 
     for i, nothing in enumerate(range(5)):
         for j, nothing2 in enumerate(range(5)):
-            randomnum = random.randint(0, 15)
-            if (i*4 + j == goalposrandom):
-                goalspot = int(randomnum / 4)
-                if goalspot == 0:
-                    goalpos = {'top': i*3 + 1, 'left':j*3 + 1}
-                elif goalspot == 1:
-                    goalpos = {'top': i * 3 + 1, 'left': j * 3 + 2}
-                elif goalspot == 2:
-                    goalpos = {'top': i * 3 + 2, 'left': j * 3 + 1}
-                else:
-                    goalpos = {'top': i * 3 + 2, 'left': j * 3 + 2}
-            walls = classicstruct(i*3 + 1,j*3 + 1,randomnum)
-            wallHorizontal.append(walls[1])
-            wallVerticle.append(walls[0])
+            if (random.randint(0,12) > 4):
+                randomnum = random.randint(0, 15)
+                if (i*4 + j == goalposrandom):
+                    goalspot = int(randomnum / 4)
+                    if goalspot == 0:
+                        goalpos = {'top': i*3 + 1, 'left':j*3 + 1}
+                    elif goalspot == 1:
+                        goalpos = {'top': i * 3 + 1, 'left': j * 3 + 2}
+                    elif goalspot == 2:
+                        goalpos = {'top': i * 3 + 2, 'left': j * 3 + 1}
+                    else:
+                        goalpos = {'top': i * 3 + 2, 'left': j * 3 + 2}
+                walls = classicstruct(i*3 + 1,j*3 + 1,randomnum)
+                wallHorizontal.append(walls[1])
+                wallVerticle.append(walls[0])
 
     #randomize top walls
 
