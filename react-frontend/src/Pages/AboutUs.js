@@ -61,11 +61,11 @@ export default function AboutUs(props) {
                                     <br/>
                                     Medium Mondays - 4 x Medium
                                     <br/>
-                                    Trouble Tuesdays - 4 x Extremely Hard
+                                    Trouble Tuesdays - 4 x Hard
                                     <br/>
-                                    Wild Wednesdays - 4 x Hard
+                                    Wild Wednesdays - 4 x Medium
                                     <br/>
-                                    Tryhard Thursdays - 3 x Extremely Hard 1 x God Teir
+                                    Tryhard Thursdays -4 x Hard
                                     <br/>
                                     Flyin Fridays - 4 x Medium
                                     <br/>

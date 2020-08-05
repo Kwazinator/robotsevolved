@@ -165,19 +165,19 @@ export default function ComplexGrid(props) {
                     </Typography>
                         <Typography variant="body1">
                             Medium Mondays <br/>
-                            <Typography paragraph={true} variant="caption">medium puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Trouble Tuesday <br/>
-                            <Typography paragraph={true} variant="caption">extremly hard puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                             Wild Wednesdays <br/>
-                            <Typography paragraph={true} variant="caption">hard puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Tryhard Thursdays <br/>
-                            <Typography paragraph={true} variant="caption">extremly hard puzzles + 1 god teir</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                             Flyin Fridays<br/>
-                            <Typography paragraph={true} variant="caption">medium puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Sleepy Saturdays<br/>
-                            <Typography paragraph={true} variant="caption">easy puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">easy puzzles</Typography>
                             Standard Sundays<br/>
-                            <Typography paragraph={true} variant="caption">hard puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                         </Typography>
                         <Typography style={{marginTop: '30px'}} className={classes.titlehome} variant="h4"> Daily Challenge Scores
                         </Typography>
@@ -349,19 +349,19 @@ export default function ComplexGrid(props) {
                 </Typography>
                 <Typography variant="body1">
                             Medium Mondays <br/>
-                            <Typography paragraph={true} variant="caption">medium puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Trouble Tuesdays <br/>
-                            <Typography paragraph={true} variant="caption">extremly hard puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                             Wild Wednesdays <br/>
-                            <Typography paragraph={true} variant="caption">hard puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Tryhard Thursdays <br/>
-                            <Typography paragraph={true} variant="caption">extremly hard puzzles + 1 god teir</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                             Flyin Fridays<br/>
-                            <Typography paragraph={true} variant="caption">medium puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Sleepy Saturdays<br/>
-                            <Typography paragraph={true} variant="caption">easy puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">easy puzzles</Typography>
                             Standard Sundays<br/>
-                            <Typography paragraph={true} variant="caption">hard puzzles only</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                         </Typography>
                 <Typography className={classes.titlehome} variant="h4"> Daily Challenge Scores
                 </Typography>
