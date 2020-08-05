@@ -146,7 +146,8 @@ def boardgeneratorclassic():
     wallHorizontal = list()
     wallVerticle = [{'top': 0, 'left': 0, 'opacity': 1}]
     goalpos = None
-
+    countwalls = 0
+    goalposlist = list()
     for j, item in enumerate(range(16)):
         for i, item in enumerate(range(16)):
             checkj = j
@@ -162,23 +163,26 @@ def boardgeneratorclassic():
 
     for i, nothing in enumerate(range(5)):
         for j, nothing2 in enumerate(range(5)):
-            if (random.randint(0,12) > 4):
+            if (random.randint(0,12) > 3):
                 randomnum = random.randint(0, 15)
-                if (i*4 + j == goalposrandom):
-                    goalspot = int(randomnum / 4)
-                    if goalspot == 0:
-                        goalpos = {'top': i*3 + 1, 'left':j*3 + 1}
-                    elif goalspot == 1:
-                        goalpos = {'top': i * 3 + 1, 'left': j * 3 + 2}
-                    elif goalspot == 2:
-                        goalpos = {'top': i * 3 + 2, 'left': j * 3 + 1}
-                    else:
-                        goalpos = {'top': i * 3 + 2, 'left': j * 3 + 2}
+                countwalls += 1
+                goalspot = int(randomnum / 4)
+                if goalspot == 0:
+                    goalposlist.append({'top': i*3 + 1, 'left':j*3 + 1})
+                elif goalspot == 1:
+                    goalposlist.append({'top': i * 3 + 1, 'left': j * 3 + 2})
+                elif goalspot == 2:
+                    goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 1})
+                else:
+                    goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 2})
                 walls = classicstruct(i*3 + 1,j*3 + 1,randomnum)
                 wallHorizontal.append(walls[1])
                 wallVerticle.append(walls[0])
 
     #randomize top walls
+    print(countwalls)
+    thenum = random.randint(0,countwalls - 1)
+    goalpos = goalposlist[thenum]
 
     noplace = getnoplacelisttop(wallVerticle,wallHorizontal)
     location = random.randint(2,14)
