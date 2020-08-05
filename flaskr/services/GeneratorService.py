@@ -23,7 +23,9 @@ class GeneratorService:
     def get_daily_puzzles(self):
         returnlist = list()
         for game in GenDAO().get_daily_puzzles():
-            returnlist.append(GenDAO().get_puzzle_by_id(game))
+            gamedata = GenDAO().get_puzzle_by_id(game)
+            gamedata['g_solutiondata'] = ''
+            returnlist.append(gamedata)
         return returnlist
 
     def insert_daily_challenge(self, date,id1,id2,id3,id4,bestScore):
