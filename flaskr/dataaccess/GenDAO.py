@@ -120,10 +120,8 @@ class GenDAO:
         cursor = get_db().cursor()
         userlist = list()
         cursor.execute('''SELECT user_id
-                            FROM daily_challenge_submit dcs
-                            WHERE dcs.submitted=(SELECT MIN(dcs3.submitted) FROM daily_challenge_submit dcs3 WHERE dcs3.score=(SELECT MIN(score)
-			                FROM daily_challenge_submit dcs2
-			                WHERE dcs2.dc_id = dcs.dc_id)) AND dcs.dc_id != %s GROUP BY dcs.dc_id''',(dc_id,))
+                            FROM v_daily_history dcs
+                            WHERE dcsID!=%s''',(dc_id,))
         for row in cursor.fetchall():
             userlist.append(row[0])
         return userlist
