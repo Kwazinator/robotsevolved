@@ -104,7 +104,7 @@ def about():
 
 @bp.route('/getFindGames')
 def getFindGames():
-    get_games_data_value = get_games_data(50, 0)
+    get_games_data_value = get_games_data(20, 0)
     return jsonify(gameslist=json.dumps(get_games_data_value[0]), highscoreslist=json.dumps(get_games_data_value[1]))
 
 
@@ -154,7 +154,7 @@ def play(uri):
         authorname = ' Random Generated'
         name = gamefromuri['g_difficulty']
     data = json.dumps(gamefromuri)
-    get_games_data_value = get_games_data(50,0)
+    get_games_data_value = get_games_data(20,0)
     userID = get_jwt_identity()
     user = None
     loggedin = 'No'
