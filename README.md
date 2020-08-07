@@ -1,5 +1,5 @@
 <h2>RobotsEvolved</h2>
-<p>Created this project as a way to learn the React Web-framework, feel free to play a https://robotsevolved.com<br></p>
+<p>Created this project as a way to learn the React Web-framework, feel free to play at https://robotsevolved.com<br></p>
 <br>#################################################################
 <br>How to play:
 <br>There are 4 pieces (Robots) on a screen and they dont have breaks. They move like rumbas until they hit a wall or another piece.
