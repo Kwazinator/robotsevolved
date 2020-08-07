@@ -1,0 +1,28 @@
+classicGenerator.py
+*************************************
+Generates 'classic style puzzles' and inserts to generated_games table in database
+
+
+dailyChallengeCreator.py
+*************************************
+Generates daily challenges where dayonnow = how many days ahead, and weeklyrotation = day of the week to start on
+
+
+generator.py
+*************************************
+contains all the brains for generating board data and JSON information, also converts into readable format for solver
+
+the rest:
+*************************************
+Solver Program NOT created by me I owe all credit to
+
+Micheal Fogleman
+https://github.com/fogleman/Ricochet
+
+who was the only one who created an algorithmn that didnt take over 4 hours of computing power to solve each puzzle.
+For more information on HOW it solves puzzles read
+
+https://speakerdeck.com/fogleman/ricochet-robots-solver-algorithms
+
+TLDR: He uses an Iterative depth first Search algorithmn.
+Reason being iterative is that each iteration he needs to eliminate repeat puzzles (moving a peice up then down) to greatly reduce compute time.
