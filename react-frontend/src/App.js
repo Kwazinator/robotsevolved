@@ -202,6 +202,10 @@ class App extends React.Component {
         this.state.showLoginModal = false;
         this.state.showPuzzleRushModal = false;
         this.state.loadingPage = false;
+        this.state.filterTerm = 'None'
+        this.state.searchTerm = ''
+        this.state.findWindowHeight = 0;
+        this.state.numFindGames = window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? 8 : 20;
          if (window.loggedin === 'Yes') {
             this.state.LineDirections = window.userInfo.LineDirFlag === 'Y';
          }
@@ -455,11 +459,24 @@ class App extends React.Component {
         }
     };
 
+    setNumFindGames = (num,filterTerm,searchTerm) => {
+        this.setState({
+            numFindGames: num,
+            searchTerm: searchTerm,
+            filterTerm: filterTerm,
+        })
+    }
+
+    setFindWindow = height => {
+        this.setState({
+            findWindowHeight: height
+        })
+    }
 
     handleClickFindGame = event => {
         event.preventDefault();
         this.state.loadingPage = true;
-        axios.get('/getFindGames')
+        axios.post('/search', {search: this.state.searchTerm, filter: this.state.filterTerm, offset: 0, numGames: this.state.numFindGames})
             .then( res => {
                 const gameslist = JSON.parse(res.data.gameslist);
                 const highscoreslist = JSON.parse(res.data.highscoreslist);
@@ -469,7 +486,7 @@ class App extends React.Component {
                 }
                 if (this.state.loadingPage) {
                     this.setState({
-                        PageSelected: <FindGame gameslist={gameslist} highscoreslist={highscoreslist} handleGameClick={this.handleGameClick}/>,
+                        PageSelected: <FindGame findWindowHeight={this.state.findWindowHeight} setFindWindow={this.setFindWindow} setNumFindGames={this.setNumFindGames} gameslist={gameslist} highscoreslist={highscoreslist} handleGameClick={this.handleGameClick}/>,
                         open: isOpen,
                         loadingPage: false,
                     });

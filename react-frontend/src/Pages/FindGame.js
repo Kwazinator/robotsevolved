@@ -7,12 +7,16 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import Grid from '@material-ui/core/Grid';
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import axios from 'axios';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
+import InfiniteScroll from 'react-infinite-scroller';
+import extend from '../constants/extend';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const gamepanel = () => {
     return {
@@ -20,7 +24,7 @@ const gamepanel = () => {
         paddingTop: '40px',
         paddingLeft: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '0px' : '40px',
         margin: '0 auto',
-        align: 'center',
+        align: 'center'
     }
 }
 
@@ -55,7 +59,9 @@ class FindGame extends React.Component {
         this.state = {
             gameslist: gameslist,
             highscoreslist: highscoreslist,
-            anchorEl: null
+            anchorEl: null,
+            hasMore: true,
+            lastSearch: 'None'
         }
     }
 
@@ -79,8 +85,12 @@ class FindGame extends React.Component {
 
     componentDidMount = () => {
         window.onkeydown = this.handleKeyDown;
+        window.scrollTo(0,this.props.findWindowHeight);
     }
 
+    componentWillUnmount = () => {
+        this.props.setFindWindow(window.scrollY)
+    }
 
     handleCloseFilterMenuMostPlayed = event => {
         this.setState( {
@@ -89,9 +99,14 @@ class FindGame extends React.Component {
         var searchTerm = this.searchRef.value;
         axios.post('/search', {search: searchTerm, filter: 'MostPlayed', offset: 0})
             .then( res => {
+                var gameslist = JSON.parse(res.data.gameslist)
+                var highscoreslist = JSON.parse(res.data.highscoreslist)
+                this.props.setNumFindGames(gameslist.length, 'MostPlayed', searchTerm);
                 this.setState({
-                    highscoreslist: JSON.parse(res.data.highscoreslist),
-                    gameslist: JSON.parse(res.data.gameslist)
+                    highscoreslist: highscoreslist,
+                    gameslist: gameslist,
+                    lastSearch: 'MostPlayed',
+                    hasMore: true
                 });
             });
     };
@@ -103,9 +118,14 @@ class FindGame extends React.Component {
         var searchTerm = this.searchRef.value;
         axios.post('/search', {search: searchTerm, filter: 'Highest', offset: 0})
             .then( res => {
+                var gameslist = JSON.parse(res.data.gameslist)
+                var highscoreslist = JSON.parse(res.data.highscoreslist)
+                this.props.setNumFindGames(gameslist.length, 'Highest', searchTerm);
                 this.setState({
-                    highscoreslist: JSON.parse(res.data.highscoreslist),
-                    gameslist: JSON.parse(res.data.gameslist)
+                    highscoreslist: highscoreslist,
+                    gameslist: gameslist,
+                    lastSearch: 'Highest',
+                    hasMore: true
                 });
             });
     };
@@ -115,14 +135,39 @@ class FindGame extends React.Component {
             anchorEl: null
         })
         var searchTerm = this.searchRef.value;
+
         axios.post('/search', {search: searchTerm, filter: 'None', offset: 0})
             .then( res => {
+                var gameslist = JSON.parse(res.data.gameslist)
+                var highscoreslist = JSON.parse(res.data.highscoreslist)
+                this.props.setNumFindGames(gameslist.length, 'None', searchTerm);
                 this.setState({
-                    highscoreslist: JSON.parse(res.data.highscoreslist),
-                    gameslist: JSON.parse(res.data.gameslist)
+                    highscoreslist: highscoreslist,
+                    gameslist: gameslist,
+                    lastSearch: 'None',
+                    hasMore: true
                 });
             });
     };
+
+    hasMore = () => {
+        return ( this.state.hasMore ? null : <Grid item alignItems="center" justify="center" xs={12}><Typography style={{textAlign: 'center', display: 'block'}} variant="caption">No More Puzzles</Typography></Grid>)
+    }
+
+    loadMoreItems = () => {
+        var searchTerm = this.searchRef.value;
+        axios.post('/search', {search: searchTerm, filter: 'None', offset: this.state.gameslist.length})
+            .then( res => {
+                var gameslist = JSON.parse(res.data.gameslist);
+                var highscoreslist = JSON.parse(res.data.highscoreslist);
+                this.props.setNumFindGames(gameslist.length + this.state.gameslist.length, this.state.lastSearch, searchTerm);
+                this.setState({
+                    highscoreslist: this.state.highscoreslist.concat(highscoreslist),
+                    gameslist: this.state.gameslist.concat(gameslist),
+                    hasMore: gameslist.length == 0 ? false : true,
+                });
+            });
+    }
 
     handleCloseFilterMenu = () => {
         this.setState({
@@ -132,8 +177,10 @@ class FindGame extends React.Component {
 
     render () {
         const  { classes } = this.props;
+        console.log(this.state.highscoreslist)
+        console.log(this.state.gameslist)
         return (
-            <div style={gamepanel()}>
+            <div id='MainFindPage' style={gamepanel()}>
                 <Paper component="form" className={classes.root} >
                     <InputBase
                         className={classes.input}
@@ -178,6 +225,15 @@ class FindGame extends React.Component {
                             <FindGameElements handleGameClick={this.handleGameClick} game={game} highscores={this.state.highscoreslist[index]} highscore={this.state.highscoreslist[index][0]}/>
                         )
                     }
+                    <InfiniteScroll
+                        pageStart={1}
+                        loadMore={this.loadMoreItems.bind(this)}
+                        hasMore={this.state.hasMore}
+                        loader={<Grid item alignItems="center" justify="center" xs={12}><CircularProgress style={{textAlign: 'center',alignItems: 'center', marginLeft: 'auto', marginRight: 'auto'}} size={40} color="secondary" /></Grid>}
+                        threshold={200}
+                        >
+                    </InfiniteScroll>
+                    {this.hasMore()}
                 </Grid>
             </div>
         )

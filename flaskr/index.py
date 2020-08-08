@@ -102,10 +102,6 @@ def index():
 def about():
     return 'yolo'
 
-@bp.route('/getFindGames')
-def getFindGames():
-    get_games_data_value = get_games_data(20, 0)
-    return jsonify(gameslist=json.dumps(get_games_data_value[0]), highscoreslist=json.dumps(get_games_data_value[1]))
 
 
 @bp.route('/getProfileData')
@@ -154,7 +150,6 @@ def play(uri):
         authorname = ' Random Generated'
         name = gamefromuri['g_difficulty']
     data = json.dumps(gamefromuri)
-    get_games_data_value = get_games_data(20,0)
     userID = get_jwt_identity()
     user = None
     loggedin = 'No'
@@ -164,7 +159,7 @@ def play(uri):
     if (userID is not None):
         user = UserService().get_user(get_jwt_identity()).serialize()
         loggedin = 'Yes'
-    return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri, gameslist=json.dumps(get_games_data_value[0]))
+    return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri)
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional
@@ -226,7 +221,11 @@ def search():
     searchterm = trimstring(data['search'])
     filter = data['filter']
     offset = data['offset']
-    get_games_data_value = get_games_search(20,offset,searchterm,filter)
+    if ('numGames' in data):
+        numGames = data['numGames']
+    else:
+        numGames = 16
+    get_games_data_value = get_games_search(numGames,offset,searchterm,filter)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 
