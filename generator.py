@@ -1,10 +1,10 @@
 import math
 import json
-import model
+from Solver import model
 import random
-import ricochet
-import ..flaskr
-from ..flaskr.services.GeneratorService import GeneratorService
+from Solver import ricochet
+import flaskr
+from flaskr.services.GeneratorService import GeneratorService
 
 
 def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,height):
