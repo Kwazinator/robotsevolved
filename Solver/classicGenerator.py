@@ -1,14 +1,8 @@
-import random
-import math
+
 import json
-import model
-import random
-import ricochet
-from flaskr.db import get_db
 import flaskr
-from flaskr.services.GameService import GameService
 from flaskr.services.GeneratorService import GeneratorService
-import generator
+from Solver import generator
 
 
 if __name__ == "__main__":
