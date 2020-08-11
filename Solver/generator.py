@@ -163,7 +163,7 @@ def boardgeneratorclassic():
 
     for i, nothing in enumerate(range(5)):
         for j, nothing2 in enumerate(range(5)):
-            if (random.randint(0,12) > 3):
+            if (random.randint(0,12) > 5):
                 randomnum = random.randint(0, 15)
                 countwalls += 1
                 goalspot = int(randomnum / 4)

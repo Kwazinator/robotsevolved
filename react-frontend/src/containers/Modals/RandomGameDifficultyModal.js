@@ -35,7 +35,7 @@ class PuzzleRushDifficultyModal extends React.Component {
         super(props);
         this.state = {
             isLoading: false,
-            value: 'classic',
+            value: 'classic v2',
         }
     }
 
@@ -156,6 +156,7 @@ class PuzzleRushDifficultyModal extends React.Component {
                                     <FormControl component="fieldset">
                                       <FormLabel component="legend">Game Type</FormLabel>
                                       <RadioGroup aria-label="game type" name="gametype" value={this.state.value} onChange={this.handleChange}>
+                                        <FormControlLabel value="classic v2" control={<Radio />} label="Classic V2" />
                                         <FormControlLabel value="classic" control={<Radio />} label="Classic" />
                                         <FormControlLabel value="random" control={<Radio />} label="Random" />
                                       </RadioGroup>

@@ -41,7 +41,7 @@ class PuzzleRushService:
         return PuzzleRushDAO().get_puzzle_rush(p_id)
 
     def start_puzzle(self, user_id, difficulty,type):
-        if type != 'classic':
+        if type == 'random':
             type = 'algo'
         p_id = PuzzleRushDAO().start_puzzle(user_id,difficulty,type)
         games = self.get_games_for_puzzle_rush(p_id,20,difficulty,type)
@@ -57,7 +57,7 @@ class PuzzleRushService:
         PuzzleRushDAO().end_puzzle_rush_game(p_id,totalMoves,differenceFrom)
 
     def get_random_game(self, difficulty,type):
-        if type != 'classic':
+        if type == 'random':
             type = 'algo'
         return PuzzleRushDAO().get_random_game(difficulty,type)
 
