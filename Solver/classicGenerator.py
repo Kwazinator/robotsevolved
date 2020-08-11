@@ -1,8 +1,8 @@
 
 import json
-import flaskr
-from flaskr.services.GeneratorService import GeneratorService
-from Solver import generator
+import ..flaskr
+from ..flaskr.services.GeneratorService import GeneratorService
+import generator
 
 
 if __name__ == "__main__":
