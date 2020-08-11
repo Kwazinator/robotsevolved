@@ -3,7 +3,7 @@ import json
 import random
 import flaskr
 from flaskr.services.GeneratorService import GeneratorService
-from Solver import generator
+import generator
 from datetime import datetime
 from datetime import timedelta
 from collections import deque
