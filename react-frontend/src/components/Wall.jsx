@@ -18,12 +18,11 @@ const style = ({orientation,dimension,position,opacity,onClick}) => {
     return {
         width: width,
         height: height,
-        backgroundImage: "url(" + "/static/images/concrete2smallsized.jpg" + ")",
+        backgroundColor: 'black',
         position: 'absolute',
         top: top,
         left: left,
         opacity: opacity,
-        borderStyle: 'solid'
     };
 };
 
