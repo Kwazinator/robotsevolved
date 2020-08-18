@@ -40,18 +40,18 @@ const styleinside = ({dimension}) => {
 
 const styleinside2 = ({dimension,color,index,selected}) => {
     const dim = ((dimension-4)*3)/4 + 'px';
-    var selectedColor = undefined;
+    var boxShadow = undefined;
     var borderStyle = "none";
     if (index === selected) {
-        selectedColor = SELECTED_ROBOT;
-        borderStyle = "solid";
+        boxShadow = '0 0 0 3pt ' + SELECTED_ROBOT;
     }
     return {
         width: dim,
         height: dim,
         backgroundColor: color,
-        borderStyle: borderStyle,
-        borderColor: selectedColor,
+        boxShadow: boxShadow,
+        backgroundSize: dim,
+        backgroundImage: "url(" + "/static/images/astronaut.png" + ")",
         position: 'absolute',
         borderRadius: '50%',
         top: (dimension-4)/8 + 'px',

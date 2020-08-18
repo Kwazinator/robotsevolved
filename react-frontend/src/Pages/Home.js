@@ -44,9 +44,9 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
-                        <Typography> 8/4/2020 Added Chat Room. Come and chat with us! Look in the lower right corner for chat icon.
-                        </Typography>
                         <Typography> 8/5/2020 Scaled down the Difficulty for the Daily Challenge rotations, also modified the classic algorithm to be less cluttered
+                        </Typography>
+                        <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
                         </Typography>
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
@@ -232,9 +232,9 @@ export default function ComplexGrid(props) {
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
-                    <Typography> 8/4/2020 Added Chat Room. Come and chat with us! Look in the lower right corner for chat icon.
-                    </Typography>
                     <Typography> 8/5/2020 Scaled down the Difficulty for the Daily Challenges, also modified the classic algorithm to be less cluttered
+                    </Typography>
+                    <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
                     </Typography>
                     </div>
                 </Grid>
