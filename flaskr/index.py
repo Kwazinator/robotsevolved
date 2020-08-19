@@ -184,6 +184,7 @@ def submitpuzzle():
             'wallHorizontal': processwalls(data['puzzledata']['wallHorizontal']),
             'wallVerticle': processwalls(data['puzzledata']['wallVerticle']),
             'width': data['puzzledata']['width'],
+            'coloredGoals': data['puzzledata']['coloredGoals']
         }
     except Exception as e:
         print('error in puzzledata submission')

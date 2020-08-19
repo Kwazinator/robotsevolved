@@ -2,6 +2,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import axios from 'axios';
+import CreateBoardGoalSelector from '../components/CreateBoardGoalSelector';
 import Alert from '@material-ui/lab/Alert';
 import {withRouter} from 'react-router';
 import Draggable from 'react-draggable';
@@ -163,6 +164,9 @@ class Game extends React.Component {
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = []
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
         }
         else if (this.props.dailyChallengeModeAnswers === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
@@ -193,6 +197,9 @@ class Game extends React.Component {
             this.state.playerStateList = [];
             this.state.tipsText = [];
             this.state.highscores = [];
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
         }
         else if (this.props.dailyChallengeMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
@@ -226,6 +233,9 @@ class Game extends React.Component {
             this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST, the page will refresh automatically'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
         }
         else if (this.props.randomGame === 'Yes') {
             this.state = JSON.parse(this.props.game.g_puzzledata)
@@ -239,6 +249,9 @@ class Game extends React.Component {
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = ['this game was randomly generated'];
             this.state.uri = this.props.game.g_uri;
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
             window.history.pushState({id: 'Random Game'},'RobotsEvolved | Random Game','/play/' + this.props.game.g_uri)
         }
         else if (this.props.learnMode === 'Yes') {
@@ -255,6 +268,9 @@ class Game extends React.Component {
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = [this.props.games[0].description];
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
         }
         else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
@@ -267,7 +283,10 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.copiedToClipboard = false;
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
-            this.state.tipsText = []
+            this.state.tipsText = [];
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
             window.history.pushState({id: 'Play Game'},'RobotsEvolved | Play Game','/play/'+ this.props.uri)
         }
         else {
@@ -294,8 +313,12 @@ class Game extends React.Component {
                                         'You must solve the puzzle in order to submit.']
             },board);
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
+            this.state.coloredGoals = [];
         }
         this.state.showColoredLineDirections = this.props.LineDirections;
+        if (this.state.coloredGoals == undefined) {
+            this.state.coloredGoals = [];
+        }
     };
 
     updateHighscores = () => {
@@ -457,7 +480,6 @@ class Game extends React.Component {
         if (window.userInfo !== null) {
             username = window.userInfo.username
         }
-        console.log(state);
         axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory}))
             .then( res => {
                 this.setState({
@@ -714,12 +736,47 @@ class Game extends React.Component {
     }
 
     checkwin = (newPlayerState) => {
-        var Won = false;
-        newPlayerState.map((player) => {
-            if (player.top === this.state.goal.top && player.left === this.state.goal.left) {
-                Won = true;
+        if (this.state.goal != null && this.state.coloredGoals == null) {
+            var Won = false;
+            newPlayerState.map((player) => {
+                if (player.top === this.state.goal.top && player.left === this.state.goal.left) {
+                    Won = true;
+                }
+            });
+        }
+        else {
+            if (this.state.goal != null) {
+                var Won = false;
+                newPlayerState.map((player) => {
+                    if (player.top === this.state.goal.top && player.left === this.state.goal.left) {
+                        Won = true;
+                    }
+                });
             }
-        });
+            else if (this.state.coloredGoals.length == 0) {
+                var Won = false;
+            }
+            else {
+                var Won = true;
+            }
+            var found = false;
+            var colorfound = false;
+            newPlayerState.map((player) => {
+                found = false
+                colorfound = false
+                this.state.coloredGoals.map(goal => {
+                    if (goal.colorSignifier == player.colorSignifier && goal.top === player.top && goal.left === player.left) {
+                        found = true;
+                    }
+                    if (goal.colorSignifier == player.colorSignifier) {
+                        colorfound = true;
+                    }
+                });
+                if (!found && colorfound) {
+                    Won = false;
+                }
+            });
+        }
         if (Won) {
             if (this.state.gameWon === false)
                 this.setState({gameWon: true});
@@ -959,6 +1016,65 @@ class Game extends React.Component {
     }
 
 
+    handleWildCardClick = () => {
+        if (this.state.goal == null) {
+            this.setState({
+                goal: {top: this.state.height - 1, left: this.state.width - 1}
+            });
+        }
+        else {
+            this.setState({
+                goal: null
+            });
+        }
+        this.resetPuzzle();
+    }
+
+    handleColoredClick = (colorSignifier) => {
+        var goal = null;
+        this.state.coloredGoals.map(goalItem => {
+            if (colorSignifier == goalItem.colorSignifier) {
+                goal = goalItem;
+            }
+        })
+        if (goal == null) {
+            var newColoredGoals = this.state.coloredGoals;
+            var newgoal
+            switch (colorSignifier) {
+                case 'blue':
+                    newgoal = {top: this.state.height - 2, left: this.state.width - 2, color: ROBOT_BLUE, colorSignifier: 'blue'};
+                    break;
+                case 'green':
+                    newgoal = {top: this.state.height - 1, left: this.state.width - 2, color: ROBOT_GREEN, colorSignifier: 'green'};
+                    break;
+                case 'red':
+                    newgoal = {top: this.state.height - 2, left: this.state.width - 1, color: ROBOT_RED, colorSignifier: 'red'};
+                    break;
+                case 'yellow':
+                    newgoal = {top: this.state.height - 3, left: this.state.width - 3, color: ROBOT_YELLOW, colorSignifier: 'yellow'};
+                    break;
+                default:
+                    break;
+            }
+            newColoredGoals.push(newgoal);
+            this.setState({
+                coloredGoals: newColoredGoals
+            });
+        }
+        else {
+            var newColoredGoals = this.state.coloredGoals.filter(goalItem =>
+                colorSignifier != goalItem.colorSignifier
+            );
+            console.log(newColoredGoals);
+            this.setState({
+                coloredGoals: newColoredGoals
+            });
+        }
+        this.resetPuzzle();
+    }
+
+
+
     loadSidebar = () => {
         if (this.props.learnMode == 'Yes') {
             return (
@@ -1066,7 +1182,12 @@ class Game extends React.Component {
             )
         }
         else if (this.state.createMode === 'Yes') {
-            return null;
+            return (
+                <CreateBoardGoalSelector
+                    handleWildCardClick={this.handleWildCardClick}
+                    handleColoredClick={this.handleColoredClick}
+                />
+            );
         }
         else if (this.props.randomGame === 'Yes') {
             return null;
@@ -1157,12 +1278,31 @@ class Game extends React.Component {
         }
     };
 
-    onStopDragHandlerGoal = (position) => {
-        this.setState({
-            goal: {top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize)},
-            playerState: this.state.playerStart.slice(),
-            moveHistory: [],
-        })
+    onStopDragHandlerGoal = (position,color) => {
+        if (color == undefined) {
+            this.setState({
+                goal: {top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize)},
+                playerState: this.state.playerStart.slice(),
+                moveHistory: [],
+            })
+        }
+        else {
+            var coloredGoals = this.state.coloredGoals;
+            var newGoals = [];
+            coloredGoals.map(goal => {
+                if (goal.color == color) {
+                    newGoals.push({top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize), color: color, colorSignifier: goal.colorSignifier});
+                }
+                else {
+                    newGoals.push(goal);
+                }
+            });
+            this.setState({
+                coloredGoals: newGoals,
+                playerState: this.state.playerStart.slice(),
+                moveHistory: [],
+            });
+        }
     };
 
 
@@ -1228,6 +1368,19 @@ class Game extends React.Component {
                             isCreateMode={this.state.createMode}
                             buildMode={this.state.buildMode}
                         />
+                        {
+                            this.state.coloredGoals.map(goal =>
+                                <Goal
+                                    dimension={this.state.squareSize}
+                                    position={goal}
+                                    onStopDragHandler={this.onStopDragHandlerGoal}
+                                    draggableGrid={[this.state.squareSize,this.state.squareSize]}
+                                    isCreateMode={this.state.createMode}
+                                    buildMode={this.state.buildMode}
+                                    color={goal.color}
+                                />
+                            )
+                        }
                         {
                             this.state.playerState.map((player, index) =>
                                 <Robot

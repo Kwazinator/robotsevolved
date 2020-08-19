@@ -1,9 +1,9 @@
 import React from 'react';
-import {SQUARE_OUTSIDE_COLOR,SQUARE_INNER_COLOR,SQUARE_CORE_COLOR,GOAL_IMAGE} from '../constants/constants';
+import {SQUARE_OUTSIDE_COLOR,SQUARE_INNER_COLOR,SQUARE_CORE_COLOR,GOAL_IMAGE,ROBOT_GREEN,ROBOT_BLUE,ROBOT_RED,ROBOT_YELLOW,COLORED_GOAL_IMAGE} from '../constants/constants';
 import Draggable from 'react-draggable';
 
 
-const style = ({dimension,position}) => {
+const style = ({dimension,position,color}) => {
     const dim = dimension + 'px';
     return {
         width: dim,
@@ -11,35 +11,54 @@ const style = ({dimension,position}) => {
         position: 'absolute',
         top: position.top * dimension + 'px',
         left: position.left * dimension + 'px',
-        userSelect: 'none'
+        userSelect: 'none',
+        backgroundColor: color,
     };
 };
 
-const styledragable = ({dimension,position}) => {
+const styledragable = ({dimension,position,color}) => {
     const dim = dimension + 'px';
     return {
         width: dim,
         height: dim,
         position: 'absolute',
-        userSelect: 'none'
+        userSelect: 'none',
+        backgroundColor: color
     };
 };
 
 
 
 export default function Goal(props) {
+    if (props.position == null) {
+        return null
+    }
     if (props.isCreateMode === 'Yes'  && props.buildMode) {
         const onStopDragHandler = (e, position) => {
-            props.onStopDragHandler(position);
+            props.onStopDragHandler(position,props.color);
         }
-        return(
-        <Draggable position={{x:props.position.left * props.dimension,y: props.position.top * props.dimension}} bounds="parent" grid={props.draggableGrid} onStop={onStopDragHandler}>
-            <img src={GOAL_IMAGE} style={styledragable(props)}/>
-        </Draggable>
-        )
+        if (props.color == undefined) {
+            return(
+            <Draggable position={{x:props.position.left * props.dimension,y: props.position.top * props.dimension}} bounds="parent" grid={props.draggableGrid} onStop={onStopDragHandler}>
+                <img src={GOAL_IMAGE} style={styledragable(props)}/>
+            </Draggable>
+            )
+        }
+        else {
+            return(
+            <Draggable position={{x:props.position.left * props.dimension,y: props.position.top * props.dimension}} bounds="parent" grid={props.draggableGrid} onStop={onStopDragHandler}>
+                <img src={COLORED_GOAL_IMAGE} style={styledragable(props)}/>
+            </Draggable>
+            )
+        }
     }
     else {
-        return(<img src={GOAL_IMAGE} style={style(props)}/>)
+        if (props.color == undefined) {
+            return(<img src={GOAL_IMAGE} style={style(props)}/>)
+        }
+        else {
+            return(<img src={COLORED_GOAL_IMAGE} style={style(props)}/>)
+        }
     }
 }
 
