@@ -12,6 +12,7 @@ from flaskr.solutionChecker import checkSolution
 from werkzeug.exceptions import HTTPException
 
 
+
 bp = Blueprint('index', __name__)
 
 
@@ -228,8 +229,6 @@ def search():
         numGames = 16
     get_games_data_value = get_games_search(numGames,offset,searchterm,filter)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
-
-
 
 
 @bp.route('/randomgame', methods=('GET',))

