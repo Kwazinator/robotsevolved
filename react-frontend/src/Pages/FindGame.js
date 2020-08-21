@@ -61,8 +61,11 @@ class FindGame extends React.Component {
             highscoreslist: highscoreslist,
             anchorEl: null,
             hasMore: true,
-            lastSearch: 'None'
+            lastSearch: 'None',
+            offsetSearch: gameslist.length,
+            isLoadingSearch: false,
         }
+
     }
 
     handleGameClick = (name,gamedata,highscores,uri,authorname) => {
@@ -156,17 +159,24 @@ class FindGame extends React.Component {
 
     loadMoreItems = () => {
         var searchTerm = this.searchRef.value;
-        axios.post('/search', {search: searchTerm, filter: 'None', offset: this.state.gameslist.length})
-            .then( res => {
-                var gameslist = JSON.parse(res.data.gameslist);
-                var highscoreslist = JSON.parse(res.data.highscoreslist);
-                this.props.setNumFindGames(gameslist.length + this.state.gameslist.length, this.state.lastSearch, searchTerm);
-                this.setState({
-                    highscoreslist: this.state.highscoreslist.concat(highscoreslist),
-                    gameslist: this.state.gameslist.concat(gameslist),
-                    hasMore: gameslist.length == 0 ? false : true,
+        console.log(this.state.gameslist.length);
+        console.log(this.state.offsetSearch);
+        if (!this.state.isLoadingSearch) {
+            this.state.isLoadingSearch = true;
+            axios.post('/search', {search: searchTerm, filter: 'None', offset: this.state.offsetSearch})
+                .then( res => {
+                    var gameslist = JSON.parse(res.data.gameslist);
+                    this.state.offsetSearch = gameslist.length + this.state.gameslist.length;
+                    var highscoreslist = JSON.parse(res.data.highscoreslist);
+                    this.props.setNumFindGames(gameslist.length + this.state.gameslist.length, this.state.lastSearch, searchTerm);
+                    this.setState({
+                        highscoreslist: this.state.highscoreslist.concat(highscoreslist),
+                        gameslist: this.state.gameslist.concat(gameslist),
+                        hasMore: gameslist.length == 0 ? false : true,
+                        isLoadingSearch: false,
+                    });
                 });
-            });
+        }
     }
 
     handleCloseFilterMenu = () => {

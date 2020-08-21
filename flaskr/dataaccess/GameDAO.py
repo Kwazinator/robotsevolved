@@ -84,11 +84,11 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%', searchterm, '%'))
-        cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        cursor.execute("SELECT game_id,name,type,description,authorid,authorname,difficulty,uri,created,plays from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],row[9].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],row[8].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9]).serialize())
             return games
         else:
             return games
@@ -98,11 +98,11 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%', searchterm, '%'))
-        cursor.execute("SELECT * from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY plays DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        cursor.execute("SELECT game_id,name,type,description,authorid,authorname,difficulty,uri,created,plays from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY plays DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],(row[8]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9]).serialize())
             return games
         else:
             return games
@@ -113,7 +113,7 @@ class GameDAO:
         games = list()
         searchterm = ''.join(('%', searchterm, '%'))
         cursor.execute(
-            """SELECT g.*,MIN(s.numMoves) from game g
+            """SELECT g.game_id,g.name,g.type,g.description,g.authorid,g.authorname,g.difficulty,g.uri,g.created,g.plays,MIN(s.numMoves) from game g
                 JOIN solutions s ON g.game_id = s.gameid 
                 WHERE g.name LIKE %s AND type='type' OR
                 g.authorname LIKE %s AND type='type'
@@ -123,9 +123,9 @@ class GameDAO:
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8],
-                                  (row[9] - timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
-                                  row[10]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '', row[7],
+                                  (row[8] - timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
+                                  row[9]).serialize())
             return games
         else:
             return games
@@ -143,11 +143,11 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         games = list()
-        cursor.execute("SELECT * from game WHERE type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(numGames,offset))
+        cursor.execute("SELECT game_id,name,type,description,authorid,authorname,difficulty,uri,created,plays from game WHERE type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(numGames,offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],(row[8]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9]).serialize())
             return games
         else:
             return games

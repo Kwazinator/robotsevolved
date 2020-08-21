@@ -48,7 +48,6 @@ import {
 import BoardGenerator from '../components/boardgenerator';
 import BoardResetModal from "./Modals/BoardResetModal";
 import Typography from "@material-ui/core/Typography";
-import moment from "moment-timezone";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -204,6 +203,7 @@ class Game extends React.Component {
         }
         else if (this.props.dailyChallengeMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
+            this.state.dailyDayName = this.props.games[0].g_name
             this.state.goals = [];
             this.props.games.map(game => {
                 var gamedata = JSON.parse(game.g_puzzledata)
@@ -1181,7 +1181,7 @@ class Game extends React.Component {
                             variant={"h4"}
 
                         >
-                            {this.dailyChallengeDayMode()}
+                            {this.state.dailyDayName}
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -1270,49 +1270,6 @@ class Game extends React.Component {
                 dailySubmittedSucessfully: null
             });
         }
-    };
-
-    dailyChallengeDayMode = () => {
-        const dateSplit = moment().tz('America/New_York').format('H,dddd').split(',')
-        const hour = dateSplit[0]
-        const day = dateSplit[1]
-
-        var outputString = ''
-        if (parseInt(hour) >= 15) {
-            if (day === 'Monday') {
-                outputString = 'Trouble Tuesdays'
-            } else if (day === 'Tuesday') {
-                outputString = 'Wild Wednesdays'
-            } else if (day === 'Wednesday') {
-                outputString = 'Tryhard Thursdays'
-            } else if (day === 'Thursday') {
-                outputString = 'Flyin Fridays'
-            } else if (day === 'Friday') {
-                outputString = 'Sleepy Saturdays'
-            } else if (day === 'Saturday') {
-                outputString = 'Standard Sundays'
-            } else if (day === 'Sunday') {
-                outputString = 'Medium Mondays'
-            }
-        } else {
-            if (day === 'Monday') {
-                outputString = 'Medium Mondays'
-            } else if (day === 'Tuesday') {
-                outputString = 'Trouble Tuesdays'
-            } else if (day === 'Wednesday') {
-                outputString = 'Wild Wednesdays'
-            } else if (day === 'Thursday') {
-                outputString = 'Tryhard Thursdays'
-            } else if (day === 'Friday') {
-                outputString = 'Flyin Fridays'
-            } else if (day === 'Saturday') {
-                outputString = 'Sleepy Saturdays'
-            } else if (day === 'Sunday') {
-                outputString = 'Standard Sundays'
-            }
-        }
-        return outputString
-
     };
 
     createModeWallClick = (opacity,orientation,top,left) => {

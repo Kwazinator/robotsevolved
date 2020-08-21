@@ -116,7 +116,7 @@ ORDER BY differenceFrom asc LIMIT 1
 
 --INSERT DAILY CHALLENGE
 INSERT into Robots.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (1,2,3,4,41);
-INSERT into `Robots-Dev`.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (1,2,3,4,41);
+INSERT into `Robots-Dev`.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (8001,8002,8003,8004,8041);
 
 --DB MIGRATION
 select * from `Robots-Dev`.generated_games gg WHERE g_uri!='abcdefg' LIMIT 1

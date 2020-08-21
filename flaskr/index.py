@@ -121,6 +121,12 @@ def getdailychallengehistory():
 
 
 
+@bp.route('/getFindGameData', methods=('GET','POST'))
+def getFindGameData():
+    uri = request.args['uri']
+    gamefromuri = GameService().get_game_uri(uri)
+    return jsonify(game=json.dumps(gamefromuri))
+
 @bp.route('/userUpdate', methods=('GET','POST'))
 @jwt_required
 def user_update():

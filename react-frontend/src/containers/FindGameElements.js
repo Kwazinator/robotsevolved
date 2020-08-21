@@ -10,7 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
-
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -57,7 +57,13 @@ export default withStyles(styles)(ComplexGrid)
 function ComplexGrid(props) {
     const { classes } = props;
     const handleClick = () => {
-        props.handleGameClick(props.game.name, props.game.puzzledata, props.highscores, props.game.uri, props.game.authorname);
+        axios.get('/getFindGameData?uri=' + props.game.uri)
+                .then( res => {
+                    console.log(res.data);
+                    var game = JSON.parse(res.data.game);
+                    console.log(game);
+                    props.handleGameClick(game.name, game.puzzledata,props.highscores,game.uri,props.game.authorname);
+                });
     };
 
     var numberOfHighScores = 0;

@@ -73,7 +73,7 @@ class GameService:
                 return {'uri': ''}
             return Gen(generated[0],generated[1],generated[2],generated[3],generated[4],generated[5],generated[6]).serialize()
         else:
-            return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7]).serialize()
+            return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],'',row[10]).serialize()
 
     def get_highscores(self,uri):
         row = GameDAO().get_game_uri(uri)
