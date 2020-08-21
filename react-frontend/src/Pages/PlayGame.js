@@ -14,6 +14,7 @@ class PlayGame extends React.Component {
                   LineDirections={this.props.LineDirections}
                   loadedGame={'Yes'}
                   name={this.props.name}
+                  author={this.props.authorname}
                   gamedata={this.props.gamedata}
                   highscores={this.props.highscores}
                   uri={this.props.uri}

@@ -57,7 +57,7 @@ export default withStyles(styles)(ComplexGrid)
 function ComplexGrid(props) {
     const { classes } = props;
     const handleClick = () => {
-        props.handleGameClick(props.game.name, props.game.puzzledata,props.highscores,props.game.uri);
+        props.handleGameClick(props.game.name, props.game.puzzledata, props.highscores, props.game.uri, props.game.authorname);
     };
 
     var numberOfHighScores = 0;

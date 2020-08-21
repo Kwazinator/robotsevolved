@@ -48,6 +48,7 @@ import {
 import BoardGenerator from '../components/boardgenerator';
 import BoardResetModal from "./Modals/BoardResetModal";
 import Typography from "@material-ui/core/Typography";
+import moment from "moment-timezone";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -1073,7 +1074,18 @@ class Game extends React.Component {
         this.resetPuzzle();
     }
 
-
+    trimName = name => {
+        var separated = (name + '').split(" ")
+        var toreturn = '';
+        separated.map((word) => {
+            if (word.length > 17)
+                toreturn += word.substring(0, 17) + "..." + ' ';
+            else {
+                toreturn += word + ' '
+            }
+        });
+        return toreturn.substring(0, toreturn.length - 1);
+    };
 
     loadSidebar = () => {
         if (this.props.learnMode == 'Yes') {
@@ -1163,6 +1175,16 @@ class Game extends React.Component {
             return(
                 <Grid container xs={12} direction="column">
                     <Grid item xs={12}>
+                        <Typography
+                            color="secondary"
+                            display="block"
+                            variant={"h4"}
+
+                        >
+                            {this.dailyChallengeDayMode()}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
                         <ButtonGroup
                             orientation="vertical"
                             style={{width: '100%'}}
@@ -1216,7 +1238,10 @@ class Game extends React.Component {
                     variant={"h4"}
 
                 >
-                    {this.props.name}
+                    {this.trimName(this.props.name)}
+                </Typography>
+                <Typography variant="caption">
+                    By: {this.trimName(this.props.author)}
                 </Typography>
                 <br/>
                 <Grid container xs={12} direction="column">
@@ -1245,6 +1270,49 @@ class Game extends React.Component {
                 dailySubmittedSucessfully: null
             });
         }
+    };
+
+    dailyChallengeDayMode = () => {
+        const dateSplit = moment().tz('America/New_York').format('H,dddd').split(',')
+        const hour = dateSplit[0]
+        const day = dateSplit[1]
+
+        var outputString = ''
+        if (parseInt(hour) >= 15) {
+            if (day === 'Monday') {
+                outputString = 'Trouble Tuesdays'
+            } else if (day === 'Tuesday') {
+                outputString = 'Wild Wednesdays'
+            } else if (day === 'Wednesday') {
+                outputString = 'Tryhard Thursdays'
+            } else if (day === 'Thursday') {
+                outputString = 'Flyin Fridays'
+            } else if (day === 'Friday') {
+                outputString = 'Sleepy Saturdays'
+            } else if (day === 'Saturday') {
+                outputString = 'Standard Sundays'
+            } else if (day === 'Sunday') {
+                outputString = 'Medium Mondays'
+            }
+        } else {
+            if (day === 'Monday') {
+                outputString = 'Medium Mondays'
+            } else if (day === 'Tuesday') {
+                outputString = 'Trouble Tuesdays'
+            } else if (day === 'Wednesday') {
+                outputString = 'Wild Wednesdays'
+            } else if (day === 'Thursday') {
+                outputString = 'Tryhard Thursdays'
+            } else if (day === 'Friday') {
+                outputString = 'Flyin Fridays'
+            } else if (day === 'Saturday') {
+                outputString = 'Sleepy Saturdays'
+            } else if (day === 'Sunday') {
+                outputString = 'Standard Sundays'
+            }
+        }
+        return outputString
+
     };
 
     createModeWallClick = (opacity,orientation,top,left) => {

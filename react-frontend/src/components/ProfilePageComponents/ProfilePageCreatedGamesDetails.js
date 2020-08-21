@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 
 export default function ProfilePageCreatedGamesDetails(props) {
     const handleClickPlayGame = () => {
-        props.handleClickPlayGame(props.game.name,props.game.puzzledata,[],props.game.uri);
+        props.handleClickPlayGame(props.game.name,props.game.puzzledata,[],props.game.uri, props.game.authorname);
     }
 
     return (<div>

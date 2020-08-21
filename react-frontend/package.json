@@ -78,7 +78,8 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1",
     "zingchart": "^2.8.9",
-    "zingchart-react": "^2.1.0"
+    "zingchart-react": "^2.1.0",
+    "moment-timezone": "^0.5.31"
   },
   "scripts": {
     "start": "node scripts/start.js",
