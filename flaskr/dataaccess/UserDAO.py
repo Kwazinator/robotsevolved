@@ -47,6 +47,7 @@ class UserDAO:
             return User(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
         else:
             return None
+
     def delete_user(self, userID):
         cursor = get_db().cursor()
         cursor.execute("UPDATE user SET activeFlag = 'N' WHERE user_id=%s", (userID,))
@@ -62,6 +63,44 @@ class UserDAO:
             return 'OK'
         except Exception as e:
             print('Error in UserDAO().change_username')
+            print(e)
+        finally:
+            pass
+
+    def has_user_voted(self,puzzleid,user_id):
+        cursor = get_db().cursor()
+        cursor.execute('SELECT user_id from vote WHERE user_id=%s and game_id=%s', (user_id,puzzleid))
+        row = cursor.fetchone()
+        if row is not None:
+            return True
+        else:
+            return False
+
+
+    def delete_vote_user(self,user_id,puzzleid):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute("DELETE from vote WHERE user_id=%s and game_id=%s",(user_id,puzzleid))
+            db.commit()
+            return 'OK'
+        except Exception as e:
+            print('Error in UserDAO().delete vote user')
+            print(e)
+        finally:
+            pass
+
+
+
+    def insert_vote_user(self,vote,user_id,puzzleid):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            row = cursor.execute('INSERT INTO vote (user_id, game_id, votedata) VALUES (%s,%s,%s)',(user_id,puzzleid,vote))
+            db.commit()
+            return cursor.lastrowid #return the userID that was created
+        except Exception as e:
+            print('Error in UserDAO().insert vote user')
             print(e)
         finally:
             pass

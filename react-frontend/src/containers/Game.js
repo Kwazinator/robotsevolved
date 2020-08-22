@@ -2,6 +2,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import axios from 'axios';
+import DailyMovesView from '../components/DailyMovesView';
 import CreateBoardGoalSelector from '../components/CreateBoardGoalSelector';
 import Alert from '@material-ui/lab/Alert';
 import {withRouter} from 'react-router';
@@ -715,6 +716,9 @@ class Game extends React.Component {
         });
     }
 
+
+
+
     submitDailyAnswer = (LastRobotPosition) => {
         var moveHistoryList = this.state.moveHistoryList.slice()
         moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice()
@@ -804,6 +808,10 @@ class Game extends React.Component {
                 }
                 else if (this.props.dailyChallengeMode === 'Yes') {
                     var Won=true
+                    if (window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
+                        window.dailyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
+                        window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
+                    }
                     this.state.gamesWonDaily.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
                             Won = false
@@ -1031,6 +1039,13 @@ class Game extends React.Component {
         this.resetPuzzle();
     }
 
+    resetToBest = (moveHistory, playerState) => {
+        this.setState({
+            moveHistory: moveHistory,
+            playerState: playerState,
+        });
+    }
+
     handleColoredClick = (colorSignifier) => {
         var goal = null;
         this.state.coloredGoals.map(goalItem => {
@@ -1174,6 +1189,13 @@ class Game extends React.Component {
         else if (this.props.dailyChallengeMode === 'Yes') {
             return(
                 <Grid container xs={12} direction="column">
+                    <Grid item xs={12}>
+                        <DailyMovesView
+                            moveHistory={window.dailyChallengeSessionBestHistory[this.state.numPuzzleon]}
+                            playerState={window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon]}
+                            resetToBest={this.resetToBest}
+                        />
+                    </Grid>
                     <Grid item xs={12}>
                         <Typography
                             color="secondary"

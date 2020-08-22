@@ -94,3 +94,13 @@ CREATE TABLE daily_challenge_submit (
     FOREIGN KEY (dc_id) REFERENCES daily_challenge(id),
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
+
+
+CREATE TABLE vote (
+    vote_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    user_id INTEGER NOT NULL,
+    game_id INTEGER NOT NULL,
+    votedata TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (game_id) REFERENCES game(game_id)
+);

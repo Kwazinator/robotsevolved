@@ -1,6 +1,6 @@
 class Game:
 
-    def __init__(self, id=None, name=None, type=None, description=None, authorid=None, authorname=None, difficulty=None, puzzledata=None,uri=None, created=None,plays=None):
+    def __init__(self, id=None, name=None, type=None, description=None, authorid=None, authorname=None, difficulty=None, puzzledata=None,uri=None, created=None,plays=None,votes=None,hasVoted=None):
         self.id = id
         self.name = name
         self.type = type
@@ -12,6 +12,8 @@ class Game:
         self.uri = uri
         self.created = created
         self.plays = plays
+        self.votes = votes
+        self.hasVoted = hasVoted
 
     def serialize(self):
         return {
@@ -25,6 +27,8 @@ class Game:
             'puzzledata': self.puzzledata,
             'uri': self.uri,
             'created': self.created,
-            'plays': self.plays
+            'plays': self.plays,
+            'votes': self.votes,
+            'hasVoted': self.hasVoted
         }
 

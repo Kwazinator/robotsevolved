@@ -22,14 +22,14 @@ class GameService:
     def check_same_game(self,puzzledata):
         return GameDAO().check_same_game(puzzledata)
 
-    def get_games_by_search(self,numPuzzles,Offset,searchterm):
-        return GameDAO().get_games_by_search(numPuzzles,Offset,searchterm)
+    def get_games_by_search(self,numPuzzles,Offset,searchterm,userID):
+        return GameDAO().get_games_by_search(numPuzzles,Offset,searchterm,userID)
 
-    def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm):
-        return GameDAO().get_games_by_search_most_played(numPuzzles,Offset,searchterm)
+    def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm,userID):
+        return GameDAO().get_games_by_search_most_played(numPuzzles,Offset,searchterm,userID)
 
-    def get_games_by_search_highest_score(self,numPuzzles,Offset,searchterm):
-        return GameDAO().get_games_by_search_highest_score(numPuzzles,Offset,searchterm)
+    def get_games_by_search_highest_score(self,numPuzzles,Offset,searchterm,userID):
+        return GameDAO().get_games_by_search_highest_score(numPuzzles,Offset,searchterm,userID)
 
 
     def insert_highscore(self,name,userid,authorname,solutiondata,highscore,uri):

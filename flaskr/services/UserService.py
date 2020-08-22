@@ -1,5 +1,6 @@
 from flaskr.dataaccess.entities.Game import Game
 from flaskr.dataaccess.UserDAO import UserDAO
+from flaskr.dataaccess.GameDAO import GameDAO
 from flask_jwt_extended import create_refresh_token, create_access_token
 import datetime
 
@@ -41,6 +42,19 @@ class UserService:
             'refresh_token': refresh_token
         }
         return jwt
+
+    def vote_Puzzle_Action(self,vote,user_id,puzzleid,action):
+        hasvoted = UserDAO().has_user_voted(puzzleid,user_id)
+        if hasvoted and action=='remove':
+            UserDAO().delete_vote_user(user_id,puzzleid)
+            return {'votes': GameDAO().get_likes_game(puzzleid)}
+        elif not hasvoted and action=='create':
+            UserDAO().insert_vote_user(vote,user_id,puzzleid)
+            return {'votes': GameDAO().get_likes_game(puzzleid)}
+        else:
+            return {'votes': 'wrong request parameters for Voting in UserService.vote_Puzzle_Action'}
+
+
 
     def change_username(self,user_id,username):
         if (UserDAO().username_not_taken(username,user_id)):

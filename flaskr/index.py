@@ -30,14 +30,6 @@ def trimstring(stringtotrim):
         stringtotrim = stringtotrim[:32]
     return deEmojify(stringtotrim).rstrip()
 
-def get_games_data(numMoves,Offset):
-    gameslist = GameService().get_all_games(numMoves, Offset)  # get_all_games(numGames,offset)
-    highscoreslist = list()
-    if gameslist is not None:
-        for game in gameslist:
-            highscoreslist.append(GameService().get_highscores(game['uri']))
-    return (gameslist,highscoreslist)
-
 
 def processwalls(walls):
     toreturn = list()
@@ -51,23 +43,23 @@ def processwalls(walls):
             pass
     return toreturn
 
-def get_games_search(numPuzzles,Offset,searchterm,filter):
+def get_games_search(numPuzzles,Offset,searchterm,filter,userID):
     if filter == 'None':
-        gameslist = GameService().get_games_by_search(numPuzzles,Offset,searchterm)
+        gameslist = GameService().get_games_by_search(numPuzzles,Offset,searchterm,userID)
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
                 highscoreslist.append(GameService().get_highscores(game['uri']))
         return (gameslist,highscoreslist)
     elif filter == 'MostPlayed':
-        gameslist = GameService().get_games_by_search_most_played(numPuzzles, Offset, searchterm)
+        gameslist = GameService().get_games_by_search_most_played(numPuzzles, Offset, searchterm,userID)
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
                 highscoreslist.append(GameService().get_highscores(game['uri']))
         return (gameslist, highscoreslist)
     elif filter == 'Highest':
-        gameslist = GameService().get_games_by_search_highest_score(numPuzzles, Offset, searchterm)
+        gameslist = GameService().get_games_by_search_highest_score(numPuzzles, Offset, searchterm,userID)
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
@@ -104,6 +96,28 @@ def about():
     return 'yolo'
 
 
+
+@bp.route('/testvotingadd')
+@jwt_required
+def testvoteingadd():
+    vote = 'Y'
+    uri = '4c7e3adad3934e91990434700e7a3a45'
+    user_id = 2
+    action = 'create'
+    gamefromuri = GameService().get_game_uri(uri)
+    response = UserService().vote_Puzzle_Action(vote,user_id,gamefromuri['id'],action)
+    return response
+
+@bp.route('/testvotingremove')
+@jwt_required
+def testvoteingremove():
+    vote = 'Y'
+    uri = '4c7e3adad3934e91990434700e7a3a45'
+    user_id = 2
+    action = 'remove'
+    gamefromuri = GameService().get_game_uri(uri)
+    response = UserService().vote_Puzzle_Action(vote,user_id,gamefromuri['id'],action)
+    return response
 
 @bp.route('/getProfileData')
 @jwt_required
@@ -224,6 +238,7 @@ def submithighscore():
     return rtnMessage
 
 @bp.route('/search', methods=('GET','POST'))
+@jwt_optional
 def search():
     data = request.get_json()
     searchterm = trimstring(data['search'])
@@ -233,7 +248,10 @@ def search():
         numGames = data['numGames']
     else:
         numGames = 16
-    get_games_data_value = get_games_search(numGames,offset,searchterm,filter)
+    userID = get_jwt_identity()
+    if userID is None:
+        userID = 1
+    get_games_data_value = get_games_search(numGames,offset,searchterm,filter,userID)
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 
@@ -244,6 +262,18 @@ def randomgame():
     type = request.args['type']
     game = PuzzleRushService().get_random_game(difficulty,type)
     return jsonify(game=json.dumps(game))
+
+@bp.route('/likepuzzle', methods=('POST',))
+@jwt_required
+def likepuzzles():
+    data = request.get_json()
+    vote = data['vote']
+    uri = data['uri']
+    action = data['action']
+    user_id = get_jwt_identity()
+    gamefromuri = GameService().get_game_uri(uri)
+    response = UserService().vote_Puzzle_Action(vote,user_id,gamefromuri['id'],action)
+    return response
 
 @bp.errorhandler(Exception)
 def handle_exception(e):

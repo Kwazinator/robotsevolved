@@ -29,6 +29,18 @@ class GameDAO:
         finally:
             pass
 
+    def get_likes_game(self,puzzleid):
+        try:
+            cursor = get_db().cursor()
+            cursor.execute("SELECT count(vote_id) from vote WHERE game_id=%s", (puzzleid,))
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print('Error in get_likes_game')
+            print(e)
+        finally:
+            pass
+
     def increment_plays(self,gameid):
         try:
             db = get_db()
@@ -79,53 +91,53 @@ class GameDAO:
         row = cursor.fetchone()
         return row
 
-    def get_games_by_search(self,numPuzzles,Offset,searchterm):
+    def get_games_by_search(self,numPuzzles,Offset,searchterm,userID):
         db = get_db()
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%', searchterm, '%'))
-        cursor.execute("SELECT game_id,name,type,description,authorid,authorname,difficulty,uri,created,plays from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        cursor.execute("SELECT game_id as GAMEID,name,type,description,authorid,authorname,difficulty,uri,created,plays,(SELECT count(vote_id) from vote WHERE game_id=GAMEID) as votes,(SELECT votedata from vote WHERE game_id=GAMEID and user_id=%s) as hasvoted from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY created DESC LIMIT %s OFFSET %s",(userID,searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],row[8].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],row[8].strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9],row[10],row[11]).serialize())
             return games
         else:
             return games
 
-    def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm):
+    def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm,userID):
         db = get_db()
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%', searchterm, '%'))
-        cursor.execute("SELECT game_id,name,type,description,authorid,authorname,difficulty,uri,created,plays from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY plays DESC LIMIT %s OFFSET %s",(searchterm,searchterm,numPuzzles,Offset))
+        cursor.execute("SELECT game_id as GAMEID,name,type,description,authorid,authorname,difficulty,uri,created,plays,(SELECT count(vote_id) from vote WHERE game_id=GAMEID) as votes,(SELECT votedata from vote WHERE game_id=GAMEID and user_id=%s) as hasvoted from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY plays DESC LIMIT %s OFFSET %s",(userID,searchterm,searchterm,numPuzzles,Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],(row[8]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9]).serialize())
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],(row[8]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9],row[10],row[11]).serialize())
             return games
         else:
             return games
 
-    def get_games_by_search_highest_score(self, numPuzzles, Offset, searchterm):
+    def get_games_by_search_highest_score(self, numPuzzles, Offset, searchterm,userID):
         db = get_db()
         cursor = db.cursor()
         games = list()
         searchterm = ''.join(('%', searchterm, '%'))
         cursor.execute(
-            """SELECT g.game_id,g.name,g.type,g.description,g.authorid,g.authorname,g.difficulty,g.uri,g.created,g.plays,MIN(s.numMoves) from game g
+            """SELECT g.game_id as GAMEID,g.name,g.type,g.description,g.authorid,g.authorname,g.difficulty,g.uri,g.created,g.plays,(SELECT count(vote_id) from vote WHERE game_id=GAMEID) as votes,(SELECT votedata from vote WHERE game_id=GAMEID and user_id=%s) as hasvoted,MIN(s.numMoves) from game g
                 JOIN solutions s ON g.game_id = s.gameid 
                 WHERE g.name LIKE %s AND type='type' OR
                 g.authorname LIKE %s AND type='type'
                 GROUP BY g.game_id
                 ORDER BY s.numMoves DESC LIMIT %s OFFSET %s""",
-            (searchterm, searchterm, numPuzzles, Offset))
+            (userID,searchterm, searchterm, numPuzzles, Offset))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
                 games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '', row[7],
                                   (row[8] - timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),
-                                  row[9]).serialize())
+                                  row[9],row[10],row[11]).serialize())
             return games
         else:
             return games
