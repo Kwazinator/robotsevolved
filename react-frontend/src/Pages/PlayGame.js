@@ -18,6 +18,9 @@ class PlayGame extends React.Component {
                   gamedata={this.props.gamedata}
                   highscores={this.props.highscores}
                   uri={this.props.uri}
+                  votes={this.props.votes}
+                  hasVoted={this.props.hasVoted}
+                  signInModalOpen={this.props.signInModalOpen}
              />
         )
     }

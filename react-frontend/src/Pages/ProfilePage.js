@@ -101,6 +101,7 @@ export default function ProfilePage(props) {
                                         >
                                           <Typography className={classes.heading}>{game.name}</Typography>
                                           <Typography className={classes.secondaryHeading}>Plays: {game.plays}</Typography>
+                                          <Typography className={classes.secondaryHeading}>Likes: {game.Likes}</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                           <ProfilePageCreatedGamesDetails

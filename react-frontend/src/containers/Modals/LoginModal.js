@@ -54,6 +54,10 @@ export default class LoginModal extends React.Component {
                         </Typography>
                         <br/>
                         <Typography style={spacing()} variant="body2" display="inline">
+                            • Be able to give a like to your favorite puzzles
+                        </Typography>
+                        <br/>
+                        <Typography style={spacing()} variant="body2" display="inline">
                             • Saving settings and your moves in the daily challenge
                         </Typography>
                         <br/>

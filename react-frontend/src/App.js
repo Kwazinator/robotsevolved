@@ -180,7 +180,7 @@ class App extends React.Component {
             if (window.token.g_id == undefined) {
                 const linedir = window.userInfo == undefined ? true : window.userInfo.LineDirFlag === 'Y';
                 this.state = {
-                    PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={linedir} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri} authorname={window.token.authorname}/>, //when uri is entered to play specific game
+                    PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={linedir} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri} authorname={window.token.authorname} votes={window.token.votes} hasVoted={window.token.hasVoted} signInModalOpen={this.SignInButtonPressed}/>, //when uri is entered to play specific game
                     dailychallengehistoryloaded: false,
                     profileDataloaded: false,
                 };
@@ -399,13 +399,13 @@ class App extends React.Component {
         });
     };
 
-    handleGameClick = (name, gamedata, highscores, uri, authorname) => {
+    handleGameClick = (name, gamedata, highscores, uri, authorname, votes, hasVoted) => {
         var isOpen = this.state.open;
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
         this.setState({
-            PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} name={name} highscores={highscores} gamedata={gamedata} uri={uri} authorname={authorname}/>,
+            PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={this.state.LineDirections} name={name} highscores={highscores} gamedata={gamedata} uri={uri} authorname={authorname} votes={votes} hasVoted={hasVoted} signInModalOpen={this.SignInButtonPressed}/>,
             open: isOpen,
             loadingPage: false,
         });

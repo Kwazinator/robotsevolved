@@ -49,6 +49,9 @@ import {
 import BoardGenerator from '../components/boardgenerator';
 import BoardResetModal from "./Modals/BoardResetModal";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import StarIcon from '@material-ui/icons/Star';
+import {Star} from "@material-ui/icons";
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -278,6 +281,8 @@ class Game extends React.Component {
             this.state = JSON.parse(this.props.gamedata);
             this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;
+            this.state.votes = this.props.votes
+            this.state.hasVoted = this.props.hasVoted
             this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
@@ -1262,16 +1267,41 @@ class Game extends React.Component {
                 >
                     {this.trimName(this.props.name)}
                 </Typography>
-                <Typography variant="caption">
-                    By: {this.trimName(this.props.author)}
-                </Typography>
-                <br/>
+                <div style={{paddingBottom: '10px', display: 'inline-flex', alignItems: "center"}}>
+                    <Typography variant="caption" style={{paddingRight: "5%"}}>
+                        By: {this.trimName(this.props.author)}
+                    </Typography>
+                    <div>
+                        <Button startIcon={<StarIcon/>} variant={this.state.hasVoted ? "outlined" : "contained"} color="secondary"
+                                onClick={this.updateLike}>{this.state.votes ? this.state.votes : 0}</Button>
+                    </div>
+                </div>
                 <Grid container xs={12} direction="column">
                 <HighScores highscores={this.state.highscores}/>
                 </Grid>
             </div>
             )
         }
+    }
+
+    updateLike = () => {
+        const action = this.state.hasVoted ? "remove" : "create"
+        axios.post('/likepuzzle', {uri: this.state.uri, action: action, vote: "voting"})
+            .then( res => {
+                var newHasVoted = "Y"
+                var newVotes = this.state.votes
+                if (this.state.hasVoted)
+                    newHasVoted = null
+                if (!isNaN(res.data.votes))
+                    newVotes = res.data.votes
+
+                this.setState({
+                    hasVoted: newHasVoted,
+                    votes: newVotes
+                });
+            }).catch(_ => {
+                this.props.signInModalOpen("Sign in")
+            });
     }
 
     handlePlayerMovementFromMouse = (direction) => {

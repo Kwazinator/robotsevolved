@@ -68,8 +68,8 @@ class FindGame extends React.Component {
 
     }
 
-    handleGameClick = (name,gamedata,highscores,uri,authorname) => {
-        this.props.handleGameClick(name,gamedata,highscores,uri,authorname);
+    handleGameClick = (name,gamedata,highscores,uri,authorname,votes,hasVoted) => {
+        this.props.handleGameClick(name,gamedata,highscores,uri,authorname,votes,hasVoted);
     };
 
     handleFilterMenuOpen = event => {

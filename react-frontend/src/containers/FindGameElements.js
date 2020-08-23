@@ -62,7 +62,8 @@ function ComplexGrid(props) {
                     console.log(res.data);
                     var game = JSON.parse(res.data.game);
                     console.log(game);
-                    props.handleGameClick(game.name, game.puzzledata,props.highscores,game.uri,props.game.authorname);
+                    props.handleGameClick(game.name, game.puzzledata,props.highscores,game.uri,props.game.authorname,
+                        props.game.votes, props.game.hasVoted);
                 });
     };
 
@@ -131,6 +132,11 @@ function ComplexGrid(props) {
                             <div>
                                 <Typography color="textSecondary" variant="caption">
                                     Plays: {props.game.plays}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography color="textSecondary" variant="caption">
+                                    Likes: {props.game.votes}
                                 </Typography>
                             </div>
                             <br/>
