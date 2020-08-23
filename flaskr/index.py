@@ -275,7 +275,7 @@ def likepuzzles():
     user_id = get_jwt_identity()
     gamefromuri = GameService().get_game_uri(uri)
     response = UserService().vote_Puzzle_Action(vote,user_id,gamefromuri['id'],action)
-    return response
+    return jsonify(votes=response['votes'])
 
 @bp.errorhandler(Exception)
 def handle_exception(e):

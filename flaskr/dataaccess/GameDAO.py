@@ -38,6 +38,7 @@ class GameDAO:
         except Exception as e:
             print('Error in get_likes_game')
             print(e)
+            return 0
         finally:
             pass
 
