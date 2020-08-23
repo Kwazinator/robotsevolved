@@ -59,9 +59,7 @@ function ComplexGrid(props) {
     const handleClick = () => {
         axios.get('/getFindGameData?uri=' + props.game.uri)
                 .then( res => {
-                    console.log(res.data);
                     var game = JSON.parse(res.data.game);
-                    console.log(game);
                     props.handleGameClick(game.name, game.puzzledata,props.highscores,game.uri,props.game.authorname,
                         props.game.votes, props.game.hasVoted);
                 });

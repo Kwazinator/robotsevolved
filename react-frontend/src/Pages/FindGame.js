@@ -159,8 +159,6 @@ class FindGame extends React.Component {
 
     loadMoreItems = () => {
         var searchTerm = this.searchRef.value;
-        console.log(this.state.gameslist.length);
-        console.log(this.state.offsetSearch);
         if (!this.state.isLoadingSearch) {
             this.state.isLoadingSearch = true;
             axios.post('/search', {search: searchTerm, filter: 'None', offset: this.state.offsetSearch})
@@ -187,8 +185,6 @@ class FindGame extends React.Component {
 
     render () {
         const  { classes } = this.props;
-        console.log(this.state.highscoreslist)
-        console.log(this.state.gameslist)
         return (
             <div id='MainFindPage' style={gamepanel()}>
                 <Paper component="form" className={classes.root} >
@@ -222,6 +218,15 @@ class FindGame extends React.Component {
                         keepMounted
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleCloseFilterMenu}
+                        getContentAnchorEl={null}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
                     >
                         <MenuItem onClick={this.handleSearchSubmit}>Recently Created</MenuItem>
                         <MenuItem onClick={this.handleCloseFilterMenuMostPlayed}>Most Played</MenuItem>

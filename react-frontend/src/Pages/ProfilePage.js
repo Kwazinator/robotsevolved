@@ -80,8 +80,6 @@ export default function ProfilePage(props) {
     const handleChangeHighscores = (panel) => (event, isExpandedHighScores) => {
         setExpandedHighscores(isExpandedHighScores ? panel : false);
     };
-    console.log(props.gamesview);
-    console.log(props.solutionsview);
     return (
             <div style={gamepanel()}>
                 <Grid container spacing={4}>
