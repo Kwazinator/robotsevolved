@@ -84,7 +84,14 @@ class GameDAO:
         db.commit()
         return
 
-    def get_game_uri(self, uri):
+    def get_game_uri_from_user_id(self,uri,user_id):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('SELECT game_id as GAMEID,name,type,description,authorid,authorname,difficulty,puzzledata,uri,created,plays,(SELECT count(vote_id) from vote WHERE game_id=GAMEID) as votes,(SELECT votedata from vote WHERE game_id=GAMEID and user_id=%s) from game where uri=%s',(user_id,uri))
+        row = cursor.fetchone()
+        return row
+
+    def get_game_uri(self,uri):
         db = get_db()
         cursor = db.cursor()
         cursor.execute('SELECT * from game where uri=%s',(uri,))
@@ -169,17 +176,17 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         cursor.execute('''
-        select min(numMoves), u.user_id as UserID, u.username as Username, u.profilePicture as profilePicture, g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri, g.plays
+        select min(numMoves), u.user_id as UserID, u.username as Username, u.profilePicture as profilePicture, g.game_id, g.name as GameName, g.puzzledata, g.created, g.uri, g.plays,(SELECT count(vote_id) from vote WHERE game_id=g.game_id) as votes,(SELECT votedata from vote WHERE game_id=g.game_id and user_id=%s) as hasvoted
         from solutions s right join
         game g on s.gameid = g.game_id left join
         `user` u on u.user_id = s.userid
         where authorid = %s
         group by g.game_id
-        ''',(user_id,))
+        ''',(user_id,user_id))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], (row[7]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8],row[9]).serialize())
+                games.append(GamesProfileView(row[0], row[1], row[2], row[3], row[4], row[5], row[6], (row[7]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[8],row[9],row[10],row[11]).serialize())
             return games
         else:
             return games
@@ -190,21 +197,23 @@ class GameDAO:
         cursor = db.cursor()
         games = list()
         cursor.execute('''
-        select min(numMoves), g.game_id as gameID, g.name as GameName, g.puzzledata, g.created, g.uri,
+        select min(numMoves), g.game_id, g.name as GameName, g.puzzledata, g.created, g.uri,
 		(SELECT se.solutions_id from solutions se where gameid = g.game_id ORDER BY numMoves,created ASC LIMIT 1) as WinnerSolutionID,
 		(SELECT seo.userid from solutions seo WHERE solutions_id=WinnerSolutionID) as WinnerUserID,
 		(SELECT sed.comment from solutions sed WHERE solutions_id=WinnerSolutionID) as WinnerUsername,
-		(SELECT see.created from solutions see WHERE solutions_id=WinnerSolutionID) as WinnerCreated
+		(SELECT see.created from solutions see WHERE solutions_id=WinnerSolutionID) as WinnerCreated,
+		(SELECT count(vote_id) from vote WHERE game_id=g.game_id) as votes,
+		(SELECT votedata from vote WHERE game_id=g.game_id and user_id=%s) as hasvoted
         from solutions s right join
         game g on s.gameid = g.game_id left join
         `user` u on u.user_id = s.userid
         where s.userid = %s
         group by g.game_id ORDER by created DESC
-        ''',(user_id,))
+        ''',(user_id,user_id))
         query = cursor.fetchall()
         if query is not None:
             for row in query:
-                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], (row[4]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5],row[6],row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " ")).serialize())
+                games.append(SolutionsProfileView(row[0], row[1], row[2], row[3], (row[4]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "), row[5],row[6],row[7],row[8],(row[9]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[10],row[11]).serialize())
             return games
         else:
             return games

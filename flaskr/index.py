@@ -161,7 +161,15 @@ def settingsChange():
 @jwt_optional
 def play(uri):
     dc_id = GeneratorService().get_daily_challenge_id()
-    gamefromuri = GameService().get_game_uri(uri)
+    userID = get_jwt_identity()
+    user = None
+    loggedin = 'No'
+    if (userID is not None):
+        user = UserService().get_user(get_jwt_identity()).serialize()
+        loggedin = 'Yes'
+    else:
+        userID = 1
+    gamefromuri = GameService().get_game_uri_from_user_id(uri,userID)
     if 'g_id' not in gamefromuri.keys():
         highscores = json.dumps(GameService().get_highscores(uri))
         authorname = gamefromuri['authorname']
@@ -171,15 +179,9 @@ def play(uri):
         authorname = ' Random Generated'
         name = gamefromuri['g_difficulty']
     data = json.dumps(gamefromuri)
-    userID = get_jwt_identity()
-    user = None
-    loggedin = 'No'
     learngameslist = get_learned_games()
-    metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + authorname + '\n' + name
-    urlformeta = "http://robotsevolved.com/play/" + uri
-    if (userID is not None):
-        user = UserService().get_user(get_jwt_identity()).serialize()
-        loggedin = 'Yes'
+    metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + str(authorname) + '\n' + str(name)
+    urlformeta = "http://robotsevolved.com/play/" + str(uri)
     return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri)
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))

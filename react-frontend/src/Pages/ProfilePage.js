@@ -80,7 +80,8 @@ export default function ProfilePage(props) {
     const handleChangeHighscores = (panel) => (event, isExpandedHighScores) => {
         setExpandedHighscores(isExpandedHighScores ? panel : false);
     };
-    console.log(props.puzzlerushview);
+    console.log(props.gamesview);
+    console.log(props.solutionsview);
     return (
             <div style={gamepanel()}>
                 <Grid container spacing={4}>
@@ -101,7 +102,7 @@ export default function ProfilePage(props) {
                                         >
                                           <Typography className={classes.heading}>{game.name}</Typography>
                                           <Typography className={classes.secondaryHeading}>Plays: {game.plays}</Typography>
-                                          <Typography className={classes.secondaryHeading}>Likes: {game.Likes}</Typography>
+                                          <Typography className={classes.secondaryHeading}>Likes: {game.votes}</Typography>
                                         </ExpansionPanelSummary>
                                         <ExpansionPanelDetails>
                                           <ProfilePageCreatedGamesDetails

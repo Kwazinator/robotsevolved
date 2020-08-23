@@ -48,6 +48,8 @@ export default function ComplexGrid(props) {
                         </Typography>
                         <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
                         </Typography>
+                        <Typography> 8/23/2020 Personal Best saving feature added to Daily Challenge, Also Added Like feature to custom puzzles.
+                        </Typography>
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
                         <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
@@ -235,6 +237,8 @@ export default function ComplexGrid(props) {
                     <Typography> 8/5/2020 Scaled down the Difficulty for the Daily Challenges, also modified the classic algorithm to be less cluttered
                     </Typography>
                     <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
+                    </Typography>
+                    <Typography> 8/23/2020 Personal Best saving feature added to Daily Challenge, Also Added Like feature to custom puzzles.
                     </Typography>
                     </div>
                 </Grid>

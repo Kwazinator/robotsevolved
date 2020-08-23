@@ -73,7 +73,7 @@ export default class LoginModal extends React.Component {
                         </a>
                     </div>
                     <Typography variant="caption" display="block">
-                            We will NEVER distribute/sell your email or profileID.
+                            We will NEVER distribute/sell your facebook or google email address.
                     </Typography>
                 </DialogContent>
                 <DialogActions>

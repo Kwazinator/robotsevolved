@@ -1,6 +1,6 @@
 class SolutionsProfileView:
 
-    def __init__(self, numMoves=None,game_id=None,name=None,puzzledata=None,created=None,uri=None,WinnerSolutionID=None,WinnerUserId=None,WinnerUsername=None,WinnerCreated=None):
+    def __init__(self, numMoves=None,game_id=None,name=None,puzzledata=None,created=None,uri=None,WinnerSolutionID=None,WinnerUserId=None,WinnerUsername=None,WinnerCreated=None,votes=None,hasVoted=None):
         self.numMoves = numMoves
         self.game_id = game_id
         self.name = name
@@ -11,7 +11,8 @@ class SolutionsProfileView:
         self.WinnerUserId = WinnerUserId
         self.WinnerUsername = WinnerUsername
         self.WinnerCreated = WinnerCreated
-
+        self.votes = votes
+        self.hasVoted = hasVoted
 
     def serialize(self):
         return {
@@ -24,6 +25,8 @@ class SolutionsProfileView:
             'WinnerSolutionID': self.WinnerSolutionID,
             'WinnerUserId': self.WinnerUserId,
             'WinnerUsername': self.WinnerUsername,
-            'WinnerCreated': self.WinnerCreated
+            'WinnerCreated': self.WinnerCreated,
+            'votes': self.votes,
+            'hasVoted': self.hasVoted
         }
 

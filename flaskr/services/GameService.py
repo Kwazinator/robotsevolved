@@ -65,6 +65,14 @@ class GameService:
             return 'not a valid submission'
 
 
+    def get_game_uri_from_user_id(self,uri,user_id):
+        row = GameDAO().get_game_uri_from_user_id(uri,user_id)
+        if row is None:
+            return {'uri': ''}
+        else:
+            return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],'',row[10],row[11],row[12]).serialize()
+
+
     def get_game_uri(self,uri):
         row = GameDAO().get_game_uri(uri)
         if row is None:
