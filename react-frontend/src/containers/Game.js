@@ -52,7 +52,7 @@ import BoardResetModal from "./Modals/BoardResetModal";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import StarIcon from '@material-ui/icons/Star';
-import {Star} from "@material-ui/icons";
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -1278,7 +1278,7 @@ class Game extends React.Component {
                                 variant="contained"
                                 color="secondary"
                                 style={{borderTopRightRadius: "0px", borderBottomRightRadius: "0px"}}
-                                startIcon={<StarIcon style={{color:this.state.hasVoted ? "gray" : "white"}} />}
+                                startIcon={this.state.hasVoted ? <StarIcon/> : <StarBorderIcon/>}
                                 onClick={this.updateLike}
                                 size={"small"}
                             >
