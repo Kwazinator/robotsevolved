@@ -20,6 +20,20 @@ class AddPuzzleModal extends React.Component {
         super(props);
     }
 
+    campaignPuzzle = () => {
+        if (window.userInfo != null) {
+            if (window.userInfo.userID == 2 || window.userInfo.userID == 3 || window.userInfo.userID == 7) {
+                return <Button variant="contained" color="secondary" onClick={this.props.submitPuzzleCampaign}>Campaign Puzzle</Button>
+            }
+            else {
+                return null
+            }
+        }
+        else {
+            return null
+        }
+    }
+
     render() {
         return (
             <Dialog onClose={this.handleClose}
@@ -34,6 +48,7 @@ class AddPuzzleModal extends React.Component {
                 <DialogActions>
                     <Button variant="contained" color="secondary" onClick={this.props.submitPuzzle}>Submit Puzzle</Button>
                     <Button onClick={this.props.resetPuzzle}>Reset</Button>
+                    {this.campaignPuzzle()}
                 </DialogActions>
             </Dialog>
         )

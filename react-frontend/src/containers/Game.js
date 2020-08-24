@@ -386,6 +386,8 @@ class Game extends React.Component {
         axios.get('/dailychallengehighscores?dc_id=' + this.state.dc_id)
             .then( res => {
                 if (res.data.dc_id != this.state.dc_id) {
+                    window.dailyChallengeSessionBestHistory = [[],[],[],[]];
+                    window.dailyChallengeSessionBestPlayerState = [[],[],[],[]];
                     this.props.handleClickDailyChallenge();
                     return
                 }
@@ -476,6 +478,31 @@ class Game extends React.Component {
         });
     };
 
+    submitPuzzleCampaign = event => {
+        event.preventDefault();
+        var namesubmit = document.getElementById("namesubmit").value;
+        var state = this.state;
+        state.playerState = this.state.playerStart.slice();
+        var themoveHistory = this.state.moveHistory.slice()
+        state.moveHistory = [];
+        state.createMode = 'No';
+        var username = 'Anonymous';
+        if (window.userInfo !== null) {
+            username = window.userInfo.username
+        }
+        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory,type: 'Campaign'}))
+            .then( res => {
+                this.setState({
+                    uri: res.data.uri,
+                    gameWon: false
+                });
+                this.props.history.push('/play/' + res.data.uri)
+            });
+    };
+
+
+
+
     submitPuzzle = event => {
         event.preventDefault();
         var namesubmit = document.getElementById("namesubmit").value;
@@ -488,7 +515,7 @@ class Game extends React.Component {
         if (window.userInfo !== null) {
             username = window.userInfo.username
         }
-        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory}))
+        axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory,type: 'type'}))
             .then( res => {
                 this.setState({
                     uri: res.data.uri,
@@ -901,6 +928,7 @@ class Game extends React.Component {
                     show={this.state.gameWon}
                     submitPuzzle={this.submitPuzzle}
                     resetPuzzle={this.resetPuzzle}
+                    submitPuzzleCampaign={this.submitPuzzleCampaign}
                 />);
             }
         }

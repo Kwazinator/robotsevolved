@@ -209,6 +209,10 @@ def submitpuzzle():
             'width': data['puzzledata']['width'],
             'coloredGoals': data['puzzledata']['coloredGoals']
         }
+        if 'type' in data:
+            typeof = data['type']
+        else:
+            typeof = 'type'
     except Exception as e:
         print('error in puzzledata submission')
         print(e)
@@ -218,7 +222,7 @@ def submitpuzzle():
     if userID is None:
         userID = 1
     if (GameService().check_same_game(json.dumps(puzzledata)) == 1 and checkSolution(json.dumps(data['moveHistory']),json.dumps(puzzledata),len(data['moveHistory']))):
-        uri = GameService().insert_game(trimstring(data['name']), 'type', 'description', userID, trimstring(data['authorname']), 1, json.dumps(puzzledata))
+        uri = GameService().insert_game(trimstring(data['name']), typeof, 'description', userID, trimstring(data['authorname']), 1, json.dumps(puzzledata))
         return jsonify(uri=uri)
     else:
         return jsonify(uri='GameAlreadyExists')
