@@ -1,5 +1,6 @@
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Divider from '@material-ui/core/Divider';
+import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import axios from 'axios';
 import DailyMovesView from '../components/DailyMovesView';
@@ -1272,8 +1273,20 @@ class Game extends React.Component {
                         By: {this.trimName(this.props.author)}
                     </Typography>
                     <div>
-                        <Button startIcon={<StarIcon/>} variant={this.state.hasVoted ? "outlined" : "contained"} color="secondary"
-                                onClick={this.updateLike}>{this.state.votes ? this.state.votes : 0}</Button>
+                        <div style={{display: "inline-flex"}}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                style={{borderTopRightRadius: "0px", borderBottomRightRadius: "0px"}}
+                                startIcon={<StarIcon style={{color:this.state.hasVoted ? "gray" : "white"}} />}
+                                onClick={this.updateLike}
+                            >
+                                {this.state.hasVoted ? "Unlike" : "Like"}
+                            </Button>
+                            <Paper variant="contained"  style={{borderTopLeftRadius: "0px", borderBottomLeftRadius: "0px"}} >
+                                <Typography style={{marginLeft: "5px", marginRight: "5px"}} variant="h6">{this.state.votes ? this.state.votes : 0}</Typography>
+                            </Paper>
+                        </div>
                     </div>
                 </div>
                 <Grid container xs={12} direction="column">
