@@ -159,5 +159,8 @@
   },
   "resolutions": {
     "@babel/preset-env": "^7.8.7"
+  },
+  "devDependencies": {
+    "terser": "^3.14.1"
   }
 }
