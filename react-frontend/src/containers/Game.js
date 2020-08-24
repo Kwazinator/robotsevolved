@@ -1280,6 +1280,7 @@ class Game extends React.Component {
                                 style={{borderTopRightRadius: "0px", borderBottomRightRadius: "0px"}}
                                 startIcon={<StarIcon style={{color:this.state.hasVoted ? "gray" : "white"}} />}
                                 onClick={this.updateLike}
+                                size={"small"}
                             >
                                 {this.state.hasVoted ? "Unlike" : "Like"}
                             </Button>
