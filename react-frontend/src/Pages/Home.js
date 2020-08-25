@@ -44,12 +44,15 @@ export default function ComplexGrid(props) {
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
-                        <Typography> 8/5/2020 Scaled down the Difficulty for the Daily Challenge rotations, also modified the classic algorithm to be less cluttered
-                        </Typography>
-                        <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
-                        </Typography>
                         <Typography> 8/23/2020 Personal Best saving feature added to Daily Challenge, Also Added Like feature to custom puzzles.
                         </Typography>
+                        <br/>
+                        <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
+                        </Typography>
+                        <br/>
+                        <Typography> 8/5/2020 Scaled down the Difficulty for the Daily Challenge rotations, also modified the classic algorithm to be less cluttered
+                        </Typography>
+
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
                         <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>

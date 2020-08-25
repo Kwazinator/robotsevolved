@@ -114,6 +114,25 @@ class FindGame extends React.Component {
             });
     };
 
+    handleCloseFilterMenuMostLiked = event => {
+        this.setState( {
+            anchorEl: null
+        })
+        var searchTerm = this.searchRef.value;
+        axios.post('/search', {search: searchTerm, filter: 'MostLiked', offset: 0})
+            .then( res => {
+                var gameslist = JSON.parse(res.data.gameslist)
+                var highscoreslist = JSON.parse(res.data.highscoreslist)
+                this.props.setNumFindGames(gameslist.length, 'MostLiked', searchTerm);
+                this.setState({
+                    highscoreslist: highscoreslist,
+                    gameslist: gameslist,
+                    lastSearch: 'MostLiked',
+                    hasMore: true
+                });
+            });
+    };
+
     handleCloseFilterMenuHighest = event => {
         this.setState( {
             anchorEl: null
@@ -230,6 +249,7 @@ class FindGame extends React.Component {
                     >
                         <MenuItem onClick={this.handleSearchSubmit}>Recently Created</MenuItem>
                         <MenuItem onClick={this.handleCloseFilterMenuMostPlayed}>Most Played</MenuItem>
+                        <MenuItem onClick={this.handleCloseFilterMenuMostLiked}>Most Liked</MenuItem>
                         <MenuItem onClick={this.handleCloseFilterMenuHighest}>Highest Scores</MenuItem>
                     </Menu>
                 </Paper>

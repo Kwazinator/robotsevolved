@@ -65,6 +65,13 @@ def get_games_search(numPuzzles,Offset,searchterm,filter,userID):
             for game in gameslist:
                 highscoreslist.append(GameService().get_highscores(game['uri']))
         return (gameslist, highscoreslist)
+    elif filter == 'MostLiked':
+        gameslist = GameService().get_games_by_search_most_liked(numPuzzles, Offset, searchterm, userID)
+        highscoreslist = list()
+        if gameslist is not None:
+            for game in gameslist:
+                highscoreslist.append(GameService().get_highscores(game['uri']))
+        return (gameslist, highscoreslist)
 
 
 def get_learned_games():

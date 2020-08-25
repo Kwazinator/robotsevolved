@@ -27,6 +27,9 @@ class GameService:
 
     def get_games_by_search_most_played(self,numPuzzles,Offset,searchterm,userID):
         return GameDAO().get_games_by_search_most_played(numPuzzles,Offset,searchterm,userID)
+        
+    def get_games_by_search_most_liked(self,numPuzzles,Offset,searchterm,userID):
+        return GameDAO().get_games_by_search_most_liked(numPuzzles,Offset,searchterm,userID)
 
     def get_games_by_search_highest_score(self,numPuzzles,Offset,searchterm,userID):
         return GameDAO().get_games_by_search_highest_score(numPuzzles,Offset,searchterm,userID)

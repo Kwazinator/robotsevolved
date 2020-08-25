@@ -126,6 +126,20 @@ class GameDAO:
             return games
         else:
             return games
+            
+    def get_games_by_search_most_liked(self,numPuzzles,Offset,searchterm,userID):
+        db = get_db()
+        cursor = db.cursor()
+        games = list()
+        searchterm = ''.join(('%', searchterm, '%'))
+        cursor.execute("SELECT game_id as GAMEID,name,type,description,authorid,authorname,difficulty,uri,created,plays,(SELECT count(vote_id) from vote WHERE game_id=GAMEID) as votes,(SELECT votedata from vote WHERE game_id=GAMEID and user_id=%s) as hasvoted from game WHERE name LIKE %s AND type='type' OR authorname LIKE %s AND type='type' ORDER BY votes DESC LIMIT %s OFFSET %s",(userID,searchterm,searchterm,numPuzzles,Offset))
+        query = cursor.fetchall()
+        if query is not None:
+            for row in query:
+                games.append(Game(row[0], row[1], row[2], row[3], row[4], row[5], row[6], '',row[7],(row[8]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[9],row[10],row[11]).serialize())
+            return games
+        else:
+            return games
 
     def get_games_by_search_highest_score(self, numPuzzles, Offset, searchterm,userID):
         db = get_db()
