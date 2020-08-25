@@ -22,7 +22,7 @@ class AddPuzzleModal extends React.Component {
 
     campaignPuzzle = () => {
         if (window.userInfo != null) {
-            if (window.userInfo.userID == 2 || window.userInfo.userID == 3 || window.userInfo.userID == 7 || window.userInfo.userID == 5) {
+            if (window.userInfo.userID == 2 || window.userInfo.userID == 3 || window.userInfo.userID == 7 || window.userInfo.userID == 4) {
                 return <Button variant="contained" color="secondary" onClick={this.props.submitPuzzleCampaign}>Campaign Puzzle</Button>
             }
             else {
