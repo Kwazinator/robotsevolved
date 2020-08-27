@@ -71,7 +71,11 @@ class GameService:
     def get_game_uri_from_user_id(self,uri,user_id):
         row = GameDAO().get_game_uri_from_user_id(uri,user_id)
         if row is None:
-            return {'uri': ''}
+            generated = GenDAO().get_game_uri(uri)
+            if generated is None:
+                return {'uri': ''}
+            return Gen(generated[0], generated[1], generated[2], generated[3], generated[4], generated[5],
+                       generated[6]).serialize()
         else:
             return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],'',row[10],row[11],row[12]).serialize()
 
