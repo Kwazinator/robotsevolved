@@ -5,6 +5,7 @@ import TodayIcon from '@material-ui/icons/Today';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/Settings';
+import Brightness6Icon from '@material-ui/icons/Brightness6';
 import clsx from 'clsx';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
@@ -715,6 +716,10 @@ class App extends React.Component {
                             <ListItem button key={'About'} onClick={this.handleClickAboutUs}>
                                 <ListItemIcon><InfoIcon /></ListItemIcon>
                                 <ListItemText primary={'About'} />
+                            </ListItem>
+                            <ListItem button key={'Dark Mode'} onClick={this.props.handleClickDarkMode}>
+                                <ListItemIcon><Brightness6Icon /></ListItemIcon>
+                                <ListItemText primary={'Space Mode (Beta)'} />
                             </ListItem>
                         </List>
                     </Drawer>

@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
+    "arwes": "^1.0.0-alpha.5",
     "axios": "^0.19.2",
     "babel-eslint": "10.0.3",
     "babel-jest": "^24.9.0",
@@ -46,6 +47,7 @@
     "material-kit-react": "^1.8.0",
     "mathjs": "^6.6.4",
     "mini-css-extract-plugin": "0.9.0",
+    "moment-timezone": "^0.5.31",
     "npm": "^6.14.5",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.0",
@@ -78,8 +80,7 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1",
     "zingchart": "^2.8.9",
-    "zingchart-react": "^2.1.0",
-    "moment-timezone": "^0.5.31"
+    "zingchart-react": "^2.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
