@@ -116,15 +116,23 @@ class GenDAO:
         else:
             return (row[0],row[1])
 
-    def get_daily_challenge_winners(self, dc_id):
+    def get_daily_challenge_winners(self):
         cursor = get_db().cursor()
-        userlist = list()
-        cursor.execute('''SELECT user_id
-                            FROM v_daily_history dcs
-                            WHERE dcsID!=%s''',(dc_id,))
+        userlistandcrowns = {}
+        cursor.execute('''  SELECT COUNT(u.user_id ) as Crowns, u.user_id, u.username FROM daily_challenge_submit dcs
+                            JOIN user u on dcs.user_id =u.user_id
+                            WHERE dcs.user_id = (SELECT user_id FROM daily_challenge_submit WHERE dc_id=dcs.dc_id ORDER by score ASC, submitted ASC LIMIT 1) and u.user_id <> 1 and dcs.dc_id <>
+                                (select
+                                    max(daily_challenge.dc_id)
+                                from
+                                    daily_challenge
+                                where
+                                    (now() >= daily_challenge.created))
+                            group by u.user_id
+                            ORDER by Crowns desc''')
         for row in cursor.fetchall():
-            userlist.append(row[0])
-        return userlist
+            userlistandcrowns.update({row[1]: row[0]})
+        return userlistandcrowns
 
     def get_daily_challenge_id(self):
         try:

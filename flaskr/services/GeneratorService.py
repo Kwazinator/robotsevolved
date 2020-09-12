@@ -51,19 +51,22 @@ class GeneratorService:
         return 'something went wrong'
 
     def get_daily_challenge_highscores(self, dc_id):
-        userlist = GenDAO().get_daily_challenge_winners(dc_id)
+        userlist = GenDAO().get_daily_challenge_winners()
         highscores = GenDAO().get_daily_challenge_highscores(dc_id)
         highscoreslist = list()
         for score in highscores:
             if score['user_id'] != 1:
-                score['wins'] = userlist.count(score['user_id'])
+                if userlist.get(score['user_id'])!=None:
+                    score['wins'] = userlist[score['user_id']]
+                else:
+                    score['wins'] = 0
                 highscoreslist.append(score)
             else:
                 highscoreslist.append(score)
         return highscoreslist
 
-    def get_daily_challenge_winners(self,dc_id):
-        return GenDAO().get_daily_challenge_winners(dc_id)
+    def get_daily_challenge_winners(self):
+        return GenDAO().get_daily_challenge_winners()
 
     def get_daily_challenge_id(self):
         return GenDAO().get_daily_challenge_id()
