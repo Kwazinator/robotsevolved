@@ -5,6 +5,7 @@ import React from 'react';
 import axios from 'axios';
 import DailyMovesView from '../components/DailyMovesView';
 import CreateBoardGoalSelector from '../components/CreateBoardGoalSelector';
+import FlashMessage from 'react-flash-message'
 import Alert from '@material-ui/lab/Alert';
 import {withRouter} from 'react-router';
 import Draggable from 'react-draggable';
@@ -1397,13 +1398,66 @@ class Game extends React.Component {
         }
     };
 
+    checkWinningPosition = (goal,coloredGoals,playerState) => {
+        console.log(goal)
+        console.log(coloredGoals)
+        console.log(playerState)
+        if (goal != null && coloredGoals == null) {
+            var Won = false;
+            playerState.map((player) => {
+                if (player.top === goal.top && player.left === goal.left) {
+                    Won = true;
+                }
+            });
+        }
+        else {
+            if (goal != null) {
+                var Won = false;
+                playerState.map((player) => {
+                    if (player.top === goal.top && player.left === goal.left) {
+                        Won = true;
+                    }
+                });
+            }
+            else if (coloredGoals.length == 0) {
+                var Won = false;
+            }
+            else {
+                var Won = true;
+            }
+            var found = false;
+            var colorfound = false;
+            playerState.map((player) => {
+                found = false
+                colorfound = false
+                coloredGoals.map(goal => {
+                    if (goal.colorSignifier == player.colorSignifier && goal.top === player.top && goal.left === player.left) {
+                        found = true;
+                    }
+                    if (goal.colorSignifier == player.colorSignifier) {
+                        colorfound = true;
+                    }
+                });
+                if (!found && colorfound) {
+                    Won = false;
+                }
+            });
+        }
+        console.log(Won)
+        return Won
+    }
+
+
     onStopDragHandlerGoal = (position,color) => {
         if (color == undefined) {
-            this.setState({
-                goal: {top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize)},
-                playerState: this.state.playerStart.slice(),
-                moveHistory: [],
-            })
+            var goal = {top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize)}
+            if (!this.checkWinningPosition(goal,this.state.coloredGoals,this.state.playerState)) {
+                this.setState({
+                    goal: goal,
+                    playerState: this.state.playerStart.slice(),
+                    moveHistory: [],
+                });
+            }
         }
         else {
             var coloredGoals = this.state.coloredGoals;
@@ -1416,26 +1470,46 @@ class Game extends React.Component {
                     newGoals.push(goal);
                 }
             });
-            this.setState({
-                coloredGoals: newGoals,
-                playerState: this.state.playerStart.slice(),
-                moveHistory: [],
-            });
+            if (!this.checkWinningPosition(this.state.goal,newGoals,this.state.playerState)) {
+                this.setState({
+                    coloredGoals: newGoals,
+                    playerState: this.state.playerStart.slice(),
+                    moveHistory: [],
+                });
+            }
         }
     };
 
 
-    onStopDragHandler = (position,index) => {
+    onStopDragHandler = (position,index,oldPosition) => {
         var playerState = this.state.playerState.slice();
         var lastX = position.lastX / this.state.squareSize;
         var lastY = position.lastY / this.state.squareSize;
         playerState[index].top = Math.round(lastY);
         playerState[index].left = Math.round(lastX);
-        this.setState({
-            playerStart: playerState.slice(),
-            playerState: playerState,
-            moveHistory: []
-        });
+        var Won = this.checkWinningPosition(this.state.goal,this.state.coloredGoals,playerState)
+        if (!Won) {
+            this.setState({
+                playerStart: playerState.slice(),
+                playerState: playerState,
+                moveHistory: []
+            });
+        }
+        else {
+            playerState[index].top = oldPosition.top
+            playerState[index].left = oldPosition.left
+            console.log(playerState)
+            this.setState({
+                playerState: playerState,
+                playerStart: playerState.slice(),
+                flashMessage: null
+            });
+            this.setState({
+                flashMessage: <FlashMessage duration={5000}>
+                                <Typography variant='h5' color='error'>You must click Build Mode to solve in order to submit the puzzle</Typography>
+                              </FlashMessage>
+            });
+        }
     };
 
     render() {
@@ -1468,6 +1542,7 @@ class Game extends React.Component {
                         isDailyChallenge = {this.props.dailyChallengeMode}
                         isDailyChallengeAnswers = {this.props.dailyChallengeModeAnswers}
                     />
+                    {this.state.flashMessage}
                     {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? null : <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>}
                 </Grid>
                 <Grid item xs={12} sm={6} md={8} zeroMinWidth>

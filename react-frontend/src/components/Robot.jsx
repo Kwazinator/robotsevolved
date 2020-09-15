@@ -68,7 +68,7 @@ class Robot extends React.Component {
     };
 
     onStopDragHandler = (e, position) => {
-        this.props.onStopDragHandler(position,this.props.index);
+        this.props.onStopDragHandler(position,this.props.index,this.props.position);
     }
 
 
