@@ -1076,8 +1076,8 @@ class Game extends React.Component {
 
     resetToBest = (moveHistory, playerState) => {
         this.setState({
-            moveHistory: moveHistory,
-            playerState: playerState,
+            moveHistory: moveHistory.slice(),
+            playerState: playerState.slice(),
         });
     }
 
