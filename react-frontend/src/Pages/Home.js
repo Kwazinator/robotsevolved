@@ -45,6 +45,8 @@ export default function ComplexGrid(props) {
 
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
+                        <Typography> 11/11/2020 Modified Daily Challenge to make easier
+                        </Typography>
                         <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
                         </Typography>
                         <br/>
@@ -244,6 +246,8 @@ export default function ComplexGrid(props) {
                     <Typography> 8/23/2020 Personal Best saving feature added to Daily Challenge, Also Added Like feature to custom puzzles.
                     </Typography>
                     <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
+                    </Typography>
+                    <Typography> 11/11/2020 Modified Daily Challenge to make easier
                     </Typography>
                     </div>
                 </Grid>

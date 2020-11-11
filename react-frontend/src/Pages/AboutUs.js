@@ -61,7 +61,7 @@ export default function AboutUs(props) {
                                     <br/>
                                     Medium Mondays - 4 x Medium
                                     <br/>
-                                    Trouble Tuesdays - 4 x Hard
+                                    Trouble Tuesdays - 4 x Easy
                                     <br/>
                                     Wild Wednesdays - 4 x Medium
                                     <br/>
@@ -71,7 +71,7 @@ export default function AboutUs(props) {
                                     <br/>
                                     Sleepy Saturdays - 4 x Easy
                                     <br/>
-                                    Standard Sundays - 4 x Hard
+                                    Standard Sundays - 4 x Medium
                                 </Typography>
                                 <Typography color={'textPrimary'} variant={"h4"}>
                                     Classic Puzzles
