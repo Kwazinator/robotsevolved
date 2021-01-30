@@ -85,7 +85,6 @@ def search2(game, callback=None):
     game.robots[0], game.robots[robot] = game.robots[robot], game.robots[0]
     print(colors)
     print(robot)
-    print(game)
     path = create_string_buffer(256)
     depth = dll2.search(byref(game), path, callback)
     result = []

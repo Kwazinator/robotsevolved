@@ -409,8 +409,8 @@ def solver2(gamejson):
     #token is from tokenlist
     grid1 = grid
     #edit token here
-    token = 'GH'
-    token2 = 'BH'
+    token = 'RH'
+    token2 = 'YH'
 
     grid1[int(goaltop * 16 + goalleft)] = placeholder + token
     grid1[int(goaltop2 * 16 + goalleft2)] = placeholder2 + token2
