@@ -334,7 +334,7 @@ def solver2(gamejson):
     playerstate = gamejson['playerState']
     wallsH = gamejson['wallHorizontal']
     wallsV = gamejson['wallVerticle']
-    goal = {'top': 6,'left': 3, 'color': 'green'}
+    goal = {'top': 1,'left': 2, 'color': 'green'}
     goal2 = {'top': 1,'left': 1, 'color': 'blue'}
 
     newplayerstate = list()
