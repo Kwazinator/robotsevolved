@@ -413,7 +413,7 @@ def solver2(gamejson):
     token2 = 'BH'
 
     grid1[int(goaltop * 16 + goalleft)] = placeholder + token
-    grid1[int(goaltop2 * 16 + goalleft)] = placeholder2 + token2
+    grid1[int(goaltop2 * 16 + goalleft2)] = placeholder2 + token2
     for x, space in enumerate(grid1):
         if (space == ''):
             grid1[x] = 'X'
