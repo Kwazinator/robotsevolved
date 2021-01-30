@@ -354,3 +354,148 @@ class Game(object):
             'token': token,
             'robots': robots,
         }
+
+class Game2(object):
+    @staticmethod
+    def hardest():
+        quads = [QUAD_2B, QUAD_4B, QUAD_3B, QUAD_1B]
+        robots = [226, 48, 43, 18]
+        token = 'BT'
+        return Game(quads=quads, robots=robots, token=token)
+    def __init__(self, seed=None, grid=None, col=None, robots=None, token=None, token2=None):
+        if seed:
+            random.seed(seed)
+        self.grid = grid
+        #self.grid = create_grid(quads)
+        if robots is None:
+            self.robots = self.place_robots()
+        else:
+            self.robots = dict(zip(col, robots))
+        self.token = token
+        self.token2 = token2
+        self.moves = 0
+        self.last = None
+    def place_robots(self):
+        result = {}
+        used = set()
+        for color in COLORS:
+            while True:
+                index = random.randint(0, 255)
+                if index in (119, 120, 135, 136):
+                    continue
+                if self.grid[index][-2:] in TOKENS:
+                    continue
+                if index in used:
+                    continue
+                result[color] = index
+                used.add(index)
+                break
+        return result
+    def get_robot(self, index):
+        for color, position in self.robots.iteritems():
+            if position == index:
+                return color
+        return None
+    def can_move(self, color, direction):
+        if self.last == (color, REVERSE[direction]):
+            return False
+        index = self.robots[color]
+        if direction in self.grid[index]:
+            return False
+        new_index = index + OFFSET[direction]
+        if new_index in self.robots.itervalues():
+            return False
+        return True
+    def compute_move(self, color, direction):
+        index = self.robots[color]
+        robots = self.robots.values()
+        while True:
+            if direction in self.grid[index]:
+                break
+            new_index = index + OFFSET[direction]
+            if new_index in robots:
+                break
+            index = new_index
+        return index
+    def do_move(self, color, direction):
+        start = self.robots[color]
+        last = self.last
+        if last == (color, REVERSE[direction]):
+            raise Exception
+        end = self.compute_move(color, direction)
+        if start == end:
+            raise Exception
+        self.moves += 1
+        self.robots[color] = end
+        self.last = (color, direction)
+        return (color, start, last)
+    def undo_move(self, data):
+        color, start, last = data
+        self.moves -= 1
+        self.robots[color] = start
+        self.last = last
+    def get_moves(self, colors=None):
+        result = []
+        colors = colors or COLORS
+        for color in colors:
+            for direction in DIRECTIONS:
+                if self.can_move(color, direction):
+                    result.append((color, direction))
+        return result
+    def over(self):
+        color = self.token[0]
+        return self.token in self.grid[self.robots[color]]
+    def key(self):
+        return tuple(self.robots.itervalues())
+    def search(self):
+        max_depth = 1
+        while True:
+            #print 'Searching to depth:', max_depth
+            result = self._search([], set(), 0, max_depth)
+            if result is not None:
+                return result
+            max_depth += 1
+    def _search(self, path, memo, depth, max_depth):
+        if self.over():
+            return list(path)
+        if depth == max_depth:
+            return None
+        key = (depth, self.key())
+        if key in memo:
+            return None
+        memo.add(key)
+        if depth == max_depth - 1:
+            colors = [self.token[0]]
+        else:
+            colors = None
+        moves = self.get_moves(colors)
+        for move in moves:
+            data = self.do_move(*move)
+            path.append(move)
+            result = self._search(path, memo, depth + 1, max_depth)
+            path.pop(-1)
+            self.undo_move(data)
+            if result:
+                return result
+        return None
+    def export(self):
+        grid = []
+        token = None
+        robots = [self.robots[color] for color in COLORS]
+        for index, cell in enumerate(self.grid):
+            mask = to_mask(cell)
+            if index in robots:
+                mask |= M_ROBOT
+            grid.append(mask)
+            if self.token in cell:
+                token = index
+            if self.token2 in cell:
+                token2 = index
+        robot = COLORS.index(self.token[0])
+        return {
+            'grid': grid,
+            'robot': robot,
+            'token': token,
+            'robots': robots,
+            'token2': token2
+        }

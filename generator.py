@@ -330,6 +330,127 @@ def runSearch(grid1,robots,colors,token,result):
     result.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
 
+def solver2(gamejson):
+    playerstate = gamejson['playerState']
+    wallsH = gamejson['wallHorizontal']
+    wallsV = gamejson['wallVerticle']
+    goal = {'top': 6,'left': 3, 'color': 'green'}
+    goal2 = {'top': 1,'left': 1, 'color': 'blue'}
+
+    newplayerstate = list()
+    for player in playerstate:
+        top = player['top']
+        left = player['left']
+        if player['colorSignifier'] == 'blue':
+            color = 'B'
+        elif player['colorSignifier'] == 'red':
+            color = 'R'
+        elif player['colorSignifier'] == 'yellow':
+            color = 'Y'
+        else:
+            color = 'G'
+        position = top * 16 + left
+        newplayerstate.append({
+            'position': int(position),
+            'color': color
+        })
+
+    result = ['' for x in range(256)]
+
+    wallsV = wallsV[1:]
+
+    for wall in wallsH:
+        top = wall['top']
+        left = wall['left']
+        if (top >= 16):
+            top = top - 1
+            position = top * 16 + left
+            if (left < 16):
+                result[int(position)] += 'S'
+        else:
+            position = top * 16 + left
+            if (left < 16):
+                result[int(position)] += 'N'
+                if top != 0:
+                    result[int(position) - 16] += 'S'
+
+    for wall in wallsV:
+        top = wall['top']
+        left = wall['left']
+        if (left >= 16):
+            left = left - 1
+            position = top * 16 + left
+            if (top < 16):
+                result[int(position)] += 'E'
+        else:
+            if (top < 16):
+                position = top * 16 + left
+                result[int(position)] += 'W'
+                if left != 0:
+                    result[int(position) - 1] += 'E'
+
+    grid = result
+    colors = list()
+    robots = list()
+    for player in newplayerstate:
+        robots.append(player['position'])
+        colors.append(player['color'])
+
+    goaltop = goal['top']
+    goalleft = goal['left']
+    placeholder = grid[int(goaltop * 16 + goalleft)]
+
+    goaltop2 = goal2['top']
+    goalleft2 = goal2['left']
+    placeholder2 = grid[int(goaltop2 * 16 + goalleft2)]
+    paths = list()
+
+    # threadArray = list()
+    #token is from tokenlist
+    grid1 = grid
+    #edit token here
+    token = 'GH'
+    token2 = 'BH'
+
+    grid1[int(goaltop * 16 + goalleft)] = placeholder + token
+    grid1[int(goaltop2 * 16 + goalleft)] = placeholder2 + token2
+    for x, space in enumerate(grid1):
+        if (space == ''):
+            grid1[x] = 'X'
+
+
+    print(grid1)
+    # threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
+    path = ricochet.search2(model.Game2(grid=grid1, robots=robots, col=colors, token=token, token2=token2))
+    '''for thread in threadArray:
+        thread.start()
+    for thread in threadArray:
+        thread.join()
+    print(result)
+'''
+    solution = list()
+    for y, pathy in enumerate(path):
+        if pathy[0] == 'G':
+            solution.append('B' + pathy[1])
+        elif pathy[0] == 'B':
+            solution.append('R' + pathy[1])
+        elif pathy[0] == 'R':
+            solution.append('G' + pathy[1])
+        else:
+            solution.append('Y' + pathy[1])
+
+    minim = len(solution)
+
+    return {
+        'playerState': playerstate,
+        'wallHorizontal': wallsH,
+        'wallVerticle': wallsV,
+        'goal': goal,
+        'moves': minim,
+        'solutiondata': solution,
+        'boardState': gamejson['boardState']
+    }
+
 def solver(gamejson):
     playerstate = gamejson['playerState']
     wallsH = gamejson['wallHorizontal']
@@ -410,9 +531,6 @@ def solver(gamejson):
 
         result = list()
         #threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
-        print(colors)
-        print(robots)
-        print(token)
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
     '''for thread in threadArray:

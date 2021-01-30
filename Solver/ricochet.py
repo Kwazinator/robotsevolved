@@ -15,6 +15,7 @@ DIRECTIONS = {
 }
 
 dll = CDLL('./Solver/_ricochet')
+dll2 = CDLL('./Solver/_ricochet2')
 
 class Game(Structure):
     _fields_ = [
@@ -24,6 +25,20 @@ class Game(Structure):
         ('token', c_uint),
         ('last', c_uint),
     ]
+
+class Game2(Structure):
+    _fields_ = [
+        ('grid', c_uint * 256),
+        ('moves', c_uint * 256),
+        ('robots', c_uint * 4),
+        ('token', c_uint),
+        ('last', c_uint),
+        ('token2', c_uint),
+    ]
+
+
+
+
 
 CALLBACK_FUNC = CFUNCTYPE(None, c_uint, c_uint, c_uint, c_uint)
 
@@ -50,6 +65,37 @@ def search(game, callback=None):
         direction = DIRECTIONS[value & 0x0f]
         result.append((color, direction))
     return result
+
+def search2(game, callback=None):
+    callback = CALLBACK_FUNC(callback) if callback else None
+    data = game.export()
+    print('printing data from search2')
+    print(data)
+    game = Game2()
+    game.token = data['token']
+    game.token2 = data['token2']
+    game.last = 0
+    for index, value in enumerate(data['grid']):
+        game.grid[index] = value
+    for index, value in enumerate(data['robots']):
+        game.robots[index] = value
+    robot = data['robot']
+    colors = list('RGBY')
+    colors[0], colors[robot] = colors[robot], colors[0]
+    game.robots[0], game.robots[robot] = game.robots[robot], game.robots[0]
+    print(colors)
+    print(robot)
+    print(game)
+    path = create_string_buffer(256)
+    depth = dll2.search(byref(game), path, callback)
+    result = []
+    for value in path.raw[:depth]:
+        #value = ord(value)
+        color = colors[(value >> 4) & 0x0f]
+        direction = DIRECTIONS[value & 0x0f]
+        result.append((color, direction))
+    return result
+
 
 if __name__ == '__main__':
     import model
