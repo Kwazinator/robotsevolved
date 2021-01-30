@@ -492,10 +492,12 @@ class Game2(object):
             if self.token2 in cell:
                 token2 = index
         robot = COLORS.index(self.token[0])
+        robot2 = COLORS.index(self.token2[0])
         return {
             'grid': grid,
             'robot': robot,
             'token': token,
             'robots': robots,
-            'token2': token2
+            'token2': token2,
+            'robot2': robot2
         }
