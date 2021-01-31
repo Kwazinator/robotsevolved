@@ -7,6 +7,9 @@ import flaskr
 from flaskr.services.GeneratorService import GeneratorService
 
 
+COLOR_ARRAY = ['blue','yellow','red','green']
+COLOR_ARRAY_SIG = ['#4169e1','#ff8c00','#b22222','#228b22']
+
 def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,height):
     indexX = WallVertToPlace['left']
     indexY = WallVertToPlace['top']
@@ -139,10 +142,8 @@ def getnoplacelistright(wallVerticle, wallHorizontal):
     return noplacelist
 
 def boardgeneratorclassicTwoGoals():
-    goalposrandom = random.randint(0, 15)
     wallHorizontal = list()
     wallVerticle = [{'top': 0, 'left': 0, 'opacity': 1}]
-    goalpos = None
     countwalls = 0
     goalposlist = list()
     for j, item in enumerate(range(16)):
@@ -179,8 +180,27 @@ def boardgeneratorclassicTwoGoals():
     # randomize top walls
     print(countwalls)
     thenum = random.randint(0, countwalls - 1)
+    thenum2 = random.randint(0, countwalls - 1)
+    while thenum2 != thenum:
+        thenum2 = random.randint(0, countwalls - 1)
     goalpos = goalposlist[thenum]
-
+    goalpos2 = goalposlist[thenum2]
+    color1 = random.randint(0,3)
+    color2 = random.randint(0,3)
+    coloredGoals = [
+        {
+            'top': goalpos['top'],
+            'left': goalpos['left'],
+            'color': COLOR_ARRAY_SIG[color1],
+            'colorSignifier': COLOR_ARRAY[color1]
+        },
+        {
+            'top': goalpos2['top'],
+            'left': goalpos2['left'],
+            'color': COLOR_ARRAY_SIG[color2],
+            'colorSignifier': COLOR_ARRAY[color2]
+        }
+    ]
     noplace = getnoplacelisttop(wallVerticle, wallHorizontal)
     location = random.randint(2, 14)
     while (location in noplace):
@@ -235,8 +255,8 @@ def boardgeneratorclassicTwoGoals():
     wallHorizontal.append({'top': location2, 'left': 15, 'opacity': 1})
 
     playerState = list()
-    goal = {'top': math.floor(random.random() * math.floor(16)),
-            'left': math.floor(random.random() * math.floor(16))}
+    goal = {'top': goalpos['top'],
+            'left': goalpos['left']}
     randomPositions = [goal]
     for i, item in enumerate(range(5)):
         randomPositions.append(randomBoardPosition(randomPositions, 16, 16))
@@ -256,7 +276,7 @@ def boardgeneratorclassicTwoGoals():
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,
         'wallVerticle': wallVerticle,
-        'goal': goalpos,
+        'coloredGoals': coloredGoals,
         'boardState': boardState
     }
 
@@ -456,9 +476,8 @@ def solver2(gamejson):
     playerstate = gamejson['playerState']
     wallsH = gamejson['wallHorizontal']
     wallsV = gamejson['wallVerticle']
-    goal = {'top': 1,'left': 2, 'color': 'green'}
-    goal2 = {'top': 1,'left': 1, 'color': 'blue'}
-
+    goal = gamejson['coloredGoals'][0]
+    goal2 = gamejson['coloredGoals'][1]
     newplayerstate = list()
     for player in playerstate:
         top = player['top']
@@ -531,8 +550,22 @@ def solver2(gamejson):
     #token is from tokenlist
     grid1 = grid
     #edit token here
-    token = 'RH'
-    token2 = 'YH'
+    if goal['colorSignifier'] == 'blue':
+        token = 'BH'
+    elif goal['colorSignifier'] == 'green':
+        token = 'GH'
+    elif goal['colorSignifier'] == 'red':
+        token = 'RH'
+    elif goal['colorSignifier'] == 'yellow':
+        token = 'YH'
+    if goal2['colorSignifier'] == 'blue':
+        token2 = 'BH'
+    elif goal2['colorSignifier'] == 'green':
+        token2 = 'GH'
+    elif goal2['colorSignifier'] == 'red':
+        token2 = 'RH'
+    elif goal2['colorSignifier'] == 'yellow':
+        token2 = 'YH'
 
     grid1[int(goaltop * 16 + goalleft)] = placeholder + token
     grid1[int(goaltop2 * 16 + goalleft2)] = placeholder2 + token2
@@ -544,12 +577,6 @@ def solver2(gamejson):
     print(grid1)
     # threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
     path = ricochet.search2(model.Game2(grid=grid1, robots=robots, col=colors, token=token, token2=token2))
-    '''for thread in threadArray:
-        thread.start()
-    for thread in threadArray:
-        thread.join()
-    print(result)
-'''
     solution = list()
     for y, pathy in enumerate(path):
         if pathy[0] == 'G':
@@ -567,7 +594,7 @@ def solver2(gamejson):
         'playerState': playerstate,
         'wallHorizontal': wallsH,
         'wallVerticle': wallsV,
-        'goal': goal,
+        'coloredGoals': gamejson['coloredGoals'],
         'moves': minim,
         'solutiondata': solution,
         'boardState': gamejson['boardState']
