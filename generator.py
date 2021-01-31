@@ -186,7 +186,7 @@ def boardgeneratorclassicTwoGoals():
     goalpos = goalposlist[thenum]
     goalpos2 = goalposlist[thenum2]
     color1 = random.randint(0,3)
-    color2 = random.randint(0, 3)
+    color2 = random.randint(0,3)
     while color1 == color2:
         color2 = random.randint(0,3)
     coloredGoals = [
