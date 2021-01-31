@@ -749,6 +749,27 @@ def formatsolutiondata(solution):
     newdata = json.dumps(data)
     return newdata
 
+def formatsolutiondataTwoGoal(solution):
+    data = {
+        'robotSelected': 0,
+        'moveHistory': [],
+        'uri': '',
+        'createMode': 'No',
+        'highscores': [],
+        "ColoredLineDirections": [],
+        "playerState": solution['playerState'],
+        "gameWon": True,
+        'boardState': solution['boardState'],
+        'wallHorizontal': solution['wallHorizontal'],
+        'wallVerticle': solution['wallVerticle'],
+        'playerStart': solution['playerState'],
+        'coloredGoals': solution['coloredGoals'],
+        'height': 16,
+        'width': 16
+    }
+    newdata = json.dumps(data)
+    return newdata
+
 
 if __name__ == "__main__":
     while (True):

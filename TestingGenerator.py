@@ -27,7 +27,7 @@ if __name__ == "__main__":
     moves = solution['moves']
     solutiondata = solution['solutiondata']
     daypuzzle = {
-            'puzzledata': generator.formatsolutiondata(solution),
+            'puzzledata': generator.formatsolutiondataTwoGoal(solution),
             'moves': moves,
             'solutiondata': json.dumps(solutiondata)
         }
