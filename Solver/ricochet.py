@@ -80,9 +80,12 @@ def search2(game, callback=None):
     for index, value in enumerate(data['robots']):
         game.robots[index] = value
     robot = data['robot']
+    robot2 = data['robot2']
     colors = list('RGBY')
     colors[0], colors[robot] = colors[robot], colors[0]
+    colors[1], colors[robot2] = colors[robot2], colors[1]
     game.robots[0], game.robots[robot] = game.robots[robot], game.robots[0]
+    game.robots[1], game.robots[robot2] = game.robots[robot2], game.robots[1]
     print(colors)
     print(robot)
     path = create_string_buffer(256)

@@ -501,3 +501,6 @@ class Game2(object):
             'token2': token2,
             'robot2': robot2
         }
+
+
+
