@@ -232,7 +232,7 @@ void precompute_minimum_moves(
     game->moves[game->token] = 0;
     game->moves[game->token2] = 0;
     status[game->token] = true;
-    statue[game->token2] = true;
+    status[game->token2] = true;
     bool done = false;
     while (!done) {
         done = true;
