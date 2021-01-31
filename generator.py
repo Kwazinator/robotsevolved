@@ -181,7 +181,7 @@ def boardgeneratorclassicTwoGoals():
     print(countwalls)
     thenum = random.randint(0, countwalls - 1)
     thenum2 = random.randint(0, countwalls - 1)
-    while thenum2 != thenum:
+    while thenum2 == thenum:
         thenum2 = random.randint(0, countwalls - 1)
     goalpos = goalposlist[thenum]
     goalpos2 = goalposlist[thenum2]
