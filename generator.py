@@ -191,14 +191,14 @@ def boardgeneratorclassicTwoGoals():
         {
             'top': goalpos['top'],
             'left': goalpos['left'],
-            'color': COLOR_ARRAY_SIG[color1],
-            'colorSignifier': COLOR_ARRAY[color1]
+            'color': COLOR_ARRAY[color1],
+            'colorSignifier': COLOR_ARRAY_SIG[color1]
         },
         {
             'top': goalpos2['top'],
             'left': goalpos2['left'],
-            'color': COLOR_ARRAY_SIG[color2],
-            'colorSignifier': COLOR_ARRAY[color2]
+            'color': COLOR_ARRAY[color2],
+            'colorSignifier': COLOR_ARRAY_SIG[color2]
         }
     ]
     noplace = getnoplacelisttop(wallVerticle, wallHorizontal)
