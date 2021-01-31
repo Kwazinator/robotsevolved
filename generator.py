@@ -550,6 +550,8 @@ def solver2(gamejson):
     #token is from tokenlist
     grid1 = grid
     #edit token here
+    print(goal)
+    print(goal2)
     if goal['colorSignifier'] == 'blue':
         token = 'BH'
     elif goal['colorSignifier'] == 'green':
