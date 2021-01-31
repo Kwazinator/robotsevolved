@@ -7,8 +7,8 @@ import flaskr
 from flaskr.services.GeneratorService import GeneratorService
 
 
-COLOR_ARRAY = ['blue','yellow','red','green']
-COLOR_ARRAY_SIG = ['#4169e1','#ff8c00','#b22222','#228b22']
+COLOR_ARRAY_SIG = ['blue','yellow','red','green']
+COLOR_ARRAY = ['#4169e1','#ff8c00','#b22222','#228b22']
 
 def checkDeadendHorizontal(wallHorizontalList,WallVertToPlace,LastWall,width,height):
     indexX = WallVertToPlace['left']
