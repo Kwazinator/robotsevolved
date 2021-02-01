@@ -22,16 +22,14 @@ const styleelements = () => {
 }
 
 const CrownCounter = highscore => {
-    var crowns = []
-    var i;
-    for (i=0; i<highscore.wins;i++) {
-        crowns.push(<FaCrown/>);
+    if (highscore.wins > 0) {
+        return (
+            <div> {highscore.wins} x <FaCrown/> </div>
+        )
     }
-    return (
-        <div>
-            {crowns}
-        </div>
-    )
+    else {
+        return null
+    }
 }
 
 const highscorestyle = highscore => {

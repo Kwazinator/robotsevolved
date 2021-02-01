@@ -45,15 +45,12 @@ export default function ComplexGrid(props) {
 
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
+                        <Typography> 1/31/2020 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
+                        </Typography>
+                        <br/>
                         <Typography> 11/11/2020 Modified Daily Challenge to make easier
                         </Typography>
                         <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
-                        </Typography>
-                        <br/>
-                        <Typography> 8/23/2020 Personal Best saving feature added to Daily Challenge, Also Added Like feature to custom puzzles.
-                        </Typography>
-                        <br/>
-                        <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
                         </Typography>
                         <br/>
 
@@ -241,13 +238,11 @@ export default function ComplexGrid(props) {
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
-                    <Typography> 8/18/2020 New textures, Soon to be released: Color Specific Goals!
-                    </Typography>
-                    <Typography> 8/23/2020 Personal Best saving feature added to Daily Challenge, Also Added Like feature to custom puzzles.
-                    </Typography>
-                    <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
+                    <Typography> 1/31/2020 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
                     </Typography>
                     <Typography> 11/11/2020 Modified Daily Challenge to make easier
+                    </Typography>
+                    <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
                     </Typography>
                     </div>
                 </Grid>
