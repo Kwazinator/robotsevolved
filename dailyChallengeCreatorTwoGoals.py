@@ -26,7 +26,7 @@ if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
     dayonnow = 1
-    dayofweek = -3
+    dayofweek = 0
     weekly = deque(weekly)
     weekly.rotate(dayofweek)
     while (True):
@@ -35,15 +35,10 @@ if __name__ == "__main__":
         NotFound = True
         for puzzleday in weekly:
             daypuzzles = list()
-            classicorrandom = ['c', 'r', 'r', 'c']
-            random.shuffle(classicorrandom)
             for difficultypuzzle in week[puzzleday]:
                 NotFound = True
                 while (NotFound):
-                    if classicorrandom[-1] == 'c':
-                        solution = generator.solver2(generator.boardgeneratorclassic())
-                    else:
-                        solution = generator.solver2(generator.boardgenerator())
+                    solution = generator.solver2(generator.boardgeneratorclassicTwoGoals())
                     moves = solution['moves']
                     solutiondata = solution['solutiondata']
                     if (moves >= 23):
@@ -68,7 +63,6 @@ if __name__ == "__main__":
                             }
                         )
                         NotFound = False
-                        classicorrandom.pop()
             app = flaskr.create_app()
             with app.app_context():
                 totalMoves = 0
