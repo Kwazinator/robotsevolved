@@ -72,7 +72,7 @@ if __name__ == "__main__":
                     totalMoves += daypuzzle['moves']
                     listid.append(GeneratorService().insert_puzzle(puzzleday, daypuzzle['difficulty'], daypuzzle['puzzledata'], 'abcdefg', daypuzzle['moves'], daypuzzle['solutiondata']))
                 random.shuffle(listid)
-                #GeneratorService().insert_daily_challenge(now+timedelta(days=dayonnow),listid[0],listid[1],listid[2],listid[3],totalMoves)
+                GeneratorService().insert_daily_challenge(now+timedelta(days=dayonnow),listid[0],listid[1],listid[2],listid[3],totalMoves)
             dayonnow += 1
 
 
