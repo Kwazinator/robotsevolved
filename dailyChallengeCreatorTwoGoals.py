@@ -57,13 +57,14 @@ if __name__ == "__main__":
                         daypuzzles.append(
                             {
                                 'difficulty': puzzleis,
-                                'puzzledata': generator.formatsolutiondata(solution),
+                                'puzzledata': generator.formatsolutiondataTwoGoal(solution),
                                 'moves': moves,
                                 'solutiondata': json.dumps(solutiondata)
                             }
                         )
                         NotFound = False
             app = flaskr.create_app()
+            with app.app_context():
             with app.app_context():
                 totalMoves = 0
                 listid = list()
