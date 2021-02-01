@@ -65,7 +65,6 @@ if __name__ == "__main__":
                         NotFound = False
             app = flaskr.create_app()
             with app.app_context():
-            with app.app_context():
                 totalMoves = 0
                 listid = list()
                 for daypuzzle in daypuzzles:
