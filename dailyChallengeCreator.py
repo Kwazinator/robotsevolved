@@ -11,12 +11,12 @@ from collections import deque
 
 week = {
     'Medium Mondays': ['medium','medium','medium','medium'],
-    'Trouble Teusdays': ['hard','hard','hard','hard'],
+    'Trouble Teusdays': ['easy','easy','easy','easy'],
     'Wild Wednesday': ['medium','medium','medium','medium'],
     'Tryhard Thursdays': ['hard','hard','hard','hard'],
     'Flyin Fridays': ['medium','medium','medium','medium'],
     'Sleepy Saturdays': ['easy','easy','easy','easy'],
-    'Standard Sundays': ['hard','hard','hard','hard']
+    'Standard Sundays': ['medium','medium','medium','medium']
 }
 
 weekly = ['Medium Mondays','Trouble Teusdays','Wild Wednesday','Tryhard Thursdays','Flyin Fridays','Sleepy Saturdays','Standard Sundays']
