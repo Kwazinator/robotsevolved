@@ -26,7 +26,7 @@ if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
     dayonnow = 0
-    dayofweek = 0
+    dayofweek = -1
     weekly = deque(weekly)
     weekly.rotate(dayofweek)
     while (True):
