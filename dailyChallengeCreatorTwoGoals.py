@@ -11,7 +11,7 @@ from collections import deque
 
 week = {
     'Medium Mondays': ['medium','medium','medium','medium'],
-    'Trouble Tuesdays': ['easy','easy','easy','easy'],
+    'Trouble Tuesdays': ['hard','hard','hard','hard'],
     'Wild Wednesday': ['medium','medium','medium','medium'],
     'Tryhard Thursdays': ['hard','hard','hard','hard'],
     'Flyin Fridays': ['medium','medium','medium','medium'],
