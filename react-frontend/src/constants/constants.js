@@ -7,9 +7,9 @@ export const MAX_HEIGHT = 16*40;
 
 export const MOBILE_INNER_SCREEN_WIDTH = '960';
 
-export const SQUARE_CORE_COLOR = '#e1e1e1';
-export const SQUARE_INNER_COLOR = '#c4a1a1';
-export const SQUARE_OUTSIDE_COLOR = '#807878';
+export const SQUARE_CORE_COLOR = '#d8dbd0';
+export const SQUARE_INNER_COLOR = '#d8dbd0';
+export const SQUARE_OUTSIDE_COLOR = '#acada8';
 
 export const ROBOT_GREEN = '#228b22';
 export const ROBOT_BLUE = '#4169e1';
