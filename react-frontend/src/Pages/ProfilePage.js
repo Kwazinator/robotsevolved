@@ -47,28 +47,29 @@ export default function ProfilePage(props) {
     };
 
 
-    const createData = (name,col1,col2) => {
-        return {name,col1,col2}
+    const createData = (name,col1,col2,col3) => {
+        return {name,col1,col2,col3}
     }
 
     const columns = [
           { id: 'difficulty', label: 'Difficulty', maxWidth: 75 },
           { id: 'classic', label: 'Classic', maxWidth: 75 },
           { id: 'random', label: 'Random', maxWidth: 75 },
+          { id: 'classic V2', label: 'Classic V2', maxWidth: 75},
         ];
-
+    console.log(props);
     const rows = [
-        createData('Easy', props.puzzlerushview.maxeasyc,props.puzzlerushview.maxeasyp),
-        createData('Medium', props.puzzlerushview.maxmediumc,props.puzzlerushview.maxmediump),
-        createData('Hard', props.puzzlerushview.maxhardc,props.puzzlerushview.maxhardp),
-        createData('Extremely Hard', props.puzzlerushview.maxexhardc,props.puzzlerushview.maxexhardp)
+        createData('Easy', props.puzzlerushview.maxeasyc,props.puzzlerushview.maxeasyp,props.puzzlerushview.maxeasyc2),
+        createData('Medium', props.puzzlerushview.maxmediumc,props.puzzlerushview.maxmediump,props.puzzlerushview.maxmediumc2),
+        createData('Hard', props.puzzlerushview.maxhardc,props.puzzlerushview.maxhardp, props.puzzlerushview.maxhardc2),
+        createData('Extremely Hard', props.puzzlerushview.maxexhardc,props.puzzlerushview.maxexhardp, props.puzzlerushview.maxexhardc2)
     ]
 
     const rowseff = [
-        createData('Easy', props.puzzlerushview.maxeffec,props.puzzlerushview.maxeffep),
-        createData('Medium', props.puzzlerushview.maxeffmc,props.puzzlerushview.maxeffmp),
-        createData('Hard', props.puzzlerushview.maxeffhc,props.puzzlerushview.maxeffhp),
-        createData('Extremely Hard', props.puzzlerushview.maxeffexc,props.puzzlerushview.maxeffexp)
+        createData('Easy', props.puzzlerushview.maxeffec,props.puzzlerushview.maxeffep,props.puzzlerushview.maxeffec2),
+        createData('Medium', props.puzzlerushview.maxeffmc,props.puzzlerushview.maxeffmp,props.puzzlerushview.maxeffmc2),
+        createData('Hard', props.puzzlerushview.maxeffhc,props.puzzlerushview.maxeffhp,props.puzzlerushview.maxeffhc2),
+        createData('Extremely Hard', props.puzzlerushview.maxeffexc,props.puzzlerushview.maxeffexp,props.puzzlerushview.maxeffexc2)
     ]
 
     const [error, setError] = React.useState(null)
@@ -162,6 +163,7 @@ export default function ProfilePage(props) {
                                   </TableCell>
                                   <TableCell align="left">{row.col1}</TableCell>
                                   <TableCell align="left">{row.col2}</TableCell>
+                                  <TableCell aligh="left">{row.col3}</TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>
@@ -192,6 +194,7 @@ export default function ProfilePage(props) {
                                   </TableCell>
                                   <TableCell align="left">{row.col1}</TableCell>
                                   <TableCell align="left">{row.col2}</TableCell>
+                                  <TableCell aligh="left">{row.col3}</TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>

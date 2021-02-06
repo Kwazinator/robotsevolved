@@ -1,6 +1,6 @@
 class PuzzleRushStatsProfileView:
 
-    def __init__(self, maxeasyc,maxmediumc,maxhardc,maxexhardc,maxeasyp,maxmediump,maxhardp,maxexhardp,maxeffec,maxeffmc,maxeffhc,maxeffexc,maxeffep,maxeffmp,maxeffhp,maxeffexp):
+    def __init__(self, maxeasyc,maxmediumc,maxhardc,maxexhardc,maxeasyp,maxmediump,maxhardp,maxexhardp,maxeasyc2,maxmediumc2,maxhardc2,maxexhardc2,maxeffec,maxeffmc,maxeffhc,maxeffexc,maxeffep,maxeffmp,maxeffhp,maxeffexp,maxeffec2,maxeffmc2,maxeffhc2,maxeffexc2):
         self.maxeasyc = str(maxeasyc)
         self.maxmediumc = str(maxmediumc)
         self.maxhardc = str(maxhardc)
@@ -9,6 +9,10 @@ class PuzzleRushStatsProfileView:
         self.maxmediump = str(maxmediump)
         self.maxhardp = str(maxhardp)
         self.maxexhardp = str(maxexhardp)
+        self.maxeasyc2 = str(maxeasyc2)
+        self.maxmediumc2 = str(maxmediumc2)
+        self.maxhardc2 = str(maxhardc2)
+        self.maxexhardc2 = str(maxexhardc2)
         self.maxeffec = str(maxeffec)
         self.maxeffmc = str(maxeffmc)
         self.maxeffhc = str(maxeffhc)
@@ -17,6 +21,10 @@ class PuzzleRushStatsProfileView:
         self.maxeffmp = str(maxeffmp)
         self.maxeffhp = str(maxeffhp)
         self.maxeffexp = str(maxeffexp)
+        self.maxeffec2 = str(maxeffec2)
+        self.maxeffmc2 = str(maxeffmc2)
+        self.maxeffhc2 = str(maxeffhc2)
+        self.maxeffexc2 = str(maxeffexc2)
 
     def serialize(self):
         return {
@@ -28,6 +36,10 @@ class PuzzleRushStatsProfileView:
                 'maxmediump': self.maxmediump,
                 'maxhardp': self.maxhardp,
                 'maxexhardp': self.maxexhardp,
+                'maxeasyc2': self.maxeasyc2,
+                'maxmediumc2': self.maxmediumc2,
+                'maxhardc2': self.maxhardc2,
+                'maxexhardc2': self.maxexhardc2,
                 'maxeffec': self.maxeffec,
                 'maxeffmc': self.maxeffmc,
                 'maxeffhc': self.maxeffhc,
@@ -35,7 +47,11 @@ class PuzzleRushStatsProfileView:
                 'maxeffep': self.maxeffep,
                 'maxeffmp': self.maxeffmp,
                 'maxeffhp': self.maxeffhp,
-                'maxeffexp': self.maxeffexp
+                'maxeffexp': self.maxeffexp,
+                'maxeffec2': self.maxeffec2,
+                'maxeffmc2': self.maxeffmc2,
+                'maxeffhc2': self.maxeffhc2,
+                'maxeffexc2': self.maxeffexc2
         }
 
 

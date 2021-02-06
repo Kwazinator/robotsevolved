@@ -62,6 +62,10 @@ class PuzzleRushDAO:
         (select MAX(score) from puzzle_rush where difficulty='medium' and user_id=%s and type='algo' and totalMoves is not null),
         (select MAX(score) from puzzle_rush where difficulty='hard' and user_id=%s and type='algo' and totalMoves is not null),
         (select MAX(score) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and type='algo' and totalMoves is not null),
+        (select MAX(score) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and type='classic v2' and totalMoves is not null),
+        (select MAX(score) from puzzle_rush where difficulty='medium' and user_id=%s and type='classic v2' and totalMoves is not null),
+        (select MAX(score) from puzzle_rush where difficulty='hard' and user_id=%s and type='classic v2' and totalMoves is not null),
+        (select MAX(score) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and type='classic v2' and totalMoves is not null),
         (select MAX(score * 7 - differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null and type='classic'),
         (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='classic'),
         (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='classic'),
@@ -69,11 +73,15 @@ class PuzzleRushDAO:
         (select MAX(score * 7 - differenceFrom) from puzzle_rush pr1 where difficulty='easy' and user_id=%s and totalMoves is not null and type='algo'),
         (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='algo'),
         (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='algo'),
-        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='algo')
-        ''', (user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id))
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='algo'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='easy' and user_id=%s and totalMoves is not null and type='classic v2'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='medium' and user_id=%s and totalMoves is not null and type='classic v2'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='hard' and user_id=%s and totalMoves is not null and type='classic v2'),
+        (select MAX(score * 7 - differenceFrom) from puzzle_rush where difficulty='Exteremely Hard' and user_id=%s and totalMoves is not null and type='classic v2')
+        ''', (user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id,user_id))
         row = cursor.fetchone()
         if row is not None:
-            return PuzzleRushStatsProfileView(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15]).serialize()
+            return PuzzleRushStatsProfileView(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20],row[21],row[22],row[23]).serialize()
         else:
             return None
 
