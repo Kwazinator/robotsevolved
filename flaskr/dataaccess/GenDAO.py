@@ -101,9 +101,16 @@ class GenDAO:
     def get_daily_challenge_highscores(self,dc_id):
         cursor = get_db().cursor()
         highscores = list()
-        cursor.execute('SELECT * FROM daily_challenge_submit WHERE dc_id=%s ORDER by score ASC, submitted ASC',(dc_id,))
+        cursor.execute('''SELECT dcs.*,u.logintype FROM daily_challenge_submit dcs
+                          JOIN user u on dcs.user_id = u.user_id
+                          WHERE dc_id=%s
+                          ORDER by score ASC, submitted ASC''',(dc_id,))
         for row in cursor.fetchall():
-            highscores.append(Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],(row[6] - timedelta(hours=4)).strftime('%I:%M:%S %p').lstrip("0").replace(" 0", " "),row[7]).serialize())
+            if row[8] == 'anon':
+                userID = 1
+            else:
+                userID = row[2]
+            highscores.append(Daily_Challenge_Solution(row[0], row[1], userID, row[3], row[4], row[5],(row[6] - timedelta(hours=4)).strftime('%I:%M:%S %p').lstrip("0").replace(" 0", " "),row[7]).serialize())
         return highscores
 
     def get_daily_challenge_moves(self,dc_id,user_id):

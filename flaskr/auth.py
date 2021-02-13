@@ -62,6 +62,21 @@ def new_facebook_login(id,username,email,pictureUrl):
     finally:
         return response
 
+def anon_user_login():
+    try:
+        user_id = UserService().insert_user('', 'anon', 1, '/static/images/astronaut.png', 'none', 'N')
+        jwt = UserService().create_jwt(user_id)
+        response = redirect(url_for('index.index'))
+        set_access_cookies(response, jwt['access_token'])
+        set_refresh_cookies(response, jwt['refresh_token'])
+        current_app.logger.info('registered user!')
+    except Exception as e:
+        print(e)
+        response = redirect(url_for('index.index'))
+    finally:
+        return response
+
+
 @bp.route('/logout')
 def logout():
     session.clear()

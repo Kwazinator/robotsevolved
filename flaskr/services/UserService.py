@@ -21,6 +21,8 @@ class UserService:
     def get_user_puzzlerush_view(self,userID):
         return UserDAO().get_user_puzzlerush_view(userID)
 
+    def change_name(self, user_id, username):
+        return UserDAO().change_username(user_id, username)
 
     def insert_user(self,username,logintype, accountID, profilePicture, email, activeFlag):
         return UserDAO().insert_user(username,logintype, accountID, profilePicture, email, activeFlag)

@@ -8,6 +8,7 @@ from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
 import re
+import flaskr.auth as auth
 from flaskr.solutionChecker import checkSolution
 from werkzeug.exceptions import HTTPException
 
@@ -83,18 +84,21 @@ def get_learned_games():
 
 
 
+
 @bp.route('/')
 @jwt_optional
 def index():
     userID = get_jwt_identity()
-    user = None
+    if (userID is None):
+        return auth.anon_user_login()
     dc_id = GeneratorService().get_daily_challenge_id()
     loggedin = 'No'
     learngameslist = get_learned_games()
     metatagcontent = "Competetive board game Insipred by Ricochet Robots"
     urlformeta = "http://robotsevolved.com"
-    if (userID is not None):
-        user = UserService().get_user(get_jwt_identity()).serialize()
+    user = UserService().get_user(get_jwt_identity()).serialize()
+    print(user)
+    if (user['logintype'] != 'anon'):
         loggedin = 'Yes'
     return render_template('index.html',urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='')
 
@@ -169,10 +173,11 @@ def settingsChange():
 def play(uri):
     dc_id = GeneratorService().get_daily_challenge_id()
     userID = get_jwt_identity()
-    user = None
+    if (userID is None):
+        return auth.anon_user_login()
+    user = UserService().get_user(get_jwt_identity()).serialize()
     loggedin = 'No'
-    if (userID is not None):
-        user = UserService().get_user(get_jwt_identity()).serialize()
+    if (user['logintype'] != 'anon'):
         loggedin = 'Yes'
     else:
         userID = 1

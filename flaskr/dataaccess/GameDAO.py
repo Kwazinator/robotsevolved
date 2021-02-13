@@ -168,9 +168,15 @@ class GameDAO:
         db = get_db()
         cursor = db.cursor()
         highscores = list()
-        cursor.execute('SELECT * from solutions where gameid = %s ORDER BY numMoves,created ASC', (id,))
+        cursor.execute('''SELECT s.*,u.logintype from solutions s
+                          JOIN user u on u.user_id = s.userid
+                          WHERE s.gameid = %s ORDER BY numMoves,created ASC''', (id,))
         for row in cursor.fetchall():
-            highscores.append(Solutions(row[0],row[1],row[2],row[3],row[4],row[5],row[6],(row[7] - timedelta(hours=4)).strftime('%b %d, %Y %I:%M%p').lstrip("0").replace(" 0", " ")).serialize())
+            if row[8] == 'anon':
+                userID = 1
+            else:
+                userID = row[3]
+            highscores.append(Solutions(row[0],row[1],row[2],userID,row[4],row[5],row[6],(row[7] - timedelta(hours=4)).strftime('%b %d, %Y %I:%M%p').lstrip("0").replace(" 0", " ")).serialize())
         return highscores
 
     def get_all_games(self, numGames,offset):

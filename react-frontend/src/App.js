@@ -179,7 +179,7 @@ class App extends React.Component {
         }
         else {
             if (window.token.g_id == undefined) {
-                const linedir = window.userInfo == undefined ? true : window.userInfo.LineDirFlag === 'Y';
+                const linedir = window.loggedin === 'No' ? true : window.userInfo.LineDirFlag === 'Y';
                 this.state = {
                     PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={linedir} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri} authorname={window.token.authorname} votes={window.token.votes} hasVoted={window.token.hasVoted} signInModalOpen={this.SignInButtonPressed}/>, //when uri is entered to play specific game
                     dailychallengehistoryloaded: false,
@@ -187,7 +187,7 @@ class App extends React.Component {
                 };
             }
             else {
-                const linedir = window.userInfo == undefined ? true : window.userInfo.LineDirFlag === 'Y';
+                const linedir = window.loggedin === 'No' ? true : window.userInfo.LineDirFlag === 'Y';
                 this.state = {
                     PageSelected: <RandomGamePage handleLineDirections={this.handleLineDirections} LineDirections={linedir} randomGame={'Yes'} game={window.token} difficulty={window.token.g_difficulty}/>,
                     dailychallengehistoryloaded: false,

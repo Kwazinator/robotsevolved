@@ -3,8 +3,10 @@ from flask import (
 )
 from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
+from flaskr.services.UserService import UserService
 from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
 import json
+import flaskr.auth as auth
 import re
 
 bp = Blueprint('dailychallenge', __name__)
@@ -30,11 +32,15 @@ def trimstring(stringtotrim):
 def daily_challenge():
     data = request.get_json()
     userID = get_jwt_identity()
-    if (userID is not None):
+    if (userID is None):
+        return auth.anon_user_login()
+    user = UserService().get_user(get_jwt_identity()).serialize()
+    if (user['logintype'] != 'anon'):
         value = GeneratorService().insert_daily_challenge_submit(data['score'], userID, json.dumps(data['solutiondata']), trimstring(data['name']),
                                                          data['dc_id'], json.dumps(data['playerStateList']))
     else:
-        value = GeneratorService().insert_daily_challenge_submit(data['score'], 1, json.dumps(data['solutiondata']), trimstring(data['name']),
+        UserService().change_name(userID, trimstring(data['name']))
+        value = GeneratorService().insert_daily_challenge_submit(data['score'], userID, json.dumps(data['solutiondata']), trimstring(data['name']),
                                                          data['dc_id'], json.dumps(data['playerStateList']))
     return value
 

@@ -26,6 +26,7 @@ class UserDAO:
         finally:
             pass
 
+
     def insert_user(self,username, logintype, accountID, profilePicture, email, activeFlag):
         try:
             db = get_db()

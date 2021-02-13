@@ -489,7 +489,7 @@ class Game extends React.Component {
         state.moveHistory = [];
         state.createMode = 'No';
         var username = 'Anonymous';
-        if (window.userInfo !== null) {
+        if (window.loggedin === 'Yes') {
             username = window.userInfo.username
         }
         axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory,type: 'Campaign'}))
@@ -514,7 +514,7 @@ class Game extends React.Component {
         state.moveHistory = [];
         state.createMode = 'No';
         var username = 'Anonymous';
-        if (window.userInfo !== null) {
+        if (window.loggedin === 'Yes') {
             username = window.userInfo.username
         }
         axios.post('/submitpuzzle', extend({puzzledata: state},{name: namesubmit,authorname: username,moveHistory: themoveHistory,type: 'type'}))
@@ -822,7 +822,7 @@ class Game extends React.Component {
                 this.setState({gameWon: true});
             if (this.state.createMode === 'No' && this.props.puzzleRush !== 'Yes') {
                 var username = '';
-                if (window.userInfo !== null) {
+                if (window.loggedin === 'Yes') {
                     username = window.userInfo.username
                 }
                 if (this.props.randomGame === 'Yes') {
