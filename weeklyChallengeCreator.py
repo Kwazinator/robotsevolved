@@ -40,7 +40,7 @@ def solver(lowerbound, upperbound, type):
             print('error')
             return
         if (lowerbound <= moves <= upperbound):
-            print('found solution of ' + moves + ' moves')
+            print('found solution of ' + str(moves) + ' moves')
             return {
                     'puzzledata': solution,
                     'moves': moves,
