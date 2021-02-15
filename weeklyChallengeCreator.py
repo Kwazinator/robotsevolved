@@ -17,18 +17,29 @@ def solver(lowerbound, upperbound, type):
     print(type)
     while (True):
         if type == '2goalsclassic':
-            solution = generator.formatsolutiondataTwoGoal(generator.solver2(generator.boardgeneratorclassicTwoGoals()))
+            solution = generator.solver2(generator.boardgeneratorclassicTwoGoals())
+            moves = solution['moves']
+            solutiondata = solution['solutiondata']
+            solution = generator.formatsolutiondataTwoGoal(solution)
         elif type == '1goalclassic':
-            solution = generator.formatsolutiondata(generator.solver(generator.boardgeneratorclassic()))
+            solution = generator.solver(generator.boardgeneratorclassic())
+            moves = solution['moves']
+            solutiondata = solution['solutiondata']
+            solution = generator.formatsolutiondata(solution)
         elif type == '2goalrandom':
-            solution = generator.formatsolutiondataTwoGoal(generator.solver2(generator.boardgeneratorRandomTwoGoals()))
+            solution = generator.solver2(generator.boardgeneratorRandomTwoGoals())
+            moves = solution['moves']
+            solutiondata = solution['solutiondata']
+            solution = generator.formatsolutiondataTwoGoal(solution)
         elif type == '1goalrandom':
-            solution = generator.formatsolutiondata(generator.solver(generator.boardgenerator()))
+            solution = generator.solver(generator.boardgenerator())
+            moves = solution['moves']
+            solutiondata = solution['solutiondata']
+            solution = generator.formatsolutiondata(solution)
         else:
             print('error')
-        moves = solution['moves']
+            return
         if (lowerbound <= moves <= upperbound):
-            solutiondata = solution['solutiondata']
             return {
                     'puzzledata': solution,
                     'moves': moves,
