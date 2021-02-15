@@ -40,6 +40,7 @@ def solver(lowerbound, upperbound, type):
             print('error')
             return
         if (lowerbound <= moves <= upperbound):
+            print('found solution of ' + moves + ' moves')
             return {
                     'puzzledata': solution,
                     'moves': moves,
@@ -77,9 +78,8 @@ if __name__ == "__main__":
         weekpuzzles.append(solution5)
         app = flaskr.create_app()
         with app.app_context():
-            totalMoves = 0
+            totalMoves = 100
             listid = list()
-            totalMoves += puzzle['moves']
             numberfortheWC = WeeklyChallengeService().insert_weekly_challenge(now + timedelta(weeks=weekonnow), totalMoves)
             for puzzle in weekpuzzles:
                 print('found ' + ' puzzle of ' + str(puzzle['moves']) + ' moves')

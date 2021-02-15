@@ -176,9 +176,6 @@ def boardgeneratorclassicTwoGoals():
                 walls = classicstruct(i * 3 + 1, j * 3 + 1, randomnum)
                 wallHorizontal.append(walls[1])
                 wallVerticle.append(walls[0])
-
-    # randomize top walls
-    print(countwalls)
     thenum = random.randint(0, countwalls - 1)
     thenum2 = random.randint(0, countwalls - 1)
     while thenum2 == thenum:
@@ -319,7 +316,6 @@ def boardgeneratorclassic():
                 wallVerticle.append(walls[0])
 
     #randomize top walls
-    print(countwalls)
     thenum = random.randint(0,countwalls - 1)
     goalpos = goalposlist[thenum]
 
@@ -628,8 +624,6 @@ def solver2(gamejson):
     #token is from tokenlist
     grid1 = grid
     #edit token here
-    print(goal)
-    print(goal2)
     if goal['colorSignifier'] == 'blue':
         token = 'BH'
     elif goal['colorSignifier'] == 'green':
@@ -652,9 +646,6 @@ def solver2(gamejson):
     for x, space in enumerate(grid1):
         if (space == ''):
             grid1[x] = 'X'
-
-
-    print(grid1)
     # threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
     path = ricochet.search2(model.Game2(grid=grid1, robots=robots, col=colors, token=token, token2=token2))
     solution = list()
@@ -762,12 +753,6 @@ def solver(gamejson):
         #threadArray.append(threading.Thread(target=runSearch, args=(grid1,robots,colors,token,result)))
         paths.append(ricochet.search(model.Game(grid=grid1, robots=robots, col=colors, token=token)))
 
-    '''for thread in threadArray:
-        thread.start()
-    for thread in threadArray:
-        thread.join()
-    print(result)
-'''
     jsoning = json.loads(json.dumps(paths, indent=4))
     solutionnumbers = list()
     newpaths = list()
