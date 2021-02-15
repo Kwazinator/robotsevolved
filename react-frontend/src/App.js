@@ -58,6 +58,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import LoadingPage from './components/LoadingPage';
 import ChatIcon from '@material-ui/icons/Chat';
 import Popover from "@material-ui/core/Popover";
+import GiPuzzle from "react-icons/gi";
 
 
 const drawerWidth = 240;
@@ -474,6 +475,38 @@ class App extends React.Component {
         })
     }
 
+    handleWeeklyClick = event => {
+        this.state.loadingPage = true;
+        axios.get('/getWeeklyChallengeData')
+            .then( res => {
+                    var isOpen = this.state.open;
+                    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                        isOpen = false
+                    }
+                    const wc_movesList = res.data.wc_movesList == null ? null : JSON.parse(res.data.wc_movesList)
+                    const wc_playerList = res.data.wc_playerList == null ? null : JSON.parse(res.data.wc_playerList)
+                    if (this.state.loadingPage) {
+                        this.setState({
+                                        PageSelected: <WeeklyChallengePage
+                                                            handleWeeklyClick={this.handleWeeklyClick}
+                                                            weeklyChallengeGameslist={JSON.parse(res.data.weeklyChallengeGameslist)}
+                                                            wc_id={res.data.wc_id}
+                                                            wchighscores={JSON.parse(res.data.wchighscores)}
+                                                            handleLineDirections={this.handleLineDirections}
+                                                            LineDirections={this.state.LineDirections}
+                                                            savedMoves={wc_movesList}
+                                                            playerStateList={wc_playerList}
+                                        />,
+                                        open: isOpen,
+                                        loadingPage: false,
+                                    });
+                        }
+                    });
+        this.setState({
+            PageSelected: <LoadingPage/>,
+        });
+    };
+
     handleClickFindGame = event => {
         event.preventDefault();
         this.state.loadingPage = true;
@@ -651,6 +684,10 @@ class App extends React.Component {
                             <ListItem button key={'Find a Game'} onClick={this.handleClickFindGame}>
                                 <ListItemIcon><SearchIcon /></ListItemIcon>
                                 <ListItemText primary={'Find a Game'} />
+                            </ListItem>
+                            <ListItem button key={'Weekly 100'} onClick={this.handleWeeklyClick}>
+                                <ListItemIcon><GiPuzzle /> </ListItemIcon>
+                                <ListItemText primary={'Weekly 100'} />
                             </ListItem>
                             <ListItem button key={'Daily Challenge'} onClick={this.handleClickDailyChallenge}>
                                 <ListItemIcon><TodayIcon /></ListItemIcon>
