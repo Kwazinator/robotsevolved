@@ -127,3 +127,6 @@ DELETE from `Robots`.puzzle_rush WHERE 1=1;
 DELETE from `Robots`.daily_challenge_submit WHERE 1=1;
 DELETE from `Robots`.daily_challenge WHERE 1=1;
 INSERT into `Robots-Dev`.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VALUES (1,2,3,4,41);
+
+INSERT into `Robots-Dev`.weekly_challenge_submit (score,user_id,solutiondata,name,wc_id,playerStateList)
+VALUES (100,3,'','',1,'');

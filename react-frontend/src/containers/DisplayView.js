@@ -92,7 +92,7 @@ class DisplayView extends React.Component {
     };
 
     showPuzzleLink = () => {
-        if (this.props.createMode === 'Yes' || this.props.isPuzzleRush === 'Yes' || this.props.isLesson === 'Yes' || this.props.isDailyChallengeAnswers === 'Yes' || this.props.isDailyChallenge === 'Yes') {
+        if (this.props.createMode === 'Yes' || this.props.isPuzzleRush === 'Yes' || this.props.isLesson === 'Yes' || this.props.isDailyChallengeAnswers === 'Yes' || this.props.isDailyChallenge === 'Yes' || this.props.isWeeklyChallenge === 'Yes') {
             return null;
         }
         else {

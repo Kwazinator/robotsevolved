@@ -207,6 +207,43 @@ class Game extends React.Component {
                 this.state.coloredGoals = [];
             }
         }
+        else if (this.props.weeklyChallengeMode === 'Yes') {
+            this.state = JSON.parse(this.props.games[0].g_puzzledata)
+            this.state.dailyDayName = 'Weekly 100';
+            this.state.goals = [];
+            this.props.games.map(game => {
+                var gamedata = JSON.parse(game.g_puzzledata)
+                this.state.goals.push(gamedata.goal)
+            })
+            this.state.games = this.props.games
+            this.state.gameWon = false;
+            this.state.ColoredLineDirections = [];
+            this.state.showBoardResetPanelModal = false;
+            this.state.copiedToClipboard = false;
+            this.state.numPuzzleon = 0;
+            this.state.createMode = 'No';
+            this.state.buildMode = false;
+            this.state.totalMovesList = [];
+            this.state.solutiondifference = [];
+            this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
+            this.state.gamesWonDaily = [false,false,false,false,false];
+            if (this.props.savedMoves != null) {
+                this.state.moveHistoryList = this.props.savedMoves
+                this.state.gamesWonDaily = [true,true,true,true,true]
+                this.state.moveHistory = this.props.savedMoves[0].slice()
+                this.state.playerState = this.props.playerStateList[0].slice()
+            }
+            else {
+                this.state.moveHistoryList=[];
+            }
+            this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
+            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST, the page will refresh automatically'];
+            this.state.highscores = this.props.highscores;
+            this.state.wc_id = this.props.wc_id;
+            if (this.state.coloredGoals == undefined) {
+                this.state.coloredGoals = [];
+            }
+        }
         else if (this.props.dailyChallengeMode === 'Yes') {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
             this.state.dailyDayName = this.props.games[0].g_name
@@ -834,6 +871,44 @@ class Game extends React.Component {
                 else if (this.props.dailyChallengeModeAnswers === 'Yes') {
                     return null
                 }
+                else if (this.props.weeklyChallengeMode === 'Yes') {
+                    var Won=true
+                    if (window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
+                        window.dailyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
+                        window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
+                    }
+                    this.state.gamesWonDaily.map((gameWon,index) => {
+                        if (!(index == this.state.numPuzzleon) && !gameWon) {
+                            Won = false
+                        }
+                    });
+                    var moveHistoryList = this.state.moveHistoryList
+                    moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
+                    var numMoves = 0
+                    moveHistoryList.map(moveHistory => {
+                        numMoves += moveHistory.length
+                    });
+                    return (Won ? <YouWinDailyFinalModal
+                        show={this.state.gameWon}
+                        numMoves={numMoves}
+                        submitAnswer={this.submitDailyAnswer}
+                        resetPuzzle={this.resetPuzzle}
+                        username={username}
+                        undoMove={this.handleUndoMove}
+                        newPlayerState={newPlayerState}
+                        submitted={this.state.dailySubmittedSucessfully}
+                    /> : <YouWinDailySingleModal
+                        show={this.state.gameWon}
+                        numMoves={this.state.moveHistory.length}
+                        totalMoves={numMoves}
+                        undoMove={this.handleUndoMove}
+                        resetPuzzle={this.resetPuzzle}
+                        games={this.state.games}
+                        handleClickGame={this.handleDailyClickGame}
+                        numPuzzleon={this.state.numPuzzleon}
+                        moveNextPuzzle={this.moveNextPuzzle}
+                    />);
+                }
                 else if (this.props.dailyChallengeMode === 'Yes') {
                     var Won=true
                     if (window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
@@ -1215,6 +1290,45 @@ class Game extends React.Component {
                 </Grid>
             )
         }
+        else if (this.props.weeklyChallengeMode === 'Yes') {
+            return(
+                <Grid container xs={12} direction="column">
+                    <Grid item xs={12}>
+                        <DailyMovesView
+                            moveHistory={window.dailyChallengeSessionBestHistory[this.state.numPuzzleon]}
+                            playerState={window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon]}
+                            resetToBest={this.resetToBest}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography
+                            color="secondary"
+                            display="block"
+                            variant={"h4"}
+
+                        >
+                            {this.state.dailyDayName}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ButtonGroup
+                            orientation="vertical"
+                            style={{width: '100%'}}
+                            aria-label="vertical contained primary button group"
+                            variant="contained">
+                            {
+                                this.state.games.map((game,index) =>
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickGame}/>
+                                )
+                            }
+                        </ButtonGroup>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <DailyChallengeScores highscores={this.state.highscores}/>
+                    </Grid>
+                </Grid>
+            )
+        }
         else if (this.props.dailyChallengeMode === 'Yes') {
             return(
                 <Grid container xs={12} direction="column">
@@ -1535,6 +1649,7 @@ class Game extends React.Component {
                         isLesson = {this.props.learnMode}
                         isDailyChallenge = {this.props.dailyChallengeMode}
                         isDailyChallengeAnswers = {this.props.dailyChallengeModeAnswers}
+                        isWeeklyChallenge = {this.props.weeklyChallengeMode}
                     />
                     {this.state.flashMessage}
                     {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? null : <MovesView moveHistory={this.state.moveHistory} playerState={this.state.playerState}/>}

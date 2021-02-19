@@ -104,3 +104,16 @@ CREATE TABLE vote (
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (game_id) REFERENCES game(game_id)
 );
+
+CREATE TABLE weekly_challenge_submit (
+    wcs_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    score INTEGER NOT NULL,
+    user_id INTEGER DEFAULT 0,
+    solutiondata MEDIUMTEXT NOT NULL,
+    name TEXT NOT NULL,
+    wc_id INTEGER NOT NULL,
+    submitted datetime DEFAULT CURRENT_TIMESTAMP,
+    playerStateList mediumtext NOT NULL,
+    FOREIGN KEY (wc_id) REFERENCES weekly_challenge(wc_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);

@@ -11,6 +11,7 @@ import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
 import PlayGame from './Pages/PlayGame';
 import Home from './Pages/Home';
+import WeeklyChallengePage from './Pages/WeeklyChallengePage';
 import LoginModal from './containers/Modals/LoginModal';
 import LoggedInUser from './components/LoggedInUser';
 import SignInButton from './components/SignInButton';
@@ -58,7 +59,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import LoadingPage from './components/LoadingPage';
 import ChatIcon from '@material-ui/icons/Chat';
 import Popover from "@material-ui/core/Popover";
-import GiPuzzle from "react-icons/gi";
+import {GiPuzzle} from "react-icons/gi";
 
 
 const drawerWidth = 240;
@@ -477,8 +478,9 @@ class App extends React.Component {
 
     handleWeeklyClick = event => {
         this.state.loadingPage = true;
-        axios.get('/getWeeklyChallengeData')
+        axios.get('/getWCData')
             .then( res => {
+                    console.log(res.data);
                     var isOpen = this.state.open;
                     if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
                         isOpen = false
