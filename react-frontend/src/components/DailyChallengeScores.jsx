@@ -37,19 +37,23 @@ const highscorestyle = highscore => {
                 <Paper elevation={3}>
                     <Grid container spacing={0}>
                         <Grid item xs={9}>
-                            <Typography color={'primary'} style={{float: 'left'}}>
-                                {highscore.name}
-                            </Typography>
+                            <div style={{display: "flex", marginLeft: 1}}>
+                                <Typography noWrap color={'primary'} style={{float: 'left'}}>
+                                    {highscore.name}
+                                </Typography>
+                            </div>
                         </Grid>
                         <Grid item xs={3}>
-                                {highscore.wins == 0 || highscore.wins == null ? null : CrownCounter(highscore) }
-                                {highscore.user_id != 1 ? <GoVerified/> : null}
+                            <div style={{display: "inline-flex"}}>
+                                {highscore.wins === 0 || highscore.wins === null ? null : CrownCounter(highscore) }
+                                {highscore.user_id !== 1 ? <div style={{marginLeft: 6, marginTop: 1}}><GoVerified/></div> : null}
+                            </div>
                         </Grid>
                         <Grid item xs={6}>
-                        <Typography color={'textSecondary'}>{highscore.score}</Typography>
+                            <Typography color={'textSecondary'}>{highscore.score}</Typography>
                         </Grid>
                         <Grid item xs={6}>
-                        <Typography color={'secondary'} variant={'body2'}>{highscore.submitted}</Typography>
+                            <Typography color={'secondary'} variant={'body2'}>{highscore.submitted}</Typography>
                         </Grid>
                      </Grid>
                 </Paper>

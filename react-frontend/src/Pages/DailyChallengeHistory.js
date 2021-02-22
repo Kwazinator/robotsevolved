@@ -45,15 +45,29 @@ export default function DailyChallengeHistory(props) {
                                 aria-controls={"panel" + index + "-content"}
                                 id={"panel" + index + "-header"}
                             >
-                                <Typography className={classes.heading}>{history.created}</Typography>
-                                <Typography style={{width: '15%'}} className={classes.secondaryHeading}>Winner: {history.nameSubmitted}</Typography>
-                                <ShowDailyPuzzleHistory history={history} handleDailyPuzzleHistoryClick={props.handleDailyPuzzleHistoryClick}/>
+                                <Grid container>
+                                    <Grid item xs={4}>
+                                        <Typography className={classes.heading}>{history.created}</Typography>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <Typography noWrap style={{marginLeft: 5, marginRight: 5}} className={classes.secondaryHeading}>{history.nameSubmitted}</Typography>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <ShowDailyPuzzleHistory history={history} handleDailyPuzzleHistoryClick={props.handleDailyPuzzleHistoryClick}/>
+                                    </Grid>
+                                </Grid>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        <FaCrown/> {history.nameSubmitted} - {history.scoreSubmitted} <FaCrown/>
-                                    </Typography>
-                                    <Typography className={classes.secondaryHeading}>Lowest possible solution: {history.bestScore}</Typography>
+                                <Grid container spacing={0}>
+                                    <Grid item xs={12} md={3}>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            <FaCrown/> {history.nameSubmitted} - {history.scoreSubmitted} <FaCrown/>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} md={3}>
+                                        <Typography className={classes.secondaryHeading}>Lowest possible solution: {history.bestScore}</Typography>
+                                    </Grid>
+                                </Grid>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     )

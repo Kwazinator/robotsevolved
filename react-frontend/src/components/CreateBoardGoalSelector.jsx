@@ -35,30 +35,35 @@ export default function CreateBoardGoalSelector(props) {
           control={<Checkbox onClick={handleWildCardClick} checked={wildchecked} color="primary" />}
           label="wildcard"
           labelPlacement="top"
+          disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Blue"
           control={<Checkbox onClick={handleBlueClick} color="primary" />}
           label="blue"
           labelPlacement="top"
+          disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Green"
           control={<Checkbox onClick={handleGreenClick} color="primary" />}
           label="green"
           labelPlacement="top"
+          disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Red"
           control={<Checkbox onClick={handleRedClick} color="primary" />}
           label="red"
           labelPlacement="top"
+          disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Yellow"
           control={<Checkbox onClick={handleYellowClick} color="primary" />}
           label="yellow"
           labelPlacement="top"
+          disabled={!props.buildMode}
         />
       </FormGroup>
     </FormControl>

@@ -141,7 +141,7 @@ export default function ProfilePage(props) {
                         <Typography className={classes.titlehome} variant="h3">Puzzle Rush Records</Typography>
                         <Typography variant="body1">Most Puzzles Solved</Typography>
                         <TableContainer component={Paper}>
-                          <Table className={classes.table} size="small" aria-label="a dense table">
+                          <Table size="small" aria-label="a dense table">
                             <TableHead>
                               <TableRow>
                                   {columns.map((column) => (
@@ -172,7 +172,7 @@ export default function ProfilePage(props) {
                         <Typography style={{marginTop: '40px'}} variant="body1">Highest Efficiency Scores</Typography>
                         <Typography variant="caption">Calculated by (total puzzles completed) * 7 - (total redundany moves from best score)</Typography>
                         <TableContainer component={Paper}>
-                          <Table className={classes.table} size="small" aria-label="a dense table">
+                          <Table size="small" aria-label="a dense table">
                             <TableHead>
                               <TableRow>
                                   {columns.map((column) => (

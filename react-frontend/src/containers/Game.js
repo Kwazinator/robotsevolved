@@ -1257,6 +1257,7 @@ class Game extends React.Component {
         else if (this.state.createMode === 'Yes') {
             return (
                 <CreateBoardGoalSelector
+                    buildMode={this.state.buildMode}
                     handleWildCardClick={this.handleWildCardClick}
                     handleColoredClick={this.handleColoredClick}
                 />
