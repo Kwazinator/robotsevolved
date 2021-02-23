@@ -9,8 +9,8 @@ export default function ShowDailyPuzzleHistory(props) {
         props.handleDailyPuzzleHistoryClick(props.history)
     }
     return (
-            <Button style={window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? {marginLeft: '5px'} : {marginLeft: '60px'}} variant="contained" size="small" color="primary" onClick={handleDailyPuzzleHistoryClick}>
-                 show answers
+            <Button variant="contained" size="small" color="primary" onClick={handleDailyPuzzleHistoryClick}>
+                 answers
             </Button>
     )
 }
