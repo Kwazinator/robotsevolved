@@ -226,10 +226,10 @@ class Game extends React.Component {
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
-            this.state.gamesWonDaily = [false,false,false,false,false];
+            this.state.gamesWonWeekly = [false,false,false,false,false];
             if (this.props.savedMoves != null) {
                 this.state.moveHistoryList = this.props.savedMoves
-                this.state.gamesWonDaily = [true,true,true,true,true]
+                this.state.gamesWonWeekly = [true,true,true,true,true]
                 this.state.moveHistory = this.props.savedMoves[0].slice()
                 this.state.playerState = this.props.playerStateList[0].slice()
             }
@@ -1095,6 +1095,40 @@ class Game extends React.Component {
         );
     }
 
+    handleWeeklyClickGame = index => {
+        var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
+        if (this.state.moveHistoryList[index]==undefined) {
+            var moveHistory = [];
+        }
+        else {
+            var moveHistory = this.state.moveHistoryList[index];
+        }
+
+        if (this.state.playerStateList[index]==undefined) {
+            puzzledata.playerState = puzzledata.playerStart.slice()
+        }
+        else {
+            puzzledata.playerState = this.state.playerStateList[index];
+        }
+        var gamesWonWeekly = this.state.gamesWonWeekly
+        if (this.state.gameWon) {
+            gamesWonWeekly[this.state.numPuzzleon] = true
+        }
+        else {
+            gamesWonWeekly[this.state.numPuzzleon] = false
+        }
+        var playerState = this.state.playerState.slice();
+        var playerStateList = this.state.playerStateList;
+        playerStateList[this.state.numPuzzleon] = playerState;
+        var moveHistoryList = this.state.moveHistoryList;
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
+        this.setState(
+            extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonWeekly: gamesWonWeekly})
+        );
+    }
+
+
+
     handleDailyClickGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
         if (this.state.moveHistoryList[index]==undefined) {
@@ -1318,7 +1352,7 @@ class Game extends React.Component {
                             variant="contained">
                             {
                                 this.state.games.map((game,index) =>
-                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickGame}/>
+                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleWeeklyClickGame}/>
                                 )
                             }
                         </ButtonGroup>
