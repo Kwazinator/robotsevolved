@@ -21,7 +21,6 @@ week = {
 
 weekly = ['Medium Mondays','Trouble Tuesdays','Wild Wednesday','Tryhard Thursdays','Flyin Fridays','Sleepy Saturdays','Standard Sundays']
 
-
 if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
@@ -35,12 +34,21 @@ if __name__ == "__main__":
         NotFound = True
         for puzzleday in weekly:
             daypuzzles = list()
+            classicorrandom = ['c', 'r', 'r', 'c']
+            random.shuffle(classicorrandom)
             for difficultypuzzle in week[puzzleday]:
                 NotFound = True
                 while (NotFound):
-                    solution = generator.solver2(generator.boardgeneratorclassicTwoGoals())
-                    moves = solution['moves']
-                    solutiondata = solution['solutiondata']
+                    if classicorrandom[-1] == 'c':
+                        solution = generator.solver2(generator.boardgeneratorclassicTwoGoals())
+                        moves = solution['moves']
+                        solutiondata = solution['solutiondata']
+                        solution = generator.formatsolutiondataTwoGoal(solution)
+                    else:
+                        solution = generator.solver2(generator.boardgeneratorRandomTwoGoals())
+                        moves = solution['moves']
+                        solutiondata = solution['solutiondata']
+                        solution = generator.formatsolutiondataTwoGoal(solution)
                     if (moves >= 23):
                         puzzleis = 'GodTeir'
                     elif (17 < moves < 23):
@@ -57,12 +65,13 @@ if __name__ == "__main__":
                         daypuzzles.append(
                             {
                                 'difficulty': puzzleis,
-                                'puzzledata': generator.formatsolutiondataTwoGoal(solution),
+                                'puzzledata': solution,
                                 'moves': moves,
                                 'solutiondata': json.dumps(solutiondata)
                             }
                         )
                         NotFound = False
+                        classicorrandom.pop()
             app = flaskr.create_app()
             with app.app_context():
                 totalMoves = 0
