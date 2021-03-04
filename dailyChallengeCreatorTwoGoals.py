@@ -24,8 +24,8 @@ weekly = ['Medium Mondays','Trouble Tuesdays','Wild Wednesday','Tryhard Thursday
 if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
-    dayonnow = 0
-    dayofweek = -1
+    dayonnow = 1
+    dayofweek = -4
     weekly = deque(weekly)
     weekly.rotate(dayofweek)
     while (True):
