@@ -6,7 +6,7 @@ from flask import current_app
 import re
 from flaskr.solutionChecker import checkSolution
 
-class GeneratorService:
+class LeaderboardService:
 
     def __init__(self):
         pass

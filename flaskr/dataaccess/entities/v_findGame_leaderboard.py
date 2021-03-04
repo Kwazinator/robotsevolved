@@ -1,10 +1,13 @@
 class v_findGame_leaderboard:
 
-    def __init__(self, numMoves=None):
-        self.numMoves = numMoves
+    def __init__(self, RealWinnerUsername=None, WinnerUserID=None, Crowns=None):
+        self.Crowns = Crowns
+        self.RealWinnerUsername = RealWinnerUsername
+        self.WinnerUserID = WinnerUserID
 
 
     def serialize(self):
         return {
-            'numMoves': self.numMoves,
+            'Crowns': self.Crowns,
+            'username': self.RealWinnerUsername
         }

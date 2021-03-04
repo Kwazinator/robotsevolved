@@ -1,11 +1,14 @@
 class v_dailyChallenge_leaderboard:
 
-    def __init__(self, numMoves=None):
-        self.numMoves = numMoves
+    def __init__(self, Crowns=None, user_id=None, username=None):
+        self.Crowns = Crowns
+        self.user_id = user_id
+        self.username = username
 
 
     def serialize(self):
         return {
-            'numMoves': self.numMoves,
+            'Crowns': self.Crowns,
+            'username': self.username
         }
 

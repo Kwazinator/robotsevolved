@@ -110,6 +110,9 @@ def create_app(test_config=None):
 
 
 
+    from . import leaderboard
+    app.register_blueprint(leaderboard.bp)
+
     from . import index
     app.register_blueprint(index.bp)
 

@@ -6,6 +6,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Brightness6Icon from '@material-ui/icons/Brightness6';
+import Leaderboard from './Pages/Leaderboard';
 import clsx from 'clsx';
 import CreateGame from './Pages/CreateGame';
 import FindGame from './Pages/FindGame';
@@ -59,7 +60,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import LoadingPage from './components/LoadingPage';
 import ChatIcon from '@material-ui/icons/Chat';
 import Popover from "@material-ui/core/Popover";
-import {GiPuzzle} from "react-icons/gi";
+import {GiPuzzle,GiPodium} from "react-icons/gi";
 
 
 const drawerWidth = 240;
@@ -541,6 +542,36 @@ class App extends React.Component {
     };
 
 
+    handleClickWebsiteLeaderboard = event => {
+        event.preventDefault();
+        this.state.loadingPage = true;
+        axios.get('/leaderboard')
+            .then( res => {
+                const dailyChallenge_leaderboard = res.data.dailyChallenge_leaderboard
+                const findGame_leaderboard = res.data.findGame_leaderboard
+                const puzzle_rush_leaderboard = res.data.puzzle_rush_leaderboard
+                var isOpen = this.state.open;
+                if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                    isOpen = false
+                }
+                if (this.state.loadingPage) {
+                    this.setState({
+                        PageSelected: <Leaderboard
+                                        dailyChallenge_leaderboard={dailyChallenge_leaderboard}
+                                        findGame_leaderboard={findGame_leaderboard}
+                                        puzzle_rush_leaderboard={puzzle_rush_leaderboard}
+                                        />,
+                        open: isOpen,
+                        loadingPage: false,
+                    });
+                }
+        });
+        this.setState({
+            PageSelected: <LoadingPage/>,
+        });
+
+    }
+
     handleClickAboutUs = event => {
         var isOpen = this.state.open;
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
@@ -740,6 +771,10 @@ class App extends React.Component {
                             <ListItem button key={'Daily Challenge History'} onClick={this.handleClickDailyChallengeHistory}>
                                 <ListItemIcon><FaMedal /></ListItemIcon>
                                 <ListItemText primary={'Daily Challenge History'} />
+                            </ListItem>
+                            <ListItem button key={'Website Leaderboard'} onClick={this.handleClickWebsiteLeaderboard}>
+                                <ListItemIcon><GiPodium /></ListItemIcon>
+                                <ListItemText primary={'Website Leaderboard'} />
                             </ListItem>
                         </List>
                         <Divider />
