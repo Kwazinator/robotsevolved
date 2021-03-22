@@ -41,3 +41,14 @@ class WeeklyChallengeService:
 
     def get_wc_moves(self,wc_id,userID):
         return WC_DAO().get_wc_moves(wc_id,userID)
+
+    def has_submitted(self, userID,wc_id):
+        return WC_DAO().has_submitted(userID,wc_id)
+
+    def submit_answer(self,score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon):
+        if self.has_submitted(userID,wc_id):
+            completedinDB = WC_DAO().is_completed(userID,wc_id)
+            if completedinDB == 0 and completed == 0 or completed == 1:
+                return WC_DAO().update_submit_answer(score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon)
+        else:
+            return WC_DAO().insert_submit_answer(score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon)

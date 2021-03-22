@@ -28,34 +28,72 @@ import {GOAL_IMAGE} from '../constants/constants';
 
 export default function ComplexGrid(props) {
     const classes = useStyles();
+    var greeting = window.experiencedUser != 'Yes' ?
+    <div>
+        <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
+        </Typography>
+        <Typography variant="p1" paragraph={true}>Puzzle game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
+        </Typography>
+        <br/>
+        <img width="300" height="300" src='/static/videos/basic2.gif'/>
+        <br/>
+    </div>
+        :
+    <div>
+        <Typography className={classes.titlehome} variant="h3"> NEW! Weekly 100!
+        </Typography>
+        <Typography variant="p1" paragraph={true}> ADDED WASD key movement and changed e-> reset board.
+        </Typography>
+        <Typography variant="p1" paragraph={true}> Weekly 100 mode is out! goal is to get 100 moves for all 5 puzzles anyone who gets 100 will get a crown, very hard! good luck!
+        </Typography>
+        <br/>
+        <Typography variant="p1" paragraph={true}> Checkout the website leaderboard where you can see the best performers in each robots catagory
+        </Typography>
+        <br/>
+    </div>
 
     if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
         return (<div className={classes.homepage} >
                 <Grid container spacing={2}>
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
-                        <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
-                        </Typography>
-                        <Typography variant="p1" paragraph={true}>Puzzle game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
-                        </Typography>
-                        <br/>
-                        <img width="300" height="300" src='/static/videos/basic2.gif'/>
-                        <br/>
+                        {greeting}
                     </Grid>
                     <Grid item xs={12} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}} >
 
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
-                        <Typography> 1/31/2020 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
+                        <Typography> 3/22/2021 added website leaderboard for each of the robots catagories.
                         </Typography>
                         <br/>
-                        <Typography> 11/11/2020 Modified Daily Challenge to make easier
-                        </Typography>
-                        <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
+                        <Typography> 3/22/2021 ADDED WASD for movement keys
                         </Typography>
                         <br/>
-
+                        <Typography> 3/22/2021 Added weekly 100 mode, no time-constraint, just get the answers!! tough one.
+                        </Typography>
+                        <br/>
+                        <Typography> 1/31/2021 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
+                        </Typography>
+                        <br/>
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
+                        <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
+                            <Card className={classes.iconcards}>
+                                <CardActionArea onClick={props.handleClickWeekly100}>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Weekly 100"
+                                        height="140"
+                                        image="/static/images/Weekly100.png"
+                                        title="Weekly 100"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                            Weekly 100
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
                         <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
                             <Card className={classes.iconcards}>
                                 <CardActionArea onClick={props.handleClickFindGame}>
@@ -233,27 +271,43 @@ export default function ComplexGrid(props) {
                             HotKeys
                         </Typography>
                         <Typography variant="h6">Undo</Typography> <img width={'20%'} height={'auto'} src={"/static/images/Qkey.png"}/>
-                        <Typography variant="h6">Reset</Typography> <img width={'20%'} height={'auto'} src={"/static/images/Wkey.png"}/>
+                        <Typography variant="h6">Reset</Typography> <img width={'20%'} height={'auto'} src={"/static/images/Ekey.png"}/>
                     <Divider />
                     <div style={{marginTop:'100px'}}>
                     <Typography className={classes.titlehome} variant="h4"> News
                     </Typography>
-                    <Typography> 1/31/2020 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
-                    </Typography>
-                    <Typography> 11/11/2020 Modified Daily Challenge to make easier
-                    </Typography>
-                    <Typography> 9/15/2020 prevented submission of 0 Move puzzles, CAMPAIGN MODE COMING SOON
-                    </Typography>
+                    <Typography> 3/22/2021 added website leaderboard for each of the robots catagories.
+                        </Typography>
+                        <br/>
+                        <Typography> 3/22/2021 ADDED WASD for movement keys
+                        </Typography>
+                        <br/>
+                        <Typography> 3/22/2021 Added weekly 100 mode, no time-constraint, just get the answers!! tough one.
+                        </Typography>
+                        <br/>
+                        <Typography> 1/31/2021 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
+                        </Typography>
+                        <br/>
                     </div>
                 </Grid>
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
-                    <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
-                    </Typography>
-                    <Typography paragraph={true} variant="p1">Puzzle game for anyone to play! Create your own custom boards or play a random Solved game.<br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
-                    </Typography>
-                    <br/>
-                        <img width="300" height="300" src='/static/videos/basic2.gif'/>
-                    <br/>
+                    {greeting}
+                    <Card className={classes.iconcards}>
+                        <CardActionArea onClick={props.handleClickWeekly100}>
+                            <CardMedia
+                                component="img"
+                                alt="Weekly 100"
+                                height="140"
+                                image="/static/images/Weekly100.png"
+                                title="Weekly 100"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
+                                    Weekly 100
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
                     <Card className={classes.iconcards}>
                       <CardActionArea onClick={props.handleClickFindGame}>
                         <CardMedia

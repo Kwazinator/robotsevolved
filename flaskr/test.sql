@@ -130,3 +130,9 @@ INSERT into `Robots-Dev`.daily_challenge (g_id1,g_id2,g_id3,g_id4,bestScore) VAL
 
 INSERT into `Robots-Dev`.weekly_challenge_submit (score,user_id,solutiondata,name,wc_id,playerStateList)
 VALUES (100,3,'','',1,'');
+
+--Delete non-users
+delete u from `user` u left join
+puzzle_rush pr on pr.user_id = u.user_id left join
+solutions s on s.userid = u.user_id
+where u.username = '' and u.logintype = 'anon' and pr.pr_id is null and s.solutions_id is null

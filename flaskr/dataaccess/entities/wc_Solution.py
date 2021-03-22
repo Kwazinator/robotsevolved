@@ -1,7 +1,7 @@
 from datetime import timedelta
 class wc_Solution:
 
-    def __init__(self, id=None, score=None, user_id=None, solutiondata=None, name=None, wc_id=None, submitted=None, playerStateList=None, logintype=None,wins=None):
+    def __init__(self, id=None, score=None, user_id=None, solutiondata=None, name=None, wc_id=None, submitted=None, playerStateList=None, completed=None,display=None,gamesWon=None,logintype=None,wins=None):
         self.id = id
         self.submitted = (submitted  - timedelta(hours=4)).strftime('%I:%M:%S %p').lstrip("0").replace(" 0", " ")
         self.score = score
@@ -11,6 +11,7 @@ class wc_Solution:
         self.wc_id = wc_id
         self.playerStateList = playerStateList
         self.logintype = logintype
+        self.gamesWon = gamesWon
         self.wins = wins
 
     def serialize(self):
@@ -22,6 +23,7 @@ class wc_Solution:
             'name': self.name,
             'wc_id': self.wc_id,
             'wins': self.wins,
+            'gamesWon': self.gamesWon,
             'logintype': self.logintype
         }
 

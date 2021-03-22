@@ -75,7 +75,7 @@ class WC_DAO:
             SELECT wcs.*,u.logintype
             FROM weekly_challenge_submit wcs
             JOIN user u on wcs.user_id = u.user_id
-            WHERE wc_id=%s
+            WHERE wc_id=%s and completed and display
             ORDER by score ASC, submitted ASC
             ''',(wc_id,))
             for row in cursor.fetchall():
@@ -89,25 +89,108 @@ class WC_DAO:
     def get_wc_moves(self,wc_id,userID):
         cursor = get_db().cursor()
         cursor.execute('''
-            SELECT solutiondata,playerstatelist FROM weekly_challenge_submit WHERE wc_id = %s and user_id = %s LIMIT 1
+            SELECT solutiondata,playerstatelist,gamesWon FROM weekly_challenge_submit WHERE wc_id = %s and user_id = %s LIMIT 1
         ''',(wc_id,userID))
         row = cursor.fetchone()
         if row is None:
             return None
         else:
-            return(row[0],row[1])
+            return(row[0],row[1],row[2])
 
 
     def get_wc_winners(self):
         db = get_db()
         cursor = db.cursor()
         userlistandcrowns = {}
-        print('jhereherererere')
         cursor.execute('''  SELECT COUNT(u.user_id ) as Crowns, u.user_id, u.username FROM weekly_challenge_submit wcs
                             JOIN user u on wcs.user_id = u.user_id
-                            WHERE score=100
+                            WHERE score=100 and completed = 1
                             group by wcs.wcs_id
                             ORDER by Crowns desc''')
         for row in cursor.fetchall():
             userlistandcrowns.update({row[1]: row[0]})
         return userlistandcrowns
+
+    def has_submitted(self,userID,wc_id):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('''
+        select * from weekly_challenge_submit
+        where user_id = %s and wc_id = %s
+        ''',(userID,wc_id))
+        row = cursor.fetchone()
+        if row is None:
+            return False
+        else:
+            return True
+
+    def is_completed(self, userID, wc_id):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('''
+                select completed from weekly_challenge_submit
+                where user_id = %s and wc_id = %s
+                ''', (userID, wc_id))
+        row = cursor.fetchone()
+        return row[0]
+
+    def update_submit_answer(self,score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon):
+        db = get_db()
+        cursor = db.cursor()
+        if display is None:
+            if name is None:
+                cursor.execute('''
+                UPDATE weekly_challenge_submit
+                SET score=%s,solutiondata=%s,playerStateList=%s,completed=%s,gamesWon=%s
+                WHERE user_id=%s and wc_id=%s
+                ''',(score,solutiondata,playerStateList,completed,gamesWon,userID,wc_id))
+            else:
+                cursor.execute('''
+                                UPDATE weekly_challenge_submit
+                                SET score=%s,solutiondata=%s,name=%s,playerStateList=%s,completed=%s,gamesWon=%s
+                                WHERE user_id=%s and wc_id=%s
+                                ''', (score, solutiondata,name, playerStateList, completed,gamesWon, userID, wc_id))
+        elif display == 1:
+            if name is None:
+                cursor.execute('''
+                            UPDATE weekly_challenge_submit
+                            SET score=%s,solutiondata=%s,playerStateList=%s,completed=%s,display=%s,gamesWon=%s
+                            WHERE user_id=%s and wc_id=%s
+                            ''', (score, solutiondata, playerStateList, completed, display,gamesWon,userID, wc_id))
+            else:
+                cursor.execute('''
+                                        UPDATE weekly_challenge_submit
+                                        SET score=%s,solutiondata=%s,name=%s,playerStateList=%s,completed=%s,display=%s,gamesWon=%s
+                                        WHERE user_id=%s and wc_id=%s
+                                        ''',
+                               (score, solutiondata, name, playerStateList, completed, display,gamesWon, userID, wc_id))
+        db.commit()
+        return
+
+    def insert_submit_answer(self,score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon):
+        db = get_db()
+        cursor = db.cursor()
+        if display is None:
+            if name is None:
+                cursor.execute('''
+                        INSERT INTO weekly_challenge_submit (score,user_id,solutiondata,wc_id,playerStateList,completed,gamesWon)
+                        VALUES (%s,%s,%s,%s,%s,%s,%s)
+                        ''', (score, userID, solutiondata, wc_id, playerStateList, completed,gamesWon))
+            else:
+                cursor.execute('''
+                                        INSERT INTO weekly_challenge_submit (score,user_id,solutiondata,name,wc_id,playerStateList,completed,gamesWon)
+                                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                                        ''', (score, userID, solutiondata, name,wc_id, playerStateList, completed,gamesWon))
+        else:
+            if name is None:
+                cursor.execute('''
+                                        INSERT INTO weekly_challenge_submit (score,user_id,solutiondata,wc_id,playerStateList,completed,display,gamesWon)
+                                        VALUES (%s,%s,%s,%s,%s,%s,%s.%s)
+                                        ''', (score, userID, solutiondata, wc_id, playerStateList, completed,display,gamesWon))
+            else:
+                cursor.execute('''
+                                        INSERT INTO weekly_challenge_submit (score,user_id,solutiondata,name,wc_id,playerStateList,completed,display,gamesWon)
+                                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                                        ''', (score, userID, solutiondata,name, wc_id, playerStateList, completed,display,gamesWon))
+        db.commit()
+        return

@@ -175,7 +175,7 @@ class App extends React.Component {
 
         if (window.uri === '') {
             this.state = {
-                PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+                PageSelected: <Home handleClickWeekly100={this.handleWeeklyClick} handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
                 dailychallengehistoryloaded: false,
                 profileDataloaded: false,
             };
@@ -499,6 +499,7 @@ class App extends React.Component {
                                                             LineDirections={this.state.LineDirections}
                                                             savedMoves={wc_movesList}
                                                             playerStateList={wc_playerList}
+                                                            gamesWon={JSON.parse(res.data.wc_gamesWon)}
                                         />,
                                         open: isOpen,
                                         loadingPage: false,
@@ -536,7 +537,7 @@ class App extends React.Component {
 
     handleHomePageClick = () => {
         this.setState({
-            PageSelected: <Home handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+            PageSelected: <Home handleClickWeekly100={this.handleWeeklyClick} handleClickWeekly100={this.handleWeeklyClick} handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
             loadingPage: false,
         });
     };

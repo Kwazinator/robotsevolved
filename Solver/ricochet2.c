@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_DEPTH 28
+#define MAX_DEPTH 24
 
 #define NORTH 0x01
 #define EAST  0x02

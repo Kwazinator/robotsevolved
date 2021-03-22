@@ -100,7 +100,11 @@ def index():
     print(user)
     if (user['logintype'] != 'anon'):
         loggedin = 'Yes'
-    return render_template('index.html',urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='')
+    if (user['logintype'] == 'anon' and user['username'] == ''):
+        experiencedUser = 'No'
+    else:
+        experiencedUser = 'Yes'
+    return render_template('index.html',urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='',experiencedUser=experiencedUser)
 
 @bp.route('/about')
 def about():
@@ -181,6 +185,10 @@ def play(uri):
         loggedin = 'Yes'
     else:
         userID = 1
+    if (user['logintype'] == 'anon' and user['username'] == ''):
+        experiencedUser = 'No'
+    else:
+        experiencedUser = 'Yes'
     gamefromuri = GameService().get_game_uri_from_user_id(uri,userID)
     if 'g_id' not in gamefromuri.keys():
         highscores = json.dumps(GameService().get_highscores(uri))
@@ -194,7 +202,7 @@ def play(uri):
     learngameslist = get_learned_games()
     metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + str(authorname) + '\n' + str(name)
     urlformeta = "http://robotsevolved.com/play/" + str(uri)
-    return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri)
+    return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri,experiencedUser=experiencedUser)
 
 @bp.route('/submitpuzzle', methods=('GET','POST'))
 @jwt_optional
@@ -252,6 +260,9 @@ def submithighscore():
     userID = get_jwt_identity()
     if userID is None:
         userID = 1
+    user = UserService().get_user(userID).serialize()
+    if (user['logintype'] == 'anon' and user['username'] == ''):
+        UserService().change_username(userID,trimstring(data['name']))
     rtnMessage = GameService().insert_highscore(trimstring(data['name']),userID,'test',json.dumps(data['solutiondata']),data['highscore'],data['uri'])
     return rtnMessage
 

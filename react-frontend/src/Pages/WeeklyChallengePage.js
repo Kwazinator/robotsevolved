@@ -18,6 +18,7 @@ class WeeklyChallengePage extends React.Component {
                     games={this.props.weeklyChallengeGameslist}
                     wc_id={this.props.wc_id}
                     highscores={this.props.wchighscores}
+                    gamesWon={this.props.gamesWon}
              />
         )
     }

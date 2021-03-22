@@ -70,6 +70,13 @@ def get_daily_challenge_data():
             dc_playerList = dc_moves[1]
     return jsonify(dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist)
 
+@bp.route('/weeklychallengehighscores',methods=('GET','POST'))
+@jwt_optional
+def get_wc_highscores():
+    wc_id = request.args['wc_id']
+    highscores = json.dumps(WeeklyChallengeService().get_wc_highscores(wc_id))
+    wc_id = WeeklyChallengeService().get_wc_id()
+    return jsonify(wc_id=wc_id, highscores=highscores)
 
 @bp.route('/getWCData',methods=('GET','POST'))
 @jwt_optional
@@ -79,13 +86,35 @@ def get_wc_data():
     wclist = json.dumps(WeeklyChallengeService().get_wc_puzzles(wc_id))
     wc_movesList = None
     wc_playerList = None
+    wc_gamesWon = None
     data = WeeklyChallengeService().get_wc_highscores(wc_id)
-    print(data)
     wchighscores = json.dumps(data)
-    #wchighscores = json.dumps(WeeklyChallengeService().get_wc_highscores(wc_id))
     if (userID is not None):
         wc_moves = WeeklyChallengeService().get_wc_moves(wc_id,userID)
         if wc_moves is not None:
             wc_movesList = wc_moves[0]
             wc_playerList = wc_moves[1]
-    return jsonify(wc_playerList=wc_playerList,wc_movesList=wc_movesList, wchighscores=wchighscores,wc_id=wc_id,weeklyChallengeGameslist=wclist)
+            wc_gamesWon = wc_moves[2]
+    return jsonify(wc_playerList=wc_playerList,wc_movesList=wc_movesList, wchighscores=wchighscores,wc_id=wc_id,weeklyChallengeGameslist=wclist,wc_gamesWon=wc_gamesWon)
+
+@bp.route('/weeklychallengesubmit',methods=('POST','GET'))
+@jwt_required
+def weekly_challenge_submit():
+    userID = get_jwt_identity()
+    wc_id = WeeklyChallengeService().get_wc_id()
+    data = request.get_json()
+    try:
+        display = data['display']
+    except Exception as e:
+        display = None
+    finally:
+        pass
+
+    try:
+        name = data['name']
+    except Exception as e:
+        name = None
+    finally:
+        pass
+    WeeklyChallengeService().submit_answer(data['score'],userID, json.dumps(data['solutiondata']), name, wc_id,json.dumps(data['playerStateList']),data['completed'],display,json.dumps(data['gamesWon']))
+    return 'OK'

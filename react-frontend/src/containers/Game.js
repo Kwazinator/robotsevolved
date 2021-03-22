@@ -22,6 +22,7 @@ import extend from '../constants/extend';
 import YouWinModal from '../components/YouWinModal';
 import YouWinDailySingleModal from '../components/YouWinDailySingleModal';
 import YouWinDailyFinalModal from '../components/YouWinDailyFinalModal';
+import YouWinWeeklyModal from '../components/YouWinWeeklyModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
 import HighScores from '../components/HighScores';
@@ -228,8 +229,8 @@ class Game extends React.Component {
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.gamesWonWeekly = [false,false,false,false,false];
             if (this.props.savedMoves != null) {
-                this.state.moveHistoryList = this.props.savedMoves
-                this.state.gamesWonWeekly = [true,true,true,true,true]
+                this.state.moveHistoryList = this.props.savedMoves;
+                this.state.gamesWonWeekly = this.props.gamesWon;
                 this.state.moveHistory = this.props.savedMoves[0].slice()
                 this.state.playerState = this.props.playerStateList[0].slice()
             }
@@ -237,7 +238,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST, the page will refresh automatically'];
+            this.state.tipsText = ['Users with 100 moves by Monday Midnight EST will receive a crown','Moves are saved'];
             this.state.highscores = this.props.highscores;
             this.state.wc_id = this.props.wc_id;
             if (this.state.coloredGoals == undefined) {
@@ -274,7 +275,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Winners who are Logged in will receive a Crown','See about page for details on the daily challenge difficulty','Puzzles reset at 3PM EST, the page will refresh automatically'];
+            this.state.tipsText = ['Puzzles reset at 3PM EST'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
             if (this.state.coloredGoals == undefined) {
@@ -420,6 +421,25 @@ class Game extends React.Component {
         return toreturn;
     }
 
+    updateWeeklyHighscores = () => {
+        axios.get('/weeklychallengehighscores?wc_id=' + this.state.wc_id)
+            .then( res => {
+                if (res.data.wc_id != this.state.wc_id) {
+                    window.weeklyChallengeSessionBestHistory = [[],[],[],[],[]];
+                    window.weeklyChallengeSessionBestPlayerState = [[],[],[],[],[]];
+                    this.props.handleClickWeeklyClick();
+                    return
+                }
+                const highscoresdata = JSON.parse(res.data.highscores)
+                if (this.DChighscoreIsDiff(this.state.highscores,highscoresdata)) {
+                    this.setState({
+                        highscores: JSON.parse(res.data.highscores),
+                    });
+                }
+            });
+    }
+
+
     updateDailyHighscores = () => {
         axios.get('/dailychallengehighscores?dc_id=' + this.state.dc_id)
             .then( res => {
@@ -455,6 +475,12 @@ class Game extends React.Component {
                 IntervalId: IntervalId,
             });
         }
+        else if (this.props.weeklyChallengeMode === 'Yes') {
+            var IntervalId = setInterval(this.updateWeeklyHighscores, 10000);
+            this.setState({
+                IntervalId: IntervalId,
+            });
+        }
     };
 
     componentWillUnmount = () => {
@@ -462,6 +488,9 @@ class Game extends React.Component {
             clearInterval(this.state.IntervalId);
         }
         else if (this.props.dailyChallengeMode === 'Yes') {
+            clearInterval(this.state.IntervalId);
+        }
+        else if (this.props.weeklyChallengeMode === 'Yes') {
             clearInterval(this.state.IntervalId);
         }
     };
@@ -495,6 +524,8 @@ class Game extends React.Component {
                 if (!this.state.gameWon) {
                     this.resetPuzzle();
                 }
+                break;
+                return;
             case 83:
                 newDirection = { top: 40, left: 0, dir: DOWN};
                 break;
@@ -507,15 +538,6 @@ class Game extends React.Component {
             case 65:
                 newDirection = { top: 0, left: -40, dir: LEFT};
                 break;
-            /*case 83:
-                newDirection = { top: 40, left: 0, dir: DOWN};
-                break;
-            case 68:
-                newDirection = { top: 0, left: 40, dir: RIGHT};
-                break;
-            case 87:
-                newDirection = { top: -40, left: 0, dir: UP};
-                break;*/
             default:
                 return;
         }
@@ -796,8 +818,50 @@ class Game extends React.Component {
         });
     }
 
+    weeklyChallegeSaveMovesCookie = (LastRobotPosition,completed) => {
+        var moveHistoryList = this.state.moveHistoryList.slice()
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice()
+        var numMoves = 0
+        moveHistoryList.map(moveHistory => {
+            numMoves += moveHistory.length
+        });
+        var playerStateList = this.state.playerStateList.slice()
+        if (LastRobotPosition != null) {
+            playerStateList[this.state.numPuzzleon] = LastRobotPosition.slice()
+        }
+        this.checkWinningPosition(this.state.goal,this.state.coloredGoals,this.state.playerState)
+
+        var gameswonWeekly = [];
+        [0,1,2,3,4].map((move,index) => {
+            var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
+
+            gameswonWeekly[index] = playerStateList[index] != null ? this.checkWinningPosition(puzzledata.goal,puzzledata.coloredGoals,playerStateList[index]) : false
+        })
+        console.log(gameswonWeekly)
+
+        axios.post('/weeklychallengesubmit', {score: numMoves, solutiondata: moveHistoryList, wc_id: 1, playerStateList: playerStateList, completed: completed, gamesWon: gameswonWeekly})
+            .then( res => {
+                console.log(res.data)
+            });
+    }
 
 
+    submitWeeklyAnswer = (LastRobotPosition) => {
+        var moveHistoryList = this.state.moveHistoryList.slice()
+        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice()
+        var numMoves = 0
+        moveHistoryList.map(moveHistory => {
+            numMoves += moveHistory.length
+        });
+        var playerStateList = this.state.playerStateList.slice()
+        playerStateList[this.state.numPuzzleon] = LastRobotPosition.slice()
+        axios.post('/weeklychallengesubmit', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, wc_id: 1, playerStateList: playerStateList, completed: 1,display: 1,gamesWon: [true,true,true,true,true]})
+            .then( res => {
+                this.setState({
+                    dailySubmittedSucessfully: <Alert severity="success">Submitted!</Alert>
+                });
+            });
+    }
 
     submitDailyAnswer = (LastRobotPosition) => {
         var moveHistoryList = this.state.moveHistoryList.slice()
@@ -808,7 +872,6 @@ class Game extends React.Component {
         });
         var playerStateList = this.state.playerStateList.slice()
         playerStateList[this.state.numPuzzleon] = LastRobotPosition.slice()
-        console.log(playerStateList);
         axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id, playerStateList: playerStateList})
             .then( res => {
                 this.setState({
@@ -819,6 +882,12 @@ class Game extends React.Component {
         window.dc_playerList = playerStateList;
         this.state.gameWon = false;
     }
+
+
+
+
+
+
 
     checkwin = (newPlayerState) => {
         if (this.state.goal != null && this.state.coloredGoals == null) {
@@ -889,7 +958,7 @@ class Game extends React.Component {
                         window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
                         window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
                     }
-                    this.state.gamesWonDaily.map((gameWon,index) => {
+                    this.state.gamesWonWeekly.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
                             Won = false
                         }
@@ -900,10 +969,13 @@ class Game extends React.Component {
                     moveHistoryList.map(moveHistory => {
                         numMoves += moveHistory.length
                     });
-                    return (Won ? <YouWinDailyFinalModal
+                    if (Won) {
+                        this.weeklyChallegeSaveMovesCookie(newPlayerState,1)
+                    }
+                    return (Won ? <YouWinWeeklyModal
                         show={this.state.gameWon}
                         numMoves={numMoves}
-                        submitAnswer={this.submitDailyAnswer}
+                        submitAnswer={this.submitWeeklyAnswer}
                         resetPuzzle={this.resetPuzzle}
                         username={username}
                         undoMove={this.handleUndoMove}
@@ -916,9 +988,9 @@ class Game extends React.Component {
                         undoMove={this.handleUndoMove}
                         resetPuzzle={this.resetPuzzle}
                         games={this.state.games}
-                        handleClickGame={this.handleDailyClickGame}
+                        handleClickGame={this.handleWeeklyClickGame}
                         numPuzzleon={this.state.numPuzzleon}
-                        moveNextPuzzle={this.moveNextPuzzle}
+                        moveNextPuzzle={this.moveNextPuzzleWeekly}
                     />);
                 }
                 else if (this.props.dailyChallengeMode === 'Yes') {
@@ -1059,6 +1131,10 @@ class Game extends React.Component {
         this.handleDailyClickGame((this.state.numPuzzleon + 1) % 4)
     }
 
+    moveNextPuzzleWeekly = () => {
+        this.handleWeeklyClickGame((this.state.numPuzzleon + 1) % 5)
+    }
+
     handleLearnClickGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].puzzledata);
         var squareSize = setDefaultSquareSize(puzzledata.width,puzzledata.height);
@@ -1066,6 +1142,7 @@ class Game extends React.Component {
             extend(puzzledata,{buildMode: false,squareSize: squareSize, numPuzzleon: index, moveHistory: [], gameWon: false, playerState: puzzledata.playerStart.slice(),tipsText: [this.props.games[index].description]})
         );
     }
+
 
     handleDailyClickAnswersGame = index => {
         var puzzledata = JSON.parse(this.props.games[index].g_puzzledata);
@@ -1134,8 +1211,7 @@ class Game extends React.Component {
         playerStateList[this.state.numPuzzleon] = playerState;
         var moveHistoryList = this.state.moveHistoryList;
         moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
-        console.log(puzzledata.goal)
-        console.log(puzzledata.coloredGoals)
+        this.weeklyChallegeSaveMovesCookie(null,0);
         if (puzzledata.goal === undefined)
         {
             this.setState(
@@ -1241,7 +1317,6 @@ class Game extends React.Component {
             var newColoredGoals = this.state.coloredGoals.filter(goalItem =>
                 colorSignifier != goalItem.colorSignifier
             );
-            console.log(newColoredGoals);
             this.setState({
                 coloredGoals: newColoredGoals
             });
@@ -1564,9 +1639,6 @@ class Game extends React.Component {
     };
 
     checkWinningPosition = (goal,coloredGoals,playerState) => {
-        console.log(goal)
-        console.log(coloredGoals)
-        console.log(playerState)
         if (goal != null && coloredGoals == null) {
             var Won = false;
             playerState.map((player) => {
@@ -1608,7 +1680,6 @@ class Game extends React.Component {
                 }
             });
         }
-        console.log(Won)
         return Won
     }
 
@@ -1663,7 +1734,6 @@ class Game extends React.Component {
         else {
             playerState[index].top = oldPosition.top
             playerState[index].left = oldPosition.left
-            console.log(playerState)
             this.setState({
                 playerState: playerState,
                 playerStart: playerState.slice(),
