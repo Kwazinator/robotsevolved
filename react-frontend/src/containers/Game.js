@@ -491,10 +491,22 @@ class Game extends React.Component {
                 }
                 break;
                 return;
-            case 87:
+            case 69:
                 if (!this.state.gameWon) {
                     this.resetPuzzle();
                 }
+            case 83:
+                newDirection = { top: 40, left: 0, dir: DOWN};
+                break;
+            case 68:
+                newDirection = { top: 0, left: 40, dir: RIGHT};
+                break;
+            case 87:
+                newDirection = { top: -40, left: 0, dir: UP};
+                break;
+            case 65:
+                newDirection = { top: 0, left: -40, dir: LEFT};
+                break;
             /*case 83:
                 newDirection = { top: 40, left: 0, dir: DOWN};
                 break;
@@ -873,9 +885,9 @@ class Game extends React.Component {
                 }
                 else if (this.props.weeklyChallengeMode === 'Yes') {
                     var Won=true
-                    if (window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
-                        window.dailyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
-                        window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
+                    if (window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
+                        window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
+                        window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
                     }
                     this.state.gamesWonDaily.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
@@ -1122,9 +1134,19 @@ class Game extends React.Component {
         playerStateList[this.state.numPuzzleon] = playerState;
         var moveHistoryList = this.state.moveHistoryList;
         moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
-        this.setState(
-            extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonWeekly: gamesWonWeekly})
-        );
+        console.log(puzzledata.goal)
+        console.log(puzzledata.coloredGoals)
+        if (puzzledata.goal === undefined)
+        {
+            this.setState(
+                extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonWeekly: gamesWonWeekly, goal: null})
+            );
+        }
+        else if (puzzledata.coloredGoals === undefined) {
+            this.setState(
+                extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonWeekly: gamesWonWeekly, coloredGoals: []})
+            );
+        }
     }
 
 
@@ -1329,8 +1351,8 @@ class Game extends React.Component {
                 <Grid container xs={12} direction="column">
                     <Grid item xs={12}>
                         <DailyMovesView
-                            moveHistory={window.dailyChallengeSessionBestHistory[this.state.numPuzzleon]}
-                            playerState={window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon]}
+                            moveHistory={window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon]}
+                            playerState={window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon]}
                             resetToBest={this.resetToBest}
                         />
                     </Grid>

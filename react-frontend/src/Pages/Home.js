@@ -173,7 +173,7 @@ export default function ComplexGrid(props) {
                             Medium Mondays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Trouble Tuesday <br/>
-                            <Typography paragraph={true} variant="caption">easy puzzles</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Wild Wednesdays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Tryhard Thursdays <br/>
@@ -181,7 +181,7 @@ export default function ComplexGrid(props) {
                             Flyin Fridays<br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Sleepy Saturdays<br/>
-                            <Typography paragraph={true} variant="caption">easy puzzles</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Standard Sundays<br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                         </Typography>
@@ -359,7 +359,7 @@ export default function ComplexGrid(props) {
                             Medium Mondays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Trouble Tuesdays <br/>
-                            <Typography paragraph={true} variant="caption">easy puzzles</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Wild Wednesdays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Tryhard Thursdays <br/>
@@ -367,7 +367,7 @@ export default function ComplexGrid(props) {
                             Flyin Fridays<br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Sleepy Saturdays<br/>
-                            <Typography paragraph={true} variant="caption">easy puzzles</Typography>
+                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Standard Sundays<br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                         </Typography>
