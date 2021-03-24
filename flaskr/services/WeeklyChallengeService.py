@@ -48,7 +48,9 @@ class WeeklyChallengeService:
     def submit_answer(self,score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon):
         if self.has_submitted(userID,wc_id):
             completedinDB = WC_DAO().is_completed(userID,wc_id)
-            if completedinDB == 0 and completed == 0 or completed == 1:
+            if completedinDB[0] == 0 and completed == 0 or completed == 1:
+                if completedinDB[0] == 1 and completedinDB[1] <= score:
+                    return None
                 return WC_DAO().update_submit_answer(score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon)
         else:
             return WC_DAO().insert_submit_answer(score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon)

@@ -128,11 +128,11 @@ class WC_DAO:
         db = get_db()
         cursor = db.cursor()
         cursor.execute('''
-                select completed from weekly_challenge_submit
+                select score,completed from weekly_challenge_submit
                 where user_id = %s and wc_id = %s
                 ''', (userID, wc_id))
         row = cursor.fetchone()
-        return row[0]
+        return [row[1],row[0]]
 
     def update_submit_answer(self,score,userID, solutiondata, name, wc_id,playerStateList,completed,display,gamesWon):
         db = get_db()

@@ -5,7 +5,7 @@ from flaskr.services.GameService import GameService
 from flaskr.services.UserService import UserService
 from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
-from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt,unset_jwt_cookies, unset_refresh_cookies
 import json
 import re
 import flaskr.auth as auth
@@ -91,13 +91,19 @@ def index():
     userID = get_jwt_identity()
     if (userID is None):
         return auth.anon_user_login()
+    user = UserService().get_user(get_jwt_identity())
+    if (user is None):
+        session.clear()
+        response = redirect(url_for('index.index'))
+        unset_refresh_cookies(response)
+        unset_jwt_cookies(response)
+        return response
+    user = user.serialize()
     dc_id = GeneratorService().get_daily_challenge_id()
     loggedin = 'No'
     learngameslist = get_learned_games()
-    metatagcontent = "Competetive board game Insipred by Ricochet Robots"
+    metatagcontent = "Ricochet Robots online game, Competetive board game Insipred by Ricochet Robots"
     urlformeta = "http://robotsevolved.com"
-    user = UserService().get_user(get_jwt_identity()).serialize()
-    print(user)
     if (user['logintype'] != 'anon'):
         loggedin = 'Yes'
     if (user['logintype'] == 'anon' and user['username'] == ''):
@@ -179,7 +185,14 @@ def play(uri):
     userID = get_jwt_identity()
     if (userID is None):
         return auth.anon_user_login()
-    user = UserService().get_user(get_jwt_identity()).serialize()
+    user = UserService().get_user(get_jwt_identity())
+    if (user is None):
+        session.clear()
+        response = redirect(url_for('index.index'))
+        unset_refresh_cookies(response)
+        unset_jwt_cookies(response)
+        return response
+    user = user.serialize()
     loggedin = 'No'
     if (user['logintype'] != 'anon'):
         loggedin = 'Yes'

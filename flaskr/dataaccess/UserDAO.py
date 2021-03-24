@@ -106,6 +106,7 @@ class UserDAO:
         finally:
             pass
 
+
     def get_user_by_logintype(self,accountID,logintype):
         cursor = get_db().cursor()
         cursor.execute("SELECT * from user WHERE accountID=%s and logintype=%s", (accountID, logintype))
