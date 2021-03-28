@@ -1,4 +1,5 @@
 from flaskr.dataaccess.GenDAO import GenDAO
+from flaskr.dataaccess.UserDAO import UserDAO
 from flaskr.dataaccess.entities.Gen import Gen
 import json
 import datetime
@@ -60,9 +61,9 @@ class GeneratorService:
                     score['wins'] = userlist[score['user_id']]
                 else:
                     score['wins'] = 0
-                highscoreslist.append(score)
+                highscoreslist.append({**score,**UserDAO().get_user_metadata(score['user_id'])})
             else:
-                highscoreslist.append(score)
+                highscoreslist.append({**score,**UserDAO().get_user_metadata(score['user_id'])})
         return highscoreslist
 
     def get_daily_challenge_winners(self):

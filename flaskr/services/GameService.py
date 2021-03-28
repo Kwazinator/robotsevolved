@@ -2,6 +2,7 @@ from flaskr.dataaccess.GameDAO import GameDAO
 from flaskr.dataaccess.entities.Game import Game
 from flaskr.dataaccess.entities.Gen import Gen
 from flaskr.dataaccess.GenDAO import GenDAO
+from flaskr.dataaccess.UserDAO import UserDAO
 from flaskr.solutionChecker import checkSolution
 import json
 import datetime
@@ -93,7 +94,12 @@ class GameService:
     def get_highscores(self,uri):
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
-        return GameDAO().get_highscores(game.id)
+        highscores = GameDAO().get_highscores(game.id)
+        newhighscores = list()
+        for highscore in highscores:
+            metadata = UserDAO().get_user_metadata(highscore['userid'])
+            newhighscores.append({**highscore,**metadata})
+        return newhighscores
 
     def get_all_games(self,numGames,offset):
         return GameDAO().get_all_games(numGames,offset)

@@ -1,5 +1,6 @@
 from flaskr.db import get_db
 from flaskr.dataaccess.entities.User import User
+from flaskr.dataaccess.entities.UserMetadata import UserMetadata
 from flaskr.dataaccess.entities.GamesProfileView import GamesProfileView
 from flaskr.dataaccess.entities.SolutionsProfileView import SolutionsProfileView
 from flaskr.dataaccess.entities.PuzzleRushStatsProfileView import PuzzleRushStatsProfileView
@@ -67,6 +68,23 @@ class UserDAO:
             print(e)
         finally:
             pass
+
+    def get_user_metadata(self,user_id):
+        cursor = get_db().cursor()
+        cursor.execute('''  select crowns from Robots.v_findGame_leaderboard where WinnerUserID =%s''', (user_id,))
+        row = cursor.fetchone()
+        if row is None:
+            find_game = 0
+        else:
+            find_game = row[0]
+        cursor.execute('''select crowns from Robots.v_dailyChallenge_leaderboard vdc where user_id=%s''',(user_id,))
+        row = cursor.fetchone()
+        if row is None:
+            daily = 0
+        else:
+            daily = row[0]
+        return UserMetadata(user_id,find_game,daily).serialize()
+
 
     def has_user_voted(self,puzzleid,user_id):
         cursor = get_db().cursor()
