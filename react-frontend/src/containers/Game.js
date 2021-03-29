@@ -1,6 +1,7 @@
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
+import WeeklyGameItems from '../components/WeeklyGameItems'
 import React from 'react';
 import axios from 'axios';
 import DailyMovesView from '../components/DailyMovesView';
@@ -238,7 +239,7 @@ class Game extends React.Component {
                 this.state.moveHistoryList=[];
             }
             this.state.playerStateList = this.props.playerStateList != null ? this.props.playerStateList : [];
-            this.state.tipsText = ['Users with 100 moves by Monday Midnight EST will receive a crown','Moves are saved'];
+            this.state.tipsText = ['All users with 100 moves get a crown!','Moves are saved','puzzle button turns GREEN when solved with least moves'];
             this.state.highscores = this.props.highscores;
             this.state.wc_id = this.props.wc_id;
             if (this.state.coloredGoals == undefined) {
@@ -1449,7 +1450,15 @@ class Game extends React.Component {
                             variant="contained">
                             {
                                 this.state.games.map((game,index) =>
-                                        <LearnGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleWeeklyClickGame}/>
+                                        <WeeklyGameItems
+                                            selected={this.state.numPuzzleon}
+                                            game={game}
+                                            name={'Puzzle ' + (index + 1)}
+                                            index={index}
+                                            moveHistoryList = {this.state.moveHistoryList}
+                                            gamesWonWeekly = {this.state.gamesWonWeekly}
+                                            handleClickGame={this.handleWeeklyClickGame}
+                                        />
                                 )
                             }
                         </ButtonGroup>
