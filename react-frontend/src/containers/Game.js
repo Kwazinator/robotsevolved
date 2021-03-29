@@ -25,8 +25,7 @@ import YouWinDailyFinalModal from '../components/YouWinDailyFinalModal';
 import YouWinWeeklyModal from '../components/YouWinWeeklyModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
-import HighScores from '../components/HighScores';
-import DailyChallengeScores from '../components/DailyChallengeScores';
+import DailyChallengeScores from '../components/HighScores';
 import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
 import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
@@ -1560,7 +1559,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <Grid container xs={12} direction="column">
-                <HighScores highscores={this.state.highscores}/>
+                <DailyChallengeScores highscores={this.state.highscores}/>
                 </Grid>
             </div>
             )

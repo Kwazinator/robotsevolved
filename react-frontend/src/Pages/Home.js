@@ -10,7 +10,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import DailyChallengeScores from '../components/DailyChallengeScores';
+import DailyChallengeScores from '../components/HighScores';
 import Divider from '@material-ui/core/Divider';
 import {MOBILE_INNER_SCREEN_WIDTH} from "../constants/constants";
 import ButtonGroup from "@material-ui/core/ButtonGroup";

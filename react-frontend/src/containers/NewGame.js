@@ -15,7 +15,6 @@ import extend from '../constants/extend';
 import YouWinModal from '../components/YouWinModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
-import HighScores from '../components/HighScores';
 import ToggleSettings from '../components/ToggleSettings';
 import {
     LEFT,

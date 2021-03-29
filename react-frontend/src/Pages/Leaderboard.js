@@ -186,7 +186,7 @@ export default function Leaderboard(props) {
                             <MenuItem onClick={() => handlePuzzleRushDifficultyChange("extra_hard", "Extra Hard")}>Extra Hard</MenuItem>
                         </Menu>
                     </div>
-                    <Paper square>
+                    <Paper style={{borderBottomLeftRadius: 0, borderBottomRightRadius: 0}}>
                         <Tabs
                             value={puzzleRushTabValue}
                             indicatorColor="primary"
@@ -200,7 +200,7 @@ export default function Leaderboard(props) {
                             <Tab label="Classic V2" />
                         </Tabs>
                     </Paper>
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}}>
                         <Table>
                             <TableHead>
                                 <TableRow>
