@@ -15,7 +15,7 @@ week = {
     'Wild Wednesday': ['medium','medium','medium','medium'],
     'Tryhard Thursdays': ['hard','hard','hard','hard'],
     'Flyin Fridays': ['medium','medium','medium','medium'],
-    'Sleepy Saturdays': ['easy','easy','easy','easy'],
+    'Sleepy Saturdays': ['medium','medium','medium','medium'],
     'Standard Sundays': ['medium','medium','medium','medium']
 }
 
