@@ -109,7 +109,6 @@ def weekly_challenge_submit():
         display = None
     finally:
         pass
-
     try:
         name = data['name']
     except Exception as e:
