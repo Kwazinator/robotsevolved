@@ -620,6 +620,40 @@ class App extends React.Component {
         });
     };
 
+    bannerImg = () => {
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            return (
+                <img
+                    onClick={this.handleHomePageClick}
+                    width={300}
+                    height={75}
+                    style={{marginTop: -15, marginBottom: -25}}
+                    src="/static/images/robots_evolved_banner.png"
+                />
+            )
+        }
+        return (
+            <img
+                onClick={this.handleHomePageClick}
+                width={671}
+                height={125}
+                style={{marginTop: -35, marginBottom: -40}}
+                src="/static/images/robots_evolved_banner.png"
+            />
+        )
+    }
+
+    iconImg = () => {
+        if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+            return (
+                <img onClick={this.handleHomePageClick} width={40} height={40} src="/static/images/logo150.png"/>
+            )
+        }
+        return (
+            <img onClick={this.handleHomePageClick} width={50} height={50} src="/static/images/logo150.png"/>
+        )
+    }
+
     render() {
         const { classes } = this.props;
         const theme = createMuiTheme({
@@ -649,12 +683,8 @@ class App extends React.Component {
                             >
                                 <MenuIcon />
                             </IconButton>
-                            <img onClick={this.handleHomePageClick} width={50} height={50} src="/static/images/logo150.png"/>
-                            <Typography variant="h6" className={classes.title} noWrap>
-                                <a href="/" style={{color: 'white'}}>RobotsEvolved
-                                    <span>.com</span>
-                                </a>
-                            </Typography>
+                            {this.iconImg()}
+                            {this.bannerImg()}
                             <div className={classes.grow} />
                             <div className={classes.sectionDesktop}>
                                 <LoggedInUser handleClick={this.SignInButtonPressed}/>
