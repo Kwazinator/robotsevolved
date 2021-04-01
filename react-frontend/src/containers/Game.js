@@ -319,7 +319,6 @@ class Game extends React.Component {
         }
         else if (this.props.loadedGame === 'Yes') {
             this.state = JSON.parse(this.props.gamedata);
-            this.state.highscores = this.props.highscores;
             this.state.uri = this.props.uri;
             this.state.votes = this.props.votes
             this.state.hasVoted = this.props.hasVoted
@@ -882,13 +881,6 @@ class Game extends React.Component {
         window.dc_playerList = playerStateList;
         this.state.gameWon = false;
     }
-
-
-
-
-
-
-
     checkwin = (newPlayerState) => {
         if (this.state.goal != null && this.state.coloredGoals == null) {
             var Won = false;

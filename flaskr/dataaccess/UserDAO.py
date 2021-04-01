@@ -71,7 +71,7 @@ class UserDAO:
 
     def get_user_metadata(self,user_id):
         cursor = get_db().cursor()
-        cursor.execute('''  select crowns from Robots.v_findGame_leaderboard where WinnerUserID =%s''', (user_id,))
+        cursor.execute('''select crowns from Robots.v_findGame_leaderboard where WinnerUserID =%s''', (user_id,))
         row = cursor.fetchone()
         if row is None:
             find_game = 0
@@ -83,7 +83,13 @@ class UserDAO:
             daily = 0
         else:
             daily = row[0]
-        return UserMetadata(user_id,find_game,daily).serialize()
+        cursor.execute('''SELECT count(wcs_id) from weekly_challenge_submit where user_id = %s and score = 100 and completed = 1''',(user_id,))
+        row = cursor.fetchone()
+        if row is None:
+            weekly = 0
+        else:
+            weekly = row[0]
+        return UserMetadata(user_id,find_game,daily,weekly).serialize()
 
 
     def has_user_voted(self,puzzleid,user_id):
