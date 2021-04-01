@@ -50,28 +50,28 @@ def get_games_search(numPuzzles,Offset,searchterm,filter,userID):
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
-                highscoreslist.append(GameService().get_highscores(game['uri']))
+                highscoreslist.append(GameService().get_highscores(game['uri'],False))
         return (gameslist,highscoreslist)
     elif filter == 'MostPlayed':
         gameslist = GameService().get_games_by_search_most_played(numPuzzles, Offset, searchterm,userID)
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
-                highscoreslist.append(GameService().get_highscores(game['uri']))
+                highscoreslist.append(GameService().get_highscores(game['uri'],False))
         return (gameslist, highscoreslist)
     elif filter == 'Highest':
         gameslist = GameService().get_games_by_search_highest_score(numPuzzles, Offset, searchterm,userID)
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
-                highscoreslist.append(GameService().get_highscores(game['uri']))
+                highscoreslist.append(GameService().get_highscores(game['uri'],False))
         return (gameslist, highscoreslist)
     elif filter == 'MostLiked':
         gameslist = GameService().get_games_by_search_most_liked(numPuzzles, Offset, searchterm, userID)
         highscoreslist = list()
         if gameslist is not None:
             for game in gameslist:
-                highscoreslist.append(GameService().get_highscores(game['uri']))
+                highscoreslist.append(GameService().get_highscores(game['uri'],False))
         return (gameslist, highscoreslist)
 
 

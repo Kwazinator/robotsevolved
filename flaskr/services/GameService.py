@@ -91,15 +91,18 @@ class GameService:
         else:
             return Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],'',row[10]).serialize()
 
-    def get_highscores(self,uri):
+    def get_highscores(self,uri,metadata=True):
         row = GameDAO().get_game_uri(uri)
         game = Game(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7])
         highscores = GameDAO().get_highscores(game.id)
-        newhighscores = list()
-        for highscore in highscores:
-            metadata = UserDAO().get_user_metadata(highscore['userid'])
-            newhighscores.append({**highscore,**metadata})
-        return newhighscores
+        if metadata:
+            newhighscores = list()
+            for highscore in highscores:
+                metadata = UserDAO().get_user_metadata(highscore['userid'])
+                newhighscores.append({**highscore,**metadata})
+            return newhighscores
+        else:
+            return highscores
 
     def get_all_games(self,numGames,offset):
         return GameDAO().get_all_games(numGames,offset)
