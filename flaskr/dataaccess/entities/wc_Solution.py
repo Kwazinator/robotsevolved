@@ -17,7 +17,6 @@ class wc_Solution:
     def serialize(self):
         return {
             'id': self.id,
-            'submitted': self.submitted,
             'score': self.score,
             'user_id': self.user_id,
             'name': self.name,
