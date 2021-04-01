@@ -38,6 +38,9 @@ export default function AboutUs(props) {
                                     If you find any bugs or have any feature requests for RobotsEvolved please let me know by emailing robotsevolved@gmail.com or contacting me on FB from our FB page, I would love to hear some of the ideas people have. Ill get to developing the feature/fixing annoying bugs ASAP
                                     If you use Google Login or Facebook Login I will NEVER email you or sell your information, it is strictly for user-identification.
                                     Tell your friends about the site and get people on here!
+                                    <br/>
+                                    <br/>
+                                    Credit to Feyzio for our banner and robot logo Artwork!
                                 </Typography>
                             </CardContent>
                             <CardActions>
