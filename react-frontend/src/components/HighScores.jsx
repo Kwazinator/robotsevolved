@@ -78,7 +78,7 @@ const highscorestyle = highscore => {
 
 
 export default ({highscores}) => (
-    <Grid style={styleouter()} container direction={'column'} spacing={1}>
+    <Grid style={styleouter()} container spacing={1}>
         {
                 highscores.map(highscore =>
                     highscorestyle(highscore)
