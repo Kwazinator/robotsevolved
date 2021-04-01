@@ -9,7 +9,6 @@ import CreateBoardGoalSelector from '../components/CreateBoardGoalSelector';
 import FlashMessage from 'react-flash-message'
 import Alert from '@material-ui/lab/Alert';
 import {withRouter} from 'react-router';
-import Draggable from 'react-draggable';
 import LearnGameItems from '../components/LearnGameItems';
 import MovesView from '../components/MovesView';
 import Square from '../components/Square';
@@ -26,7 +25,7 @@ import YouWinDailyFinalModal from '../components/YouWinDailyFinalModal';
 import YouWinWeeklyModal from '../components/YouWinWeeklyModal';
 import AddPuzzleModal from '../components/AddPuzzleModal';
 import DisplayView from './DisplayView';
-import DailyChallengeScores from '../components/HighScores';
+import HighScores from '../components/HighScores';
 import PuzzleRushWinModal from '../containers/Modals/PuzzleRushFinishedModal';
 import RandomGameStatsModal from '../containers/Modals/RandomGameStatsModal';
 import DescriptionList from '../components/DescriptionList';
@@ -1455,7 +1454,7 @@ class Game extends React.Component {
                         </ButtonGroup>
                     </Grid>
                     <Grid item xs={12}>
-                        <DailyChallengeScores highscores={this.state.highscores}/>
+                        <HighScores highscores={this.state.highscores}/>
                     </Grid>
                 </Grid>
             )
@@ -1494,7 +1493,7 @@ class Game extends React.Component {
                         </ButtonGroup>
                     </Grid>
                     <Grid item xs={12}>
-                        <DailyChallengeScores highscores={this.state.highscores}/>
+                        <HighScores highscores={this.state.highscores}/>
                     </Grid>
                 </Grid>
             )
@@ -1560,7 +1559,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <Grid container xs={12} direction="column">
-                <DailyChallengeScores highscores={this.state.highscores}/>
+                <HighScores highscores={this.state.highscores}/>
                 </Grid>
             </div>
             )

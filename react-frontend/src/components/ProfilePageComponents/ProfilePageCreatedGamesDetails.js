@@ -9,20 +9,15 @@ export default function ProfilePageCreatedGamesDetails(props) {
         props.handleClickPlayGame(props.game.name,props.game.puzzledata,[],props.game.uri, props.game.authorname, props.game.votes, props.game.hasVoted);
     }
 
-    return (<div>
-            <Grid container xs={12}>
-                <Grid item xs={6}>
-                    <Typography> Highscore Holder: </Typography>
+    return (<div style={{width: "100%"}}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography> Highscore Holder: {props.game.username} - {props.game.numMoves} </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button onClick={handleClickPlayGame} variant="contained" color="primary">Play</Button>
+                    </Grid>
                 </Grid>
-                 <Grid item xs={6}>
-                  <Typography>
-                    {props.game.username} - {props.game.numMoves}
-                  </Typography>
-              </Grid>
-              </Grid>
-              <Button onClick={handleClickPlayGame} variant="contained" color="primary">
-                    Play
-              </Button>
             </div>
     );
 }
