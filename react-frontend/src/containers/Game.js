@@ -821,7 +821,9 @@ class Game extends React.Component {
         moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice()
         var numMoves = 0
         moveHistoryList.map(moveHistory => {
-            numMoves += moveHistory.length
+            if (moveHistory !== null) {
+                numMoves += moveHistory.length
+            }
         });
         var playerStateList = this.state.playerStateList.slice()
         if (LastRobotPosition != null) {
@@ -958,7 +960,9 @@ class Game extends React.Component {
                     moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
                     var numMoves = 0
                     moveHistoryList.map(moveHistory => {
-                        numMoves += moveHistory.length
+                        if (moveHistory !== null) {
+                            numMoves += moveHistory.length
+                        }
                     });
                     if (Won) {
                         this.weeklyChallegeSaveMovesCookie(newPlayerState,1)

@@ -64,15 +64,15 @@ export default function AboutUs(props) {
                                     <br/>
                                     Medium Mondays - 4 x Medium
                                     <br/>
-                                    Trouble Tuesdays - 4 x Easy
+                                    Trouble Tuesdays - 4 x Hard
                                     <br/>
                                     Wild Wednesdays - 4 x Medium
                                     <br/>
-                                    Tryhard Thursdays -4 x Hard
+                                    Tryhard Thursdays - 4 x Hard
                                     <br/>
                                     Flyin Fridays - 4 x Medium
                                     <br/>
-                                    Sleepy Saturdays - 4 x Easy
+                                    Sleepy Saturdays - 4 x Medium
                                     <br/>
                                     Standard Sundays - 4 x Medium
                                 </Typography>

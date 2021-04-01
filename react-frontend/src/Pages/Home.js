@@ -211,7 +211,7 @@ export default function ComplexGrid(props) {
                             Medium Mondays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Trouble Tuesday <br/>
-                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                             Wild Wednesdays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Tryhard Thursdays <br/>
@@ -413,7 +413,7 @@ export default function ComplexGrid(props) {
                             Medium Mondays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Trouble Tuesdays <br/>
-                            <Typography paragraph={true} variant="caption">medium puzzles</Typography>
+                            <Typography paragraph={true} variant="caption">hard puzzles</Typography>
                             Wild Wednesdays <br/>
                             <Typography paragraph={true} variant="caption">medium puzzles</Typography>
                             Tryhard Thursdays <br/>

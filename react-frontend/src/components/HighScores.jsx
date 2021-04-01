@@ -39,7 +39,7 @@ const highscorestyle = highscore => {
                                 <Typography style={{marginLeft: 2, marginTop: 9}}  color={'textSecondary'}>{highscore.numMoves ? highscore.numMoves : highscore.score}</Typography>
                             </Grid>
                             <Grid item xs={9}>
-                                <Typography style={{marginTop: 12}} color={'secondary'} variant={'body2'}>{highscore.created ? highscore.created : highscore.submitted}</Typography>
+                                <Typography style={{marginTop: 12}} color={'secondary'} variant={'body2'}>{highscore.created ? highscore.created : (highscore.submitted ? highscore.submitted : "") }</Typography>
                             </Grid>
                         </Grid>
                         <Grid item xs={4} container spacing={1}>
