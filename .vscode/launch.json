@@ -1,0 +1,39 @@
+
+{   
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "wsgi.py",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "0"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:5000",
+            "args": [
+                "--start-fullscreen"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Build & Run & Browser",
+            "configurations": ["Python: Flask", "Launch Chrome"],
+            "preLaunchTask": "npm: build - react-frontend"
+        }
+    ]
+}

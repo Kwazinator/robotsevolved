@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "react-frontend/",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - react-frontend",
+			"detail": "node scripts/build.js"
+		}
+	]
+}
