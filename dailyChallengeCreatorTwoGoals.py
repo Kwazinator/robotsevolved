@@ -64,19 +64,19 @@ if __name__ == "__main__":
         now = last_daily_tuple[0].replace(hour=19,minute=0,second=0)
         g_name = last_daily_tuple[1]
         if g_name == 'Medium Mondays':
-            dayofweek = 0
-        elif g_name == 'Trouble Tuesdays':
             dayofweek = -1
-        elif g_name == 'Wild Wednesday':
+        elif g_name == 'Trouble Tuesdays':
             dayofweek = -2
-        elif g_name == 'Tryhard Thursdays':
+        elif g_name == 'Wild Wednesday':
             dayofweek = -3
-        elif g_name == 'Flyin Fridays':
+        elif g_name == 'Tryhard Thursdays':
             dayofweek = -4
-        elif g_name == 'Sleepy Saturdays':
+        elif g_name == 'Flyin Fridays':
             dayofweek = -5
-        elif g_name == 'Standard Sundays':
+        elif g_name == 'Sleepy Saturdays':
             dayofweek = -6
+        elif g_name == 'Standard Sundays':
+            dayofweek = 0
     weekly = deque(weekly)
     weekly.rotate(dayofweek)
     while (True):
