@@ -189,3 +189,20 @@ class GenDAO:
             print('error in daily challenge history fetching')
         finally:
             pass
+
+
+    def get_last_daily_challenge(self):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT g_id1,created from daily_challenge ORDER BY created desc LIMIT 1')
+            row = cursor.fetchone()
+            cursor.execute('SELECT g_name from generated_games where g_id=%s',(row[0],))
+            row2 = cursor.fetchone()
+            print(row[1])
+            print(row2[0])
+            return (row[1],row2[0])
+        except Exception as e:
+            print(e)
+        finally:
+            pass

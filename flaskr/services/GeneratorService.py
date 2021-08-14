@@ -77,3 +77,6 @@ class GeneratorService:
 
     def get_daily_challenge_history(self):
         return GenDAO().get_daily_challenge_history()
+
+    def get_last_daily_challenge(self):
+        return GenDAO().get_last_daily_challenge()
