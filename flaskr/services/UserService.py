@@ -30,6 +30,13 @@ class UserService:
     def get_user_by_logintype(self,accountID,logintype):
         return UserDAO().get_user_by_logintype(accountID,logintype)
 
+
+    def is_daily_started(self, user_id, dc_id):
+        return UserDAO().is_daily_started(user_id, dc_id)
+
+    def start_daily(self, user_id, dc_id):
+        return UserDAO().start_daily(user_id, dc_id)
+
     def get_user(self,userID):
         return UserDAO().get_user(userID)
 
@@ -66,3 +73,6 @@ class UserService:
                 return UserDAO().change_username(user_id, username)
         else:
             return 'Username has been taken'
+
+    def get_daily_time(self, userID, dc_id):
+        return UserDAO().get_daily_time(userID, dc_id)

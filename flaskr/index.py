@@ -5,7 +5,7 @@ from flaskr.services.GameService import GameService
 from flaskr.services.UserService import UserService
 from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
-from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt,unset_jwt_cookies, unset_refresh_cookies
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt,unset_jwt_cookies, unset_refresh_cookies
 import json
 import re
 import flaskr.auth as auth
@@ -85,8 +85,8 @@ def get_learned_games():
 
 
 
-@bp.route('/')
-@jwt_optional
+@bp.route('/',endpoint='index')
+@jwt_required(optional=True)
 def index():
     userID = get_jwt_identity()
     if (userID is None):
@@ -100,6 +100,8 @@ def index():
         return response
     user = user.serialize()
     dc_id = GeneratorService().get_daily_challenge_id()
+    isStarted = UserService().is_daily_started(userID, dc_id)
+
     loggedin = 'No'
     learngameslist = get_learned_games()
     metatagcontent = "Ricochet Robots online game, Competetive board game Insipred by Ricochet Robots"
@@ -110,15 +112,13 @@ def index():
         experiencedUser = 'No'
     else:
         experiencedUser = 'Yes'
-    return render_template('index.html',urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='',experiencedUser=experiencedUser)
+    return render_template('index.html',isDailyStarted=isStarted,urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='',experiencedUser=experiencedUser)
 
-@bp.route('/about')
+@bp.route('/about',endpoint='about')
 def about():
     return 'yolo'
 
-
-
-@bp.route('/testvotingadd')
+@bp.route('/testvotingadd',endpoint='testvoteingadd')
 @jwt_required
 def testvoteingadd():
     vote = 'Y'
@@ -129,7 +129,7 @@ def testvoteingadd():
     response = UserService().vote_Puzzle_Action(vote,user_id,gamefromuri['id'],action)
     return response
 
-@bp.route('/testvotingremove')
+@bp.route('/testvotingremove',endpoint='testvoteingremove')
 @jwt_required
 def testvoteingremove():
     vote = 'Y'
@@ -140,7 +140,7 @@ def testvoteingremove():
     response = UserService().vote_Puzzle_Action(vote,user_id,gamefromuri['id'],action)
     return response
 
-@bp.route('/getProfileData')
+@bp.route('/getProfileData',endpoint='getProfileData')
 @jwt_required
 def getProfileData():
     userID = get_jwt_identity()
@@ -149,27 +149,27 @@ def getProfileData():
     solutionsview = json.dumps(GameService().get_solutions_profile_view(userID))
     return jsonify(gamesview=gamesview,puzzlerushview=puzzlerushview,solutionsview=solutionsview)
 
-@bp.route('/getDailyChallengeHistory')
+@bp.route('/getDailyChallengeHistory',endpoint='getdailyChallengehistory')
 def getdailychallengehistory():
     daily_challenge_history = json.dumps(GeneratorService().get_daily_challenge_history())
     return jsonify(daily_challenge_history)
 
 
 
-@bp.route('/getFindGameData', methods=('GET','POST'))
+@bp.route('/getFindGameData', methods=('GET','POST'),endpoint='getFindGameData')
 def getFindGameData():
     uri = request.args['uri']
     gamefromuri = GameService().get_game_uri(uri)
     return jsonify(game=json.dumps(gamefromuri))
 
-@bp.route('/userUpdate', methods=('GET','POST'))
+@bp.route('/userUpdate', methods=('GET','POST'),endpoint='user_update')
 @jwt_required
 def user_update():
     userID = get_jwt_identity()
     data = request.get_json()
     return UserService().change_username(userID,trimstring(data['newuser']))
 
-@bp.route('/settingsChange', methods=('GET','POST'))
+@bp.route('/settingsChange', methods=('GET','POST'),endpoint='settingsChange')
 @jwt_required
 def settingsChange():
     userID = get_jwt_identity()
@@ -178,8 +178,8 @@ def settingsChange():
         UserService().change_settings(userID,data['LineDirections'])
     return 'OK'
 
-@bp.route('/play/<uri>')
-@jwt_optional
+@bp.route('/play/<uri>',endpoint='play')
+@jwt_required(optional=True)
 def play(uri):
     dc_id = GeneratorService().get_daily_challenge_id()
     userID = get_jwt_identity()
@@ -215,10 +215,11 @@ def play(uri):
     learngameslist = get_learned_games()
     metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + str(authorname) + '\n' + str(name)
     urlformeta = "http://robotsevolved.com/play/" + str(uri)
-    return render_template('index.html',urlformeta=urlformeta, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri,experiencedUser=experiencedUser)
+    isStarted = UserService().is_daily_started(userID, dc_id)
+    return render_template('index.html',urlformeta=urlformeta,isDailyStarted=isStarted, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri,experiencedUser=experiencedUser)
 
-@bp.route('/submitpuzzle', methods=('GET','POST'))
-@jwt_optional
+@bp.route('/submitpuzzle', methods=('GET','POST'),endpoint='submitpuzzle')
+@jwt_required(optional=True)
 def submitpuzzle():
     data = request.get_json()
     userID = get_jwt_identity()
@@ -260,14 +261,14 @@ def submitpuzzle():
     else:
         return jsonify(uri='GameAlreadyExists')
 
-@bp.route('/updatehighscores', methods=('GET','POST'))
+@bp.route('/updatehighscores', methods=('GET','POST'),endpoint='updatehighscores')
 def updatehighscores():
     uri = request.args['uri']
     highscores = json.dumps(GameService().get_highscores(uri))
     return jsonify(highscores=highscores)
 
-@bp.route('/submithighscore', methods=('GET','POST'))
-@jwt_optional
+@bp.route('/submithighscore', methods=('GET','POST'),endpoint='submithighscores')
+@jwt_required(optional=True)
 def submithighscore():
     data = request.get_json()
     userID = get_jwt_identity()
@@ -279,8 +280,8 @@ def submithighscore():
     rtnMessage = GameService().insert_highscore(trimstring(data['name']),userID,'test',json.dumps(data['solutiondata']),data['highscore'],data['uri'])
     return rtnMessage
 
-@bp.route('/search', methods=('GET','POST'))
-@jwt_optional
+@bp.route('/search', methods=('GET','POST'),endpoint='search')
+@jwt_required(optional=True)
 def search():
     data = request.get_json()
     searchterm = trimstring(data['search'])
@@ -297,15 +298,15 @@ def search():
     return jsonify(highscoreslist=json.dumps(get_games_data_value[1]),gameslist=json.dumps(get_games_data_value[0]))
 
 
-@bp.route('/randomgame', methods=('GET',))
-@jwt_optional
+@bp.route('/randomgame', methods=('GET',),endpoint='randomgame')
+@jwt_required(optional=True)
 def randomgame():
     difficulty = request.args['difficulty']
     type = request.args['type']
     game = PuzzleRushService().get_random_game(difficulty,type)
     return jsonify(game=json.dumps(game))
 
-@bp.route('/likepuzzle', methods=('POST',))
+@bp.route('/likepuzzle', methods=('POST',),endpoint='likepuzzles')
 @jwt_required
 def likepuzzles():
     data = request.get_json()

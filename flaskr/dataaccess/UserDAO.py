@@ -50,6 +50,48 @@ class UserDAO:
         else:
             return None
 
+    def start_daily(self, user_id, dc_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('INSERT into daily_challenge_submit (user_id, dc_id, completed) VALUES (%s,%s,0)',(user_id, dc_id))
+            db.commit()
+            return cursor.lastrowid #return the userID that was created
+        except Exception as e:
+            print('Error in UserDAO().start_daily')
+            print(e)
+        finally:
+            pass
+
+    def is_daily_started(self, user_id, dc_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT startTime from daily_challenge_submit where user_id = %s and dc_id = %s',(user_id, dc_id))
+            row = cursor.fetchone()
+            if row is None:
+                return False
+            else:
+                return True
+        except Exception as e:
+            print('Error in UserDAO().is_daily_started')
+            print(e)
+        finally:
+            pass
+
+    def get_daily_time(self,user_id, dc_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT TIMEDIFF(CURRENT_TIMESTAMP,startTime) from daily_challenge_submit where user_id = %s and dc_id = %s',(user_id, dc_id))
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print('Error in UserDAO().get_daily_time')
+            print(e)
+        finally:
+            pass
+
     def delete_user(self, userID):
         cursor = get_db().cursor()
         cursor.execute("UPDATE user SET activeFlag = 'N' WHERE user_id=%s", (userID,))

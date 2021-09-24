@@ -32,6 +32,7 @@ import DescriptionList from '../components/DescriptionList';
 import YouWinLessonModal from '../components/YouWinLessonModal';
 import DailyChallengeHistoryData from '../components/DailyChallengeHistoryData';
 import Timer from "../components/Timer";
+import {useStopwatch} from 'react-timer-hook';
 import {
     LEFT,
     RIGHT,
@@ -54,6 +55,26 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+
+function MyStopwatch(props) {
+       var stopwatchOffset = new Date();
+       stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + props.seconds_add + props.minutes_add*60);
+      const {
+        seconds,
+        minutes,
+        hours,
+        days,
+        isRunning,
+        start,
+        pause,
+        reset,
+      } = useStopwatch({ offsetTimestamp: stopwatchOffset, autoStart: true });
+        return (
+          <div style={{fontSize: '50px'}}>
+            <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+          </div>
+  );
+}
 
 window.addEventListener("keydown", function(e) {
     // space and arrow keys
@@ -258,6 +279,8 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
+            this.state.daily_start_timer_seconds = this.props.daily_start_timer_seconds
+            this.state.daily_start_timer_minutes = this.props.daily_start_timer_minutes
             this.state.createMode = 'No';
             this.state.buildMode = false;
             this.state.totalMovesList = [];
@@ -1466,6 +1489,9 @@ class Game extends React.Component {
         else if (this.props.dailyChallengeMode === 'Yes') {
             return(
                 <Grid container xs={12} direction="column">
+                    <Grid item xs={12}>
+                        <MyStopwatch seconds_add={this.state.daily_start_timer_seconds} minutes_add={this.state.daily_start_timer_minutes}/>
+                    </Grid>
                     <Grid item xs={12}>
                         <DailyMovesView
                             moveHistory={window.dailyChallengeSessionBestHistory[this.state.numPuzzleon]}

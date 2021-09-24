@@ -3,13 +3,13 @@ from flask import (
 )
 from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
-from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 import json
 
 bp = Blueprint('puzzleRush', __name__)
 
 @bp.route('/puzzlerush',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def puzzlerush():
     data = request.get_json()
     difficulty = data['difficulty']
@@ -25,7 +25,7 @@ def puzzlerush():
 
 
 @bp.route('/puzzlerushgetmore',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def puzzlerushgetmore():
     p_id = request.args['p_id']
     pr_entity = PuzzleRushService().get_puzzle_rush(p_id)
@@ -47,7 +47,7 @@ def puzzlerush():
         return jsonify(games=json.dumps(games),p_id=p_id)'''
 
 @bp.route('/puzzlerushsubmit', methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def puzzlerushsubmit():
     data = request.get_json()
     p_id = data['p_id']
@@ -57,7 +57,7 @@ def puzzlerushsubmit():
     return jsonify(result='okay')
 
 @bp.route('/puzzlerushend', methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def puzzlerushend():
     data = request.get_json()
     p_id = data['p_id']

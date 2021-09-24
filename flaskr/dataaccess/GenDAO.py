@@ -75,7 +75,7 @@ class GenDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('INSERT INTO daily_challenge_submit (score,user_id,solutiondata,name,dc_id,playerStateList) VALUES (%s,%s,%s,%s,%s,%s)',(score, userid, solutiondata, name, dc_id,playerStateList))
+            cursor.execute('INSERT INTO daily_challenge_submit (score,user_id,solutiondata,name,dc_id,playerStateList,completed) VALUES (%s,%s,%s,%s,%s,%s,1)',(score, userid, solutiondata, name, dc_id,playerStateList))
             db.commit()
             return 'OK'
         except Exception as e:
@@ -101,26 +101,41 @@ class GenDAO:
     def get_daily_challenge_highscores(self,dc_id):
         cursor = get_db().cursor()
         highscores = list()
-        cursor.execute('''SELECT dcs.*,u.logintype FROM daily_challenge_submit dcs
+        cursor.execute('''SELECT dcs.dcs_id,dcs.score,dcs.user_id,dcs.solutiondata,dcs.name,dcs.dc_id,TIMEDIFF(submitted,startTime),dcs.playerStateList,u.logintype FROM daily_challenge_submit dcs
                           JOIN user u on dcs.user_id = u.user_id
-                          WHERE dc_id=%s
-                          ORDER by score ASC, submitted ASC''',(dc_id,))
+                          WHERE dc_id=%s and completed = 1
+                          ORDER by score ASC, TIMEDIFF(submitted,startTime) ASC''',(dc_id,))
         for row in cursor.fetchall():
             if row[8] == 'anon':
                 userID = 1
             else:
                 userID = row[2]
-            highscores.append(Daily_Challenge_Solution(row[0], row[1], userID, row[3], row[4], row[5],(row[6] - timedelta(hours=4)).strftime('%I:%M:%S %p').lstrip("0").replace(" 0", " "),row[7]).serialize())
+            print(row[6])
+            seconds = row[6].seconds
+            hours = seconds//3600
+            minutes = (seconds//60)%60
+            seconds = seconds % 60
+            if hours == 0:
+                hours = ''
+            else:
+                hours = str(hours) + ':'
+            if minutes <= 9 and hours != '':
+                minutes = '0' + str(minutes)
+            if seconds <= 9:
+                seconds = '0' + str(seconds)
+            highscores.append(Daily_Challenge_Solution(row[0], row[1], userID, row[3], row[4], row[5],hours + (str(minutes) + ':' + str(seconds)),row[7]).serialize())
         return highscores
 
     def get_daily_challenge_moves(self,dc_id,user_id):
         cursor = get_db().cursor()
-        cursor.execute('SELECT solutiondata,playerStateList FROM daily_challenge_submit WHERE dc_id=%s and user_id=%s LIMIT 1',
+        cursor.execute('SELECT solutiondata,playerStateList FROM daily_challenge_submit WHERE dc_id=%s and user_id=%s and completed = 1 LIMIT 1',
                        (dc_id,user_id))
         row = cursor.fetchone()
         if row is None:
             return None
         else:
+            print(row[0])
+            print(row[1])
             return (row[0],row[1])
 
     def get_daily_challenge_winners(self):
@@ -128,7 +143,7 @@ class GenDAO:
         userlistandcrowns = {}
         cursor.execute('''  SELECT COUNT(u.user_id ) as Crowns, u.user_id, u.username FROM daily_challenge_submit dcs
                             JOIN user u on dcs.user_id =u.user_id
-                            WHERE dcs.user_id = (SELECT user_id FROM daily_challenge_submit WHERE dc_id=dcs.dc_id ORDER by score ASC, submitted ASC LIMIT 1) and u.user_id <> 1 and dcs.dc_id <>
+                            WHERE dcs.user_id = (SELECT user_id FROM daily_challenge_submit WHERE dc_id=dcs.dc_id ORDER by score ASC, TIMEDIFF(submitted,startTime) ASC LIMIT 1) and u.user_id <> 1 and dcs.dc_id <>
                                 (select
                                     max(daily_challenge.dc_id)
                                 from
@@ -166,7 +181,7 @@ class GenDAO:
         try:
             db = get_db()
             cursor = db.cursor()
-            cursor.execute('UPDATE daily_challenge_submit SET score=%s,solutiondata=%s,name=%s,submitted=CURRENT_TIMESTAMP,playerStatelist=%s WHERE user_id=%s AND dc_id=%s',(score, solutiondata, name,playerStateList, userid, dc_id))
+            cursor.execute('UPDATE daily_challenge_submit SET score=%s,solutiondata=%s,name=%s,submitted=CURRENT_TIMESTAMP,playerStatelist=%s,completed=1 WHERE user_id=%s AND dc_id=%s',(score, solutiondata, name,playerStateList, userid, dc_id))
             db.commit()
             return 'OK'
         except Exception as e:

@@ -1,4 +1,5 @@
 import React from 'react';
+import DailyChallengeStartModal from './containers/Modals/DailyChallengeStartModal';
 import InfoIcon from '@material-ui/icons/Info';
 import CasinoIcon from '@material-ui/icons/Casino';
 import TodayIcon from '@material-ui/icons/Today';
@@ -204,6 +205,7 @@ class App extends React.Component {
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
+        this.state.showDailyChallengeModal = false;
         this.state.showPuzzleRushModal = false;
         this.state.loadingPage = false;
         this.state.filterTerm = 'None'
@@ -249,7 +251,21 @@ class App extends React.Component {
         });
     };
 
-    handleClickDailyChallenge = () => {
+    handleClickDailyChallenge = (event) => {
+        event.preventDefault();
+        console.log(window.isDailyStarted)
+        if (window.isDailyStarted === 'False') {
+            this.setState({
+                showDailyChallengeModal: true,
+            });
+        }
+        else {
+            this.handleClickDailyChallengeModal();
+        }
+    };
+
+
+    handleClickDailyChallengeModal = () => {
         this.state.loadingPage = true;
         axios.get('/getDailyChallengeData')
             .then( res => {
@@ -259,6 +275,10 @@ class App extends React.Component {
                     }
                     const dc_movesList = res.data.dc_movesList == null ? null : JSON.parse(res.data.dc_movesList)
                     const dc_playerList = res.data.dc_playerList == null ? null : JSON.parse(res.data.dc_playerList)
+                    const daily_start_timer_minutes = res.data.daily_start_timer_minutes;
+                    const daily_start_timer_seconds = res.data.daily_start_timer_seconds;
+                    console.log(daily_start_timer_seconds);
+                    console.log(daily_start_timer_minutes);
                     if (this.state.loadingPage) {
                         this.setState({
                                         PageSelected: <DailyChallengePage
@@ -270,14 +290,18 @@ class App extends React.Component {
                                                             LineDirections={this.state.LineDirections}
                                                             savedMoves={dc_movesList}
                                                             playerStateList={dc_playerList}
+                                                            daily_start_timer_seconds={daily_start_timer_seconds}
+                                                            daily_start_timer_minutes={daily_start_timer_minutes}
                                         />,
                                         open: isOpen,
+                                        showDailyChallengeModal: false,
                                         loadingPage: false,
                                     });
                         }
                     });
         this.setState({
             PageSelected: <LoadingPage/>,
+            showDailyChallengeModal: false,
         });
     };
 
@@ -388,6 +412,14 @@ class App extends React.Component {
             showLoginModal: false
         });
     };
+
+    closeDailyChallengeModal = event => {
+        event.preventDefault();
+        this.setState({
+            showDailyChallengeModal: false
+        });
+    };
+
 
     closePuzzleRushLoginModal = event => {
         event.preventDefault();
@@ -844,6 +876,11 @@ class App extends React.Component {
                         closeModal={this.closeRandomGameLoginModal}
                         show={this.state.showRandomGameModal}
                         handleClickRandomGame={this.handleClickRandomGameModal}
+                    />
+                    <DailyChallengeStartModal
+                        closeModal={this.closeDailyChallengeModal}
+                        show={this.state.showDailyChallengeModal}
+                        startDaily={this.handleClickDailyChallengeModal}
                     />
                 </div>
                 <div style={{position: "fixed", bottom: "10px", right: "10px"}}>

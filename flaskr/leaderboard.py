@@ -6,7 +6,7 @@ from flaskr.services.UserService import UserService
 from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
 from flaskr.services.LeaderboardService import LeaderboardService
-from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 import json
 import re
 import flaskr.auth as auth
@@ -17,7 +17,7 @@ bp = Blueprint('leaderboard', __name__)
 
 
 @bp.route('/leaderboard')
-@jwt_optional
+@jwt_required(optional=True)
 def leaderboard():
     v_dailyChallenge_leaderboard = LeaderboardService().get_daily_challenge_leaderboard()
     v_findGame_leaderboard = LeaderboardService().get_find_game_leaderboard()

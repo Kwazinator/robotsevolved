@@ -5,10 +5,11 @@ from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
 from flaskr.services.WeeklyChallengeService import WeeklyChallengeService
 from flaskr.services.UserService import UserService
-from flask_jwt_extended import jwt_required, get_jwt_identity, jwt_optional, get_raw_jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 import json
 import flaskr.auth as auth
 import re
+import datetime
 
 bp = Blueprint('dailychallenge', __name__)
 
@@ -29,7 +30,7 @@ def trimstring(stringtotrim):
     return deEmojify(stringtotrim).rstrip()
 
 @bp.route('/dailychallenge',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def daily_challenge():
     data = request.get_json()
     userID = get_jwt_identity()
@@ -46,7 +47,7 @@ def daily_challenge():
     return value
 
 @bp.route('/dailychallengehighscores',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def daily_challenge_highscores():
     dc_id = request.args['dc_id']
     highscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
@@ -55,7 +56,7 @@ def daily_challenge_highscores():
 
 
 @bp.route('/getDailyChallengeData',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def get_daily_challenge_data():
     userID = get_jwt_identity()
     dc_id = GeneratorService().get_daily_challenge_id()
@@ -63,15 +64,26 @@ def get_daily_challenge_data():
     dc_movesList = None
     dc_playerList = None
     dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
+
+    isStarted = UserService().is_daily_started(userID, dc_id)
+    if not isStarted:
+        UserService().start_daily(userID, dc_id)
+        daily_start_timer_seconds = 2
+        daily_start_timer_minutes = 0
+    else:
+        daily_start_timer = UserService().get_daily_time(userID, dc_id)
+        total_seconds = daily_start_timer.seconds
+        daily_start_timer_minutes = total_seconds//60
+        daily_start_timer_seconds = total_seconds%60
     if (userID is not None):
         dc_moves = GeneratorService().get_daily_challenge_moves(dc_id,userID)
         if dc_moves is not None:
             dc_movesList = dc_moves[0]
             dc_playerList = dc_moves[1]
-    return jsonify(dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist)
+    return jsonify(dc_playerList=dc_playerList,dc_movesList=dc_movesList, dchighscores=dchighscores,dc_id=dc_id,dailyChallengeGameslist=dailychallengelist, daily_start_timer_minutes=daily_start_timer_minutes, daily_start_timer_seconds=daily_start_timer_seconds)
 
 @bp.route('/weeklychallengehighscores',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def get_wc_highscores():
     wc_id = request.args['wc_id']
     highscores = json.dumps(WeeklyChallengeService().get_wc_highscores(wc_id))
@@ -79,7 +91,7 @@ def get_wc_highscores():
     return jsonify(wc_id=wc_id, highscores=highscores)
 
 @bp.route('/getWCData',methods=('GET','POST'))
-@jwt_optional
+@jwt_required(optional=True)
 def get_wc_data():
     userID = get_jwt_identity()
     wc_id = WeeklyChallengeService().get_wc_id()
