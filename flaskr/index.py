@@ -119,7 +119,7 @@ def about():
     return 'yolo'
 
 @bp.route('/testvotingadd',endpoint='testvoteingadd')
-@jwt_required
+@jwt_required()
 def testvoteingadd():
     vote = 'Y'
     uri = '4c7e3adad3934e91990434700e7a3a45'
@@ -130,7 +130,7 @@ def testvoteingadd():
     return response
 
 @bp.route('/testvotingremove',endpoint='testvoteingremove')
-@jwt_required
+@jwt_required()
 def testvoteingremove():
     vote = 'Y'
     uri = '4c7e3adad3934e91990434700e7a3a45'
@@ -141,7 +141,7 @@ def testvoteingremove():
     return response
 
 @bp.route('/getProfileData',endpoint='getProfileData')
-@jwt_required
+@jwt_required()
 def getProfileData():
     userID = get_jwt_identity()
     gamesview = json.dumps(GameService().get_games_profile_view(userID))
@@ -163,14 +163,14 @@ def getFindGameData():
     return jsonify(game=json.dumps(gamefromuri))
 
 @bp.route('/userUpdate', methods=('GET','POST'),endpoint='user_update')
-@jwt_required
+@jwt_required()
 def user_update():
     userID = get_jwt_identity()
     data = request.get_json()
     return UserService().change_username(userID,trimstring(data['newuser']))
 
 @bp.route('/settingsChange', methods=('GET','POST'),endpoint='settingsChange')
-@jwt_required
+@jwt_required()
 def settingsChange():
     userID = get_jwt_identity()
     data = request.get_json()
@@ -307,7 +307,7 @@ def randomgame():
     return jsonify(game=json.dumps(game))
 
 @bp.route('/likepuzzle', methods=('POST',),endpoint='likepuzzles')
-@jwt_required
+@jwt_required()
 def likepuzzles():
     data = request.get_json()
     vote = data['vote']

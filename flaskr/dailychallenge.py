@@ -110,7 +110,7 @@ def get_wc_data():
     return jsonify(wc_playerList=wc_playerList,wc_movesList=wc_movesList, wchighscores=wchighscores,wc_id=wc_id,weeklyChallengeGameslist=wclist,wc_gamesWon=wc_gamesWon)
 
 @bp.route('/weeklychallengesubmit',methods=('POST','GET'))
-@jwt_required
+@jwt_required()
 def weekly_challenge_submit():
     userID = get_jwt_identity()
     wc_id = WeeklyChallengeService().get_wc_id()
