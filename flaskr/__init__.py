@@ -28,6 +28,7 @@ def create_app(test_config=None):
     app.config['JWT_COOKIE_CSRF_PROTECT'] = False
     app.config['JWT_COOKIE_SECURE'] = False
     app.config['JWT_SESSION_COOKIE'] = False
+    app.config['JWT_IDENTITY_CLAIM'] = 'sub'
     jwt_manager = JWTManager(app)
 
     with open("credentials/DatabaseConnectionString.txt", 'r') as f:
