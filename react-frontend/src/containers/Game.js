@@ -90,7 +90,7 @@ window.addEventListener("keydown", function(e) {
 const gamepanel = () => {
     return {
         width: '100%',
-        paddingTop: '40px',
+        paddingTop: '80px',
         paddingLeft: window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? '0px' : '40px',
     }
 }

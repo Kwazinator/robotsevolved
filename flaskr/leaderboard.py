@@ -6,7 +6,7 @@ from flaskr.services.UserService import UserService
 from flaskr.services.PuzzleRushService import PuzzleRushService
 from flaskr.services.GeneratorService import GeneratorService
 from flaskr.services.LeaderboardService import LeaderboardService
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required
 import json
 import re
 import flaskr.auth as auth
