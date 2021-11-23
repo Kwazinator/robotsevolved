@@ -85,13 +85,11 @@ if __name__ == "__main__":
                         vert = generator.getVerticleLineBoard()
                         solution = generator.solver2(generator.boardgeneratorclassicTwoGoalsCustom(vert, horiz))
                         moves = solution['moves']
-                        print('moves ' + moves)
                         solutiondata = solution['solutiondata']
                         solution = generator.formatsolutiondataTwoGoal(solution)
                     else:
                         solution = generator.solver2(generator.boardgeneratorRandomTwoGoalsCustom(generator.getVerticleLineBoard(),generator.getHorizontalLineBoard()))
                         moves = solution['moves']
-                        print('moves ' + moves)
                         solutiondata = solution['solutiondata']
                         solution = generator.formatsolutiondataTwoGoal(solution)
                     if (moves >= 23):
