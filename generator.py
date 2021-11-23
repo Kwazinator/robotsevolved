@@ -281,12 +281,14 @@ def getVerticleLineBoard():
     board = []
     for i, num in enumerate(range(14)):
         board.append({'top': i, 'left': 7, 'opacity': 1})
+    print(board)
     return board
 
 def getHorizontalLineBoard():
     board = []
     for i, num in enumerate(range(14)):
         board.append({'top': 7, 'left': i, 'opacity': 1})
+    print(board)
     return board
 
 
