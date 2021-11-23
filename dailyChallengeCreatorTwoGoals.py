@@ -7,14 +7,8 @@ import generator
 from datetime import datetime
 from datetime import timedelta
 from collections import deque
-'''
-import json
-import random
-import flaskr
-from flaskr.services.GeneratorService import GeneratorService
-from datetime import datetime
-from datetime import timedelta
-from collections import deque
+
+
 
 if __name__ == "__main__":
     now = datetime.now()
@@ -39,10 +33,6 @@ if __name__ == "__main__":
             dayofweek = -5
         elif g_name == 'Standard Sundays':
             dayofweek = -6
-    
-    
-
-'''
 
 week = {
     'Medium Mondays': ['medium','medium','medium','medium'],
