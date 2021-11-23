@@ -290,8 +290,9 @@ def getHorizontalLineBoard():
     return board
 
 
-def boardgeneratorclassicTwoGoalsCustom(startWallVerticle =list(),startWallHorizontal = list()):
+def boardgeneratorclassicTwoGoalsCustom(startWallVerticle =list(),startWallHorizontal =list()):
     wallHorizontal = startWallHorizontal
+    print(startWallVerticle)
     wallVerticle = startWallVerticle.append({'top': 0, 'left': 0, 'opacity': 1})
     print(wallVerticle)
     print(wallHorizontal)
