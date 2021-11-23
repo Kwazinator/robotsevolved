@@ -40,7 +40,7 @@ export default function ComplexGrid(props) {
     </div>
         :
     <div>
-        <Typography className={classes.titlehome} variant="h3"> NEW! Weekly 100!
+        <Typography className={classes.titlehome} variant="h3"> Testing New DailyChallenge Puzzles in December!
         </Typography>
         <Typography variant="p1" paragraph={true}> ADDED WASD key movement and changed e-> reset board.
         </Typography>

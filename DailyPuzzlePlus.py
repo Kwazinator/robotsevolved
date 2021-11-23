@@ -6,7 +6,8 @@ import generator
 from datetime import datetime
 from datetime import timedelta
 from collections import deque
-'''
+
+
 if __name__ == "__main__":
     now = datetime.now()
     now = now.replace(hour=19,minute=0,second=0)
@@ -30,7 +31,7 @@ if __name__ == "__main__":
             dayofweek = -5
         elif g_name == 'Standard Sundays':
             dayofweek = -6
-'''
+
 week = {
     'Medium Mondays': ['medium', 'medium', 'medium', 'medium'],
     'Trouble Tuesdays': ['hard', 'hard', 'hard', 'hard'],
