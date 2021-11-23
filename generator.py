@@ -292,10 +292,8 @@ def getHorizontalLineBoard():
 
 def boardgeneratorclassicTwoGoalsCustom(startWallVerticle =list(),startWallHorizontal =list()):
     wallHorizontal = startWallHorizontal
-    print(startWallVerticle)
-    wallVerticle = startWallVerticle.append({'top': 0, 'left': 0, 'opacity': 1})
-    print(wallVerticle)
-    print(wallHorizontal)
+    startWallVerticle.append({'top': 0, 'left': 0, 'opacity': 1})
+    wallVerticle = startWallVerticle
     countwalls = 0
     goalposlist = list()
     for j, item in enumerate(range(16)):
@@ -640,10 +638,9 @@ def boardgeneratorRandomTwoGoals(width=16,height=16,randomPercent=.9):
 
 def boardgeneratorRandomTwoGoalsCustom(startWallVerticle=list(),startWallHorizontal=list(),width=16,height=16,randomPercent=.9):
     boardState = list()
-    wallVerticle = startWallVerticle.append({'top': 0, 'left': 0})
+    startWallVerticle.append({'top': 0, 'left': 0})
+    wallVerticle = startWallVerticle
     wallHorizontal = startWallHorizontal
-    print(wallVerticle)
-    print(wallHorizontal)
 
     playerState = list()
     goal = {'top': math.floor(random.random() * math.floor(16)),
