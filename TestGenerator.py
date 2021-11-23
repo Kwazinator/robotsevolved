@@ -1,4 +1,3 @@
-
 import json
 import random
 import flaskr
@@ -7,6 +6,7 @@ import generator
 from datetime import datetime
 from datetime import timedelta
 from collections import deque
+
 '''
 import json
 import random
@@ -39,29 +39,30 @@ if __name__ == "__main__":
             dayofweek = -5
         elif g_name == 'Standard Sundays':
             dayofweek = -6
-    
-    
+
+
 
 '''
 
 week = {
-    'Medium Mondays': ['medium','medium','medium','medium'],
-    'Trouble Tuesdays': ['hard','hard','hard','hard'],
-    'Wild Wednesday': ['medium','medium','medium','medium'],
-    'Tryhard Thursdays': ['hard','hard','hard','hard'],
-    'Flyin Fridays': ['medium','medium','medium','medium'],
-    'Sleepy Saturdays': ['medium','medium','medium','medium'],
-    'Standard Sundays': ['medium','medium','medium','medium']
+    'Medium Mondays': ['medium', 'medium', 'medium', 'medium'],
+    'Trouble Tuesdays': ['hard', 'hard', 'hard', 'hard'],
+    'Wild Wednesday': ['medium', 'medium', 'medium', 'medium'],
+    'Tryhard Thursdays': ['hard', 'hard', 'hard', 'hard'],
+    'Flyin Fridays': ['medium', 'medium', 'medium', 'medium'],
+    'Sleepy Saturdays': ['medium', 'medium', 'medium', 'medium'],
+    'Standard Sundays': ['medium', 'medium', 'medium', 'medium']
 }
 
-weekly = ['Medium Mondays','Trouble Tuesdays','Wild Wednesday','Tryhard Thursdays','Flyin Fridays','Sleepy Saturdays','Standard Sundays']
+weekly = ['Medium Mondays', 'Trouble Tuesdays', 'Wild Wednesday', 'Tryhard Thursdays', 'Flyin Fridays',
+          'Sleepy Saturdays', 'Standard Sundays']
 
 if __name__ == "__main__":
     dayonnow = 1
     app = flaskr.create_app()
     with app.app_context():
         last_daily_tuple = GeneratorService().get_last_daily_challenge()
-        now = last_daily_tuple[0].replace(hour=19,minute=0,second=0)
+        now = last_daily_tuple[0].replace(hour=19, minute=0, second=0)
         g_name = last_daily_tuple[1]
         if g_name == 'Medium Mondays':
             dayofweek = -1
@@ -91,7 +92,7 @@ if __name__ == "__main__":
                 NotFound = True
                 while (NotFound):
                     if classicorrandom[-1] == 'c':
-                        solution = generator.solver2(generator.boardgeneratorclassicTwoGoalsCustom(generator.getVerticleLineBoard(),generator.getHorizontalLineBoard()))
+                        solution = generator.solver2(generator.boardgeneratorclassicTwoGoals())
                         moves = solution['moves']
                         solutiondata = solution['solutiondata']
                         solution = generator.formatsolutiondataTwoGoal(solution)
@@ -130,11 +131,13 @@ if __name__ == "__main__":
                 for daypuzzle in daypuzzles:
                     print('found ' + str(daypuzzle['difficulty']) + ' puzzle of ' + str(daypuzzle['moves']) + ' moves')
                     totalMoves += daypuzzle['moves']
-                    listid.append(GeneratorService().insert_puzzle(puzzleday, daypuzzle['difficulty'], daypuzzle['puzzledata'], 'abcdefg', daypuzzle['moves'], daypuzzle['solutiondata']))
+                    listid.append(
+                        GeneratorService().insert_puzzle(puzzleday, daypuzzle['difficulty'], daypuzzle['puzzledata'],
+                                                         'abcdefg', daypuzzle['moves'], daypuzzle['solutiondata']))
                 random.shuffle(listid)
-                GeneratorService().insert_daily_challenge(now+timedelta(days=dayonnow),listid[0],listid[1],listid[2],listid[3],totalMoves)
+                GeneratorService().insert_daily_challenge(now + timedelta(days=dayonnow), listid[0], listid[1],
+                                                          listid[2], listid[3], totalMoves)
             dayonnow += 1
-
 
         '''
                                 app = flaskr.create_app()
