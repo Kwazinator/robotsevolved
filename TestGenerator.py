@@ -80,7 +80,9 @@ if __name__ == "__main__":
                 NotFound = True
                 while (NotFound):
                     if classicorrandom[-1] == 'c':
-                        solution = generator.solver2(generator.boardgeneratorclassicTwoGoalsCustom(generator.getVerticleLineBoard(),generator.getHorizontalLineBoard()))
+                        horiz = generator.getHorizontalLineBoard()
+                        vert = generator.getVerticleLineBoard()
+                        solution = generator.solver2(generator.boardgeneratorclassicTwoGoalsCustom(vert, horiz))
                         moves = solution['moves']
                         solutiondata = solution['solutiondata']
                         solution = generator.formatsolutiondataTwoGoal(solution)
