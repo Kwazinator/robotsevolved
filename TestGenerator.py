@@ -45,7 +45,7 @@ weekly = ['Medium Mondays', 'Trouble Tuesdays', 'Wild Wednesday', 'Tryhard Thurs
           'Sleepy Saturdays', 'Standard Sundays']
 
 if __name__ == "__main__":
-    dayofweek = 2
+    dayofweek = 5
     dayonnow = 1
     app = flaskr.create_app()
     with app.app_context():
@@ -85,7 +85,7 @@ if __name__ == "__main__":
                         solutiondata = solution['solutiondata']
                         solution = generator.formatsolutiondataTwoGoal(solution)
                     else:
-                        solution = generator.solver2(generator.boardgeneratorRandomTwoGoals())
+                        solution = generator.solver2(generator.boardgeneratorRandomTwoGoalsCustom(generator.getVerticleLineBoard(),generator.getHorizontalLineBoard()))
                         moves = solution['moves']
                         solutiondata = solution['solutiondata']
                         solution = generator.formatsolutiondataTwoGoal(solution)

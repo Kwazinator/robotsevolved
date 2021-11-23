@@ -278,21 +278,21 @@ def boardgeneratorclassicTwoGoals():
     }
 
 def getVerticleLineBoard():
-    board = []
+    board = list()
     for i, num in enumerate(range(14)):
         board.append({'top': i, 'left': 7, 'opacity': 1})
     print(board)
     return board
 
 def getHorizontalLineBoard():
-    board = []
+    board = list()
     for i, num in enumerate(range(14)):
         board.append({'top': 7, 'left': i, 'opacity': 1})
     print(board)
     return board
 
 
-def boardgeneratorclassicTwoGoalsCustom(startWallVerticle,startWallHorizontal):
+def boardgeneratorclassicTwoGoalsCustom(startWallVerticle =list(),startWallHorizontal = list()):
     wallHorizontal = startWallHorizontal
     wallVerticle = startWallVerticle.append({'top': 0, 'left': 0, 'opacity': 1})
     countwalls = 0
@@ -636,6 +636,82 @@ def boardgeneratorRandomTwoGoals(width=16,height=16,randomPercent=.9):
         'boardState': boardState
     }
 
+
+def boardgeneratorRandomTwoGoalsCustom(startWallVerticle=list(),startWallHorizontal=list(),width=16,height=16,randomPercent=.9):
+    boardState = list()
+    wallVerticle = startWallVerticle.append({'top': 0, 'left': 0})
+    wallHorizontal = startWallHorizontal
+
+    playerState = list()
+    goal = {'top': math.floor(random.random() * math.floor(16)),
+            'left': math.floor(random.random() * math.floor(16))}
+    goal2 = {'top': math.floor(random.random() * math.floor(16)),
+            'left': math.floor(random.random() * math.floor(16))}
+    while (goal['top'] == goal2['top'] and goal['left'] == goal2['left']):
+        goal2 = {'top': math.floor(random.random() * math.floor(16)),
+                 'left': math.floor(random.random() * math.floor(16))}
+    randomPositions = [goal]
+    for i, item in enumerate(range(5)):
+        randomPositions.append(randomBoardPosition(randomPositions,width,height))
+    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
+    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
+    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
+    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00'})
+    playerState.append(randompos1)
+    playerState.append(randompos2)
+    playerState.append(randompos3)
+    playerState.append(randompos4)
+
+    for j, item in enumerate(range(height)):
+        for i, item in enumerate(range(width)):
+            boardState.append({'top': j,'left': i})
+
+    for j, item in enumerate(range(height)):
+        for i, item in enumerate(range(width)):
+            checkj = j
+            checki = i
+            if (checki < 1):
+                wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
+            elif (checki == (width-1)):
+                wallVerticle.append({'top': checkj, 'left': checki+1, 'opacity': 1})
+            if (checkj < 1):
+                wallHorizontal.append({'top': checkj,'left': checki, 'opacity': 1})
+            elif (checkj == (height-1)):
+                wallHorizontal.append({'top': checkj+1, 'left': checki, 'opacity': 1})
+    for j, item in enumerate(range(height)):
+        for i, item in enumerate(range(width)):
+            checkj = j
+            checki = i
+            if (checki > 1 and checki != (width-1) and random.random() > randomPercent):
+                if (checkDeadendHorizontal(wallHorizontal, {'top': checkj, 'left': checki}, wallVerticle[len(wallVerticle)-1],width,height)):
+                    wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
+            if (checkj > 1 and checkj != (height - 1) and random.random() > randomPercent):
+                if (checkDeadendTop(wallVerticle, {'top': j, 'left': i}, wallHorizontal, width, height)):
+                    wallHorizontal.append({'top': checkj,'left': checki, 'opacity': 1})
+
+    color1 = random.randint(0,1)
+    color2 = random.randint(2,3)
+    coloredGoals = [
+        {
+            'top': goal['top'],
+            'left': goal['left'],
+            'color': COLOR_ARRAY[color1],
+            'colorSignifier': COLOR_ARRAY_SIG[color1]
+        },
+        {
+            'top': goal2['top'],
+            'left': goal2['left'],
+            'color': COLOR_ARRAY[color2],
+            'colorSignifier': COLOR_ARRAY_SIG[color2]
+        }
+    ]
+    return {
+        'playerState': playerState,
+        'wallHorizontal': wallHorizontal,
+        'wallVerticle': wallVerticle,
+        'coloredGoals': coloredGoals,
+        'boardState': boardState
+    }
 
 
 
