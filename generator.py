@@ -279,14 +279,14 @@ def boardgeneratorclassicTwoGoals():
 
 def getVerticleLineBoard():
     board = list()
-    for i, num in enumerate(range(14)):
-        board.append({'top': i, 'left': 7, 'opacity': 1})
+    for i, num in enumerate(range(13)):
+        board.append({'top': i+1, 'left': 7, 'opacity': 1})
     return board
 
 def getHorizontalLineBoard():
     board = list()
-    for i, num in enumerate(range(14)):
-        board.append({'top': 7, 'left': i, 'opacity': 1})
+    for i, num in enumerate(range(12)):
+        board.append({'top': 7, 'left': i+2, 'opacity': 1})
     return board
 
 
