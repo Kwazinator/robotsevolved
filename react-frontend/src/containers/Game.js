@@ -55,6 +55,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Chip from "@material-ui/core/Chip";
 
 function MyStopwatch(props) {
        var stopwatchOffset = new Date();
@@ -69,11 +70,27 @@ function MyStopwatch(props) {
         pause,
         reset,
       } = useStopwatch({ offsetTimestamp: stopwatchOffset, autoStart: true });
-        return (
-          <div style={{fontSize: '50px'}}>
-            <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-          </div>
-  );
+    let displaySeconds = seconds + "";
+    if (seconds < 10)
+          displaySeconds = "0" + seconds
+    let displayMinutes = minutes + "";
+    if (minutes < 10)
+          displayMinutes = "0" + minutes
+    let displayHours = hours + "";
+    if (hours < 10)
+          displayHours = "0" + hours
+    const display = displayHours + ":" + displayMinutes + ":" + displaySeconds
+    return (
+        <div style={{width: "100%", display: "inline-flex"}}>
+            <div style={{flex: 1}}/>
+            <Chip
+                label={<Typography variant={"h4"}>{displayHours}:{displayMinutes}:{displaySeconds}</Typography>}
+                color="secondary"
+                variant={"outlined"}
+            />
+                {/*<Typography variant={"h4"}>{displayHours}:{displayMinutes}:{displaySeconds}</Typography>*/}
+        </div>
+    );
 }
 
 window.addEventListener("keydown", function(e) {

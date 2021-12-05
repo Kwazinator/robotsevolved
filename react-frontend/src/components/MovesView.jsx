@@ -1,5 +1,6 @@
 import React from 'react';
 import {DIRECTION_MAP_IMAGES} from '../constants/constants';
+import Typography from "@material-ui/core/Typography";
 
 const style = () => {
     return {
@@ -18,7 +19,7 @@ class MovesView extends React.Component {
 
     render() {
         return (
-            <div style={style()}><h3>Moves: {this.props.moveHistory.length}</h3>
+            <div style={style()}><Typography variant={"h6"}>Moves: {this.props.moveHistory.length}</Typography>
                 {
                     this.props.moveHistory.map(move =>
                         <img src={DIRECTION_MAP_IMAGES[this.props.playerState[move.robot].colorSignifier][move.dir]}/>
