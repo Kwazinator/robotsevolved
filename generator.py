@@ -949,7 +949,7 @@ def solver2(gamejson):
         'boardState': gamejson['boardState']
     }
 
-def solver(gamejson):
+def solver(gamejson, skipfirst=True):
     playerstate = gamejson['playerState']
     wallsH = gamejson['wallHorizontal']
     wallsV = gamejson['wallVerticle']
@@ -975,7 +975,8 @@ def solver(gamejson):
 
     result = ['' for x in range(256)]
 
-    wallsV = wallsV[1:]
+    if skipfirst:
+        wallsV = wallsV[1:]
 
     for wall in wallsH:
         top = wall['top']
