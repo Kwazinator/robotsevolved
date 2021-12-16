@@ -71,7 +71,7 @@ if __name__ == "__main__":
         # select game_id here
         #
         #
-        game = GameService().get_game(171)
+        game = GameService().get_game(57)
         parsedData = json.loads(game.puzzledata)
         wallsH = parsedData['wallHorizontal']
         wallsV = parsedData['wallVerticle']
