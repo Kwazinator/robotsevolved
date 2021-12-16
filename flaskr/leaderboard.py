@@ -22,4 +22,5 @@ def leaderboard():
     v_dailyChallenge_leaderboard = LeaderboardService().get_daily_challenge_leaderboard()
     v_findGame_leaderboard = LeaderboardService().get_find_game_leaderboard()
     v_puzzle_rush_leaderboard = LeaderboardService().get_puzzle_rush_leaderboard()
+    #v_dailyChallenge_records = LeaderboardService().get_daily_challenge_records()
     return jsonify(dailyChallenge_leaderboard=v_dailyChallenge_leaderboard, findGame_leaderboard=v_findGame_leaderboard, puzzle_rush_leaderboard=v_puzzle_rush_leaderboard)
