@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
                     moves = solution['moves']
                     solutiondata = solution['solutiondata']
-                    solution = generator.formatsolutiondataTwoGoal(solution)
+                    solution = generator.formatsolutiondata(solution)
                     if (moves >= 23):
                         puzzleis = 'GodTeir'
                     elif (17 < moves < 23):
