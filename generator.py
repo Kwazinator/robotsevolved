@@ -290,6 +290,49 @@ def getHorizontalLineBoard():
     return board
 
 
+
+def boardgeneratorCustomMapOne(startWallVerticle = list(), startWallHorizontal = list()):
+    goalposrandomx = random.randint(3, 13)
+    goalposrandomy = random.randint(3,13)
+    goalpos = {'top': goalposrandomy, 'left': goalposrandomx}
+    wallHorizontal = startWallHorizontal
+    wallVerticle = startWallVerticle
+    playerState = list()
+    goal = {'top': math.floor(random.random() * math.floor(16)),
+            'left': math.floor(random.random() * math.floor(16))}
+    randomPositions = [goal]
+    for i, item in enumerate(range(5)):
+        randomPositions.append(randomBoardPosition(randomPositions, 16, 16))
+    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
+    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
+    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
+    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00'})
+    playerState.append(randompos1)
+    playerState.append(randompos2)
+    playerState.append(randompos3)
+    playerState.append(randompos4)
+    boardState = list()
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            boardState.append({'top': j, 'left': i})
+    return {
+        'playerState': playerState,
+        'wallHorizontal': wallHorizontal,
+        'wallVerticle': wallVerticle,
+        'goal': goalpos,
+        'boardState': boardState
+    }
+
+
+
+
+
+
+
+
+
+
+
 def boardgeneratorclassicTwoGoalsCustom(startWallVerticle =list(),startWallHorizontal =list()):
     wallHorizontal = startWallHorizontal
     startWallVerticle.append({'top': 0, 'left': 0, 'opacity': 1})
