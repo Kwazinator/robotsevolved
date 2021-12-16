@@ -315,6 +315,9 @@ def boardgeneratorCustomMapOne(startWallVerticle = list(), startWallHorizontal =
     for j, item in enumerate(range(16)):
         for i, item in enumerate(range(16)):
             boardState.append({'top': j, 'left': i})
+    print(goalpos)
+    print(wallHorizontal)
+    print(wallVerticle)
     return {
         'playerState': playerState,
         'wallHorizontal': wallHorizontal,

@@ -8,31 +8,6 @@ from datetime import datetime
 from datetime import timedelta
 from collections import deque
 
-
-if __name__ == "__main__":
-    now = datetime.now()
-    now = now.replace(hour=19,minute=0,second=0)
-    dayonnow = 1
-    app = flaskr.create_app()
-    with app.app_context():
-        last_daily_tuple = GeneratorService().get_last_daily_challenge()
-        now = last_daily_tuple[0].replace(hour=19,minute=0,second=0)
-        g_name = last_daily_tuple[1]
-        if g_name == 'Medium Mondays':
-            dayofweek = 0
-        elif g_name == 'Trouble Tuesdays':
-            dayofweek = -1
-        elif g_name == 'Wild Wednesday':
-            dayofweek = -2
-        elif g_name == 'Tryhard Thursdays':
-            dayofweek = -3
-        elif g_name == 'Flyin Fridays':
-            dayofweek = -4
-        elif g_name == 'Sleepy Saturdays':
-            dayofweek = -5
-        elif g_name == 'Standard Sundays':
-            dayofweek = -6
-
 week = {
     'Medium Mondays': ['medium', 'medium', 'medium', 'medium'],
     'Trouble Tuesdays': ['hard', 'hard', 'hard', 'hard'],
