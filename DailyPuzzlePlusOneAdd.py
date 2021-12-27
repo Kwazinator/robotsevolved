@@ -63,7 +63,7 @@ if __name__ == "__main__":
             for difficultypuzzle in week[puzzleday]:
                 NotFound = True
                 while (NotFound):
-                    solution = generator.solver(generator.boardgeneratorCustomMapOne(wallsV, wallsH),False)
+                    solution = generator.solver(generator.boardgeneratorCustomMapOneAdd(wallsV, wallsH),False)
                     #solution = generator.solver(generator.boardgeneratorclassic())
 
                     moves = solution['moves']
