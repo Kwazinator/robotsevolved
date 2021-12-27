@@ -323,6 +323,128 @@ def boardgeneratorCustomMapOne(startWallVerticle = list(), startWallHorizontal =
         'boardState': boardState
     }
 
+def boardgeneratorCustomMapOneAdd(startWallVerticle = list(), startWallHorizontal=list()):
+    wallHorizontal = startWallHorizontal
+    startWallVerticle.append({'top': 0, 'left': 0, 'opacity': 1})
+    wallVerticle = startWallVerticle
+    countwalls = 0
+    goalposlist = list()
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            checkj = j
+            checki = i
+            if (checki < 1):
+                wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
+            elif (checki == (16 - 1)):
+                wallVerticle.append({'top': checkj, 'left': checki + 1, 'opacity': 1})
+            if (checkj < 1):
+                wallHorizontal.append({'top': checkj, 'left': checki, 'opacity': 1})
+            elif (checkj == (16 - 1)):
+                wallHorizontal.append({'top': checkj + 1, 'left': checki, 'opacity': 1})
+
+    for i, nothing in enumerate(range(5)):
+        for j, nothing2 in enumerate(range(5)):
+            if (random.randint(0, 12) > 5):
+                randomnum = random.randint(0, 15)
+                countwalls += 1
+                goalspot = int(randomnum / 4)
+                if goalspot == 0:
+                    goalposlist.append({'top': i * 3 + 1, 'left': j * 3 + 1})
+                elif goalspot == 1:
+                    goalposlist.append({'top': i * 3 + 1, 'left': j * 3 + 2})
+                elif goalspot == 2:
+                    goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 1})
+                else:
+                    goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 2})
+                walls = classicstruct(i * 3 + 1, j * 3 + 1, randomnum)
+                wallHorizontal.append(walls[1])
+                wallVerticle.append(walls[0])
+    thenum = random.randint(0, countwalls - 1)
+    thenum2 = random.randint(0, countwalls - 1)
+    while thenum2 == thenum:
+        thenum2 = random.randint(0, countwalls - 1)
+    noplace = getnoplacelisttop(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+    maxtries = 0
+
+    wallVerticle.append({'top': 0, 'left': location, 'opacity': 1})
+    wallVerticle.append({'top': 0, 'left': location2, 'opacity': 1})
+
+    # randomize bottom walls
+
+    noplace = getnoplacelistbottom(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+
+    wallVerticle.append({'top': 15, 'left': location, 'opacity': 1})
+    wallVerticle.append({'top': 15, 'left': location2, 'opacity': 1})
+
+    # randomize left walls
+    noplace = getnoplacelistleft(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+
+    wallHorizontal.append({'top': location, 'left': 0, 'opacity': 1})
+    wallHorizontal.append({'top': location2, 'left': 0, 'opacity': 1})
+
+    # randomize right walls
+    noplace = getnoplacelistright(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+
+    wallHorizontal.append({'top': location, 'left': 15, 'opacity': 1})
+    wallHorizontal.append({'top': location2, 'left': 15, 'opacity': 1})
+    goalposrandomx = random.randint(3, 13)
+    goalposrandomy = random.randint(3, 13)
+    goalpos = {'top': goalposrandomy, 'left': goalposrandomx}
+    wallHorizontal = startWallHorizontal
+    wallVerticle = startWallVerticle
+    playerState = list()
+    goal = {'top': math.floor(random.random() * math.floor(16)),
+            'left': math.floor(random.random() * math.floor(16))}
+    randomPositions = [goal]
+    for i, item in enumerate(range(5)):
+        randomPositions.append(randomBoardPosition(randomPositions, 16, 16))
+    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
+    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
+    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
+    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00'})
+    playerState.append(randompos1)
+    playerState.append(randompos2)
+    playerState.append(randompos3)
+    playerState.append(randompos4)
+    boardState = list()
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            boardState.append({'top': j, 'left': i})
+    return {
+        'playerState': playerState,
+        'wallHorizontal': wallHorizontal,
+        'wallVerticle': wallVerticle,
+        'goal': goalpos,
+        'boardState': boardState
+    }
 
 
 
