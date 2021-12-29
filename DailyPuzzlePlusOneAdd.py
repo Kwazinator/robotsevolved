@@ -69,7 +69,7 @@ if __name__ == "__main__":
                     moves = solution['moves']
                     solutiondata = solution['solutiondata']
                     solution = generator.formatsolutiondata(solution)
-                    print('found puzzle of ' + moves + ' long')
+                    print('found puzzle of ' + str(moves) + ' long')
                     if (moves >= 23):
                         puzzleis = 'GodTeir'
                     elif (17 < moves < 23):
