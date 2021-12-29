@@ -69,6 +69,7 @@ if __name__ == "__main__":
                     moves = solution['moves']
                     solutiondata = solution['solutiondata']
                     solution = generator.formatsolutiondata(solution)
+                    print('found puzzle of ' + moves + ' long')
                     if (moves >= 23):
                         puzzleis = 'GodTeir'
                     elif (17 < moves < 23):
@@ -82,6 +83,7 @@ if __name__ == "__main__":
                     else:
                         puzzleis = 'trash'
                     if difficultypuzzle == puzzleis:
+                        print('found puzzle that fits')
                         daypuzzles.append(
                             {
                                 'difficulty': puzzleis,
