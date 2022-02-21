@@ -136,3 +136,18 @@ delete u from `user` u left join
 puzzle_rush pr on pr.user_id = u.user_id left join
 solutions s on s.userid = u.user_id
 where u.username = '' and u.logintype = 'anon' and pr.pr_id is null and s.solutions_id is null
+
+
+'''
+if someone lost user_id and has multiple accounts then use this to merge accounts into one
+'''
+DECLARE Old_userid 545;
+DECLARE New_userid 326612;
+
+
+update `Robots`.daily_challenge_submit dcs set user_id = New_userid where user_id = Old_userid;
+update `Robots`.game g set authorid = New_userid where authorid = Old_userid;
+update `Robots`.puzzle_rush pr set user_id = New_userid where user_id = Old_userid;
+update `Robots`.solutions s set userid = New_userid where userid = Old_userid;
+update `Robots`.vote v set user_id = New_userid where user_id = Old_userid;
+update `Robots`.weekly_challenge_submit wcs set user_id = New_userid where user_id = Old_userid;
