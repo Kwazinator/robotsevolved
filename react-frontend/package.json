@@ -166,7 +166,7 @@
     "@babel/core": "^7.13.0",
     "acorn": "^8.5.0",
     "install-peers": "^1.0.3",
-    "terser": "^3.14.1",
+    "terser": "^4.8.1",
     "webpack": "^4.4.0"
   }
 }
