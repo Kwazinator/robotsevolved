@@ -538,15 +538,19 @@ class Game extends React.Component {
         switch(e.keyCode) {
             case 37:
                 newDirection = { top: 0, left: -40, dir: LEFT};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 38:
                 newDirection = { top: -40, left: 0, dir: UP};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 39:
                 newDirection = { top: 0, left: 40, dir: RIGHT};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 40:
                 newDirection = { top: 40, left: 0, dir: DOWN};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 9:
                 this.tabSelector();
@@ -566,20 +570,23 @@ class Game extends React.Component {
                 return;
             case 83:
                 newDirection = { top: 40, left: 0, dir: DOWN};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 68:
                 newDirection = { top: 0, left: 40, dir: RIGHT};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 87:
                 newDirection = { top: -40, left: 0, dir: UP};
+                this.handlePlayerMovement(newDirection);
                 break;
             case 65:
                 newDirection = { top: 0, left: -40, dir: LEFT};
+                this.handlePlayerMovement(newDirection);
                 break;
             default:
                 return;
         }
-        this.handlePlayerMovement(newDirection);
     };
 
     robotSelect = (i) => {
@@ -678,7 +685,7 @@ class Game extends React.Component {
             event.preventDefault();
         }
         this.setState({
-            playerState: this.state.playerStart.slice(),
+            playerState: this.state.playerStart,
             moveHistory: [],
             gameWon: false,
             dailySubmittedSucessfully: null
@@ -865,7 +872,7 @@ class Game extends React.Component {
                 numMoves += moveHistory.length
             }
         });
-        var playerStateList = this.state.playerStateList.slice()
+        var playerStateList = this.state.playerStateList
         if (LastRobotPosition != null) {
             playerStateList[this.state.numPuzzleon] = LastRobotPosition.slice()
         }
@@ -911,7 +918,7 @@ class Game extends React.Component {
             numMoves += moveHistory.length
         });
         var playerStateList = this.state.playerStateList.slice()
-        playerStateList[this.state.numPuzzleon] = LastRobotPosition.slice()
+        playerStateList[this.state.numPuzzleon] = [...LastRobotPosition]
         axios.post('/dailychallenge', {score: numMoves, name: document.getElementById("namesubmitHS").value, solutiondata: moveHistoryList, dc_id: this.state.dc_id, playerStateList: playerStateList})
             .then( res => {
                 this.setState({
@@ -986,10 +993,9 @@ class Game extends React.Component {
                     return null
                 }
                 else if (this.props.weeklyChallengeMode === 'Yes') {
-                    var Won=true
                     if (window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
-                        window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
-                        window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
+                        window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.moveHistory))
+                        window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.playerState))
                     }
                     this.state.gamesWonWeekly.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
@@ -997,7 +1003,7 @@ class Game extends React.Component {
                         }
                     });
                     var moveHistoryList = this.state.moveHistoryList
-                    moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
+                    moveHistoryList[this.state.numPuzzleon] = [...this.state.moveHistory]
                     var numMoves = 0
                     moveHistoryList.map(moveHistory => {
                         if (moveHistory !== null) {
@@ -1029,18 +1035,22 @@ class Game extends React.Component {
                     />);
                 }
                 else if (this.props.dailyChallengeMode === 'Yes') {
-                    var Won=true
-                    if (window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 || this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length) {
-                        window.dailyChallengeSessionBestHistory[this.state.numPuzzleon] = this.state.moveHistory.slice()
-                        window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon] = this.state.playerState.slice()
+                    if ((window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length == 0 ||
+                            this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length)) {
+                        window.dailyChallengeSessionBestHistory[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.moveHistory))
+                        window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.playerState))
+                        console.log("playerState")
+                        console.log(this.state.playerState)
+                        console.log("moveHistory")
+                        console.log(this.state.moveHistory)
                     }
                     this.state.gamesWonDaily.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
                             Won = false
                         }
                     });
-                    var moveHistoryList = this.state.moveHistoryList
-                    moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory
+                    var moveHistoryList = [...this.state.moveHistoryList]
+                    moveHistoryList[this.state.numPuzzleon] = [...this.state.moveHistory]
                     var numMoves = 0
                     moveHistoryList.map(moveHistory => {
                         numMoves += moveHistory.length
@@ -1268,14 +1278,14 @@ class Game extends React.Component {
             var moveHistory = [];
         }
         else {
-            var moveHistory = this.state.moveHistoryList[index];
+            var moveHistory = [...this.state.moveHistoryList[index]];
         }
 
         if (this.state.playerStateList[index]==undefined) {
-            puzzledata.playerState = puzzledata.playerStart.slice()
+            puzzledata.playerState = [...puzzledata.playerStart]
         }
         else {
-            puzzledata.playerState = this.state.playerStateList[index];
+            puzzledata.playerState = [...this.state.playerStateList[index]];
         }
         var gamesWonDaily = this.state.gamesWonDaily
         if (this.state.gameWon) {
@@ -1286,9 +1296,9 @@ class Game extends React.Component {
         }
         var playerState = this.state.playerState.slice();
         var playerStateList = this.state.playerStateList;
-        playerStateList[this.state.numPuzzleon] = playerState;
+        playerStateList[this.state.numPuzzleon] = [...playerState];
         var moveHistoryList = this.state.moveHistoryList;
-        moveHistoryList[this.state.numPuzzleon] = this.state.moveHistory.slice();
+        moveHistoryList[this.state.numPuzzleon] = [...this.state.moveHistory];
 
         this.setState(
             extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonDaily: gamesWonDaily})
@@ -1461,8 +1471,8 @@ class Game extends React.Component {
                 <Grid container xs={12} direction="column">
                     <Grid item xs={12}>
                         <DailyMovesView
-                            moveHistory={window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon]}
-                            playerState={window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon]}
+                            moveHistory={JSON.parse(JSON.stringify(window.weeklyChallengeSessionBestHistory[this.state.numPuzzleon]))}
+                            playerState={JSON.parse(JSON.stringify(window.weeklyChallengeSessionBestPlayerState[this.state.numPuzzleon]))}
                             resetToBest={this.resetToBest}
                         />
                     </Grid>
@@ -1511,8 +1521,8 @@ class Game extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
                         <DailyMovesView
-                            moveHistory={window.dailyChallengeSessionBestHistory[this.state.numPuzzleon]}
-                            playerState={window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon]}
+                            moveHistory={JSON.parse(JSON.stringify(window.dailyChallengeSessionBestHistory[this.state.numPuzzleon]))}
+                            playerState={JSON.parse(JSON.stringify(window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon]))}
                             resetToBest={this.resetToBest}
                         />
                     </Grid>

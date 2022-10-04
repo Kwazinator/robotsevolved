@@ -141,8 +141,8 @@ where u.username = '' and u.logintype = 'anon' and pr.pr_id is null and s.soluti
 '''
 if someone lost user_id and has multiple accounts then use this to merge accounts into one
 '''
-DECLARE Old_userid 545;
-DECLARE New_userid 326612;
+SET Old_userid:=545;
+SET New_userid:=326612;
 
 
 update `Robots`.daily_challenge_submit dcs set user_id = New_userid where user_id = Old_userid;
