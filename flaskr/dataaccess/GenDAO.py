@@ -205,6 +205,33 @@ class GenDAO:
         finally:
             pass
 
+    def get_last_daily_evolution(self):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('Select g_id1,created from daily_evolution ORDER BY created desc LIMIT 1')
+            row = cursor.fetchone()
+            print(row[1])
+            return row[1]
+        except Exception as e:
+            print(e)
+        finally:
+            pass
+
+    def insert_daily_evolution(self, date, id1, id2, id3, id4, type):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute(
+                'INSERT INTO daily_evolution (created, g_id1, g_id2, g_id3, g_id4, type) VALUES (%s,%s,%s,%s,%s,%s)',
+                (date, id1, id2, id3, id4, type))
+            db.commit()
+            return None
+        except Exception as e:
+            print(e)
+        finally:
+            pass
+
 
     def get_last_daily_challenge(self):
         try:
@@ -214,8 +241,6 @@ class GenDAO:
             row = cursor.fetchone()
             cursor.execute('SELECT g_name from generated_games where g_id=%s',(row[0],))
             row2 = cursor.fetchone()
-            print(row[1])
-            print(row2[0])
             return (row[1],row2[0])
         except Exception as e:
             print(e)

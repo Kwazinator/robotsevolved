@@ -21,6 +21,14 @@ class GeneratorService:
     def get_puzzle_by_id(self,id):
         return GenDAO().get_puzzle_by_id(id)
 
+    def get_last_daily_evolution(self):
+        return GenDAO().get_last_daily_evolution()
+
+
+    def insert_daily_evolution(self, date, id1,id2,id3,id4, type):
+        return GenDAO().insert_daily_evolution(date,id1,id2,id3,id4, type)
+
+
     def get_daily_puzzles(self):
         returnlist = list()
         for game in GenDAO().get_daily_puzzles():

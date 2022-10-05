@@ -117,3 +117,14 @@ CREATE TABLE weekly_challenge_submit (
     FOREIGN KEY (wc_id) REFERENCES weekly_challenge(wc_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
+
+
+CREATE TABLE daily_evolution (
+    dce_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    created datetime DEFAULT CURRENT_TIMESTAMP,
+    g_id1 MEDIUMTEXT NOT NULL,
+    g_id2 MEDIUMTEXT NOT NULL,
+    g_id3 MEDIUMTEXT NOT NULL,
+    g_id4 MEDIUMTEXT NOT NULL,
+    type MEDIUMTEXT NOT NULL
+);
