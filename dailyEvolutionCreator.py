@@ -1,7 +1,7 @@
 
 import json
 import random
-from flaskr.databaseOnly import create_app
+from flaskr.DATABASE_ONLY_INIT import create_app
 from flaskr.services.GeneratorService import GeneratorService
 import generatorEvolution
 from datetime import datetime
