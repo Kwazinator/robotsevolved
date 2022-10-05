@@ -1,10 +1,6 @@
 import math
 import json
-from Solver import model
 import random
-from Solver import ricochet
-import flaskr
-from flaskr.services.GeneratorService import GeneratorService
 
 COLOR_ARRAY_SIG = ['green','blue','red','yellow']
 COLOR_ARRAY = ['#228b22','#4169e1','#b22222','#ff8c00']

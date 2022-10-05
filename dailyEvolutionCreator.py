@@ -1,12 +1,11 @@
 
 import json
 import random
-from flaskr.DATABASE_ONLY_INIT import create_app
-from flaskr.services.GeneratorService import GeneratorService
+from databaseOnly import create_app
+from databaseOnly.services.GeneratorService import GeneratorService
 import generatorEvolution
 from datetime import datetime
 from datetime import timedelta
-from collections import deque
 
 
 

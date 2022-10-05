@@ -1,0 +1,370 @@
+html {
+  background: #ffcccc;
+  font-family: 'Dosis', sans-serif!important;
+  color: #ffffcc;
+}
+  /*
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Inconsolata', monospace;
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Arvo', serif;
+  font-family: 'Monoton', cursive;
+  font-family: 'Share Tech Mono', monospace;
+  font-family: 'IM Fell English SC', serif;
+  ----------------------
+  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Audiowide', cursive;
+  font-family: 'East Sea Dokdo', cursive;
+  font-family: 'Righteous', cursive;
+  font-family: 'Jua', sans-serif;
+  font-family: 'Permanent Marker', cursive;
+  font-family: 'Orbitron', sans-serif;
+  font-family: 'Fascinate Inline', cursive;
+  font-family: 'Ultra', serif;
+  font-family: 'Architects Daughter', cursive;
+  font-family: 'Special Elite', cursive;
+  font-family: 'VT323', monospace;
+  font-family: 'Nova Mono', monospace;
+  font-family: 'Space Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
+  */
+body{
+  /*background: #adb5bd!important;*/
+}
+
+h1, h3{
+  margin:0;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight:700;
+  color: #ffffcc;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+.tooltiptext {
+  visibility: hidden;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.username{
+  color: #ffe484!important;
+  font-family: 'Dosis', sans-serif;
+  font-weight:600;
+  font-size: x-large;
+
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #82888e;
+    border-color: #82888e;
+}
+
+.blackbackground {
+    font-size: 40px,
+    border-radius: 25px;
+    background-color: #191313;
+}
+
+.btn-outline-success:active, .btn-outline-success:hover {
+  color: #2a2730!important;
+  background-color: #ffe484!important;
+  font-family: 'Dosis', sans-serif!important;
+  font-weight:700;
+  border-color: #ffe484!important;
+}
+.fa-youtube {
+    color: rgb(214,36,36);
+  }
+
+.fa-spotify {
+    color: rgb(24,211,96);
+    background-color: rbg(0,0,0);
+  }
+
+.tableplaylistheaders {
+    font-size: 26px;
+    padding-bottom: 8px;
+}
+
+.tableplaylistdetails {
+    font-size: 18px;
+    padding-top: 4px;
+    text-align: right;
+}
+
+.nav-link{
+  font-family: 'Dosis', sans-serif;
+  font-weight:300;
+}
+
+.nav-active{
+  font-family: 'Dosis', sans-serif;
+  font-weight:800!important;;
+}
+
+.nav-link:active, .nav-link:hover{
+  font-family: 'Dosis', sans-serif!important;
+  font-weight:900;
+}
+
+.nav-link-header{
+  color: #f1eaff!important;
+  font-family: 'Dosis', sans-serif;
+  font-size: 1.5rem;
+}
+
+.nav-link-header:active, .nav-link-header:hover{
+  color: #f1eaff!important;
+  font-family: 'Dosis', sans-serif!important;
+  font-size: 1.5rem;
+}
+
+.btn-outline-success{
+  color: #ffe484!important;
+  font-family: 'Dosis', sans-serif!important;
+  background: none;
+  font-weight:700;
+  border-color: #ffe484!important;
+}
+
+.btn-outline-success:focus {
+  box-shadow: 0 0 .2rem #ffe484 !important;
+  -moz-box-shadow: 0 0 .2rem #ffe484 !important;
+  -webkit-box-shadow: 0 0 .2rem #ffe484 !important;
+  outline-offset: 0px !important;
+  font-weight:700;
+  outline: none !important;
+}
+
+h2, h4, h5, h6{
+  color: #563d7c!important;
+  font-family: 'Dosis', sans-serif;
+  font-weight:600;
+}
+
+.table {
+  color:#563d7c!important;
+}
+
+button{
+  font-family: 'Dosis', sans-serif;
+  font-weight:700;
+}
+
+button:focus{
+  outline-color:#ffe484!important;
+}
+
+.welcome{
+  margin-left: -50%;
+  margin-right: 50%;
+  color: #f1eaff!important;
+  font-family: 'Dosis', sans-serif!important;
+  font-weight:900;
+  font-size: 1.5rem;
+}
+
+.list-group-item-action:focus{
+  background:none!important;
+}
+
+.list-group-item-action:hover{
+  background-color: #9aa0a5!important;
+}
+
+.list-group-item.active{
+  outline-style:none!important;
+  background-color: #8d9398!important;
+}
+
+.list-group-item:not(.active){
+  outline-style:none!important;
+}
+
+.sidebar{
+  border-right: 1px solid gray;
+}
+
+.input-group-text{
+  border : none;
+  color: #ffffff;
+  font-family: 'Dosis', sans-serif;
+  background-color: #82888e!important;
+  border-color: #82888e!important;
+  font-weight:700;
+}
+
+.list-club, .list-event{
+  font-family: 'Dosis', sans-serif;
+  color: #563d7c!important;
+  font-size: large;
+  background: none;
+  border: none!important;
+}
+
+legend {
+  color: #563d7c;
+  display: inline-block;
+  border: none;
+  font-family: 'Dosis', sans-serif;
+  font-weight:700;
+  width: auto;
+  border-bottom: none;
+}
+
+.custom-select{
+  width: -webkit-max-content!important;
+  width: -moz-max-content!important;
+  width: max-content!important;
+  border : none;
+  color: #ffffcc!important;
+  background-color: #82888e!important;
+  border-color: #82888e!important;
+  font-family: 'Dosis', sans-serif;
+  font-weight:600;
+}
+
+label{
+  color: #563d7c!important;
+  font-family: 'Dosis', sans-serif!important;
+}
+.modal-content{
+  color: #563d7c!important;
+  font-family: 'Dosis', sans-serif!important;
+  background: #adb5bd;
+}
+
+.header{
+  background: #3366ff;
+}
+
+.clubuser{
+  color: #563d7c!important;
+  font-size: large;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 800;
+}
+
+h5{
+  font-size: medium;
+  font-weight: 600;}
+
+h6 {
+  font-size: small
+}
+
+.content {
+/*  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 1rem 3rem 1rem;*/
+  background: #adb5bd;
+  /*min-width: 1000px;*/
+}
+
+.flash {
+  margin: 1em 0;
+  padding: 1em;
+  background: #cae6f6;
+  border: 1px solid #377ba8;
+}
+
+.modal-header{
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.login{
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+.infobox{
+  padding: 1em
+}
+
+.mobileHeader{
+  font-size: x-large;
+}
+
+.carousel-caption{
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  background-color: #343a40f5;
+  padding: 1em 2em;
+  font-family: 'Dosis', sans-serif!important;
+}
+
+.carousel-control-prev{
+  margin: 6rem 0;
+}
+
+.carousel-control-next{
+  margin: 6rem 0;
+}
+
+.scroll-x{
+    max-width: 30em;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.playlist-term{
+
+}
+
+.details-box{
+  display: none;
+}
+
+.scroll-wrapper{
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
