@@ -1,7 +1,7 @@
 
 import os
 from flask import Flask, request, jsonify, url_for, redirect, flash, session, current_app
-from flask_jwt_extended import JWTManager
+#from flask_jwt_extended import JWTManager
 from flask_dance.consumer import oauth_authorized
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.contrib.spotify import make_spotify_blueprint, spotify
