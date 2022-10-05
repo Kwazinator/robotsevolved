@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import WeeklyGameItems from '../components/WeeklyGameItems'
 import React from 'react';
 import axios from 'axios';
+import SwitchPad from '../components/SwitchPad'
 import DailyMovesView from '../components/DailyMovesView';
 import CreateBoardGoalSelector from '../components/CreateBoardGoalSelector';
 import FlashMessage from 'react-flash-message'
@@ -196,6 +197,7 @@ class Game extends React.Component {
             this.state = JSON.parse(this.props.games[0].g_puzzledata)
             this.state.games = this.props.games
             this.state.p_id = this.props.p_id;
+            this.state.isEvolution = false
             this.state.gameWon = false;
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
@@ -225,6 +227,7 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
+            this.state.isEvolution = false
             this.state.createMode = 'No';
             this.state.buildMode = false;
             this.state.totalMovesList = [];
@@ -259,6 +262,7 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
+            this.state.isEvolution = false
             this.state.createMode = 'No';
             this.state.buildMode = false;
             this.state.totalMovesList = [];
@@ -292,6 +296,7 @@ class Game extends React.Component {
             })
             this.state.games = this.props.games
             this.state.gameWon = false;
+            this.state.isEvolution = false
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
@@ -323,8 +328,16 @@ class Game extends React.Component {
         }
         else if (this.props.randomGame === 'Yes') {
             this.state = JSON.parse(this.props.game.g_puzzledata)
-            this.state.lowestMoves = this.props.game.g_moves
-            this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.game.g_solutiondata))
+            if (this.props.game.g_moves != 1) {
+                this.state.lowestMoves = this.props.game.g_moves
+                this.state.isEvolution = false
+                this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.game.g_solutiondata))
+            }
+            else {
+                this.state.lowestMoves = "I havent created a solver for this yet"
+                this.state.lowestMoveSequence = null
+                this.state.isEvolution = true
+            }
             this.state.difficulty = this.props.game.g_difficulty
             this.state.createMode = 'No';
             this.state.gameWon = false;
@@ -347,6 +360,7 @@ class Game extends React.Component {
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
             this.state.createMode = 'No';
+            this.state.isEvolution = false
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
@@ -362,6 +376,7 @@ class Game extends React.Component {
             this.state.votes = this.props.votes
             this.state.hasVoted = this.props.hasVoted
             this.state.gameWon = false;
+            this.state.isEvolution = false
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
             this.state.squareSize = 40;
@@ -399,6 +414,7 @@ class Game extends React.Component {
             },board);
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.coloredGoals = [];
+            this.state.isEvolution = false
         }
         this.state.showColoredLineDirections = this.props.LineDirections;
         if (this.state.coloredGoals == undefined) {
@@ -1868,6 +1884,16 @@ class Game extends React.Component {
                             )
                         }
                         {
+                            this.state.coloredSwitches.map(switches =>
+                                <SwitchPad
+                                    dimension={this.state.squareSize}
+                                    position={switches}
+                                    color={switches.color}
+                                    isOn={switches.isOn}
+                                />
+                            )
+                        }
+                        {
                             this.state.playerState.map((player, index) =>
                                 <Robot
                                     dimension={this.state.squareSize}
@@ -1893,6 +1919,7 @@ class Game extends React.Component {
                                     position={{top:wallH.top,left:wallH.left}}
                                     opacity={wallH.opacity}
                                     onClick={this.createModeWallClick}
+                                    wallType={wallH.wallType}
                                 />
                             )
                         }
@@ -1904,6 +1931,7 @@ class Game extends React.Component {
                                     position={{top:wallV.top,left:wallV.left}}
                                     opacity={wallV.opacity}
                                     onClick={this.createModeWallClick}
+                                    wallType={wallV.wallType}
                                 />
                             )
                         }

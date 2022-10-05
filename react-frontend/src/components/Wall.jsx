@@ -1,8 +1,9 @@
 import React from 'react';
 
-const style = ({orientation,dimension,position,opacity,onClick}) => {
+const style = ({orientation,dimension,position,opacity,onClick, wallType}) => {
     const wallThickness = (dimension/4) + 'px';
     const wallOffset = (dimension/4)/2
+    var backgroundColor = 'black'
     if (orientation=='horizontal') {
         var width = dimension + 'px';
         var height = wallThickness;
@@ -15,10 +16,21 @@ const style = ({orientation,dimension,position,opacity,onClick}) => {
         var top = position.top * dimension + 'px';
         var left = ((position.left * dimension) - wallOffset) + 'px';
     }
+    if (wallType != undefined) {
+        if (wallType == 'redPass') {
+            backgroundColor = 'red'
+        } else if (wallType == 'bluePass') {
+            backgroundColor = 'blue'
+        } else if (wallType == 'greenPass') {
+            backgroundColor = 'green'
+        } else if (wallType == 'orangePass') {
+            backgroundColor = 'orange'
+        }
+    }
     return {
         width: width,
         height: height,
-        backgroundColor: 'black',
+        backgroundColor: backgroundColor,
         position: 'absolute',
         top: top,
         left: left,

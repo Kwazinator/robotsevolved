@@ -23,6 +23,8 @@ export const SELECTED_ROBOT = '#ffd700';
 export const LINE_INDICATOR_COLOR = 'red';
 
 export const COLORED_GOAL_IMAGE = '/static/images/targetbullseye.png';
+export const COLORED_SWITCHPAD_IMAGE = '/static/images/lever.png'
+
 export const GOAL_IMAGE = '/static/images/swirl.png';
 export const GREEN_UP_PICTURE = '/static/images/Green_Up.png';
 
