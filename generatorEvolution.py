@@ -139,10 +139,10 @@ def generateEvolutionTwoGoal():
     for i, item in enumerate(range(5)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitches = list()
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'blue', 'color': '#4169e1', 'isOn': 'Yes'}))
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'green', 'color': '#228b22', 'isOn': 'Yes'}))
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'red', 'color': '#b22222', 'isOn': 'Yes'}))
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'yellow', 'color': '#ff8c00', 'isOn': 'Yes'}))
+    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'blue', 'color': '#4169e1', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'green', 'color': '#228b22', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'red', 'color': '#b22222', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'yellow', 'color': '#ff8c00', 'isOn': True}))
 
     return {
         'playerState': playerState,
@@ -163,8 +163,8 @@ def classicstruct(top,left,randomnum):
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'redPass'},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'orangePass'},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'orangePass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
         {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'bluePass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'greenPass'},
@@ -177,7 +177,7 @@ def classicstruct(top,left,randomnum):
     classicStructureVert = [
         {'top': top, 'left': left, 'opacity': 1},
         {'top': top, 'left': left + 1, 'opacity': 1},
-        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'orangePass'},
+        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
         {'top': top, 'left': left, 'opacity': 1},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'redPass'},
         {'top': top, 'left': left + 2, 'opacity': 1},
@@ -185,12 +185,12 @@ def classicstruct(top,left,randomnum):
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'redPass'},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'orangePass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
         {'top': top + 1, 'left': left + 2, 'opacity': 1, 'wallType': 'bluePass'},
         {'top': top + 1, 'left': left + 2, 'opacity': 1},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'orangePass'}
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'}
     ]
     toreturnvert = classicStructureVert[randomnum]
     toreturnhoriz = classicStructureHorizontal[randomnum]

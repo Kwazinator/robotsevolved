@@ -208,6 +208,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.solutiondifference = [];
+            this.state.coloredSwitches = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = []
             if (this.state.coloredGoals == undefined) {
@@ -227,6 +228,7 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
+            this.state.coloredSwitches = [];
             this.state.isEvolution = false
             this.state.createMode = 'No';
             this.state.buildMode = false;
@@ -262,6 +264,7 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
+            this.state.coloredSwitches = [];
             this.state.isEvolution = false
             this.state.createMode = 'No';
             this.state.buildMode = false;
@@ -297,6 +300,7 @@ class Game extends React.Component {
             this.state.games = this.props.games
             this.state.gameWon = false;
             this.state.isEvolution = false
+            this.state.coloredSwitches = [];
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
@@ -331,6 +335,7 @@ class Game extends React.Component {
             if (this.props.game.g_moves != 1) {
                 this.state.lowestMoves = this.props.game.g_moves
                 this.state.isEvolution = false
+                this.state.coloredSwitches = [];
                 this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.game.g_solutiondata))
             }
             else {
@@ -359,6 +364,7 @@ class Game extends React.Component {
             this.state.showBoardResetPanelModal = false;
             this.state.copiedToClipboard = false;
             this.state.numPuzzleon = 0;
+            this.state.coloredSwitches = [];
             this.state.createMode = 'No';
             this.state.isEvolution = false
             this.state.buildMode = false;
@@ -377,6 +383,7 @@ class Game extends React.Component {
             this.state.hasVoted = this.props.hasVoted
             this.state.gameWon = false;
             this.state.isEvolution = false
+            this.state.coloredSwitches = [];
             this.state.ColoredLineDirections = [];
             this.state.showBoardResetPanelModal = false;
             this.state.squareSize = 40;
@@ -414,6 +421,7 @@ class Game extends React.Component {
             },board);
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.coloredGoals = [];
+            this.state.coloredSwitches = [];
             this.state.isEvolution = false
         }
         this.state.showColoredLineDirections = this.props.LineDirections;
@@ -700,8 +708,10 @@ class Game extends React.Component {
         if (typeof event !== 'undefined') {
             event.preventDefault();
         }
+        console.log("playerStart")
+        console.log(this.state.playerStart)
         this.setState({
-            playerState: this.state.playerStart,
+            playerState: this.state.playerStart.slice(),
             moveHistory: [],
             gameWon: false,
             dailySubmittedSucessfully: null
@@ -769,21 +779,38 @@ class Game extends React.Component {
         });
     }
 
+
+    isWallSolid = (wall) => {
+        if (wall.typeWall == undefined) {
+            return true
+        } else {
+            var wallType = wall.typeWall.substring(0, wall.typeWall.length - 4)
+            this.state.coloredSwitches.map(switches => {
+                if (switches.colorSignifier == wall.typeWall) {
+                    return switches.isOn
+                }
+            });
+        }
+        return false
+    }
+
+
     handleCollision = (dirObj,robotSelected,color) => {
         var newPosition;
         var robotX = this.state.playerState[robotSelected].left;
         var robotY = this.state.playerState[robotSelected].top;
+
         switch(dirObj.dir) {
             case UP:
                 var minimumWall = 0;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left === robotX && wall.top <= robotY && wall.top > minimumWall && wall.opacity === 1) {
+                    if (wall.left === robotX && wall.top <= robotY && wall.top > minimumWall && wall.opacity === 1 && this.isWallSolid(wall)) {
                         minimumWall = wall.top;
                     }
                 });
                 this.state.playerState.map(checkRobot => {
-                    if (checkRobot.left === robotX && checkRobot.top < robotY && checkRobot.top + 1 > minimumWall) {
+                    if (checkRobot.left === robotX && checkRobot.top < robotY && checkRobot.top + 1 > minimumWall ) {
                         minimumWall = checkRobot.top + 1;
                     }
 
@@ -794,7 +821,7 @@ class Game extends React.Component {
             case RIGHT:
                 var minimumWall = this.state.width - 1;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall + 1 && wall.opacity === 1) {
+                    if (wall.top === robotY && wall.left > robotX && wall.left < minimumWall + 1 && wall.opacity === 1  && this.isWallSolid(wall)) {
                         minimumWall = wall.left - 1;
 
                     }
@@ -810,7 +837,7 @@ class Game extends React.Component {
             case LEFT:
                 var minimumWall = 0;
                 this.state.wallVerticle.map(wall => {
-                    if (wall.top === robotY && wall.left <= robotX && wall.left > minimumWall && wall.opacity === 1) {
+                    if (wall.top === robotY && wall.left <= robotX && wall.left > minimumWall && wall.opacity === 1  && this.isWallSolid(wall)) {
                         minimumWall = wall.left;
                     }
                 });
@@ -825,7 +852,7 @@ class Game extends React.Component {
                 var minimumWall = this.state.height - 1;
                 this.state.wallHorizontal.map(wall =>
                 {
-                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall + 1 && wall.opacity === 1)
+                    if (wall.left === robotX && wall.top > robotY && wall.top < minimumWall + 1 && wall.opacity === 1  && this.isWallSolid(wall))
                         minimumWall = wall.top - 1;
 
                 });
@@ -1174,9 +1201,23 @@ class Game extends React.Component {
                 });
             }
             playerState[this.state.robotSelected] = newPosition;
+            if (this.state.isEvolution) {
+                var newSwitches = []
+                console.log("playerState1")
+                console.log(this.state.playerState)
+                console.log("coloredSwitches1")
+                console.log(this.state.coloredSwitches)
+                this.state.coloredSwitches.map((switches,index) => {
+                    if (switches.left === newPosition.left && switches.top === newPosition.top) {
+                        switches.isOn = switches.isOn ? false : true;
+                    }
+                    newSwitches.push(switches)
+                });
+            }
             this.setState({
                 playerState: playerState,
                 moveHistory: moveHistory,
+                coloredSwitches: newSwitches
             });
         }
     };
@@ -1920,6 +1961,7 @@ class Game extends React.Component {
                                     opacity={wallH.opacity}
                                     onClick={this.createModeWallClick}
                                     wallType={wallH.wallType}
+                                    coloredSwitches={this.state.coloredSwitches}
                                 />
                             )
                         }
@@ -1932,6 +1974,7 @@ class Game extends React.Component {
                                     opacity={wallV.opacity}
                                     onClick={this.createModeWallClick}
                                     wallType={wallV.wallType}
+                                    coloredSwitches={this.state.coloredSwitches}
                                 />
                             )
                         }

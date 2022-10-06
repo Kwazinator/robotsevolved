@@ -1,6 +1,6 @@
 import React from 'react';
 
-const style = ({orientation,dimension,position,opacity,onClick, wallType}) => {
+const style = ({orientation,dimension,position,opacity,onClick, wallType,coloredSwitches}) => {
     const wallThickness = (dimension/4) + 'px';
     const wallOffset = (dimension/4)/2
     var backgroundColor = 'black'
@@ -17,13 +17,35 @@ const style = ({orientation,dimension,position,opacity,onClick, wallType}) => {
         var left = ((position.left * dimension) - wallOffset) + 'px';
     }
     if (wallType != undefined) {
+        var redOpac = 1;
+        var blueOpac = 1;
+        var greenOpac = 1;
+        var yellowOpac = 1;
+        coloredSwitches.map(switches => {
+            if (switches.colorSignifier === 'red') {
+                redOpac = switches.isOn ? 1 : .5;
+            }
+            if (switches.colorSignifier === 'blue') {
+                blueOpac = switches.isOn ? 1 : .5;
+            }
+            if (switches.colorSignifier === 'green') {
+                greenOpac = switches.isOn ? 1 : .5;
+            }
+            if (switches.colorSignifier === 'yellow') {
+                yellowOpac = switches.isOn ? 1 : .5;
+            }
+        });
         if (wallType == 'redPass') {
-            backgroundColor = 'red'
+            opacity = redOpac;
+            backgroundColor = 'red';
         } else if (wallType == 'bluePass') {
-            backgroundColor = 'blue'
+            opacity = blueOpac;
+            backgroundColor = 'blue';
         } else if (wallType == 'greenPass') {
-            backgroundColor = 'green'
-        } else if (wallType == 'orangePass') {
+            opacity = greenOpac;
+            backgroundColor = 'green';
+        } else if (wallType == 'yellowPass') {
+            opacity = yellowOpac
             backgroundColor = 'orange'
         }
     }
