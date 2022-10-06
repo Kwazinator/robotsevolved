@@ -140,9 +140,9 @@ def generateEvolutionTwoGoal():
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitches = list()
     coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'blue', 'color': '#4169e1', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'green', 'color': '#228b22', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'red', 'color': '#b22222', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'yellow', 'color': '#ff8c00', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'green', 'color': '#228b22', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'red', 'color': '#b22222', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00', 'isOn': True}))
 
     return {
         'playerState': playerState,

@@ -784,14 +784,17 @@ class Game extends React.Component {
         if (wall.wallType == undefined) {
             return true
         } else {
+            var toReturn = true
             var wallType = wall.wallType.substring(0, wall.wallType.length - 4)
             this.state.coloredSwitches.map(switches => {
                 if (switches.colorSignifier === wallType) {
-                    return switches.isOn
+                    console.log("switches.isON")
+                    console.log(switches.isOn)
+                    toReturn = switches.isOn
                 }
             });
+            return toReturn
         }
-        return true
     }
 
 
