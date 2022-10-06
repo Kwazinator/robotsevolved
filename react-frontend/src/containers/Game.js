@@ -781,17 +781,17 @@ class Game extends React.Component {
 
 
     isWallSolid = (wall) => {
-        if (wall.typeWall == undefined) {
+        if (wall.wallType == undefined) {
             return true
         } else {
-            var wallType = wall.typeWall.substring(0, wall.typeWall.length - 4)
+            var wallType = wall.wallType.substring(0, wall.wallType.length - 4)
             this.state.coloredSwitches.map(switches => {
-                if (switches.colorSignifier == wall.typeWall) {
+                if (switches.colorSignifier === wallType) {
                     return switches.isOn
                 }
             });
         }
-        return false
+        return true
     }
 
 
@@ -799,12 +799,12 @@ class Game extends React.Component {
         var newPosition;
         var robotX = this.state.playerState[robotSelected].left;
         var robotY = this.state.playerState[robotSelected].top;
-
+        console.log("wallHorizontal")
+        console.log(this.state.wallHorizontal)
         switch(dirObj.dir) {
             case UP:
                 var minimumWall = 0;
-                this.state.wallHorizontal.map(wall =>
-                {
+                this.state.wallHorizontal.map(wall => {
                     if (wall.left === robotX && wall.top <= robotY && wall.top > minimumWall && wall.opacity === 1 && this.isWallSolid(wall)) {
                         minimumWall = wall.top;
                     }
