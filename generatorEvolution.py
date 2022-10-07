@@ -139,10 +139,10 @@ def generateEvolutionTwoGoal():
     for i, item in enumerate(range(5)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitches = list()
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'blue', 'color': '#4169e1', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'green', 'color': '#228b22', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'red', 'color': '#b22222', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'green', 'color': '#003300', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
+    coloredSwitches.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'blue', 'color': '#003366', 'isOn': True}))
 
     return {
         'playerState': playerState,
@@ -150,47 +150,47 @@ def generateEvolutionTwoGoal():
         'wallVerticle': wallVerticle,
         'coloredGoals': coloredGoals,
         'boardState': boardState,
-        'coloredSwitches': coloredSwitches,
+        'coloredSwitches': coloredSwitches
     }
 
 
 
 def classicstruct(top,left,randomnum):
     classicStructureHorizontal = [
-        {'top': top,'left': left, 'opacity': 1, 'wallType': 'redPass'},
+        {'top': top,'left': left, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top,'left': left, 'opacity': 1},
         {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'bluePass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
-        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'redPass'},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
+        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'bluePass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'greenPass'},
-        {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'redPass'},
+        {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left + 1, 'opacity': 1},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'bluePass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 2, 'left': left + 1, 'opacity': 1},
         {'top': top + 2, 'left': left + 1, 'opacity': 1}
     ]
     classicStructureVert = [
         {'top': top, 'left': left, 'opacity': 1},
         {'top': top, 'left': left + 1, 'opacity': 1},
-        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
+        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top, 'left': left, 'opacity': 1},
-        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'redPass'},
+        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top, 'left': left + 2, 'opacity': 1},
         {'top': top, 'left': left + 2, 'opacity': 1, 'wallType': 'bluePass'},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'redPass'},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
         {'top': top + 1, 'left': left + 2, 'opacity': 1, 'wallType': 'bluePass'},
         {'top': top + 1, 'left': left + 2, 'opacity': 1},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'yellowPass'}
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'}
     ]
     toreturnvert = classicStructureVert[randomnum]
     toreturnhoriz = classicStructureHorizontal[randomnum]

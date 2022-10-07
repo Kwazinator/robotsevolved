@@ -22,31 +22,31 @@ const style = ({orientation,dimension,position,opacity,onClick, wallType,colored
         var greenOpac = 1;
         var yellowOpac = 1;
         coloredSwitches.map(switches => {
-            if (switches.colorSignifier === 'red') {
-                redOpac = switches.isOn ? 1 : .5;
+            if (switches.colorSignifier === 'brown') {
+                redOpac = switches.isOn ? 1 : .2;
             }
             if (switches.colorSignifier === 'blue') {
-                blueOpac = switches.isOn ? 1 : .5;
+                blueOpac = switches.isOn ? 1 : .2;
             }
             if (switches.colorSignifier === 'green') {
-                greenOpac = switches.isOn ? 1 : .5;
+                greenOpac = switches.isOn ? 1 : .2;
             }
-            if (switches.colorSignifier === 'yellow') {
-                yellowOpac = switches.isOn ? 1 : .5;
+            if (switches.colorSignifier === 'purple') {
+                yellowOpac = switches.isOn ? 1 : .2;
             }
         });
-        if (wallType == 'redPass') {
+        if (wallType == 'brownPass') {
             opacity = redOpac;
-            backgroundColor = 'red';
+            backgroundColor = '#663300';
         } else if (wallType == 'bluePass') {
             opacity = blueOpac;
-            backgroundColor = 'blue';
+            backgroundColor = '#003366';
         } else if (wallType == 'greenPass') {
             opacity = greenOpac;
-            backgroundColor = 'green';
-        } else if (wallType == 'yellowPass') {
+            backgroundColor = '#003300';
+        } else if (wallType == 'purplePass') {
             opacity = yellowOpac
-            backgroundColor = 'orange'
+            backgroundColor = '#660066'
         }
     }
     return {

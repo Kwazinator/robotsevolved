@@ -339,9 +339,10 @@ class Game extends React.Component {
                 this.state.lowestMoveSequence = formatGeneratedMoveSequence(JSON.parse(this.props.game.g_solutiondata))
             }
             else {
-                this.state.lowestMoves = "I havent created a solver for this yet"
-                this.state.lowestMoveSequence = null
-                this.state.isEvolution = true
+                this.state.lowestMoves = "I havent created a solver for this yet";
+                this.state.lowestMoveSequence = null;
+                this.state.coloredSwitchesStart = JSON.parse(JSON.stringify(this.state.coloredSwitches));
+                this.state.isEvolution = true;
             }
             this.state.difficulty = this.props.game.g_difficulty
             this.state.createMode = 'No';
@@ -708,14 +709,24 @@ class Game extends React.Component {
         if (typeof event !== 'undefined') {
             event.preventDefault();
         }
-        console.log("playerStart")
-        console.log(this.state.playerStart)
-        this.setState({
-            playerState: this.state.playerStart.slice(),
-            moveHistory: [],
-            gameWon: false,
-            dailySubmittedSucessfully: null
-        });
+        if (this.state.isEvolution) {
+            console.log("coloredSwitchesStart")
+            console.log(this.state.coloredSwitchesStart)
+            this.setState({
+                playerState: this.state.playerStart.slice(),
+                moveHistory: [],
+                gameWon: false,
+                coloredSwitches: JSON.parse(JSON.stringify(this.state.coloredSwitchesStart)),
+                dailySubmittedSucessfully: null
+            });
+        } else {
+            this.setState({
+                playerState: this.state.playerStart.slice(),
+                moveHistory: [],
+                gameWon: false,
+                dailySubmittedSucessfully: null
+            });
+        }
     };
 
     tabSelector = () => {
@@ -788,8 +799,6 @@ class Game extends React.Component {
             var wallType = wall.wallType.substring(0, wall.wallType.length - 4)
             this.state.coloredSwitches.map(switches => {
                 if (switches.colorSignifier === wallType) {
-                    console.log("switches.isON")
-                    console.log(switches.isOn)
                     toReturn = switches.isOn
                 }
             });
@@ -802,8 +811,6 @@ class Game extends React.Component {
         var newPosition;
         var robotX = this.state.playerState[robotSelected].left;
         var robotY = this.state.playerState[robotSelected].top;
-        console.log("wallHorizontal")
-        console.log(this.state.wallHorizontal)
         switch(dirObj.dir) {
             case UP:
                 var minimumWall = 0;
@@ -930,8 +937,6 @@ class Game extends React.Component {
 
             gameswonWeekly[index] = playerStateList[index] != null ? this.checkWinningPosition(puzzledata.goal,puzzledata.coloredGoals,playerStateList[index]) : false
         })
-        console.log(gameswonWeekly)
-
         axios.post('/weeklychallengesubmit', {score: numMoves, solutiondata: moveHistoryList, wc_id: 1, playerStateList: playerStateList, completed: completed, gamesWon: gameswonWeekly})
             .then( res => {
                 console.log(res.data)
@@ -1085,10 +1090,6 @@ class Game extends React.Component {
                             this.state.moveHistory.length < window.dailyChallengeSessionBestHistory[this.state.numPuzzleon].length)) {
                         window.dailyChallengeSessionBestHistory[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.moveHistory))
                         window.dailyChallengeSessionBestPlayerState[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.playerState))
-                        console.log("playerState")
-                        console.log(this.state.playerState)
-                        console.log("moveHistory")
-                        console.log(this.state.moveHistory)
                     }
                     this.state.gamesWonDaily.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
@@ -1206,10 +1207,6 @@ class Game extends React.Component {
             playerState[this.state.robotSelected] = newPosition;
             if (this.state.isEvolution) {
                 var newSwitches = []
-                console.log("playerState1")
-                console.log(this.state.playerState)
-                console.log("coloredSwitches1")
-                console.log(this.state.coloredSwitches)
                 this.state.coloredSwitches.map((switches,index) => {
                     if (switches.left === newPosition.left && switches.top === newPosition.top) {
                         switches.isOn = switches.isOn ? false : true;
@@ -1712,12 +1709,26 @@ class Game extends React.Component {
         var playerState = this.state.playerState;
         if (moveHistory.length !== 0) {
             var moveObj = moveHistory.pop();
+            if (this.state.isEvolution) {
+                var newSwitchState = []
+                this.state.coloredSwitches.map(switches => {
+                    if (switches.left === playerState[moveObj.robot].left && switches.top === playerState[moveObj.robot].top) {
+                        switches.isOn = switches.isOn ? false : true;
+                    }
+                    newSwitchState.push(switches)
+                })
+            }
+            else {
+                var newSwitchState = []
+            }
+            console.log(newSwitchState)
             playerState[moveObj.robot].left = moveObj.prevPosition.left;
             playerState[moveObj.robot].top = moveObj.prevPosition.top;
             this.setState({
                 playerState: playerState,
                 moveHistory: moveHistory,
                 gameWon: false,
+                coloredSwitches: newSwitchState,
                 dailySubmittedSucessfully: null
             });
         }
