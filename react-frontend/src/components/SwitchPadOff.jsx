@@ -10,9 +10,9 @@ import {SQUARE_OUTSIDE_COLOR,
         ROBOT_YELLOW,
         COLORED_GOAL_IMAGE,
         COLORED_SWITCH_BLUE,
-        COLORED_SWITCH_PURPLE,
+        COLORED_SWITCH_PURPLE_OFF,
         COLORED_SWITCH_GREEN,
-        COLORED_SWITCH_BROWN
+        COLORED_SWITCH_BROWN_OFF
 } from '../constants/constants';
 import Draggable from 'react-draggable';
 

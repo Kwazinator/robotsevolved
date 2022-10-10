@@ -136,13 +136,14 @@ def generateEvolutionTwoGoal():
             boardState.append({'top': j, 'left': i})
 
     coloredSwitcheslist = list()
-    for i, item in enumerate(range(5)):
+    for i, item in enumerate(range(3)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitchesOn = list()
     coloredSwitchesOn.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
     coloredSwitchesOn.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
 
-    for i, item in enumerate(range(2)):
+    coloredSwitcheslist = list()
+    for i, item in enumerate(range(3)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitchesOff = list()
     coloredSwitchesOff.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'indexRef': 0}))

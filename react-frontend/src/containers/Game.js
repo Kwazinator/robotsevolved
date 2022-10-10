@@ -5,6 +5,7 @@ import WeeklyGameItems from '../components/WeeklyGameItems'
 import React from 'react';
 import axios from 'axios';
 import SwitchPad from '../components/SwitchPad'
+import SwitchPadOff from '../components/SwitchPadOff'
 import DailyMovesView from '../components/DailyMovesView';
 import CreateBoardGoalSelector from '../components/CreateBoardGoalSelector';
 import FlashMessage from 'react-flash-message'
