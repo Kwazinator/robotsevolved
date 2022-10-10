@@ -51,13 +51,6 @@ def generateEvolutionPatterns():
     for item in newWalls[1]:
         wallVerticle.append(item)
 
-
-    thenum = random.randint(0, countwalls - 1)
-    thenum2 = random.randint(0, countwalls - 1)
-    while thenum2 == thenum:
-        thenum2 = random.randint(0, countwalls - 1)
-    goalpos = goalposlist[thenum]
-    goalpos2 = goalposlist[thenum2]
     color1 = random.randint(0, 1)
     color2 = random.randint(2, 3)
     coloredGoals = [
