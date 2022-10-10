@@ -292,7 +292,8 @@ def formatsolutiondataTwoGoalEvo(solution):
         'coloredGoals': solution['coloredGoals'],
         'height': 16,
         'width': 16,
-        'coloredSwitches': solution['coloredSwitches']
+        'coloredSwitchesOn': solution['coloredSwitchesOn'],
+        'coloredSwitchesOff': solution['coloredSwitchesOff']
     }
     newdata = json.dumps(data)
     return newdata
