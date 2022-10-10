@@ -138,11 +138,18 @@ def generateEvolutionTwoGoal():
     coloredSwitcheslist = list()
     for i, item in enumerate(range(5)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
-    coloredSwitches = list()
-    coloredSwitches.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'green', 'color': '#003300', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
-    coloredSwitches.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'blue', 'color': '#003366', 'isOn': True}))
+    coloredSwitchesOn = list()
+    coloredSwitchesOn.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
+    coloredSwitchesOn.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
+
+    for i, item in enumerate(range(2)):
+        coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
+    coloredSwitchesOff = list()
+    coloredSwitchesOff.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'indexRef': 0}))
+    coloredSwitchesOff.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'indexRef': 1}))
+
+    #coloredSwitchesOn.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
+    #coloredSwitchesOn.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'blue', 'color': '#003366', 'isOn': True}))
 
     return {
         'playerState': playerState,
@@ -150,7 +157,8 @@ def generateEvolutionTwoGoal():
         'wallVerticle': wallVerticle,
         'coloredGoals': coloredGoals,
         'boardState': boardState,
-        'coloredSwitches': coloredSwitches
+        'coloredSwitchesOn': coloredSwitchesOn,
+        'coloredSwitchesOff': coloredSwitchesOff
     }
 
 

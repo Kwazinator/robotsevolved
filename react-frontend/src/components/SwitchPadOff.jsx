@@ -50,9 +50,9 @@ export default function Goal(props) {
     var image = COLORED_SWITCH_BLUE;
     console.log(props)
     if (props.position.colorSignifier === 'brown') {
-        image = COLORED_SWITCH_BROWN;
+        image = COLORED_SWITCH_BROWN_OFF;
     } else if (props.position.colorSignifier === 'purple') {
-        image = COLORED_SWITCH_PURPLE;
+        image = COLORED_SWITCH_PURPLE_OFF;
     } else if (props.position.colorSignifier === 'green') {
         image = COLORED_SWITCH_GREEN;
     } else if (props.position.colorSignifier === 'blue') {

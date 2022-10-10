@@ -19,6 +19,15 @@ export const ROBOT_PURPLE = '#9c1aff';
 export const ROBOT_ORANGE = '#e66000';
 export const ROBOT_PINK = '#ff85c2';
 
+
+export const COLORED_SWITCH_BLUE = '/static/images/lever_blue.png';
+export const COLORED_SWITCH_PURPLE = '/static/images/PurpleSwitchOn.png';
+export const COLORED_SWITCH_BROWN = '/static/images/BrownSwitchOn.png';
+export const COLORED_SWITCH_GREEN = '/static/images/lever_green.png';
+
+export const COLORED_SWITCH_PURPLE_OFF = '/static/images/PurpleSwitchOff.png';
+export const COLORED_SWITCH_BROWN_OFF = '/static/images/BrownSwitchOff.png';
+
 export const SELECTED_ROBOT = '#ffd700';
 export const LINE_INDICATOR_COLOR = 'red';
 
