@@ -15,7 +15,7 @@ if __name__ == "__main__":
     dayonnow = 1
     puzzlelist = list()
     for j, item in enumerate(range(4)):
-        puzzle = generatorEvolution.generateEvolutionTwoGoal() # to be created
+        puzzle = generatorEvolution.generateEvolutionPatterns() # to be created
         puzzlelist.append(
             {
                 'difficulty': 'hard',

@@ -1710,6 +1710,10 @@ class Game extends React.Component {
     }
 
     handlePlayerMovementFromMouse = (direction) => {
+        console.log('wallsLEFT')
+        console.log(this.state.wallHorizontal)
+        console.log('wallsVert')
+        console.log(this.state.wallVerticle)
         this.handlePlayerMovement({dir: direction})
     };
 

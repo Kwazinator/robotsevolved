@@ -6,6 +6,171 @@ COLOR_ARRAY_SIG = ['green','blue','red','yellow']
 COLOR_ARRAY = ['#228b22','#4169e1','#b22222','#ff8c00']
 
 
+
+def generateEvolutionPatterns():
+    wallHorizontal = list()
+    wallVerticle = [{'top': 0, 'left': 0, 'opacity': 1}]
+    countwalls = 0
+    goalposlist = list()
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            checkj = j
+            checki = i
+            if (checki < 1):
+                wallVerticle.append({'top': checkj, 'left': checki, 'opacity': 1})
+            elif (checki == (16 - 1)):
+                wallVerticle.append({'top': checkj, 'left': checki + 1, 'opacity': 1})
+            if (checkj < 1):
+                wallHorizontal.append({'top': checkj, 'left': checki, 'opacity': 1})
+            elif (checkj == (16 - 1)):
+                wallHorizontal.append({'top': checkj + 1, 'left': checki, 'opacity': 1})
+
+    '''for i, nothing in enumerate(range(5)):
+        for j, nothing2 in enumerate(range(5)):
+            if (random.randint(0, 12) > 5):
+                randomnum = random.randint(0, 15)
+                countwalls += 1
+                goalspot = int(randomnum / 4)
+                if goalspot == 0:
+                    goalposlist.append({'top': i * 3 + 1, 'left': j * 3 + 1})
+                elif goalspot == 1:
+                    goalposlist.append({'top': i * 3 + 1, 'left': j * 3 + 2})
+                elif goalspot == 2:
+                    goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 1})
+                else:
+                    goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 2})
+                #walls = classicstruct(i * 3 + 1, j * 3 + 1, randomnum)
+                #wallHorizontal.append(walls[1])
+                #wallVerticle.append(walls[0])
+                
+    '''
+
+    newWalls = createDoubleWallConfiguration('doublesquare')
+    for item in newWalls[0]:
+        wallHorizontal.append(item)
+    for item in newWalls[1]:
+        wallVerticle.append(item)
+
+
+    thenum = random.randint(0, countwalls - 1)
+    thenum2 = random.randint(0, countwalls - 1)
+    while thenum2 == thenum:
+        thenum2 = random.randint(0, countwalls - 1)
+    goalpos = goalposlist[thenum]
+    goalpos2 = goalposlist[thenum2]
+    color1 = random.randint(0, 1)
+    color2 = random.randint(2, 3)
+    coloredGoals = [
+        {
+            'top': random.randint(7,9),
+            'left': random.randint(7,9),
+            'color': COLOR_ARRAY[color1],
+            'colorSignifier': COLOR_ARRAY_SIG[color1]
+        }
+    ]
+    noplace = getnoplacelisttop(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+    maxtries = 0
+
+    wallVerticle.append({'top': 0, 'left': location, 'opacity': 1})
+    wallVerticle.append({'top': 0, 'left': location2, 'opacity': 1})
+
+    # randomize bottom walls
+
+    noplace = getnoplacelistbottom(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+
+    wallVerticle.append({'top': 15, 'left': location, 'opacity': 1})
+    wallVerticle.append({'top': 15, 'left': location2, 'opacity': 1})
+
+    # randomize left walls
+    noplace = getnoplacelistleft(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+
+    wallHorizontal.append({'top': location, 'left': 0, 'opacity': 1})
+    wallHorizontal.append({'top': location2, 'left': 0, 'opacity': 1})
+
+    # randomize right walls
+    noplace = getnoplacelistright(wallVerticle, wallHorizontal)
+    location = random.randint(2, 14)
+    while (location in noplace):
+        location = random.randint(2, 14)
+    location2 = random.randint(2, 14)
+    while (location in noplace or location2 in noplace or abs(location2 - location) <= 3):
+        location = random.randint(2, 14)
+        location2 = random.randint(2, 14)
+
+    wallHorizontal.append({'top': location, 'left': 15, 'opacity': 1})
+    wallHorizontal.append({'top': location2, 'left': 15, 'opacity': 1})
+
+    playerState = list()
+    goal = {'top': goalpos['top'],
+            'left': goalpos['left']}
+    randomPositions = [goal]
+    for i, item in enumerate(range(5)):
+        randomPositions.append(randomBoardPosition(randomPositions, 16, 16))
+    randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
+    randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
+    randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
+    randompos4 = dict(randomPositions[4], **{'colorSignifier': 'yellow', 'color': '#ff8c00'})
+    playerState.append(randompos1)
+    playerState.append(randompos2)
+    playerState.append(randompos3)
+    playerState.append(randompos4)
+    boardState = list()
+    for j, item in enumerate(range(16)):
+        for i, item in enumerate(range(16)):
+            boardState.append({'top': j, 'left': i})
+
+    coloredSwitcheslist = list()
+    coloredSwitcheslist.append({'top': random.randint(0, 3), 'left': random.randint(0, 3)})
+    coloredSwitcheslist.append({'top': random.randint(3, 6), 'left': random.randint(3, 6)})
+    coloredSwitchesOn = list()
+    coloredSwitchesOn.append(
+        dict(coloredSwitcheslist[0], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
+    coloredSwitchesOn.append(
+        dict(coloredSwitcheslist[1], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
+
+    coloredSwitcheslist = list()
+    coloredSwitcheslist.append({'top': random.randint(0,3), 'left': random.randint(0,3)})
+    coloredSwitcheslist.append({'top': random.randint(3,6), 'left': random.randint(3,6)})
+    coloredSwitchesOff = list()
+    coloredSwitchesOff.append(
+        dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'indexRef': 0}))
+    coloredSwitchesOff.append(
+        dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'indexRef': 1}))
+
+    # coloredSwitchesOn.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
+    # coloredSwitchesOn.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'blue', 'color': '#003366', 'isOn': True}))
+
+    return {
+        'playerState': playerState,
+        'wallHorizontal': wallHorizontal,
+        'wallVerticle': wallVerticle,
+        'coloredGoals': coloredGoals,
+        'boardState': boardState,
+        'coloredSwitchesOn': coloredSwitchesOn,
+        'coloredSwitchesOff': coloredSwitchesOff
+    }
+
 def generateEvolutionTwoGoal():
     wallHorizontal = list()
     wallVerticle = [{'top': 0, 'left': 0, 'opacity': 1}]
@@ -168,15 +333,15 @@ def classicstruct(top,left,randomnum):
     classicStructureHorizontal = [
         {'top': top,'left': left, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top,'left': left, 'opacity': 1},
-        {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'bluePass'},
+        {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
-        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
+        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
-        {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'bluePass'},
+        {'top': top + 1, 'left': left, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
-        {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'greenPass'},
+        {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top + 2, 'left': left, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left + 1, 'opacity': 1},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
@@ -190,14 +355,14 @@ def classicstruct(top,left,randomnum):
         {'top': top, 'left': left, 'opacity': 1},
         {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top, 'left': left + 2, 'opacity': 1},
-        {'top': top, 'left': left + 2, 'opacity': 1, 'wallType': 'bluePass'},
-        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
+        {'top': top, 'left': left + 2, 'opacity': 1, 'wallType': 'brownPass'},
+        {'top': top, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
         {'top': top + 1, 'left': left, 'opacity': 1},
-        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'greenPass'},
-        {'top': top + 1, 'left': left + 2, 'opacity': 1, 'wallType': 'bluePass'},
+        {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'},
+        {'top': top + 1, 'left': left + 2, 'opacity': 1, 'wallType': 'brownPass'},
         {'top': top + 1, 'left': left + 2, 'opacity': 1},
         {'top': top + 1, 'left': left + 1, 'opacity': 1, 'wallType': 'purplePass'}
     ]
@@ -298,3 +463,46 @@ def formatsolutiondataTwoGoalEvo(solution):
     }
     newdata = json.dumps(data)
     return newdata
+
+
+
+
+def addRandomWalltype(startingdict):
+    randominteger = random.randint(0,2)
+    typesofwalls = ['brownPass', 'purplePass']
+    if randominteger == 2:
+        return startingdict
+    else:
+        startingdict['wallType'] = typesofwalls[randominteger]
+        return startingdict
+################
+################
+################
+################
+####00000000####
+####00000000####
+####00000000####
+####000##000####
+####000##000####
+####00000000####
+####00000000####
+####00000000####
+################
+################
+################
+################
+def createDoubleWallConfiguration(type):
+    horizontalwalls = list()
+    verticlewalls = list()
+    for i,index in enumerate(range(8)):
+        horizontalwalls.append(addRandomWalltype({'top': 4, 'left': index + 4, 'opacity': 1}))
+        horizontalwalls.append(addRandomWalltype({'top': 4 + 8, 'left': index + 4, 'opacity': 1}))
+        verticlewalls.append(addRandomWalltype({'top': index + 4, 'left': 4, 'opacity': 1}))
+        verticlewalls.append(addRandomWalltype({'top': index + 4, 'left': 12, 'opacity': 1}))
+
+    for i,index in enumerate(range(2)):
+        horizontalwalls.append(addRandomWalltype({'top': 7, 'left': index + 7, 'opacity': 1}))
+        horizontalwalls.append(addRandomWalltype({'top': 9, 'left': index + 7, 'opacity': 1}))
+        verticlewalls.append(addRandomWalltype({'top': index + 7, 'left': 7, 'opacity': 1}))
+        verticlewalls.append(addRandomWalltype({'top': index + 7, 'left': 9, 'opacity': 1}))
+    return (horizontalwalls,verticlewalls)
