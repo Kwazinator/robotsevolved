@@ -147,7 +147,7 @@ def generateEvolutionPatterns():
     coloredSwitchesOff.append(
         dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'indexRef': 0}))
     coloredSwitchesOff.append(
-        dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'indexRef': 1}))
+        dict(coloredSwitcheslist[0], **{'colorSignifier': 'purple', 'color': '#660066', 'indexRef': 1}))
 
     # coloredSwitchesOn.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
     # coloredSwitchesOn.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'blue', 'color': '#003366', 'isOn': True}))
