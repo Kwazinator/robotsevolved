@@ -115,11 +115,9 @@ def generateEvolutionPatterns():
     wallHorizontal.append({'top': location2, 'left': 15, 'opacity': 1})
 
     playerState = list()
-    goal = {'top': goalpos['top'],
-            'left': goalpos['left']}
-    randomPositions = [goal]
+    randomPositions = list()
     for i, item in enumerate(range(5)):
-        randomPositions.append(randomBoardPosition(randomPositions, 16, 16))
+        randomPositions.append({'top': random.randint(0,3),'left':random.randint(0,3)})
     randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
     randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
     randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
