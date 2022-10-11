@@ -120,7 +120,7 @@ def generateEvolutionPatterns():
     numberlist = random.sample(range(0,len(structOutside) - 1), 4)
 
     for item in numberlist:
-        randomPositions.append({'top': item[0],'left': item[1]})
+        randomPositions.append({'top': structOutside[item][0],'left': structOutside[item][1]})
     randompos1 = dict(randomPositions[1], **{'colorSignifier': 'blue', 'color': '#4169e1'})
     randompos2 = dict(randomPositions[2], **{'colorSignifier': 'green', 'color': '#228b22'})
     randompos3 = dict(randomPositions[3], **{'colorSignifier': 'red', 'color': '#b22222'})
