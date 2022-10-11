@@ -135,10 +135,11 @@ def generateEvolutionPatterns():
             boardState.append({'top': j, 'left': i})
 
     coloredSwitcheslist = list()
-    firstSpotRandom = structOutside[random.randint(0,len(structOutside) - 1)]
-    insideSpotRandom = structInside[random.randint(0,len(structInside) -1)]
+    twoLocations = random.sample(range(0,len(structOutside) - 1),2)
+    firstSpotRandom = structOutside[twoLocations[0]]
+    secondSpotRandom = structOutside[twoLocations[1]]
     coloredSwitcheslist.append({'top': firstSpotRandom[0], 'left': firstSpotRandom[1]})
-    coloredSwitcheslist.append({'top': insideSpotRandom[0], 'left': insideSpotRandom[1]})
+    coloredSwitcheslist.append({'top': secondSpotRandom[0], 'left': secondSpotRandom[1]})
     coloredSwitchesOn = list()
     coloredSwitchesOn.append(
         dict(coloredSwitcheslist[0], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
