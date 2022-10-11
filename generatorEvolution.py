@@ -25,7 +25,7 @@ def generateEvolutionPatterns():
             elif (checkj == (16 - 1)):
                 wallHorizontal.append({'top': checkj + 1, 'left': checki, 'opacity': 1})
 
-    '''for i, nothing in enumerate(range(5)):
+    for i, nothing in enumerate(range(5)):
         for j, nothing2 in enumerate(range(5)):
             if (random.randint(0, 12) > 5):
                 randomnum = random.randint(0, 15)
@@ -39,11 +39,11 @@ def generateEvolutionPatterns():
                     goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 1})
                 else:
                     goalposlist.append({'top': i * 3 + 2, 'left': j * 3 + 2})
-                #walls = classicstruct(i * 3 + 1, j * 3 + 1, randomnum)
-                #wallHorizontal.append(walls[1])
-                #wallVerticle.append(walls[0])
+                walls = classicstruct(i * 3 + 1, j * 3 + 1, randomnum)
+                wallHorizontal.append(walls[1])
+                wallVerticle.append(walls[0])
                 
-    '''
+
 
     newWalls = createDoubleWallConfiguration('doublesquare')
     for item in newWalls[0]:
