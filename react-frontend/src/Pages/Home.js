@@ -40,14 +40,14 @@ export default function ComplexGrid(props) {
     </div>
         :
     <div>
-        <Typography className={classes.titlehome} variant="h3"> Testing New DailyChallenge Puzzles in December!
+        <Typography className={classes.titlehome} variant="h3"> Daily Evolution Added!!!!
         </Typography>
-        <Typography variant="p1" paragraph={true}> ADDED WASD key movement and changed e-> reset board.
+        <Typography variant="p1" paragraph={true}> Daily Evolution is out! This will be changing as it needs refining on the concepts! I am testing different ways to generate the puzzles.
         </Typography>
-        <Typography variant="p1" paragraph={true}> Weekly 100 mode is out! goal is to get 100 moves for all 5 puzzles anyone who gets 100 will get a crown, very hard! good luck!
+        <Typography variant="p1" paragraph={true}> Daily Evolution contains switches that turn ON/OFF the same color walls.
         </Typography>
         <br/>
-        <Typography variant="p1" paragraph={true}> Checkout the website leaderboard where you can see the best performers in each robots catagory
+        <Typography variant="p1" paragraph={true}> If you have any suggestions or ideas on how Daily Evolution should be played let me know at robotsevolved@gmail.com! Have fun!
         </Typography>
         <br/>
     </div>
@@ -65,30 +65,24 @@ export default function ComplexGrid(props) {
                         <Typography> 3/22/2021 added website leaderboard for each of the robots catagories.
                         </Typography>
                         <br/>
-                        <Typography> 3/22/2021 ADDED WASD for movement keys
-                        </Typography>
-                        <br/>
-                        <Typography> 3/22/2021 Added weekly 100 mode, no time-constraint, just get the answers!! tough one.
-                        </Typography>
-                        <br/>
-                        <Typography> 1/31/2021 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
+                        <Typography> 10/13/2022 added daily evolution! trying out new game modes again!
                         </Typography>
                         <br/>
                     </Grid>
                     <Grid container item alignItems={"stretch"} spacing={2} alignItems="center" justify="center" >
                         <Grid item xs={12} sm={4} style={{textAlign: 'center'}}>
                             <Card className={classes.iconcards}>
-                                <CardActionArea onClick={props.handleClickWeekly100}>
+                                <CardActionArea onClick={props.handleClickDailyEvolution}>
                                     <CardMedia
                                         component="img"
-                                        alt="Weekly 100"
+                                        alt="Daily Evolution"
                                         height="140"
-                                        image="/static/images/Weekly100.png"
-                                        title="Weekly 100"
+                                        image="/static/images/DailyEvolutionCard.png"
+                                        title="Daily Evolution"
                                     />
                                     <CardContent>
                                         <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                            Weekly 100
+                                            Daily Evolution
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
@@ -279,13 +273,7 @@ export default function ComplexGrid(props) {
                     <Typography> 3/22/2021 added website leaderboard for each of the robots catagories.
                         </Typography>
                         <br/>
-                        <Typography> 3/22/2021 ADDED WASD for movement keys
-                        </Typography>
-                        <br/>
-                        <Typography> 3/22/2021 Added weekly 100 mode, no time-constraint, just get the answers!! tough one.
-                        </Typography>
-                        <br/>
-                        <Typography> 1/31/2021 Modified Daily Challenge to have multiple goals, also to try and stump cheaters using the software available to solve
+                        <Typography> 10/13/2022 added daily evolution! trying out new game modes again!
                         </Typography>
                         <br/>
                     </div>
@@ -293,17 +281,17 @@ export default function ComplexGrid(props) {
                 <Grid item xs={8} spacing={3} alignItems="center" justify="center" style={{textAlign: 'center'}}>
                     {greeting}
                     <Card className={classes.iconcards}>
-                        <CardActionArea onClick={props.handleClickWeekly100}>
+                        <CardActionArea onClick={props.handleClickDailyEvolution}>
                             <CardMedia
                                 component="img"
-                                alt="Weekly 100"
+                                alt="Daily Evolution"
                                 height="140"
-                                image="/static/images/Weekly100.png"
-                                title="Weekly 100"
+                                image="/static/images/DailyEvolutionCard.png"
+                                title="Daily Evolution"
                             />
                             <CardContent>
                                 <Typography gutterBottom className={classes.iconfonts} variant="h5" component="h2">
-                                    Weekly 100
+                                    Daily Evolution
                                 </Typography>
                             </CardContent>
                         </CardActionArea>

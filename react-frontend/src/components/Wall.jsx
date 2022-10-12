@@ -37,7 +37,7 @@ const style = ({orientation,dimension,position,opacity,onClick, wallType,colored
         });
         if (wallType == 'brownPass') {
             opacity = redOpac;
-            backgroundColor = '#663300';
+            backgroundColor = '#465362';
         } else if (wallType == 'bluePass') {
             opacity = blueOpac;
             backgroundColor = '#003366';

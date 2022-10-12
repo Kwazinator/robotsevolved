@@ -300,7 +300,7 @@ class App extends React.Component {
                     const daily_start_timer_minutes = res.data.daily_start_timer_minutes;
                     const daily_start_timer_seconds = res.data.daily_start_timer_seconds;
                     console.log(daily_start_timer_minutes);
-                    console.log( daily_start_timer_seconds);
+                    console.log(daily_start_timer_seconds);
                     console.log(res.data)
                     if (this.state.loadingPage) {
                         this.setState({

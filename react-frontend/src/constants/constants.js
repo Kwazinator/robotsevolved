@@ -26,7 +26,7 @@ export const COLORED_SWITCH_BROWN = '/static/images/lever_grey.png';
 export const COLORED_SWITCH_GREEN = '/static/images/lever_green.png';
 
 export const COLORED_SWITCH_PURPLE_ON = '/static/images/lever_purple_on.png';
-export const COLORED_SWITCH_BROWN_ON = '/static/images/lever_grey.png';
+export const COLORED_SWITCH_BROWN_ON = '/static/images/lever_grey_on.png';
 
 export const COLORED_SWITCH_PURPLE_OFF = '/static/images/lever_purple_off.png';
 export const COLORED_SWITCH_BROWN_OFF = '/static/images/lever_grey_off.png';

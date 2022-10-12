@@ -185,5 +185,5 @@ def get_dce_data():
             dce_movesList = dce_moves[0]
             dce_playerList = dce_moves[1]
     return jsonify(dce_playerList=dce_playerList, dce_movesList=dce_movesList, dcehighscores=dcehighscores, dce_id=dce_id,
-                   dailyEvolutionGameslist=dailyevolutionlist, evolution_start_timer_minutes=evolution_start_timer_minutes,
-                   evolution_start_timer_seconds=evolution_start_timer_seconds)
+                   dailyEvolutionGameslist=dailyevolutionlist, daily_start_timer_minutes=evolution_start_timer_minutes,
+                   daily_start_timer_seconds=evolution_start_timer_seconds)

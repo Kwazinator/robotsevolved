@@ -141,6 +141,6 @@ CREATE TABLE daily_evolution_submit (
     playerStateList mediumtext NOT NULL,
     startTime datetime DEFAULT CURRENT_TIMESTAMP,
     completed int DEFAULT 1,
-    FOREIGN KEY (dc_id) REFERENCES daily_challenge(id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (dce_id) REFERENCES daily_evolution(dce_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
