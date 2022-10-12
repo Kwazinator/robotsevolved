@@ -122,6 +122,8 @@ class GeneratorService:
                 return 'already submitted'
         return 'something went wrong'
 
+    def get_last_daily_evolution(self):
+        GenDAO().get_last_daily_evolution()
 
     def get_daily_evolution_highscores(self,dce_id):
         userlist = GenDAO().get_daily_evolution_winners()

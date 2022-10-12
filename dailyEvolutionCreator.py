@@ -26,10 +26,8 @@ if __name__ == "__main__":
         )
     app = create_app()
     with app.app_context():
-        #last_daily_tuple = GeneratorService().get_last_daily_evolution()
-        #now = last_daily_tuple.replace(hour=19, minute=0, second=0)
-        now = datetime.now()
-        now = now.replace(hour=19,minute=0, second=0)
+        last_daily_tuple = GeneratorService().get_last_daily_evolution()
+        now = last_daily_tuple.replace(hour=19, minute=0, second=0)
         totalMoves = 0
         listid = list()
         for daypuzzle in puzzlelist:
