@@ -7,7 +7,7 @@ COLOR_ARRAY = ['#228b22','#4169e1','#b22222','#ff8c00']
 
 
 
-def generateEvolutionPatterns():
+def generateEvolutionPatterns(type):
     wallHorizontal = list()
     wallVerticle = [{'top': 0, 'left': 0, 'opacity': 1}]
     countwalls = 0
@@ -57,14 +57,19 @@ def generateEvolutionPatterns():
 
     color1 = random.randint(0, 1)
     color2 = random.randint(2, 3)
-    coloredGoals = [
-        {
-            'top': random.randint(7,8),
-            'left': random.randint(7,8),
-            'color': COLOR_ARRAY[color1],
-            'colorSignifier': COLOR_ARRAY_SIG[color1]
-        }
-    ]
+    if type == 'wildcard':
+        goalwildcard = {'top': random.randint(7,8),
+                        'left':random.randint(7,8)
+                        }
+    elif type == 'coloredGoal':
+        coloredGoals = [
+            {
+                'top': random.randint(7,8),
+                'left': random.randint(7,8),
+                'color': COLOR_ARRAY[color1],
+                'colorSignifier': COLOR_ARRAY_SIG[color1]
+            }
+        ]
     noplace = getnoplacelisttop(wallVerticle, wallHorizontal)
     location = random.randint(2, 14)
     while (location in noplace):
@@ -177,15 +182,26 @@ def generateEvolutionPatterns():
     # coloredSwitchesOn.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
     # coloredSwitchesOn.append(dict(coloredSwitcheslist[4], **{'colorSignifier': 'blue', 'color': '#003366', 'isOn': True}))
 
-    return {
-        'playerState': playerState,
-        'wallHorizontal': wallHorizontal,
-        'wallVerticle': wallVerticle,
-        'coloredGoals': coloredGoals,
-        'boardState': boardState,
-        'coloredSwitchesOn': coloredSwitchesOn,
-        'coloredSwitchesOff': coloredSwitchesOff
-    }
+    if type == 'wildcard':
+        return {
+            'playerState': playerState,
+            'wallHorizontal': wallHorizontal,
+            'wallVerticle': wallVerticle,
+            'goal': goalwildcard,
+            'boardState': boardState,
+            'coloredSwitchesOn': coloredSwitchesOn,
+            'coloredSwitchesOff': coloredSwitchesOff
+        }
+    elif type == 'coloredGoal':
+        return {
+            'playerState': playerState,
+            'wallHorizontal': wallHorizontal,
+            'wallVerticle': wallVerticle,
+            'coloredGoals': coloredGoals,
+            'boardState': boardState,
+            'coloredSwitchesOn': coloredSwitchesOn,
+            'coloredSwitchesOff': coloredSwitchesOff
+        }
 
 structOutside = [
     (0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(0,7),(0,8),(0,9),(0,10),(0,11),(0,12),(0,13),(0,14),(0,15),
