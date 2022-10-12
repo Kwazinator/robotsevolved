@@ -71,6 +71,13 @@ class GenDAO:
         row = cursor.fetchone()
         return (row[2],row[3],row[4],row[5])
 
+    def get_daily_evolution_puzzles(self):
+        cursor = get_db().cursor()
+        cursor.execute(
+            'SELECT * FROM daily_evolution WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC LIMIT 1')
+        row = cursor.fetchone()
+        return (row[2], row[3], row[4], row[5])
+
     def insert_daily_challenge_submit(self, score, userid, solutiondata, name, dc_id,playerStateList):
         try:
             db = get_db()
@@ -84,6 +91,66 @@ class GenDAO:
         finally:
             pass
 
+    def insert_daily_evolution_submit(self, score, userid, solutiondata, name, dce_id,playerStateList):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('INSERT INTO daily_evolution_submit (score,user_id,solutiondata,name,dce_id,playerStateList,completed) VALUES (%s,%s,%s,%s,%s,%s,1)',(score, userid, solutiondata, name, dce_id,playerStateList))
+            db.commit()
+            return 'OK'
+        except Exception as e:
+            print('error in insert daily evolution submit')
+            print(e)
+        finally:
+            pass
+
+    def get_daily_evolution_winners(self):
+        cursor = get_db().cursor()
+        userlistandcrowns = {}
+        cursor.execute('''  SELECT COUNT(u.user_id ) as Crowns, u.user_id, u.username FROM daily_evolution_submit des
+                                    JOIN user u on des.user_id =u.user_id
+                                    WHERE des.user_id = (SELECT user_id FROM daily_evolution_submit WHERE dce_id=des.dce_id ORDER by score ASC, TIMEDIFF(submitted,startTime) ASC LIMIT 1) and u.user_id <> 1 and des.dce_id <>
+                                        (select
+                                            max(daily_evolution.dce_id)
+                                        from
+                                            daily_evolution
+                                        where
+                                            (now() >= daily_evolution.created))
+                                    group by u.user_id
+                                    ORDER by Crowns desc''')
+        for row in cursor.fetchall():
+            userlistandcrowns.update({row[1]: row[0]})
+        return userlistandcrowns
+
+
+    def get_daily_evolution_highscores(self, dce_id):
+        cursor = get_db().cursor()
+        highscores = list()
+        cursor.execute('''SELECT des.des_id,des.score,des.user_id,des.solutiondata,des.name,des.dce_id,TIMEDIFF(submitted,startTime),des.playerStateList,u.logintype FROM daily_evolution_submit des
+                                  JOIN user u on des.user_id = u.user_id
+                                  WHERE dce_id=%s and completed = 1
+                                  ORDER by score ASC, TIMEDIFF(submitted,startTime) ASC''', (dce_id,))
+        for row in cursor.fetchall():
+            if row[8] == 'anon':
+                userID = 1
+            else:
+                userID = row[2]
+            print(row[6])
+            seconds = row[6].seconds
+            hours = seconds // 3600
+            minutes = (seconds // 60) % 60
+            seconds = seconds % 60
+            if hours == 0:
+                hours = ''
+            else:
+                hours = str(hours) + ':'
+            if minutes <= 9 and hours != '':
+                minutes = '0' + str(minutes)
+            if seconds <= 9:
+                seconds = '0' + str(seconds)
+            highscores.append(Daily_Challenge_Solution(row[0], row[1], userID, row[3], row[4], row[5],
+                                                       hours + (str(minutes) + ':' + str(seconds)), row[7]).serialize())
+        return highscores
 
     def get_game_uri(self,uri):
         try:
@@ -138,6 +205,19 @@ class GenDAO:
             print(row[1])
             return (row[0],row[1])
 
+    def get_daily_evolution_moves(self, dce_id, user_id):
+        cursor = get_db().cursor()
+        cursor.execute(
+            'SELECT solutiondata,playerStateList FROM daily_evolution_submit WHERE dce_id=%s and user_id=%s and completed = 1 LIMIT 1',
+            (dce_id, user_id))
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        else:
+            print(row[0])
+            print(row[1])
+            return (row[0], row[1])
+
     def get_daily_challenge_winners(self):
         cursor = get_db().cursor()
         userlistandcrowns = {}
@@ -177,6 +257,16 @@ class GenDAO:
         else:
             return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],(row[6]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7])
 
+    def check_current_daily_evolution_submit(self,userid,dce_id):
+        cursor = get_db().cursor()
+        cursor.execute('SELECT * FROM daily_evolution_submit WHERE dce_id=%s AND user_id=%s ORDER by score ASC LIMIT 1', (dce_id,userid))
+        row = cursor.fetchone()
+        if row is None:
+            return None
+        else:
+            return Daily_Challenge_Solution(row[0], row[1], row[2], row[3], row[4], row[5],(row[6]- timedelta(hours=4)).strftime('%b %d, %Y %I%p').lstrip("0").replace(" 0", " "),row[7])
+
+
     def update_daily_challenge_submit(self,score, userid, solutiondata, name, dc_id,playerStateList):
         try:
             db = get_db()
@@ -186,6 +276,19 @@ class GenDAO:
             return 'OK'
         except Exception as e:
             print('error in update_daily_challenge_submit')
+            print(e)
+        finally:
+            pass
+
+    def update_daily_evolution_submit(self,score, userid, solutiondata, name, dce_id,playerStateList):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('UPDATE daily_evolution_submit SET score=%s,solutiondata=%s,name=%s,submitted=CURRENT_TIMESTAMP,playerStatelist=%s,completed=1 WHERE user_id=%s AND dce_id=%s',(score, solutiondata, name,playerStateList, userid, dce_id))
+            db.commit()
+            return 'OK'
+        except Exception as e:
+            print('error in update_daily_evolution_submit')
             print(e)
         finally:
             pass
@@ -244,5 +347,19 @@ class GenDAO:
             return (row[1],row2[0])
         except Exception as e:
             print(e)
+        finally:
+            pass
+
+
+    def get_daily_evolution_id(self):
+        try:
+            cursor = get_db().cursor()
+            cursor.execute(
+                'SELECT dce_id FROM daily_evolution WHERE CURRENT_TIMESTAMP() <= TIMESTAMPADD(day, +1, created) ORDER by created ASC LIMIT 1')
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print(e)
+            return 1
         finally:
             pass

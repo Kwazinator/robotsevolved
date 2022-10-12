@@ -96,6 +96,7 @@ CREATE TABLE daily_challenge_submit (
 );
 
 
+
 CREATE TABLE vote (
     vote_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     user_id INTEGER NOT NULL,
@@ -127,4 +128,19 @@ CREATE TABLE daily_evolution (
     g_id3 MEDIUMTEXT NOT NULL,
     g_id4 MEDIUMTEXT NOT NULL,
     type MEDIUMTEXT NOT NULL
+);
+
+CREATE TABLE daily_evolution_submit (
+    des_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    score INTEGER NOT NULL,
+    user_id INTEGER DEFAULT 0,
+    solutiondata MEDIUMTEXT NOT NULL,
+    name TEXT NOT NULL,
+    dce_id INTEGER NOT NULL,
+    submitted datetime DEFAULT CURRENT_TIMESTAMP,
+    playerStateList mediumtext NOT NULL,
+    startTime datetime DEFAULT CURRENT_TIMESTAMP,
+    completed int DEFAULT 1,
+    FOREIGN KEY (dc_id) REFERENCES daily_challenge(id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );

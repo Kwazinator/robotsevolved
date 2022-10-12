@@ -1,5 +1,6 @@
 import React from 'react';
 import DailyChallengeStartModal from './containers/Modals/DailyChallengeStartModal';
+import DailyEvolutionStartModal from './containers/Modals/DailyEvolutionStartModal';
 import InfoIcon from '@material-ui/icons/Info';
 import CasinoIcon from '@material-ui/icons/Casino';
 import TodayIcon from '@material-ui/icons/Today';
@@ -7,6 +8,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Brightness6Icon from '@material-ui/icons/Brightness6';
+import DailyEvolutionPage from './Pages/DailyEvolutionPage';
 import Leaderboard from './Pages/Leaderboard';
 import clsx from 'clsx';
 import CreateGame from './Pages/CreateGame';
@@ -57,6 +59,7 @@ import AboutUs from "./Pages/AboutUs";
 import DailyChallengeHistory from "./Pages/DailyChallengeHistory";
 import DailyChallengeHistoryAnswersPage from "./Pages/DailyChallengeHistoryAnswersPage";
 import { FaMedal } from 'react-icons/fa';
+import Launch from '@material-ui/icons/Launch';
 import TimerIcon from '@material-ui/icons/Timer';
 import LoadingPage from './components/LoadingPage';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -176,7 +179,15 @@ class App extends React.Component {
 
         if (window.uri === '') {
             this.state = {
-                PageSelected: <Home handleClickWeekly100={this.handleWeeklyClick} handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+                PageSelected: <Home handleClickWeekly100={this.handleWeeklyClick}
+                                    handleClickDailyChallenge={this.handleClickDailyChallenge}
+                                    handleClickRandomGame={this.handleClickRandomGame}
+                                    handleClickLearnGame={this.handleClickLearnGame}
+                                    handleClickCreateGame={this.handleClickCreateGame}
+                                    handleClickFindGame={this.handleClickFindGame}
+                                    handleClickPuzzleRush={this.handleClickPuzzleRush}
+                                    handleClickDailyEvolution={this.handleClickDailyEvolution}
+                               />,
                 dailychallengehistoryloaded: false,
                 profileDataloaded: false,
             };
@@ -263,6 +274,60 @@ class App extends React.Component {
             this.handleClickDailyChallengeModal();
         }
     };
+
+    handleClickDailyEvolution = (event) => {
+        window.isEvolutionStarted = 'False'
+        if (window.isEvolutionStarted === 'False') {
+            this.setState({
+                showDailyEvolutionModal: true,
+            });
+        }
+        else {
+            this.handleClickDailyEvolutionModal();
+        }
+    };
+
+    handleClickDailyEvolutionModal = () => {
+        this.state.loadingPage = true;
+        axios.get('/getDailyEvolutionData')
+            .then( res => {
+                    var isOpen = this.state.open;
+                    if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
+                        isOpen = false
+                    }
+                    const dc_movesList = res.data.dc_movesList == null ? null : JSON.parse(res.data.dce_movesList)
+                    const dc_playerList = res.data.dc_playerList == null ? null : JSON.parse(res.data.dce_playerList)
+                    const daily_start_timer_minutes = res.data.daily_start_timer_minutes;
+                    const daily_start_timer_seconds = res.data.daily_start_timer_seconds;
+                    console.log(daily_start_timer_minutes);
+                    console.log( daily_start_timer_seconds);
+                    console.log(res.data)
+                    if (this.state.loadingPage) {
+                        this.setState({
+                                        PageSelected: <DailyEvolutionPage
+                                                            handleClickDailyEvolution={this.handleClickDailyEvolution}
+                                                            dailyChallengeGameslist={JSON.parse(res.data.dailyEvolutionGameslist)}
+                                                            dce_id={res.data.dce_id}
+                                                            dcehighscores={JSON.parse(res.data.dcehighscores)}
+                                                            handleLineDirections={this.handleLineDirections}
+                                                            LineDirections={this.state.LineDirections}
+                                                            savedMoves={dc_movesList}
+                                                            playerStateList={dc_playerList}
+                                                            daily_start_timer_seconds={daily_start_timer_seconds}
+                                                            daily_start_timer_minutes={daily_start_timer_minutes}
+                                        />,
+                                        open: isOpen,
+                                        showDailyEvolutionModal: false,
+                                        loadingPage: false,
+                                    });
+                        }
+                    });
+        this.setState({
+            PageSelected: <LoadingPage/>,
+            showDailyEvolutionModal: false,
+        });
+    };
+
 
 
     handleClickDailyChallengeModal = () => {
@@ -420,6 +485,13 @@ class App extends React.Component {
         });
     };
 
+    closeDailyEvolutionModal = event => {
+        event.preventDefault();
+        this.setState({
+            showDailyEvolutionModal: false
+        });
+    };
+
 
     closePuzzleRushLoginModal = event => {
         event.preventDefault();
@@ -569,7 +641,17 @@ class App extends React.Component {
 
     handleHomePageClick = () => {
         this.setState({
-            PageSelected: <Home handleClickWeekly100={this.handleWeeklyClick} handleClickWeekly100={this.handleWeeklyClick} handleClickDailyChallenge={this.handleClickDailyChallenge} handleClickRandomGame={this.handleClickRandomGame} handleClickLearnGame={this.handleClickLearnGame} handleClickCreateGame={this.handleClickCreateGame} handleClickFindGame={this.handleClickFindGame} handleClickPuzzleRush={this.handleClickPuzzleRush}/>,
+            PageSelected: <Home
+                                handleClickWeekly100={this.handleWeeklyClick}
+                                handleClickWeekly100={this.handleWeeklyClick}
+                                handleClickDailyChallenge={this.handleClickDailyChallenge}
+                                handleClickRandomGame={this.handleClickRandomGame}
+                                handleClickLearnGame={this.handleClickLearnGame}
+                                handleClickCreateGame={this.handleClickCreateGame}
+                                handleClickFindGame={this.handleClickFindGame}
+                                handleClickPuzzleRush={this.handleClickPuzzleRush}
+                                handleClickDailyEvolution={this.handleClickDailyEvolution}
+                           />,
             loadingPage: false,
         });
     };
@@ -789,6 +871,10 @@ class App extends React.Component {
                                 <ListItemIcon><TodayIcon /></ListItemIcon>
                                 <ListItemText primary={'Daily Challenge'} />
                             </ListItem>
+                            <ListItem button key={'Daily Evolution'} onClick={this.handleClickDailyEvolution}>
+                                <ListItemIcon><Launch /></ListItemIcon>
+                                <ListItemText primary={'Daily Evolution'} />
+                            </ListItem>
                             <ListItem button key={'Create a Game'} onClick={this.handleClickCreateGame}>
                                 <ListItemIcon><BrushIcon /></ListItemIcon>
                                 <ListItemText primary={'Create a Game'} />
@@ -881,6 +967,11 @@ class App extends React.Component {
                         closeModal={this.closeDailyChallengeModal}
                         show={this.state.showDailyChallengeModal}
                         startDaily={this.handleClickDailyChallengeModal}
+                    />
+                    <DailyEvolutionStartModal
+                        closeModal={this.closeDailyEvolutionModal}
+                        show={this.state.showDailyEvolutionModal}
+                        startEvolution={this.handleClickDailyEvolutionModal}
                     />
                 </div>
                 <div style={{position: "fixed", bottom: "10px", right: "10px"}}>

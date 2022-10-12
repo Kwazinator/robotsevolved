@@ -63,6 +63,20 @@ class UserDAO:
         finally:
             pass
 
+    def start_evolution(self, user_id, dce_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('INSERT into daily_evolution_submit (user_id, dce_id, completed) VALUES (%s,%s,0)',
+                           (user_id, dce_id))
+            db.commit()
+            return cursor.lastrowid  # return the userID that was created
+        except Exception as e:
+            print('Error in UserDAO().start_evolution')
+            print(e)
+        finally:
+            pass
+
     def is_daily_started(self, user_id, dc_id):
         try:
             db = get_db()
@@ -79,6 +93,24 @@ class UserDAO:
         finally:
             pass
 
+    def is_daily_evolution_started(self, user_id,dce_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT startTime from daily_evolution_submit where user_id = %s and dce_id = %s',(user_id, dce_id))
+            row = cursor.fetchone()
+            if row is None:
+                return False
+            else:
+                return True
+        except Exception as e:
+            print('Error in UserDAO().is_daily_evolution_started')
+            print(e)
+        finally:
+            pass
+
+
+
     def get_daily_time(self,user_id, dc_id):
         try:
             db = get_db()
@@ -88,6 +120,19 @@ class UserDAO:
             return row[0]
         except Exception as e:
             print('Error in UserDAO().get_daily_time')
+            print(e)
+        finally:
+            pass
+
+    def get_daily_evolution_time(self,user_id, dce_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('SELECT TIMEDIFF(CURRENT_TIMESTAMP,startTime) from daily_evolution_submit where user_id = %s and dce_id = %s',(user_id, dce_id))
+            row = cursor.fetchone()
+            return row[0]
+        except Exception as e:
+            print('Error in UserDAO().get_daily_evolution_time')
             print(e)
         finally:
             pass

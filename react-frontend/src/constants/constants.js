@@ -21,18 +21,21 @@ export const ROBOT_PINK = '#ff85c2';
 
 
 export const COLORED_SWITCH_BLUE = '/static/images/lever_blue.png';
-export const COLORED_SWITCH_PURPLE = '/static/images/PurpleSwitchOn.png';
-export const COLORED_SWITCH_BROWN = '/static/images/BrownSwitchOn.png';
+export const COLORED_SWITCH_PURPLE = '/static/images/lever_dark_green.png';
+export const COLORED_SWITCH_BROWN = '/static/images/lever_grey.png';
 export const COLORED_SWITCH_GREEN = '/static/images/lever_green.png';
 
-export const COLORED_SWITCH_PURPLE_OFF = '/static/images/PurpleSwitchOff.png';
-export const COLORED_SWITCH_BROWN_OFF = '/static/images/BrownSwitchOff.png';
+export const COLORED_SWITCH_PURPLE_ON = '/static/images/lever_purple_on.png';
+export const COLORED_SWITCH_BROWN_ON = '/static/images/lever_grey.png';
+
+export const COLORED_SWITCH_PURPLE_OFF = '/static/images/lever_purple_off.png';
+export const COLORED_SWITCH_BROWN_OFF = '/static/images/lever_grey_off.png';
 
 export const SELECTED_ROBOT = '#ffd700';
 export const LINE_INDICATOR_COLOR = 'red';
 
 export const COLORED_GOAL_IMAGE = '/static/images/targetbullseye.png';
-export const COLORED_SWITCHPAD_IMAGE = '/static/images/lever.png'
+export const COLORED_SWITCHPAD_IMAGE = '/static/images/lever.png';
 
 export const GOAL_IMAGE = '/static/images/swirl.png';
 export const GREEN_UP_PICTURE = '/static/images/Green_Up.png';

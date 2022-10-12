@@ -44,6 +44,10 @@ def generateEvolutionPatterns():
                 wallVerticle.append(walls[0])
                 
 
+    twospots = random.sample(range(len(goalposlist)),2)
+
+
+
 
     newWalls = createDoubleWallConfiguration('doublesquare')
     for item in newWalls[0]:
@@ -135,14 +139,29 @@ def generateEvolutionPatterns():
             boardState.append({'top': j, 'left': i})
 
     coloredSwitcheslist = list()
-    twoLocations = random.sample(range(0,len(structOutside) - 1),2)
-    firstSpotRandom = structOutside[twoLocations[0]]
-    secondSpotRandom = structOutside[twoLocations[1]]
+
+    twospots = random.sample(range(len(goalposlist) - 1), 2)
+    first = goalposlist[twospots[0]]
+    second = goalposlist[twospots[1]]
+    while (not ((first['top'],first['left']) in structOutside and (second['top'],second['left']) in structOutside)):
+        twospots = random.sample(range(len(goalposlist) - 1), 2)
+        first = goalposlist[twospots[0]]
+        second = goalposlist[twospots[1]]
+        print('first')
+        print(first)
+        print('second')
+        print(second)
+
+
+    firstSpotRandom = (first['top'],first['left'])
+    secondSpotRandom = (second['top'],second['left'])
+
+
     coloredSwitcheslist.append({'top': firstSpotRandom[0], 'left': firstSpotRandom[1]})
     coloredSwitcheslist.append({'top': secondSpotRandom[0], 'left': secondSpotRandom[1]})
     coloredSwitchesOn = list()
     coloredSwitchesOn.append(
-        dict(coloredSwitcheslist[0], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
+        dict(coloredSwitcheslist[0], **{'colorSignifier': 'brown', 'color': '#465362', 'isOn': True}))
     coloredSwitchesOn.append(
         dict(coloredSwitcheslist[1], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
 
@@ -151,7 +170,7 @@ def generateEvolutionPatterns():
     coloredSwitcheslist.append({'top': random.randint(3,6), 'left': random.randint(3,6)})
     coloredSwitchesOff = list()
     coloredSwitchesOff.append(
-        dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'indexRef': 0}))
+        dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#465362', 'indexRef': 0}))
     coloredSwitchesOff.append(
         dict(coloredSwitcheslist[0], **{'colorSignifier': 'purple', 'color': '#660066', 'indexRef': 1}))
 
@@ -343,14 +362,14 @@ def generateEvolutionTwoGoal():
     for i, item in enumerate(range(3)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitchesOn = list()
-    coloredSwitchesOn.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'isOn': True}))
+    coloredSwitchesOn.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#465362', 'isOn': True}))
     coloredSwitchesOn.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))
 
     coloredSwitcheslist = list()
     for i, item in enumerate(range(3)):
         coloredSwitcheslist.append(getSwitchLocations(randomPositions,16,16))
     coloredSwitchesOff = list()
-    coloredSwitchesOff.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#663300', 'indexRef': 0}))
+    coloredSwitchesOff.append(dict(coloredSwitcheslist[1], **{'colorSignifier': 'brown', 'color': '#465362', 'indexRef': 0}))
     coloredSwitchesOff.append(dict(coloredSwitcheslist[2], **{'colorSignifier': 'purple', 'color': '#660066', 'indexRef': 1}))
 
     #coloredSwitchesOn.append(dict(coloredSwitcheslist[3], **{'colorSignifier': 'purple', 'color': '#660066', 'isOn': True}))

@@ -29,6 +29,7 @@ def trimstring(stringtotrim):
         stringtotrim = stringtotrim[:32]
     return deEmojify(stringtotrim).rstrip()
 
+
 @bp.route('/dailychallenge',methods=('GET','POST'))
 @jwt_required(optional=True)
 def daily_challenge():
@@ -46,6 +47,24 @@ def daily_challenge():
                                                          data['dc_id'], json.dumps(data['playerStateList']))
     return value
 
+
+@bp.route('/dailyevolution',methods=('GET','POST'))
+@jwt_required(optional=True)
+def daily_evolution():
+    data = request.get_json()
+    userID = get_jwt_identity()
+    if (userID is None):
+        return auth.anon_user_login()
+    user = UserService().get_user(get_jwt_identity()).serialize()
+    if (user['logintype'] != 'anon'):
+        value = GeneratorService().insert_daily_evolution_submit(data['score'], userID, json.dumps(data['solutiondata']), trimstring(data['name']),
+                                                         data['dce_id'], json.dumps(data['playerStateList']))
+    else:
+        UserService().change_name(userID, trimstring(data['name']))
+        value = GeneratorService().insert_daily_evolution_submit(data['score'], userID, json.dumps(data['solutiondata']), trimstring(data['name']),
+                                                         data['dce_id'], json.dumps(data['playerStateList']))
+    return value
+
 @bp.route('/dailychallengehighscores',methods=('GET','POST'))
 @jwt_required(optional=True)
 def daily_challenge_highscores():
@@ -53,6 +72,16 @@ def daily_challenge_highscores():
     highscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id))
     dc_id = GeneratorService().get_daily_challenge_id()
     return jsonify(dc_id=dc_id, highscores=highscores)
+
+@bp.route('/dailyevolutionhighscores',methods=('GET','POST'))
+@jwt_required(optional=True)
+def daily_evolution_highscores():
+    dce_id = request.args['dce_id']
+    highscores = json.dumps(GeneratorService().get_daily_evolution_highscores(dce_id))
+    dce_id = GeneratorService().get_daily_evolution_id()
+    print(dce_id)
+    print(highscores)
+    return jsonify(dce_id=dce_id, highscores=highscores)
 
 
 @bp.route('/getDailyChallengeData',methods=('GET','POST'))
@@ -129,3 +158,32 @@ def weekly_challenge_submit():
         pass
     WeeklyChallengeService().submit_answer(data['score'],userID, json.dumps(data['solutiondata']), name, wc_id,json.dumps(data['playerStateList']),data['completed'],display,json.dumps(data['gamesWon']))
     return 'OK'
+
+@bp.route('/getDailyEvolutionData',methods=('POST','GET'))
+@jwt_required(optional=True)
+def get_dce_data():
+    userID = get_jwt_identity()
+    dce_id = GeneratorService().get_daily_evolution_id()
+    dailyevolutionlist = json.dumps(GeneratorService().get_daily_evolution_puzzles())
+    dce_movesList = None
+    dce_playerList = None
+    dcehighscores = json.dumps(GeneratorService().get_daily_evolution_highscores(dce_id))
+
+    isStarted = UserService().is_daily_evolution_started(userID, dce_id)
+    if not isStarted:
+        UserService().start_evolution(userID, dce_id)
+        evolution_start_timer_seconds = 2
+        evolution_start_timer_minutes = 0
+    else:
+        evolution_start_timer = UserService().get_daily_evolution_time(userID, dce_id)
+        total_seconds = evolution_start_timer.seconds
+        evolution_start_timer_minutes = total_seconds // 60
+        evolution_start_timer_seconds = total_seconds % 60
+    if (userID is not None):
+        dce_moves = GeneratorService().get_daily_evolution_moves(dce_id, userID)
+        if dce_moves is not None:
+            dce_movesList = dce_moves[0]
+            dce_playerList = dce_moves[1]
+    return jsonify(dce_playerList=dce_playerList, dce_movesList=dce_movesList, dcehighscores=dcehighscores, dce_id=dce_id,
+                   dailyEvolutionGameslist=dailyevolutionlist, evolution_start_timer_minutes=evolution_start_timer_minutes,
+                   evolution_start_timer_seconds=evolution_start_timer_seconds)

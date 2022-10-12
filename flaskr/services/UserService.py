@@ -30,6 +30,16 @@ class UserService:
     def get_user_by_logintype(self,accountID,logintype):
         return UserDAO().get_user_by_logintype(accountID,logintype)
 
+    def is_daily_evolution_started(self,user_id,dce_id):
+        return UserDAO().is_daily_evolution_started(user_id,dce_id)
+
+
+    def start_evolution(self,user_id,dce_id):
+        return UserDAO().start_evolution(user_id,dce_id)
+
+    def get_daily_evolution_time(self, userID, dce_id):
+        return UserDAO().get_daily_evolution_time(userID, dce_id)
+
 
     def is_daily_started(self, user_id, dc_id):
         return UserDAO().is_daily_started(user_id, dc_id)

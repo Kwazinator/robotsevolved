@@ -12,7 +12,11 @@ import {SQUARE_OUTSIDE_COLOR,
         COLORED_SWITCH_BLUE,
         COLORED_SWITCH_PURPLE,
         COLORED_SWITCH_GREEN,
-        COLORED_SWITCH_BROWN
+        COLORED_SWITCH_BROWN,
+        COLORED_SWITCH_BROWN_ON,
+        COLORED_SWITCH_BROWN_OFF,
+        COLORED_SWITCH_PURPLE_ON,
+        COLORED_SWITCH_PURPLE_OFF
 } from '../constants/constants';
 import Draggable from 'react-draggable';
 
@@ -50,9 +54,9 @@ export default function Goal(props) {
     var image = COLORED_SWITCH_BLUE;
     console.log(props)
     if (props.position.colorSignifier === 'brown') {
-        image = COLORED_SWITCH_BROWN;
+        image = props.isOn ? COLORED_SWITCH_BROWN_ON : COLORED_SWITCH_BROWN_OFF
     } else if (props.position.colorSignifier === 'purple') {
-        image = COLORED_SWITCH_PURPLE;
+        image = props.isOn ? COLORED_SWITCH_PURPLE_ON : COLORED_SWITCH_PURPLE_OFF
     } else if (props.position.colorSignifier === 'green') {
         image = COLORED_SWITCH_GREEN;
     } else if (props.position.colorSignifier === 'blue') {

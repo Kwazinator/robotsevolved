@@ -89,3 +89,54 @@ class GeneratorService:
 
     def get_last_daily_challenge(self):
         return GenDAO().get_last_daily_challenge()
+
+    def get_daily_evolution_id(self):
+        return GenDAO().get_daily_evolution_id()
+
+    def get_daily_evolution_puzzles(self):
+        returnlist = list()
+        for game in GenDAO().get_daily_evolution_puzzles():
+            gamedata = GenDAO().get_puzzle_by_id(game)
+            gamedata['g_solutiondata'] = ''
+            returnlist.append(gamedata)
+        return returnlist
+
+
+    def insert_daily_evolution_submit(self, score, userid, solutiondata, name, dce_id, playerStateList):
+        submitted = GenDAO().check_current_daily_evolution_submit(userid, dce_id)
+
+        # solutioncheck = json.loads(solutiondata)
+        # dc_gamedata = GenDAO().get_daily_challenge_puzzledata(dc_id)
+        # for index, solution in enumerate(solutioncheck):
+        # if (not checkSolution(json.dumps(solution),dc_gamedata[index][0],len(solution))):
+        # return 'something went wrong'
+
+        if (GenDAO().get_daily_evolution_id() == dce_id):
+            if userid == 1:
+                return GenDAO().insert_daily_evolution_submit(score, userid, solutiondata, name, dce_id, playerStateList)
+            elif submitted is not None and (submitted.score > score or submitted.score is 0):
+                return GenDAO().update_daily_evolution_submit(score, userid, solutiondata, name, dce_id, playerStateList)
+            elif submitted is None:
+                return GenDAO().insert_daily_evolution_submit(score, userid, solutiondata, name, dce_id, playerStateList)
+            else:
+                return 'already submitted'
+        return 'something went wrong'
+
+
+    def get_daily_evolution_highscores(self,dce_id):
+        userlist = GenDAO().get_daily_evolution_winners()
+        highscores = GenDAO().get_daily_evolution_highscores(dce_id)
+        highscoreslist = list()
+        for score in highscores:
+            if score['user_id'] != 1:
+                if userlist.get(score['user_id']) != None:
+                    score['wins'] = userlist[score['user_id']]
+                else:
+                    score['wins'] = 0
+                highscoreslist.append({**score, **UserDAO().get_user_metadata(score['user_id'])})
+            else:
+                highscoreslist.append({**score, **UserDAO().get_user_metadata(score['user_id'])})
+        return highscoreslist
+
+    def get_daily_evolution_moves(self,dce_id, user_id):
+        return GenDAO().get_daily_evolution_moves(dce_id,user_id)
