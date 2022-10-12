@@ -19,7 +19,7 @@ if __name__ == "__main__":
         puzzlelist.append(
             {
                 'difficulty': 'hard',
-                'puzzledata': generatorEvolution.formatsolutiondataTwoGoalEvo(puzzle),
+                'puzzledata': generatorEvolution.formatsolutiondataTwoGoalEvo(puzzle,'wildcard'),
                 'moves': 1,
                 'solutiondata': 'None'
             }

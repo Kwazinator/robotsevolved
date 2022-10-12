@@ -515,26 +515,47 @@ def getSwitchLocations(dontPlacePositions,width,height):
     return {'top': Y, 'left': X}
 
 
-def formatsolutiondataTwoGoalEvo(solution):
-    data = {
-        'robotSelected': 0,
-        'moveHistory': [],
-        'uri': '',
-        'createMode': 'No',
-        'highscores': [],
-        "ColoredLineDirections": [],
-        "playerState": solution['playerState'],
-        "gameWon": True,
-        'boardState': solution['boardState'],
-        'wallHorizontal': solution['wallHorizontal'],
-        'wallVerticle': solution['wallVerticle'],
-        'playerStart': solution['playerState'],
-        'coloredGoals': solution['coloredGoals'],
-        'height': 16,
-        'width': 16,
-        'coloredSwitchesOn': solution['coloredSwitchesOn'],
-        'coloredSwitchesOff': solution['coloredSwitchesOff']
-    }
+def formatsolutiondataTwoGoalEvo(solution,type):
+    if type == 'wildcard':
+        data = {
+            'robotSelected': 0,
+            'moveHistory': [],
+            'uri': '',
+            'createMode': 'No',
+            'highscores': [],
+            "ColoredLineDirections": [],
+            "playerState": solution['playerState'],
+            "gameWon": True,
+            'boardState': solution['boardState'],
+            'wallHorizontal': solution['wallHorizontal'],
+            'wallVerticle': solution['wallVerticle'],
+            'playerStart': solution['playerState'],
+            'goal': solution['goal'],
+            'height': 16,
+            'width': 16,
+            'coloredSwitchesOn': solution['coloredSwitchesOn'],
+            'coloredSwitchesOff': solution['coloredSwitchesOff']
+        }
+    elif type == 'coloredGoal':
+        data = {
+            'robotSelected': 0,
+            'moveHistory': [],
+            'uri': '',
+            'createMode': 'No',
+            'highscores': [],
+            "ColoredLineDirections": [],
+            "playerState": solution['playerState'],
+            "gameWon": True,
+            'boardState': solution['boardState'],
+            'wallHorizontal': solution['wallHorizontal'],
+            'wallVerticle': solution['wallVerticle'],
+            'playerStart': solution['playerState'],
+            'coloredGoals': solution['coloredGoals'],
+            'height': 16,
+            'width': 16,
+            'coloredSwitchesOn': solution['coloredSwitchesOn'],
+            'coloredSwitchesOff': solution['coloredSwitchesOff']
+        }
     newdata = json.dumps(data)
     return newdata
 
