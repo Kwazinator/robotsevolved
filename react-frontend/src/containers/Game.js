@@ -3,6 +3,7 @@ import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import WeeklyGameItems from '../components/WeeklyGameItems'
 import React from 'react';
+import DailyGameItems from '../components/DailyGameItems';
 import axios from 'axios';
 import SwitchPad from '../components/SwitchPad'
 import SwitchPadOff from '../components/SwitchPadOff'

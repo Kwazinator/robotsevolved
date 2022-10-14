@@ -19,11 +19,12 @@ const rightstyle = () => {
     }
 }
 
-export default function WeeklyGameItems(props) {
+export default function DailyGameItems(props) {
     const handleClick = () => {
         props.handleClickGame(props.index)
     }
     const numMoves = props.moveHistoryList[props.index] == undefined ? 0 : props.moveHistoryList[props.index].length;
+    const bestScore = props.bestScore[props.index] == undefined ? 0 : props.bestScore[props.index].length
     if (props.selected === props.index) {
         return props.game.g_moves == numMoves ?
              (
@@ -43,7 +44,10 @@ export default function WeeklyGameItems(props) {
                     onClick={handleClick}
                 >
                     <div style={leftstyle()}>
-                        {'Best: ' + numMoves}
+                        {'Best: ' + bestScore}
+                    </div>
+                    <div style={rightstyle()}>
+                        {'Min is ' + [props.game.g_moves]}
                     </div>
                 </Button>
             )
@@ -67,7 +71,10 @@ export default function WeeklyGameItems(props) {
                     onClick={handleClick}
                 >
                     <div style={leftstyle()}>
-                        {'Best: ' + numMoves}
+                        {'Best: ' + bestScore}
+                    </div>
+                    <div style={rightstyle()}>
+                        {'Min is ' + [props.game.g_moves]}
                     </div>
                 </Button>
             )
