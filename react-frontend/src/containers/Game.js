@@ -1786,7 +1786,13 @@ class Game extends React.Component {
                             variant="contained">
                             {
                                 this.state.games.map((game,index) =>
-                                        <WeeklyGameItems selected={this.state.numPuzzleon} game={game} name={'Puzzle #' + (index + 1)} index={index} handleClickGame={this.handleDailyClickGame} moveHistoryList={this.state.moveHistoryList}/>
+                                        <DailyGameItems selected={this.state.numPuzzleon}
+                                                         game={game} name={'Puzzle #' + (index + 1)}
+                                                         index={index}
+                                                         handleClickGame={this.handleDailyClickGame}
+                                                         moveHistoryList={this.state.moveHistoryList}
+                                                         bestScore={window.dailyChallengeSessionBestHistory}
+                                        />
                                 )
                             }
                         </ButtonGroup>

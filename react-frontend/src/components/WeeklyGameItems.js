@@ -1,11 +1,30 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
 
+
+const leftstyle = () => {
+    return {
+        width: '100%',
+        paddingRight: '0px',
+        textAlign: 'left'
+    }
+}
+
+
+const rightstyle = () => {
+    return {
+        width: '100%',
+        paddingRight: '0px',
+        textAlign: 'right'
+    }
+}
+
 export default function WeeklyGameItems(props) {
     const handleClick = () => {
         props.handleClickGame(props.index)
     }
     const numMoves = props.moveHistoryList[props.index] == undefined ? 0 : props.moveHistoryList[props.index].length;
+    const bestScore = props.bestScore[props.index] == undefined ? 0 : props.bestScore[props.index].length
     if (props.selected === props.index) {
         return props.game.g_moves == numMoves ?
              (
@@ -24,7 +43,12 @@ export default function WeeklyGameItems(props) {
                     aria-label="vertical outlined primary button group"
                     onClick={handleClick}
                 >
-                    {numMoves + ' Moves'}
+                    <div style={leftstyle()}>
+                        {'Best: ' + bestScore}
+                    </div>
+                    <div style={rightstyle()}>
+                        {'Min is ' + [props.game.g_moves]}
+                    </div>
                 </Button>
             )
     }
@@ -46,7 +70,12 @@ export default function WeeklyGameItems(props) {
                     aria-label="vertical outlined primary button group"
                     onClick={handleClick}
                 >
-                    {numMoves + ' Moves'}
+                    <div style={leftstyle()}>
+                        {'Best: ' + bestScore}
+                    </div>
+                    <div style={rightstyle()}>
+                        {'Min is ' + [props.game.g_moves]}
+                    </div>
                 </Button>
             )
     }
