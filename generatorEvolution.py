@@ -51,9 +51,11 @@ def generateEvolutionPatterns(type):
 
     newWalls = createDoubleWallConfiguration('doublesquare')
     for item in newWalls[0]:
-        wallHorizontal.append(item)
+        if (noDubplicateWalls(wallHorizontal,item)):
+            wallHorizontal.append(item)
     for item in newWalls[1]:
-        wallVerticle.append(item)
+        if (noDubplicateWalls(wallVerticle,item)):
+            wallVerticle.append(item)
 
     color1 = random.randint(0, 1)
     color2 = random.randint(2, 3)
@@ -202,6 +204,14 @@ def generateEvolutionPatterns(type):
             'coloredSwitchesOn': coloredSwitchesOn,
             'coloredSwitchesOff': coloredSwitchesOff
         }
+
+
+def noDubplicateWalls(wallsToCheck,checkwall):
+    for wall in wallsToCheck:
+        if wall['top'] == checkwall['top'] and wall['left'] == checkwall['left']:
+            print('duplicate wal found')
+            return False
+    return True
 
 structOutside = [
     (0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(0,7),(0,8),(0,9),(0,10),(0,11),(0,12),(0,13),(0,14),(0,15),
