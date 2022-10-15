@@ -332,6 +332,7 @@ class Game extends React.Component {
             this.state.tipsText = ['Puzzles reset at 3PM EST', 'email any bugs or suggestions to robotsevolved@gmail.com'];
             this.state.highscores = this.props.highscores;
             this.state.dce_id = this.props.dce_id;
+            window.dailyEvolutionSessionSwitchState = [[],[],[],[]];
             if (this.state.coloredGoals == undefined) {
                 this.state.coloredGoals = [];
             }
@@ -561,6 +562,7 @@ class Game extends React.Component {
                 if (res.data.dce_id != this.state.dce_id) {
                     window.dailyEvolutionSessionBestHistory = [[],[],[],[]];
                     window.dailyEvolutionSessionBestPlayerState = [[],[],[],[]];
+                    window.dailyEvolutionSessionSwitchState = [[],[],[],[]];
                     this.props.handleClickDailyEvolution();
                     return
                 }
@@ -1151,6 +1153,7 @@ class Game extends React.Component {
                             this.state.moveHistory.length < window.dailyEvolutionSessionBestHistory[this.state.numPuzzleon].length)) {
                         window.dailyEvolutionSessionBestHistory[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.moveHistory))
                         window.dailyEvolutionSessionBestPlayerState[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.playerState))
+                        window.dailyEvolutionSessionSwitchState[this.state.numPuzzleon] = JSON.parse(JSON.stringify(this.state.coloredSwitchesOn))
                     }
                     this.state.gamesWonDaily.map((gameWon,index) => {
                         if (!(index == this.state.numPuzzleon) && !gameWon) {
@@ -1522,10 +1525,20 @@ class Game extends React.Component {
     }
 
     resetToBest = (moveHistory, playerState) => {
-        this.setState({
-            moveHistory: moveHistory,
-            playerState: playerState,
-        });
+        if (this.state.isEvolution) {
+            console.log(window.dailyEvolutionSessionSwitchState)
+            this.setState({
+                moveHistory: moveHistory,
+                playerState: playerState,
+                coloredSwitchesOn: JSON.parse(JSON.stringify(window.dailyEvolutionSessionSwitchState))
+            });
+        }
+        else {
+            this.setState({
+                moveHistory: moveHistory,
+                playerState: playerState,
+            });
+        }
     }
 
     handleColoredClick = (colorSignifier) => {
