@@ -53,6 +53,7 @@ def generateEvolutionPatterns(type):
     for item in newWalls[0]:
         if (noDubplicateWalls(wallHorizontal,item)):
             wallHorizontal.append(item)
+
     for item in newWalls[1]:
         if (noDubplicateWalls(wallVerticle,item)):
             wallVerticle.append(item)
