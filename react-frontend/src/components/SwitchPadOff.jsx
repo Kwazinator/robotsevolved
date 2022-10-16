@@ -43,7 +43,7 @@ const styledragable = ({dimension,position,color}) => {
 
 
 
-export default function Goal(props) {
+export default function SwitchPadOff(props) {
     if (props.position == null) {
         return null
     }

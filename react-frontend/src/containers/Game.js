@@ -50,7 +50,11 @@ import {
     GREEN_UP_PICTURE,
     DIRECTION_MAP_IMAGES,
     LINE_INDICATOR_COLOR,
-    MOBILE_INNER_SCREEN_WIDTH
+    MOBILE_INNER_SCREEN_WIDTH,
+    COLORED_SWITCH_BLUE,
+    COLORED_SWITCH_GREEN,
+    COLORED_SWITCH_PURPLE_ON,
+    COLORED_SWITCH_BROWN_ON
 } from '../constants/constants';
 import BoardGenerator from '../components/boardgenerator';
 import BoardResetModal from "./Modals/BoardResetModal";
@@ -59,6 +63,8 @@ import Button from "@material-ui/core/Button";
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Chip from "@material-ui/core/Chip";
+import CreateBoardSwitchSelector from "../components/CreateBoardSwitchSelector";
+import CreateBoardWallTypeSelector from "../components/CreateBoardWallTypeSelector";
 
 function MyStopwatch(props) {
        var stopwatchOffset = new Date();
@@ -214,7 +220,7 @@ class Game extends React.Component {
             this.state.coloredSwitchesOff = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = []
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
         }
@@ -250,7 +256,7 @@ class Game extends React.Component {
             this.state.playerStateList = [];
             this.state.tipsText = [];
             this.state.highscores = [];
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
         }
@@ -290,7 +296,7 @@ class Game extends React.Component {
             this.state.tipsText = ['All users with 100 moves get a crown!','Moves are saved','puzzle button turns GREEN when solved with least moves'];
             this.state.highscores = this.props.highscores;
             this.state.wc_id = this.props.wc_id;
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
         }
@@ -333,7 +339,7 @@ class Game extends React.Component {
             this.state.highscores = this.props.highscores;
             this.state.dce_id = this.props.dce_id;
             window.dailyEvolutionSessionSwitchState = [[],[],[],[]];
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
         }
@@ -375,13 +381,13 @@ class Game extends React.Component {
             this.state.tipsText = ['Puzzles reset at 3PM EST'];
             this.state.highscores = this.props.highscores;
             this.state.dc_id = this.props.dc_id;
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
         }
         else if (this.props.randomGame === 'Yes') {
             this.state = JSON.parse(this.props.game.g_puzzledata)
-            if (this.props.game.g_moves != 1) {
+            if (this.props.game.g_moves !== 1) {
                 this.state.lowestMoves = this.props.game.g_moves
                 this.state.isEvolution = false
                 this.state.coloredSwitchesOn = [];
@@ -403,7 +409,7 @@ class Game extends React.Component {
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = ['this game was randomly generated'];
             this.state.uri = this.props.game.g_uri;
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
             window.history.pushState({id: 'Random Game'},'RobotsEvolved | Random Game','/play/' + this.props.game.g_uri)
@@ -425,7 +431,7 @@ class Game extends React.Component {
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = [this.props.games[0].description];
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
         }
@@ -445,7 +451,7 @@ class Game extends React.Component {
             this.state.copiedToClipboard = false;
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.tipsText = [];
-            if (this.state.coloredGoals == undefined) {
+            if (this.state.coloredGoals === undefined) {
                 this.state.coloredGoals = [];
             }
             window.history.pushState({id: 'Play Game'},'RobotsEvolved | Play Game','/play/'+ this.props.uri)
@@ -459,6 +465,7 @@ class Game extends React.Component {
                 uri: '',
                 createMode: 'Yes',
                 buildMode: true,
+                wallType: "normal",
                 highscores: [],
                 showBoardResetPanelModal: false,
                 ColoredLineDirections: [],
@@ -1542,14 +1549,15 @@ class Game extends React.Component {
     }
 
     handleColoredClick = (colorSignifier) => {
+        let newColoredGoals;
         var goal = null;
         this.state.coloredGoals.map(goalItem => {
-            if (colorSignifier == goalItem.colorSignifier) {
+            if (colorSignifier === goalItem.colorSignifier) {
                 goal = goalItem;
             }
         })
         if (goal == null) {
-            var newColoredGoals = this.state.coloredGoals;
+            newColoredGoals = this.state.coloredGoals;
             var newgoal
             switch (colorSignifier) {
                 case 'blue':
@@ -1573,11 +1581,54 @@ class Game extends React.Component {
             });
         }
         else {
-            var newColoredGoals = this.state.coloredGoals.filter(goalItem =>
-                colorSignifier != goalItem.colorSignifier
+            newColoredGoals = this.state.coloredGoals.filter(goalItem =>
+                colorSignifier !== goalItem.colorSignifier
             );
             this.setState({
                 coloredGoals: newColoredGoals
+            });
+        }
+        this.resetPuzzle();
+    }
+
+    handleSwitchColoredClick = (colorSignifier) => {
+        let newColoredSwitches;
+        let switchPad = null;
+        this.state.coloredSwitchesOn.map(switchItem => {
+            if (colorSignifier === switchItem.colorSignifier) {
+                switchPad = switchItem;
+            }
+        })
+        if (switchPad === null) {
+            newColoredSwitches = this.state.coloredSwitchesOn;
+            let newSwitchPad;
+            switch (colorSignifier) {
+                case 'blue':
+                    newSwitchPad = {top: this.state.height - 2, left: 1, color: ROBOT_BLUE, colorSignifier: 'blue', isOn: true};
+                    break;
+                case 'green':
+                    newSwitchPad = {top: this.state.height - 1, left: 1, color: ROBOT_GREEN, colorSignifier: 'green', isOn: true};
+                    break;
+                case 'purple':
+                    newSwitchPad = {top: this.state.height - 2, left: 0, color: ROBOT_RED, colorSignifier: 'purple', isOn: true};
+                    break;
+                case 'brown':
+                    newSwitchPad = {top: this.state.height - 1, left: 0, color: ROBOT_YELLOW, colorSignifier: 'brown', isOn: true};
+                    break;
+                default:
+                    break;
+            }
+            newColoredSwitches.push(newSwitchPad);
+            this.setState({
+                coloredSwitchesOn: newColoredSwitches
+            });
+        }
+        else {
+            newColoredSwitches = this.state.coloredSwitchesOn.filter(switchItem =>
+                colorSignifier !== switchItem.colorSignifier
+            );
+            this.setState({
+                coloredSwitchesOn: newColoredSwitches
             });
         }
         this.resetPuzzle();
@@ -1597,7 +1648,7 @@ class Game extends React.Component {
     };
 
     loadSidebar = () => {
-        if (this.props.learnMode == 'Yes') {
+        if (this.props.learnMode === 'Yes') {
             return (
                 <Grid container xs={12} direction="column">
                     <ButtonGroup
@@ -1819,11 +1870,27 @@ class Game extends React.Component {
         }
         else if (this.state.createMode === 'Yes') {
             return (
-                <CreateBoardGoalSelector
-                    buildMode={this.state.buildMode}
-                    handleWildCardClick={this.handleWildCardClick}
-                    handleColoredClick={this.handleColoredClick}
-                />
+                <Grid container spacing={2} direction={"column"}>
+                    <Grid item xs={12}>
+                        <CreateBoardGoalSelector
+                            buildMode={this.state.buildMode}
+                            handleWildCardClick={this.handleWildCardClick}
+                            handleColoredClick={this.handleColoredClick}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CreateBoardSwitchSelector
+                            buildMode={this.state.buildMode}
+                            handleColoredClick={this.handleSwitchColoredClick}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CreateBoardWallTypeSelector
+                            buildMode={this.state.buildMode}
+                            handleWallChange={(value) => this.setState({wallType: value})}
+                        />
+                    </Grid>
+                </Grid>
             );
         }
         else if (this.props.randomGame === 'Yes') {
@@ -1941,27 +2008,27 @@ class Game extends React.Component {
     createModeWallClick = (opacity,orientation,top,left) => {
         if (this.state.createMode === 'Yes' && this.state.buildMode) {
             this.resetPuzzle();
-            var indexToChange;
+            let indexToChange;
             if (orientation === 'horizontal') {
-                var newWallHorizontal = this.state.wallHorizontal;
+                const newWallHorizontal = this.state.wallHorizontal;
                 newWallHorizontal.map((wallH, index) => {
                     if (wallH.top === top && wallH.left === left) {
                         indexToChange = index;
                     }
                 });
-                newWallHorizontal[indexToChange] = {top: top,left: left,opacity: opacity};
+                newWallHorizontal[indexToChange] = {top: top,left: left,opacity: opacity, wallType: this.state.wallType};
                 this.setState({
                     wallHorizontal: newWallHorizontal
                 });
             }
             else if (orientation === 'verticle') {
-                var newWallVerticle = this.state.wallVerticle;
+                const newWallVerticle = this.state.wallVerticle;
                 newWallVerticle.map((wallV, index) => {
                     if (wallV.top === top && wallV.left === left) {
                         indexToChange = index;
                     }
                 });
-                newWallVerticle[indexToChange] = {top: top, left: left, opacity: opacity};
+                newWallVerticle[indexToChange] = {top: top, left: left, opacity: opacity, wallType: this.state.wallType};
                 this.setState({
                     wallVerticle: newWallVerticle
                 });
@@ -1970,8 +2037,9 @@ class Game extends React.Component {
     };
 
     checkWinningPosition = (goal,coloredGoals,playerState) => {
+        let Won;
         if (goal != null && coloredGoals == null) {
-            var Won = false;
+            Won = false;
             playerState.map((player) => {
                 if (player.top === goal.top && player.left === goal.left) {
                     Won = true;
@@ -1980,29 +2048,24 @@ class Game extends React.Component {
         }
         else {
             if (goal != null) {
-                var Won = false;
+                Won = false;
                 playerState.map((player) => {
                     if (player.top === goal.top && player.left === goal.left) {
                         Won = true;
                     }
                 });
             }
-            else if (coloredGoals.length == 0) {
-                var Won = false;
-            }
-            else {
-                var Won = true;
-            }
-            var found = false;
-            var colorfound = false;
+            else Won = coloredGoals.length !== 0;
+            let found = false;
+            let colorfound = false;
             playerState.map((player) => {
                 found = false
                 colorfound = false
                 coloredGoals.map(goal => {
-                    if (goal.colorSignifier == player.colorSignifier && goal.top === player.top && goal.left === player.left) {
+                    if (goal.colorSignifier === player.colorSignifier && goal.top === player.top && goal.left === player.left) {
                         found = true;
                     }
-                    if (goal.colorSignifier == player.colorSignifier) {
+                    if (goal.colorSignifier === player.colorSignifier) {
                         colorfound = true;
                     }
                 });
@@ -2016,8 +2079,11 @@ class Game extends React.Component {
 
 
     onStopDragHandlerGoal = (position,color) => {
-        if (color == undefined) {
-            var goal = {top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize)}
+        if (color === undefined) {
+            const goal = {
+                top: Math.round(position.lastY / this.state.squareSize),
+                left: Math.round(position.lastX / this.state.squareSize)
+            };
             if (!this.checkWinningPosition(goal,this.state.coloredGoals,this.state.playerState)) {
                 this.setState({
                     goal: goal,
@@ -2027,10 +2093,10 @@ class Game extends React.Component {
             }
         }
         else {
-            var coloredGoals = this.state.coloredGoals;
-            var newGoals = [];
+            const coloredGoals = this.state.coloredGoals;
+            const newGoals = [];
             coloredGoals.map(goal => {
-                if (goal.color == color) {
+                if (goal.color === color) {
                     newGoals.push({top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize), color: color, colorSignifier: goal.colorSignifier});
                 }
                 else {
@@ -2047,14 +2113,31 @@ class Game extends React.Component {
         }
     };
 
+    onStopDragHandlerSwitches = (position,color) => {
+        const coloredSwitches = this.state.coloredSwitchesOn;
+        const newSwitches = [];
+        coloredSwitches.map(switchPad => {
+            if (switchPad.color === color) {
+                newSwitches.push({top: Math.round(position.lastY / this.state.squareSize), left: Math.round(position.lastX / this.state.squareSize), color: color, colorSignifier: switchPad.colorSignifier, isOn: switchPad.isOn});
+            }
+            else {
+                newSwitches.push(switchPad);
+            }
+        });
+        this.setState({
+            coloredSwitchesOn: newSwitches,
+            playerState: this.state.playerStart.slice(),
+            moveHistory: [],
+        });
+    };
 
     onStopDragHandler = (position,index,oldPosition) => {
-        var playerState = this.state.playerState.slice();
-        var lastX = position.lastX / this.state.squareSize;
-        var lastY = position.lastY / this.state.squareSize;
+        const playerState = this.state.playerState.slice();
+        const lastX = position.lastX / this.state.squareSize;
+        const lastY = position.lastY / this.state.squareSize;
         playerState[index].top = Math.round(lastY);
         playerState[index].left = Math.round(lastX);
-        var Won = this.checkWinningPosition(this.state.goal,this.state.coloredGoals,playerState)
+        const Won = this.checkWinningPosition(this.state.goal, this.state.coloredGoals, playerState);
         if (!Won) {
             this.setState({
                 playerStart: playerState.slice(),
@@ -2149,6 +2232,10 @@ class Game extends React.Component {
                                     dimension={this.state.squareSize}
                                     position={switches}
                                     color={switches.color}
+                                    onStopDragHandler={this.onStopDragHandlerSwitches}
+                                    draggableGrid={[this.state.squareSize,this.state.squareSize]}
+                                    isCreateMode={this.state.createMode}
+                                    buildMode={this.state.buildMode}
                                     isOn={switches.isOn}
                                 />
                             )

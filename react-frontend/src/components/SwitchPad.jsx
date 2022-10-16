@@ -47,11 +47,11 @@ const styledragable = ({dimension,position,color}) => {
 
 
 
-export default function Goal(props) {
+export default function SwitchPad(props) {
     if (props.position == null) {
         return null
     }
-    var image = COLORED_SWITCH_BLUE;
+    let image = COLORED_SWITCH_BLUE;
     console.log(props)
     if (props.position.colorSignifier === 'brown') {
         image = props.isOn ? COLORED_SWITCH_BROWN_ON : COLORED_SWITCH_BROWN_OFF
@@ -62,7 +62,17 @@ export default function Goal(props) {
     } else if (props.position.colorSignifier === 'blue') {
         image = COLORED_SWITCH_BLUE;
     }
-    return(<img src={image} style={style(props)}/>)
+    if (props.isCreateMode === 'Yes'  && props.buildMode) {
+        const onStopDragHandler = (e, position) => {
+            props.onStopDragHandler(position, props.color);
+        }
+        return(
+            <Draggable position={{x:props.position.left * props.dimension,y: props.position.top * props.dimension}} bounds="parent" grid={props.draggableGrid} onStop={onStopDragHandler}>
+                <img src={image} style={styledragable(props)} alt={"Switch Pad"}/>
+            </Draggable>
+        )
+    }
+    return(<img src={image} style={style(props)} alt={"Switch Pad"}/>)
 }
 
 

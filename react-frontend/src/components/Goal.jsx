@@ -37,7 +37,7 @@ export default function Goal(props) {
         const onStopDragHandler = (e, position) => {
             props.onStopDragHandler(position,props.color);
         }
-        if (props.color == undefined) {
+        if (props.color === undefined) {
             return(
             <Draggable position={{x:props.position.left * props.dimension,y: props.position.top * props.dimension}} bounds="parent" grid={props.draggableGrid} onStop={onStopDragHandler}>
                 <img src={GOAL_IMAGE} style={styledragable(props)}/>
@@ -53,7 +53,7 @@ export default function Goal(props) {
         }
     }
     else {
-        if (props.color == undefined) {
+        if (props.color === undefined) {
             return(<img src={GOAL_IMAGE} style={style(props)}/>)
         }
         else {
