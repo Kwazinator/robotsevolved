@@ -6,7 +6,6 @@ import CasinoIcon from '@material-ui/icons/Casino';
 import TodayIcon from '@material-ui/icons/Today';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SchoolIcon from '@material-ui/icons/School';
-import SettingsIcon from '@material-ui/icons/Settings';
 import Brightness6Icon from '@material-ui/icons/Brightness6';
 import DailyEvolutionPage from './Pages/DailyEvolutionPage';
 import Leaderboard from './Pages/Leaderboard';
@@ -20,7 +19,6 @@ import LoginModal from './containers/Modals/LoginModal';
 import LoggedInUser from './components/LoggedInUser';
 import SignInButton from './components/SignInButton';
 import axios from 'axios';
-import Game from './containers/Game';
 import withStyles from "@material-ui/core/styles/withStyles";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Drawer from '@material-ui/core/Drawer';
@@ -36,12 +34,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Badge from "@material-ui/core/Badge";
 import BrushIcon from '@material-ui/icons/Brush';
 import SearchIcon from '@material-ui/icons/Search';
-import WarningIcon from '@material-ui/icons/Warning'
-import ExtensionIcon from '@material-ui/icons/Extension';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -62,8 +56,6 @@ import { FaMedal } from 'react-icons/fa';
 import Launch from '@material-ui/icons/Launch';
 import TimerIcon from '@material-ui/icons/Timer';
 import LoadingPage from './components/LoadingPage';
-import ChatIcon from '@material-ui/icons/Chat';
-import Popover from "@material-ui/core/Popover";
 import {GiPuzzle,GiPodium} from "react-icons/gi";
 
 
@@ -193,7 +185,7 @@ class App extends React.Component {
             };
         }
         else {
-            if (window.token.g_id == undefined) {
+            if (window.token.g_id === undefined) {
                 const linedir = window.loggedin === 'No' ? true : window.userInfo.LineDirFlag === 'Y';
                 this.state = {
                     PageSelected: <PlayGame handleLineDirections={this.handleLineDirections} LineDirections={linedir} name={window.token.name} gamedata={window.token.puzzledata} highscores={window.highscores} uri={window.uri} authorname={window.token.authorname} votes={window.token.votes} hasVoted={window.token.hasVoted} signInModalOpen={this.SignInButtonPressed}/>, //when uri is entered to play specific game
@@ -210,9 +202,7 @@ class App extends React.Component {
                 }
             }
         }
-        this.state.openChat = false;
-        this.state.chatAnchor = null;
-        this.state.open = window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? false : true;
+        this.state.open = window.innerWidth >= MOBILE_INNER_SCREEN_WIDTH;
         this.state.mobileAnchorEl = null;
         this.state.mobileMenuOpen = false;
         this.state.showLoginModal = false;
@@ -231,19 +221,6 @@ class App extends React.Component {
          }
     }
 
-    handleChatOpen = (event) => {
-        this.setState({
-            openChat: true,
-            chatAnchor: event.currentTarget
-        })
-    };
-
-    handleChatClose = () => {
-      this.setState({
-          openChat: false
-      })
-    };
-
     handleDrawerClose = () => {
         this.setState( {
             open: false
@@ -253,7 +230,7 @@ class App extends React.Component {
     handleLineDirections = (boolean) => {
         if (window.loggedin === 'Yes') {
             axios.post('/settingsChange', {LineDirections: boolean ? 'Y' : 'N'})
-                .then( res => {
+                .then( _ => {
                     console.log('changed');
                 });
         }
@@ -275,7 +252,7 @@ class App extends React.Component {
         }
     };
 
-    handleClickDailyEvolution = (event) => {
+    handleClickDailyEvolution = (_) => {
         window.isEvolutionStarted = 'False'
         if (window.isEvolutionStarted === 'False') {
             this.setState({
@@ -521,7 +498,7 @@ class App extends React.Component {
 
     handleClickCreateGame = event => {
         event.preventDefault();
-        var isOpen = this.state.open;
+        let isOpen = this.state.open;
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
@@ -533,19 +510,19 @@ class App extends React.Component {
     };
 
 
-    handleClickProfile = event => {
+    handleClickProfile = _ => {
         if (window.loggedin === 'Yes') {
             this.state.loadingPage = true;
                     axios.get('/getProfileData')
                         .then( res => {
-                            var isOpen = this.state.open;
+                            let isOpen = this.state.open;
                             if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
                                 isOpen = false
                             }
-                            var profileData = res.data;
-                            var gamesview = JSON.parse(profileData.gamesview)
-                            var solutionsview = JSON.parse(profileData.solutionsview)
-                            var puzzlerushview = JSON.parse(profileData.puzzlerushview)
+                            const profileData = res.data;
+                            const gamesview = JSON.parse(profileData.gamesview);
+                            const solutionsview = JSON.parse(profileData.solutionsview)
+                            const puzzlerushview = JSON.parse(profileData.puzzlerushview)
                             if (this.state.loadingPage) {
                                 this.setState({
                                     PageSelected: <ProfilePage handleClickPlayGame={this.handleGameClick} gamesview={gamesview} solutionsview={solutionsview} puzzlerushview={puzzlerushview}/>,
@@ -581,7 +558,7 @@ class App extends React.Component {
         })
     }
 
-    handleWeeklyClick = event => {
+    handleWeeklyClick = _ => {
         this.state.loadingPage = true;
         axios.get('/getWCData')
             .then( res => {
@@ -643,7 +620,6 @@ class App extends React.Component {
         this.setState({
             PageSelected: <Home
                                 handleClickWeekly100={this.handleWeeklyClick}
-                                handleClickWeekly100={this.handleWeeklyClick}
                                 handleClickDailyChallenge={this.handleClickDailyChallenge}
                                 handleClickRandomGame={this.handleClickRandomGame}
                                 handleClickLearnGame={this.handleClickLearnGame}
@@ -687,8 +663,8 @@ class App extends React.Component {
 
     }
 
-    handleClickAboutUs = event => {
-        var isOpen = this.state.open;
+    handleClickAboutUs = _ => {
+        let isOpen = this.state.open;
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             isOpen = false
         }
@@ -742,6 +718,7 @@ class App extends React.Component {
                     width={300}
                     height={75}
                     style={{marginTop: -15, marginBottom: -25}}
+                    alt={"Robots Evolved Banner"}
                     src="/static/images/robots_evolved_banner.png"
                 />
             )
@@ -752,6 +729,7 @@ class App extends React.Component {
                 width={671}
                 height={125}
                 style={{marginTop: -35, marginBottom: -40}}
+                alt={"Robots Evolved Banner"}
                 src="/static/images/robots_evolved_banner.png"
             />
         )
@@ -760,11 +738,11 @@ class App extends React.Component {
     iconImg = () => {
         if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
             return (
-                <img onClick={this.handleHomePageClick} width={40} height={40} src="/static/images/logo150.png"/>
+                <img onClick={this.handleHomePageClick} alt={"Logo"} width={40} height={40} src="/static/images/logo150.png"/>
             )
         }
         return (
-            <img onClick={this.handleHomePageClick} width={50} height={50} src="/static/images/logo150.png"/>
+            <img onClick={this.handleHomePageClick} alt={"Logo"} width={50} height={50} src="/static/images/logo150.png"/>
         )
     }
 
@@ -973,34 +951,6 @@ class App extends React.Component {
                         show={this.state.showDailyEvolutionModal}
                         startEvolution={this.handleClickDailyEvolutionModal}
                     />
-                </div>
-                <div style={{position: "fixed", bottom: "10px", right: "10px"}}>
-                    <IconButton
-                        style = {{backgroundColor: "#14a76c"}}
-                        onClick={this.handleChatOpen}
-                    >
-                        <ChatIcon />
-                    </IconButton>
-                    <Popover
-                        open={this.state.openChat}
-                        anchorEl={this.state.chatAnchor}
-                        onClose={this.handleChatClose}
-                        anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "left"
-                        }}
-                        transformOrigin={{
-                            vertical: "bottom",
-                            horizontal: "right"
-                        }}
-                    >
-                        <iframe
-                            src="https://titanembeds.com/embed/740127738345554021?css=140&username=guest&defaultchannel=740270339900178583"
-                            height= {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? (parseInt(window.innerHeight/2)) + '': "600"}
-                            width= {window.innerWidth < MOBILE_INNER_SCREEN_WIDTH ? (window.innerWidth - 40) + '': "400"}
-                            frameBorder="0"
-                        />
-                    </Popover>
                 </div>
             </MuiThemeProvider>
         )
