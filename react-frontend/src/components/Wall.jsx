@@ -49,7 +49,7 @@ const style = ({orientation,dimension,position,opacity, onClick, wallType,colore
         top: top,
         left: left,
         opacity: opacity,
-        borderRadius: "3px"
+        // borderRadius: "3px"
     };
 };
 

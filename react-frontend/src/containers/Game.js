@@ -1870,7 +1870,7 @@ class Game extends React.Component {
         }
         else if (this.state.createMode === 'Yes') {
             return (
-                <Grid container spacing={2} direction={"column"}>
+                <Grid container spacing={2} direction={"column"} style={{borderColor: "#e65100", borderWidth: 2, borderStyle: "solid", borderRadius: 8}}>
                     <Grid item xs={12}>
                         <CreateBoardGoalSelector
                             buildMode={this.state.buildMode}

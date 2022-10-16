@@ -26,43 +26,43 @@ export default function CreateBoardGoalSelector(props) {
     props.handleColoredClick('yellow');
   }
   return (
-  <Paper>
-    <FormControl style={{backgroundColor: 'white', textAlign: 'center'}} component="fieldset">
+  <Paper style={{padding: 4}}>
+    <FormControl style={{backgroundColor: 'white', textAlign: 'center'}} component="fieldset" variant={"standard"}>
       <FormLabel component="legend">Goal Selector</FormLabel>
       <FormGroup aria-label="position" row>
         <FormControlLabel
           value="Wildcard"
           control={<Checkbox onClick={handleWildCardClick} checked={wildchecked} color="primary" />}
           label="wildcard"
-          labelPlacement="top"
+          labelPlacement="end"
           disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Blue"
           control={<Checkbox onClick={handleBlueClick} color="primary" />}
           label="blue"
-          labelPlacement="top"
+          labelPlacement="end"
           disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Green"
           control={<Checkbox onClick={handleGreenClick} color="primary" />}
           label="green"
-          labelPlacement="top"
+          labelPlacement="end"
           disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Red"
           control={<Checkbox onClick={handleRedClick} color="primary" />}
           label="red"
-          labelPlacement="top"
+          labelPlacement="end"
           disabled={!props.buildMode}
         />
         <FormControlLabel
           value="Yellow"
           control={<Checkbox onClick={handleYellowClick} color="primary" />}
           label="yellow"
-          labelPlacement="top"
+          labelPlacement="end"
           disabled={!props.buildMode}
         />
       </FormGroup>

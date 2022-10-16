@@ -21,36 +21,36 @@ export default function CreateBoardSwitchSelector(props) {
         props.handleColoredClick('brown');
     }
     return (
-        <Paper>
-            <FormControl style={{backgroundColor: 'white', textAlign: 'center'}} component="fieldset">
+        <Paper style={{padding: 4}}>
+            <FormControl style={{backgroundColor: 'white', textAlign: 'center'}} component="fieldset" variant={"standard"}>
                 <FormLabel component="legend">Switch Selector</FormLabel>
                 <FormGroup aria-label="position" row>
                     <FormControlLabel
                         value="brown"
                         control={<Checkbox onClick={handleBrownClick} color="primary" />}
                         label="brown"
-                        labelPlacement="top"
+                        labelPlacement="end"
                         disabled={!props.buildMode}
                     />
                     <FormControlLabel
                         value="purple"
                         control={<Checkbox onClick={handlePurpleClick} color="primary" />}
                         label="purple"
-                        labelPlacement="top"
+                        labelPlacement="end"
                         disabled={!props.buildMode}
                     />
                     <FormControlLabel
                         value="green"
                         control={<Checkbox onClick={handleGreenClick} color="primary" />}
                         label="green"
-                        labelPlacement="top"
+                        labelPlacement="end"
                         disabled={!props.buildMode}
                     />
                     <FormControlLabel
                         value="blue"
                         control={<Checkbox onClick={handleBlueClick} color="primary" />}
                         label="blue"
-                        labelPlacement="top"
+                        labelPlacement="end"
                         disabled={!props.buildMode}
                     />
                 </FormGroup>
