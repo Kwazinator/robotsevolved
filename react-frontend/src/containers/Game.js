@@ -315,6 +315,7 @@ class Game extends React.Component {
             this.state.buildMode = false;
             this.state.totalMovesList = [];
             this.state.coloredSwitchesStart = JSON.parse(JSON.stringify(this.state.coloredSwitchesOn));
+            this.state.coloredSwitchesOnList = [];
             this.state.solutiondifference = [];
             this.state.squareSize = setDefaultSquareSize(this.state.width,this.state.height);
             this.state.gamesWonDaily = [false,false,false,false];
@@ -1340,6 +1341,7 @@ class Game extends React.Component {
             var playerState = this.state.playerState;
             var moveHistory = this.state.moveHistory;
             newPosition = extend(newPosition, {colorSignifier: playerState[this.state.robotSelected].colorSignifier});
+            var newSwitches = [];
             if (!(newPosition.top === playerState[this.state.robotSelected].top && newPosition.left === playerState[this.state.robotSelected].left) && !this.state.buildMode) {
                 moveHistory.push({
                     dir: dirObj.dir,
@@ -1347,17 +1349,19 @@ class Game extends React.Component {
                     colorSignifier: playerState[this.state.robotSelected].colorSignifier,
                     prevPosition: oldPositon
                 });
+                if (this.state.isEvolution) {
+                    this.state.coloredSwitchesOn.map((switches,index) => {
+                        if (switches.left === newPosition.left && switches.top === newPosition.top) {
+                            switches.isOn = switches.isOn ? false : true;
+                        }
+                        newSwitches.push(switches)
+                    });
+                }
+            }
+            else if (this.state.isEvolution) {
+                newSwitches = this.state.coloredSwitchesOn
             }
             playerState[this.state.robotSelected] = newPosition;
-            var newSwitches = []
-            if (this.state.isEvolution) {
-                this.state.coloredSwitchesOn.map((switches,index) => {
-                    if (switches.left === newPosition.left && switches.top === newPosition.top) {
-                        switches.isOn = switches.isOn ? false : true;
-                    }
-                    newSwitches.push(switches)
-                });
-            }
             this.setState({
                 playerState: playerState,
                 moveHistory: moveHistory,
@@ -1501,8 +1505,14 @@ class Game extends React.Component {
         var moveHistoryList = this.state.moveHistoryList;
         moveHistoryList[this.state.numPuzzleon] = [...this.state.moveHistory];
 
+
         if (puzzledata.coloredSwitchesOn != undefined) {
             puzzledata['coloredSwitchesStart'] = JSON.parse(JSON.stringify(puzzledata.coloredSwitchesOn));
+            if (this.state.coloredSwitchesOnList[index] != undefined) {
+                puzzledata['coloredSwitchesOn'] = JSON.parse(JSON.stringify(this.state.coloredSwitchesOnList[index]))
+            }
+            this.state.coloredSwitchesOnList[this.state.numPuzzleon] = [...this.state.coloredSwitchesOn]
+            // somewhere here do coloredSwitchesOn make a coloredSwitchesOnList and stuff
         }
         this.setState(
             extend(puzzledata,{highscores: this.state.highscores, numPuzzleon: index, moveHistory: moveHistory, gameWon: false, playerStateList: playerStateList, moveHistoryList: moveHistoryList, gamesWonDaily: gamesWonDaily})
@@ -1526,11 +1536,12 @@ class Game extends React.Component {
 
     resetToBest = (moveHistory, playerState) => {
         if (this.state.isEvolution) {
+            console.log(this.state.coloredSwitchesOn)
             console.log(window.dailyEvolutionSessionSwitchState)
             this.setState({
                 moveHistory: moveHistory,
                 playerState: playerState,
-                coloredSwitchesOn: JSON.parse(JSON.stringify(window.dailyEvolutionSessionSwitchState))
+                coloredSwitchesOn: JSON.parse(JSON.stringify(window.dailyEvolutionSessionSwitchState[this.state.numPuzzleon]))
             });
         }
         else {

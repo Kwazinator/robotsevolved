@@ -52,7 +52,6 @@ export default function Goal(props) {
         return null
     }
     var image = COLORED_SWITCH_BLUE;
-    console.log(props)
     if (props.position.colorSignifier === 'brown') {
         image = props.isOn ? COLORED_SWITCH_BROWN_ON : COLORED_SWITCH_BROWN_OFF
     } else if (props.position.colorSignifier === 'purple') {
