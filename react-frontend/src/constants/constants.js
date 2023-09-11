@@ -34,6 +34,11 @@ export const COLORED_SWITCH_BROWN_OFF = '/static/images/lever_grey_off.png';
 export const SELECTED_ROBOT = '#ffd700';
 export const LINE_INDICATOR_COLOR = 'red';
 
+export const GOLD_MEDAL = '/static/images/Gold_Medal.jpg';
+export const BRONZE_MEDAL = '/static/images/Bronze_Medal.jpg';
+export const SILVER_MEDAL = '/static/images/Silver_Medal.jpg';
+
+
 export const COLORED_GOAL_IMAGE = '/static/images/targetbullseye.png';
 export const COLORED_SWITCHPAD_IMAGE = '/static/images/lever.png';
 

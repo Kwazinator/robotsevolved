@@ -8,6 +8,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import { FaCrown } from 'react-icons/fa';
 import Button from "@material-ui/core/Button";
+import { GOLD_MEDAL, SILVER_MEDAL, BRONZE_MEDAL} from "../../constants/constants";
+
 
 const stylecol = () => {
     return({
@@ -16,6 +18,34 @@ const stylecol = () => {
             margin: 'auto',
             padding: '0 50px',
             marginTop: '6px',
+    });
+}
+const imgstyle = () => {
+    return({
+        maxWidth: "100%",
+    });
+}
+
+
+const stylecolumn2 = () => {
+    return({
+        float: "left",
+        width: "33.33%",
+        padding: "10px",
+    });
+}
+
+const stylerow = () => {
+    return ({
+        content: "",
+        display: "table",
+        clear: "both",
+    });
+}
+
+const headerstyle = () => {
+    return ({
+        textAlign: "center",
     });
 }
 
@@ -56,6 +86,11 @@ export default class DailyChallengeStartModal extends React.Component {
                         • Please respect the rules of the game and no incognito windows.
                     </Typography>
                     <br/>
+                <div style={stylerow()}>
+                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> 8:10 </h2> <img src={GOLD_MEDAL} style={imgstyle()}/> </div>
+                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> 12:09 </h2> <img src={SILVER_MEDAL} style={imgstyle()}/>  </div>
+                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> 23:01 </h2> <img src={BRONZE_MEDAL} style={imgstyle()}/> </div>
+                </div>
                 <div class="col">
                     <a onClick={this.startDailyChallenge} href="#" id={"buttongoogle"}><i class="fa fa-google fa-fw">
                       </i> START
