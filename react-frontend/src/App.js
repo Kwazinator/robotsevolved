@@ -240,8 +240,6 @@ class App extends React.Component {
     };
 
     handleClickDailyChallenge = (event) => {
-        event.preventDefault();
-        console.log(window.isDailyStarted)
         if (window.isDailyStarted === 'False') {
             this.setState({
                 showDailyChallengeModal: true,
