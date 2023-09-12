@@ -177,7 +177,6 @@ class GenDAO:
                 userID = 1
             else:
                 userID = row[2]
-            print(row[6])
             seconds = row[6].seconds
             hours = seconds//3600
             minutes = (seconds//60)%60
@@ -217,6 +216,26 @@ class GenDAO:
             print(row[0])
             print(row[1])
             return (row[0], row[1])
+
+
+    def get_daily_challenge_medals(self):
+        try:
+            medals = {}
+            cursor = get_db().cursor()
+            cursor.execute('SELECT * FROM user_medal_counts')
+            for row in cursor.fetchall():
+                medals[row[0]] = {
+                                    'gold_medals': row[2],
+                                    'silver_medals': row[3],
+                                    'bronze_medals': row[4]
+                }
+            print(medals)
+            return medals
+        except Exception as e:
+            print(e)
+            return 1
+        finally:
+            pass
 
     def get_daily_challenge_winners(self):
         cursor = get_db().cursor()
@@ -314,8 +333,19 @@ class GenDAO:
             cursor = db.cursor()
             cursor.execute('Select g_id1,created from daily_evolution ORDER BY created desc LIMIT 1')
             row = cursor.fetchone()
-            print(row[1])
             return row[1]
+        except Exception as e:
+            print(e)
+        finally:
+            pass
+
+    def get_daily_challenge_highestpossible(self,dc_id):
+        try:
+            db = get_db()
+            cursor = db.cursor()
+            cursor.execute('Select bestScore from daily_challenge where dc_id=%s', (dc_id,))
+            row = cursor.fetchone()
+            return row[0]
         except Exception as e:
             print(e)
         finally:

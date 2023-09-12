@@ -86,10 +86,14 @@ export default class DailyChallengeStartModal extends React.Component {
                         • Please respect the rules of the game and no incognito windows.
                     </Typography>
                     <br/>
+                    <Typography style={spacing()} variant="body2" display="inline">
+                        • Medals are given when you get the lowest possible score, Medals are also reset at the beginning of each month but tracked in the Website Leaderboard
+                    </Typography>
+                    <br/>
                 <div style={stylerow()}>
-                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> 8:10 </h2> <img src={GOLD_MEDAL} style={imgstyle()}/> </div>
-                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> 12:09 </h2> <img src={SILVER_MEDAL} style={imgstyle()}/>  </div>
-                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> 23:01 </h2> <img src={BRONZE_MEDAL} style={imgstyle()}/> </div>
+                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> {Math.floor(window.goldtime / 60)}:{window.goldtime % 60 <= 9 ? '0' + window.goldtime % 60 : window.goldtime % 60} </h2> <img src={GOLD_MEDAL} style={imgstyle()}/> </div>
+                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> {Math.floor(window.silvertime / 60)}:{window.silvertime % 60 <= 9 ? '0' + window.silvertime % 60 : window.silvertime % 60} </h2> <img src={SILVER_MEDAL} style={imgstyle()}/>  </div>
+                    <div style={stylecolumn2()}> <h2 style={headerstyle()}> {Math.floor(window.bronzetime / 60)}:{window.bronzetime % 60 <= 9 ? '0' + window.bronzetime % 60 : window.bronzetime % 60} </h2> <img src={BRONZE_MEDAL} style={imgstyle()}/> </div>
                 </div>
                 <div class="col">
                     <a onClick={this.startDailyChallenge} href="#" id={"buttongoogle"}><i class="fa fa-google fa-fw">

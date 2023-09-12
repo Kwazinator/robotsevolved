@@ -60,9 +60,11 @@ class GeneratorService:
                 return 'already submitted'
         return 'something went wrong'
 
+
     def get_daily_challenge_highscores(self, dc_id):
         userlist = GenDAO().get_daily_challenge_winners()
         highscores = GenDAO().get_daily_challenge_highscores(dc_id)
+        medals = GenDAO().get_daily_challenge_medals()
         highscoreslist = list()
         for score in highscores:
             if score['user_id'] != 1:
@@ -70,9 +72,23 @@ class GeneratorService:
                     score['wins'] = userlist[score['user_id']]
                 else:
                     score['wins'] = 0
+                if medals.get(score['user_id']) != None:
+                    score['gold_medals'] = medals.get(score['user_id'])['gold_medals']
+                else:
+                    score['gold_medals'] = 0
+                if medals.get(score['user_id']) != None:
+                    score['silver_medals'] = medals.get(score['user_id'])['silver_medals']
+                else:
+                    score['silver_medals'] = 0
+                if medals.get(score['user_id']) != None:
+                    score['bronze_medals'] = medals.get(score['user_id'])['bronze_medals']
+                else:
+                    score['bronze_medals'] = 0
                 highscoreslist.append({**score,**UserDAO().get_user_metadata(score['user_id'])})
             else:
                 highscoreslist.append({**score,**UserDAO().get_user_metadata(score['user_id'])})
+
+        print(highscoreslist)
         return highscoreslist
 
     def get_daily_challenge_winners(self):
@@ -101,6 +117,9 @@ class GeneratorService:
             returnlist.append(gamedata)
         return returnlist
 
+
+    def get_daily_challenge_highestpossible(self,dc_id):
+        return GenDAO().get_daily_challenge_highestpossible(dc_id)
 
     def insert_daily_evolution_submit(self, score, userid, solutiondata, name, dce_id, playerStateList):
         submitted = GenDAO().check_current_daily_evolution_submit(userid, dce_id)

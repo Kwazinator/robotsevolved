@@ -8,6 +8,7 @@ from flaskr.services.GeneratorService import GeneratorService
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt,unset_jwt_cookies, unset_refresh_cookies
 import json
 import re
+import math
 import flaskr.auth as auth
 from flaskr.solutionChecker import checkSolution
 from werkzeug.exceptions import HTTPException
@@ -16,6 +17,29 @@ from werkzeug.exceptions import HTTPException
 
 bp = Blueprint('index', __name__)
 
+
+def medalconversion(highestpossible):
+    if highestpossible <= 40:
+        return [300,420,600]
+    elif highestpossible <= 45:
+        gold = 420 + ((highestpossible - 40) * 15)
+    elif highestpossible <= 50:
+        gold = 495 + ((highestpossible - 45) * 30)
+    elif highestpossible <= 55:
+        gold = 645 + ((highestpossible - 50) * 50)
+    else:
+        gold = 895 + ((highestpossible - 55) * 70)
+
+    silver = math.ceil(gold * 1.6)
+    bronze = math.ceil(gold * 2.2)
+    return [gold,silver,bronze]
+
+#Code to get the mappings for the SQL
+'''
+for x in range(60):
+    while x >= 40:
+        if x <= 40:
+'''
 
 def deEmojify(text):
     regrex_pattern = re.compile(pattern = "["
@@ -100,6 +124,8 @@ def index():
         return response
     user = user.serialize()
     dc_id = GeneratorService().get_daily_challenge_id()
+
+    medaltimes = medalconversion(GeneratorService().get_daily_challenge_highestpossible(dc_id))
     isStarted = UserService().is_daily_started(userID, dc_id)
 
     loggedin = 'No'
@@ -112,7 +138,7 @@ def index():
         experiencedUser = 'No'
     else:
         experiencedUser = 'Yes'
-    return render_template('index.html',isDailyStarted=isStarted,urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='',experiencedUser=experiencedUser)
+    return render_template('index.html',isDailyStarted=isStarted,urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='',experiencedUser=experiencedUser, goldtime=medaltimes[0], silvertime=medaltimes[1], bronzetime=medaltimes[2])
 
 @bp.route('/about',endpoint='about')
 def about():
@@ -202,6 +228,8 @@ def play(uri):
         experiencedUser = 'No'
     else:
         experiencedUser = 'Yes'
+
+    medaltimes = medalconversion(GeneratorService().get_daily_challenge_highestpossible(dc_id))
     gamefromuri = GameService().get_game_uri_from_user_id(uri,userID)
     if 'g_id' not in gamefromuri.keys():
         highscores = json.dumps(GameService().get_highscores(uri))
@@ -216,7 +244,7 @@ def play(uri):
     metatagcontent = "Play Ricochet Robots Puzzle\n" + "Created by: " + str(authorname) + '\n' + str(name)
     urlformeta = "http://robotsevolved.com/play/" + str(uri)
     isStarted = UserService().is_daily_started(userID, dc_id)
-    return render_template('index.html',urlformeta=urlformeta,isDailyStarted=isStarted, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri,experiencedUser=experiencedUser)
+    return render_template('index.html',urlformeta=urlformeta,isDailyStarted=isStarted, dchighscores=json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)), metatagcontent=metatagcontent,learngameslist=learngameslist,loggedin=loggedin, user=json.dumps(user), gamedata=data, highscores=highscores, uri=uri,experiencedUser=experiencedUser, goldtime=medaltimes[0], silvertime=medaltimes[1], bronzetime=medaltimes[2])
 
 @bp.route('/submitpuzzle', methods=('GET','POST'),endpoint='submitpuzzle')
 @jwt_required(optional=True)

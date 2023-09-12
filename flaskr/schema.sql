@@ -144,3 +144,106 @@ CREATE TABLE daily_evolution_submit (
     FOREIGN KEY (dce_id) REFERENCES daily_evolution(dce_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
+
+
+CREATE VIEW user_medal_counts AS
+SELECT
+    u.user_id,
+    u.username,
+    COALESCE(gold.number_of_gold_medals, 0) AS gold_medals,
+    COALESCE(silver.number_of_silver_medals, 0) AS silver_medals,
+    COALESCE(bronze.number_of_bronze_medals, 0) AS bronze_medals
+FROM
+    user AS u
+LEFT JOIN (
+    -- Gold medal subquery
+    SELECT
+        dcs.user_id,
+        COUNT(*) as number_of_gold_medals
+    FROM
+        daily_challenge_submit AS dcs
+    JOIN
+        daily_challenge AS dc ON dcs.dc_id = dc.dc_id
+    WHERE
+        dcs.submitted >= CURDATE() - INTERVAL DAY(CURDATE())-1 DAY
+        AND dcs.completed = 1
+        AND dcs.score = dc.bestScore
+        AND TIMESTAMPDIFF(SECOND, dcs.starttime, dcs.submitted) <
+            CASE
+                WHEN dc.bestScore <= 40 THEN 420
+                WHEN dc.bestScore <= 45 THEN 420 + ((dc.bestScore - 40) * 15)
+                WHEN dc.bestScore <= 50 THEN 495 + ((dc.bestScore - 45) * 30)
+                WHEN dc.bestScore <= 55 THEN 645 + ((dc.bestScore - 50) * 50)
+                ELSE 895 + ((dc.bestScore - 55) * 70)
+            END
+    GROUP BY
+        dcs.user_id
+) AS gold ON u.user_id = gold.user_id
+LEFT JOIN (
+    -- Silver medal subquery
+    SELECT
+        dcs.user_id,
+        COUNT(*) as number_of_silver_medals
+    FROM
+        daily_challenge_submit AS dcs
+    JOIN
+        daily_challenge AS dc ON dcs.dc_id = dc.dc_id
+    WHERE
+        dcs.submitted >= CURDATE() - INTERVAL DAY(CURDATE())-1 DAY
+        AND dcs.completed = 1
+        AND dcs.score = dc.bestScore
+        AND TIMESTAMPDIFF(SECOND, dcs.starttime, dcs.submitted) BETWEEN
+            CASE
+                WHEN dc.bestScore <= 40 THEN 420
+                WHEN dc.bestScore <= 45 THEN 420 + ((dc.bestScore - 40) * 15)
+                WHEN dc.bestScore <= 50 THEN 495 + ((dc.bestScore - 45) * 30)
+                WHEN dc.bestScore <= 55 THEN 645 + ((dc.bestScore - 50) * 50)
+                ELSE 895 + ((dc.bestScore - 55) * 70)
+            END
+        AND
+            CASE
+                WHEN dc.bestScore <= 40 THEN 420 * 1.6
+                WHEN dc.bestScore <= 45 THEN (420 + ((dc.bestScore - 40) * 15)) * 1.6
+                WHEN dc.bestScore <= 50 THEN (495 + ((dc.bestScore - 45) * 30)) * 1.6
+                WHEN dc.bestScore <= 55 THEN (645 + ((dc.bestScore - 50) * 50)) * 1.6
+                ELSE (895 + ((dc.bestScore - 55) * 70)) * 1.6
+            END
+    GROUP BY
+        dcs.user_id
+) AS silver ON u.user_id = silver.user_id
+LEFT JOIN (
+    -- Bronze medal subquery
+    SELECT
+        dcs.user_id,
+        COUNT(*) as number_of_bronze_medals
+    FROM
+        daily_challenge_submit AS dcs
+    JOIN
+        daily_challenge AS dc ON dcs.dc_id = dc.dc_id
+    WHERE
+        dcs.submitted >= CURDATE() - INTERVAL DAY(CURDATE())-1 DAY
+        AND dcs.completed = 1
+        AND dcs.score = dc.bestScore
+        AND TIMESTAMPDIFF(SECOND, dcs.starttime, dcs.submitted) BETWEEN
+            CASE
+                WHEN dc.bestScore <= 40 THEN 420 * 1.6
+                WHEN dc.bestScore <= 45 THEN (420 + ((dc.bestScore - 40) * 15)) * 1.6
+                WHEN dc.bestScore <= 50 THEN (495 + ((dc.bestScore - 45) * 30)) * 1.6
+                WHEN dc.bestScore <= 55 THEN (645 + ((dc.bestScore - 50) * 50)) * 1.6
+                ELSE (895 + ((dc.bestScore - 55) * 70)) * 1.6
+            END
+        AND
+            CASE
+                WHEN dc.bestScore <= 40 THEN 420 * 2.2
+                WHEN dc.bestScore <= 45 THEN (420 + ((dc.bestScore - 40) * 15)) * 2.2
+                WHEN dc.bestScore <= 50 THEN (495 + ((dc.bestScore - 45) * 30)) * 2.2
+                WHEN dc.bestScore <= 55 THEN (645 + ((dc.bestScore - 50) * 50)) * 2.2
+                ELSE (895 + ((dc.bestScore - 55) * 70)) * 2.2
+            END
+    GROUP BY
+        dcs.user_id
+) AS bronze ON u.user_id = bronze.user_id
+WHERE
+    COALESCE(gold.number_of_gold_medals, 0) > 0
+    OR COALESCE(silver.number_of_silver_medals, 0) > 0
+    OR COALESCE(bronze.number_of_bronze_medals, 0) > 0

@@ -40,14 +40,14 @@ export default function ComplexGrid(props) {
     </div>
         :
     <div>
-        <Typography className={classes.titlehome} variant="h3"> Daily Evolution Added!!!!
+        <Typography className={classes.titlehome} variant="h3"> Daily Challenge Medals are here!!!!
         </Typography>
-        <Typography variant="p1" paragraph={true}> Daily Evolution is out! This will be changing as it needs refining on the concepts! I am testing different ways to generate the puzzles.
+        <Typography variant="p1" paragraph={true}> Each daily challenge has a gold/silver/bronze medal time based on the minimum number of moves
         </Typography>
-        <Typography variant="p1" paragraph={true}> Daily Evolution contains switches that turn ON/OFF the same color walls.
+        <Typography variant="p1" paragraph={true}> Medals are RESET TO ZERO at the start of each month
         </Typography>
         <br/>
-        <Typography variant="p1" paragraph={true}> If you have any suggestions or ideas on how Daily Evolution should be played let me know at robotsevolved@gmail.com! Have fun!
+        <Typography variant="p1" paragraph={true}> let me know if the gold/silver/bronze medal times should be adjusted at robotsevolved@gmail.com! Have fun!
         </Typography>
         <br/>
     </div>
