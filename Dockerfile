@@ -1,4 +1,4 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.6-alpine3.7
+FROM tiangolo/uwsgi-nginx-flask:python3.8-alpine3.7
 RUN apk --update add bash nano
 RUN apk add --no-cache libressl-dev musl-dev libffi-dev
 RUN apk add --no-cache mariadb-dev
