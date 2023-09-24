@@ -23,13 +23,17 @@ const theme = createMuiTheme({
     black: {
         main: '#000000'
     }
-  }
+  },
+  typography: {
+    fontFamily: "'Roboto Mono', monospace",
+  },
 });
 
 
 const styleouter = () => {
     return {
         marginTop: '30px',
+        padding: '10px',
     };
 
 }
@@ -118,3 +122,4 @@ export default ({highscores}) => (
         }
     </Grid>
 )
+
