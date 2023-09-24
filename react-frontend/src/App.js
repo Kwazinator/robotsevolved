@@ -916,10 +916,6 @@ class App extends React.Component {
                                 <ListItemIcon><InfoIcon /></ListItemIcon>
                                 <ListItemText primary={'About'} />
                             </ListItem>
-                            <ListItem button key={'Dark Mode'} onClick={this.props.handleClickDarkMode}>
-                                <ListItemIcon><Brightness6Icon /></ListItemIcon>
-                                <ListItemText primary={'Space Mode (Beta)'} />
-                            </ListItem>
                         </List>
                     </Drawer>
                     <main className={clsx(classes.content, {
