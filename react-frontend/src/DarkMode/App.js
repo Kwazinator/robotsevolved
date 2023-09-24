@@ -1,6 +1,5 @@
 import React from 'react';
 import Home from './Pages/Home';
-import { Header, Project, Words, Button,ThemeProvider, createTheme, withStyles, Frame} from 'arwes';
 import InfoIcon from '@material-ui/icons/Info';
 import CasinoIcon from '@material-ui/icons/Casino';
 import TodayIcon from '@material-ui/icons/Today';
@@ -165,7 +164,7 @@ const useStyles = (theme) => ({
 
 
 
-const MyColor = withStyles(theme => ({
+const MyColor = withStyles2(theme => ({
     root: {
         width: 300,
         height: 120,
@@ -245,14 +244,6 @@ class MyApp extends React.Component {
             open: false
         })
     };
-
-    getTheme (color) {
-        return createTheme({
-            color: {
-                primary: { base: color }
-            }
-        });
-    }
 
     handleLineDirections = (boolean) => {
         if (window.loggedin === 'Yes') {
@@ -593,11 +584,7 @@ class MyApp extends React.Component {
                 },
             }
         });
-        return (<MuiThemeProvider theme={theme2}>
-            <ThemeProvider theme={theme}>
-                asdf
-            </ThemeProvider>
-            </MuiThemeProvider>
+        return (<div>asdf</div>
         );
     }
 }
