@@ -25,11 +25,15 @@ import Tabs from "@material-ui/core/Tabs";
 import FindGameElements from "../containers/FindGameElements";
 import {GOAL_IMAGE} from '../constants/constants';
 
+const style2 = () => {
+
+}
+
 
 export default function ComplexGrid(props) {
     const classes = useStyles();
     var greeting = window.experiencedUser != 'Yes' ?
-    <div>
+    <div >
         <Typography className={classes.titlehome} variant="h3"> Welcome To RobotsEvolved
         </Typography>
         <Typography variant="p1" paragraph={true}>Puzzle game for anyone to play! Create your own custom boards or play a random Solved game. <br/>Goal is to get ANY piece to stop on the  <img style={{width: '40px',height:'40px'}} src={GOAL_IMAGE}/>
@@ -52,6 +56,7 @@ export default function ComplexGrid(props) {
         <br/>
     </div>
 
+
     if (window.innerWidth < MOBILE_INNER_SCREEN_WIDTH) {
         return (<div className={classes.homepage} >
                 <Grid container spacing={2}>
@@ -62,7 +67,7 @@ export default function ComplexGrid(props) {
 
                         <Typography className={classes.titlehome} variant="h4"> News
                         </Typography>
-                        <Typography> 3/22/2021 added website leaderboard for each of the robots catagories.
+                        <Typography variant="h1"> 3/22/2021 added website leaderboard for each of the robots catagories.
                         </Typography>
                         <br/>
                         <Typography> 10/13/2022 added daily evolution! trying out new game modes again!

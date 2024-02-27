@@ -17,6 +17,7 @@ const buttonpanel = () => {
         float: 'left',
     };
 }
+
 class YouWinDailySingleModal extends React.Component {
 
     constructor(props) {

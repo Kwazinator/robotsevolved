@@ -62,8 +62,11 @@ class GeneratorService:
 
 
     def get_daily_challenge_highscores(self, dc_id):
+        print('userlist')
         userlist = GenDAO().get_daily_challenge_winners()
+        print('get_daily_highscores')
         highscores = GenDAO().get_daily_challenge_highscores(dc_id)
+        print('get_daily_medals')
         medals = GenDAO().get_daily_challenge_medals()
         highscoreslist = list()
         for score in highscores:
@@ -84,11 +87,9 @@ class GeneratorService:
                     score['bronze_medals'] = medals.get(score['user_id'])['bronze_medals']
                 else:
                     score['bronze_medals'] = 0
-                highscoreslist.append({**score,**UserDAO().get_user_metadata(score['user_id'])})
+                highscoreslist.append({**score})
             else:
-                highscoreslist.append({**score,**UserDAO().get_user_metadata(score['user_id'])})
-
-        print(highscoreslist)
+                highscoreslist.append({**score})
         return highscoreslist
 
     def get_daily_challenge_winners(self):

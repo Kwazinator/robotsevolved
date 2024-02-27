@@ -2,7 +2,7 @@ flask
 requests
 urllib3
 numpy
-jwt
+pyjwt
 flask-table
 google-auth
 google-auth-oauthlib

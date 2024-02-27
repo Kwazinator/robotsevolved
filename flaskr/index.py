@@ -100,10 +100,12 @@ def get_games_search(numPuzzles,Offset,searchterm,filter,userID):
 
 
 def get_learned_games():
+    print('learned_games')
     gameslist = [13,12,31,24,13,25,11,13,14,15,32,26]
     returnlist = list()
     for game in gameslist:
         returnlist.append(GameService().get_game(game).serialize())
+    print('endlearnedgames')
     return json.dumps(returnlist)
 
 
@@ -138,6 +140,7 @@ def index():
         experiencedUser = 'No'
     else:
         experiencedUser = 'Yes'
+    print('here')
     return render_template('index.html',isDailyStarted=isStarted,urlformeta=urlformeta,dchighscores = json.dumps(GeneratorService().get_daily_challenge_highscores(dc_id)),metatagcontent=metatagcontent,learngameslist=learngameslist, loggedin=loggedin, user=json.dumps(user), gamedata=json.dumps({'uri': ''}), highscores='[]', uri='',experiencedUser=experiencedUser, goldtime=medaltimes[0], silvertime=medaltimes[1], bronzetime=medaltimes[2])
 
 @bp.route('/about',endpoint='about')
